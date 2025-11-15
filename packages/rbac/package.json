@@ -1,5 +1,5 @@
 {
-	"name": "@GCMC-KAJ/api",
+	"name": "@GCMC-KAJ/rbac",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -22,14 +22,6 @@
 		"typescript": "^5"
 	},
 	"dependencies": {
-		"@trpc/server": "catalog:",
-		"@trpc/client": "catalog:",
-		"hono": "catalog:",
-		"dotenv": "catalog:",
-		"zod": "catalog:",
-		"@GCMC-KAJ/auth": "workspace:*",
-		"@GCMC-KAJ/db": "workspace:*",
-		"@GCMC-KAJ/types": "workspace:*",
-		"@GCMC-KAJ/rbac": "workspace:*"
+		"@GCMC-KAJ/types": "workspace:*"
 	}
 }
