@@ -17,7 +17,6 @@
 		"@trpc/client": "catalog:",
 		"@trpc/react-query": "catalog:",
 		"@trpc/server": "catalog:",
-		"babel-plugin-react-compiler": "^1.0.0",
 		"better-auth": "catalog:",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
