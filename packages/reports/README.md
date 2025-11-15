@@ -176,7 +176,7 @@ export function MyComponent() {
   - Steps progress
   - Dates and assignments
 
-**Permissions Required:** `service_requests:view`
+**Permissions Required:** `services:view`
 
 **Output:** Multi-page PDF with service tracking
 

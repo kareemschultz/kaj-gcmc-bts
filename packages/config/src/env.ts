@@ -94,17 +94,29 @@ const envSchema = z.object({
 	MINIO_REGION: z.string().default("us-east-1"),
 
 	// Application URLs
-	NEXT_PUBLIC_APP_URL: z
-		.string()
-		.url("NEXT_PUBLIC_APP_URL must be a valid URL")
-		.default("http://localhost:3001"),
-	NEXT_PUBLIC_API_URL: z
-		.string()
-		.url("NEXT_PUBLIC_API_URL must be a valid URL")
-		.default("http://localhost:3000"),
+        NEXT_PUBLIC_APP_URL: z
+                .string()
+                .url("NEXT_PUBLIC_APP_URL must be a valid URL")
+                .default("http://localhost:3001"),
+        NEXT_PUBLIC_API_URL: z
+                .string()
+                .url("NEXT_PUBLIC_API_URL must be a valid URL")
+                .default("http://localhost:3000"),
+        NEXT_PUBLIC_SERVER_URL: z
+                .string()
+                .url("NEXT_PUBLIC_SERVER_URL must be a valid URL")
+                .default("http://localhost:3000"),
+        PORTAL_URL: z
+                .string()
+                .url("PORTAL_URL must be a valid URL")
+                .default("http://localhost:3002"),
+        SUPPORT_EMAIL: z
+                .string()
+                .email("SUPPORT_EMAIL must be a valid email address")
+                .default("support@example.com"),
 
-	// Optional: Email Configuration
-	SMTP_HOST: z.string().optional(),
+        // Optional: Email Configuration
+        SMTP_HOST: z.string().optional(),
 	SMTP_PORT: z
 		.string()
 		.regex(/^\d+$/)

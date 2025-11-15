@@ -50,7 +50,7 @@ export const complianceRulesRouter = router({
 		.query(async ({ ctx, input }) => {
 			const { active } = input || {};
 
-			const where: Prisma.ComplianceRuleWhereInput = { tenantId: ctx.tenantId };
+                        const where: Prisma.ComplianceRuleSetWhereInput = { tenantId: ctx.tenantId };
 
 			if (active !== undefined) where.active = active;
 

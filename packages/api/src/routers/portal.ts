@@ -5,7 +5,8 @@
  * Enforces tenant isolation and client-specific access control
  */
 
-import prisma, { type Prisma } from "@GCMC-KAJ/db";
+import prisma from "@GCMC-KAJ/db";
+import type { UserRole } from "@GCMC-KAJ/types";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, router } from "../index";
@@ -14,17 +15,25 @@ import { protectedProcedure, router } from "../index";
  * Helper to get client IDs accessible by portal user
  */
 async function getPortalUserClientIds(
-	_userId: string,
-	tenantId: number,
+        userId: string,
+        tenantId: number,
+        role: UserRole,
 ): Promise<number[]> {
-	// Portal users should have client assignments stored somewhere
-	// For now, return all clients in tenant (should be filtered by actual assignment)
-	// TODO: Implement proper client assignment tracking for portal users
-	const clients = await prisma.client.findMany({
-		where: { tenantId },
-		select: { id: true },
-	});
-	return clients.map((c) => c.id);
+        if (role !== "ClientPortalUser") {
+                const clients = await prisma.client.findMany({
+                        where: { tenantId },
+                        select: { id: true },
+                });
+
+                return clients.map((client) => client.id);
+        }
+
+        const assignments = await prisma.clientPortalAccess.findMany({
+                where: { tenantId, userId },
+                select: { clientId: true },
+        });
+
+        return assignments.map((assignment) => assignment.clientId);
 }
 
 /**
@@ -35,7 +44,11 @@ export const portalRouter = router({
 	 * Get portal dashboard for client user
 	 */
 	dashboard: protectedProcedure.query(async ({ ctx }) => {
-		const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+                const clientIds = await getPortalUserClientIds(
+                        ctx.user.id,
+                        ctx.tenantId,
+                        ctx.role,
+                );
 
 		if (clientIds.length === 0) {
 			throw new TRPCError({
@@ -98,7 +111,11 @@ export const portalRouter = router({
 			const { page = 1, pageSize = 20 } = input || {};
 			const skip = (page - 1) * pageSize;
 
-			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+                        const clientIds = await getPortalUserClientIds(
+                                ctx.user.id,
+                                ctx.tenantId,
+                                ctx.role,
+                        );
 
 			if (clientIds.length === 0) {
 				return {
@@ -156,7 +173,11 @@ export const portalRouter = router({
 			const { page = 1, pageSize = 20 } = input || {};
 			const skip = (page - 1) * pageSize;
 
-			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+                    const clientIds = await getPortalUserClientIds(
+                                ctx.user.id,
+                                ctx.tenantId,
+                                ctx.role,
+                        );
 
 			if (clientIds.length === 0) {
 				return {
@@ -213,7 +234,11 @@ export const portalRouter = router({
 			const { page = 1, pageSize = 20 } = input || {};
 			const skip = (page - 1) * pageSize;
 
-			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+                    const clientIds = await getPortalUserClientIds(
+                                ctx.user.id,
+                                ctx.tenantId,
+                                ctx.role,
+                        );
 
 			if (clientIds.length === 0) {
 				return {
@@ -274,7 +299,11 @@ export const portalRouter = router({
 			const { status, page = 1, pageSize = 20 } = input || {};
 			const skip = (page - 1) * pageSize;
 
-			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+                    const clientIds = await getPortalUserClientIds(
+                                ctx.user.id,
+                                ctx.tenantId,
+                                ctx.role,
+                        );
 
 			if (clientIds.length === 0) {
 				return {
@@ -322,7 +351,11 @@ export const portalRouter = router({
 	 * Get conversations for portal user
 	 */
 	conversations: protectedProcedure.query(async ({ ctx }) => {
-		const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+            const clientIds = await getPortalUserClientIds(
+                        ctx.user.id,
+                        ctx.tenantId,
+                        ctx.role,
+                );
 
 		if (clientIds.length === 0) {
 			return [];
@@ -357,7 +390,11 @@ export const portalRouter = router({
 	 * Get client profile information
 	 */
 	profile: protectedProcedure.query(async ({ ctx }) => {
-		const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+            const clientIds = await getPortalUserClientIds(
+                        ctx.user.id,
+                        ctx.tenantId,
+                        ctx.role,
+                );
 
 		if (clientIds.length === 0) {
 			throw new TRPCError({
@@ -392,7 +429,11 @@ export const portalRouter = router({
 	conversationDetails: protectedProcedure
 		.input(z.object({ conversationId: z.number() }))
 		.query(async ({ ctx, input }) => {
-			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+                    const clientIds = await getPortalUserClientIds(
+                                ctx.user.id,
+                                ctx.tenantId,
+                                ctx.role,
+                        );
 
 			if (clientIds.length === 0) {
 				throw new TRPCError({
@@ -443,7 +484,11 @@ export const portalRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+                    const clientIds = await getPortalUserClientIds(
+                                ctx.user.id,
+                                ctx.tenantId,
+                                ctx.role,
+                        );
 
 			if (clientIds.length === 0) {
 				throw new TRPCError({
@@ -497,7 +542,11 @@ export const portalRouter = router({
 	completeTask: protectedProcedure
 		.input(z.object({ taskId: z.number() }))
 		.mutation(async ({ ctx, input }) => {
-			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+                    const clientIds = await getPortalUserClientIds(
+                                ctx.user.id,
+                                ctx.tenantId,
+                                ctx.role,
+                        );
 
 			if (clientIds.length === 0) {
 				throw new TRPCError({
