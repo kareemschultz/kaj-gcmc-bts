@@ -15,6 +15,7 @@ import { filingsRouter } from "./filings";
 import { notificationsRouter } from "./notifications";
 import { portalRouter } from "./portal";
 import { recurringFilingsRouter } from "./recurringFilings";
+import { reportsRouter } from "./reports";
 import { requirementBundlesRouter } from "./requirementBundles";
 import { rolesRouter } from "./roles";
 import { serviceRequestsRouter } from "./serviceRequests";
@@ -75,6 +76,9 @@ export const appRouter = router({
 	// Client-facing & wizards
 	wizards: wizardsRouter,
 	portal: portalRouter,
+
+	// Reports & exports
+	reports: reportsRouter,
 });
 
 export type AppRouter = typeof appRouter;
