@@ -29,7 +29,11 @@ export function ServicesList() {
 		undefined,
 	);
 
-	const { data: services, isLoading, error } = trpc.services.list.useQuery({
+	const {
+		data: services,
+		isLoading,
+		error,
+	} = trpc.services.list.useQuery({
 		search,
 		category: categoryFilter || undefined,
 		active: activeFilter,
@@ -110,9 +114,7 @@ export function ServicesList() {
 						}
 						onChange={(e) =>
 							setActiveFilter(
-								e.target.value === ""
-									? undefined
-									: e.target.value === "active",
+								e.target.value === "" ? undefined : e.target.value === "active",
 							)
 						}
 						className="w-full md:w-[150px]"
@@ -201,7 +203,7 @@ export function ServicesList() {
 				<Card>
 					<CardContent className="flex flex-col items-center justify-center py-12 text-center">
 						<Filter className="mb-4 h-12 w-12 text-muted-foreground" />
-						<p className="text-muted-foreground text-lg">No services found</p>
+						<p className="text-lg text-muted-foreground">No services found</p>
 						<p className="mt-2 text-muted-foreground text-sm">
 							Try adjusting your search or filters, or create a new service.
 						</p>

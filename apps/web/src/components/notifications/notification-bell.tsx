@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
+import { formatDistanceToNow } from "date-fns";
 import { Bell, Mail, MessageSquare, Smartphone } from "lucide-react";
 import Link from "next/link";
-import { formatDistanceToNow } from "date-fns";
+import { useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {

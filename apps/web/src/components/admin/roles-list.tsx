@@ -3,7 +3,6 @@
 import { Edit, Plus, Trash } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { RoleForm } from "./role-form";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -22,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
+import { RoleForm } from "./role-form";
 
 const ROLE_SKELETON_ITEMS = Array.from(
 	{ length: 4 },
@@ -58,7 +58,9 @@ export function RolesList() {
 		return (
 			<Card>
 				<CardContent className="pt-6">
-					<p className="text-destructive">Error loading roles: {error.message}</p>
+					<p className="text-destructive">
+						Error loading roles: {error.message}
+					</p>
 				</CardContent>
 			</Card>
 		);

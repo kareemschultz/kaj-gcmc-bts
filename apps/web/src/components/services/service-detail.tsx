@@ -37,7 +37,11 @@ export function ServiceDetail({ serviceId }: ServiceDetailProps) {
 
 	const utils = trpc.useContext();
 
-	const { data: service, isLoading, error } = trpc.services.get.useQuery({
+	const {
+		data: service,
+		isLoading,
+		error,
+	} = trpc.services.get.useQuery({
 		id: serviceId,
 	});
 
@@ -290,8 +294,7 @@ export function ServiceDetail({ serviceId }: ServiceDetailProps) {
 							variant="destructive"
 							onClick={handleDelete}
 							disabled={
-								deleteMutation.isPending ||
-								service._count.serviceRequests > 0
+								deleteMutation.isPending || service._count.serviceRequests > 0
 							}
 						>
 							{deleteMutation.isPending ? "Deleting..." : "Delete Service"}

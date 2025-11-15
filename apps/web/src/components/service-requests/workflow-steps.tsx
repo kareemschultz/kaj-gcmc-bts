@@ -1,6 +1,14 @@
 "use client";
 
-import { Check, CheckCircle2, Circle, Clock, Plus, XCircle, Pencil, Trash2 } from "lucide-react";
+import {
+	CheckCircle2,
+	Circle,
+	Clock,
+	Pencil,
+	Plus,
+	Trash2,
+	XCircle,
+} from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -285,7 +293,9 @@ export function WorkflowSteps({ serviceRequestId, steps }: WorkflowStepsProps) {
 																{step.dueDate && (
 																	<span>
 																		Due:{" "}
-																		{new Date(step.dueDate).toLocaleDateString()}
+																		{new Date(
+																			step.dueDate,
+																		).toLocaleDateString()}
 																	</span>
 																)}
 																{step.filing && (
@@ -293,7 +303,9 @@ export function WorkflowSteps({ serviceRequestId, steps }: WorkflowStepsProps) {
 																		href={`/filings/${step.filing.id}`}
 																		className="text-blue-600 hover:underline"
 																	>
-																		Filing: {step.filing.periodLabel || `#${step.filing.id}`}
+																		Filing:{" "}
+																		{step.filing.periodLabel ||
+																			`#${step.filing.id}`}
 																	</Link>
 																)}
 																{step.dependsOnStepId && (

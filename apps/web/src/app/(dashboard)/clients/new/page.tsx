@@ -1,17 +1,9 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { ServiceRequestDetail } from "@/components/service-requests/service-request-detail";
+import { ClientFormPage } from "@/components/clients/client-form-page";
 import { authClient } from "@/lib/auth-client";
 
-interface ServiceRequestDetailPageProps {
-	params: {
-		id: string;
-	};
-}
-
-export default async function ServiceRequestDetailPage({
-	params,
-}: ServiceRequestDetailPageProps) {
+export default async function NewClientPage() {
 	const session = await authClient.getSession({
 		fetchOptions: {
 			headers: await headers(),
@@ -25,7 +17,7 @@ export default async function ServiceRequestDetailPage({
 
 	return (
 		<div className="container mx-auto py-8">
-			<ServiceRequestDetail serviceRequestId={Number.parseInt(params.id, 10)} />
+			<ClientFormPage />
 		</div>
 	);
 }

@@ -385,7 +385,7 @@ export const complianceRulesRouter = router({
 				overdueFilingsCount,
 				totalDocuments,
 				validDocuments,
-				totalFilings,
+				_totalFilings,
 			] = await Promise.all([
 				// Missing/problematic documents
 				prisma.document.count({
@@ -425,10 +425,7 @@ export const complianceRulesRouter = router({
 						clientId: input.clientId,
 						status: "valid",
 						latestVersion: {
-							OR: [
-								{ expiryDate: null },
-								{ expiryDate: { gt: new Date() } },
-							],
+							OR: [{ expiryDate: null }, { expiryDate: { gt: new Date() } }],
 						},
 					},
 				}),
