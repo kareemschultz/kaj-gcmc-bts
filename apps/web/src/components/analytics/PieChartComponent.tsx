@@ -63,6 +63,7 @@ export function PieChartComponent({
 					>
 						{data.map((_entry, index) => (
 							<Cell
+								// biome-ignore lint/suspicious/noArrayIndexKey: chart data is stable and order-dependent
 								key={`cell-${index}`}
 								fill={colors[index % colors.length]}
 							/>

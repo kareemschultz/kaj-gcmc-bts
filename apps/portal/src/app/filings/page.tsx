@@ -70,7 +70,10 @@ export default function FilingsPage() {
 					{isLoading ? (
 						<div className="space-y-2">
 							{[...Array(5)].map((_, i) => (
-								<Skeleton key={i} className="h-20 w-full" />
+								<Skeleton /* biome-ignore lint/suspicious/noArrayIndexKey: skeleton loaders are temporary UI elements that do not persist */
+									key={`skeleton-${i}`}
+									className="h-20 w-full"
+								/>
 							))}
 						</div>
 					) : filteredFilings.length === 0 ? (

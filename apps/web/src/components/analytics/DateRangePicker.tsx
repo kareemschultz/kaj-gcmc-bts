@@ -62,6 +62,7 @@ export function DateRangePicker({
 	return (
 		<div className={`relative ${className}`}>
 			<button
+				type="button"
 				onClick={() => setIsOpen(!isOpen)}
 				className="flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 font-medium text-sm shadow-sm hover:bg-accent hover:text-accent-foreground"
 			>
@@ -75,9 +76,18 @@ export function DateRangePicker({
 
 			{isOpen && (
 				<>
+					{/* biome-ignore lint/a11y/useSemanticElements: div is used as an invisible backdrop overlay, not an interactive button */}
 					<div
 						className="fixed inset-0 z-40"
+						role="button"
+						tabIndex={0}
 						onClick={() => setIsOpen(false)}
+						onKeyDown={(e) => {
+							if (e.key === "Enter" || e.key === " ") {
+								e.preventDefault();
+								setIsOpen(false);
+							}
+						}}
 					/>
 					<div className="absolute top-full right-0 z-50 mt-2 w-64 rounded-md border bg-popover p-4 shadow-lg">
 						<div className="space-y-2">
@@ -85,6 +95,7 @@ export function DateRangePicker({
 							{presets.map((preset) => (
 								<button
 									key={preset.label}
+									type="button"
 									onClick={() => {
 										onChange(preset.getValue());
 										setIsOpen(false);

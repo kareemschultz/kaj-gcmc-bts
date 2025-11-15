@@ -37,7 +37,7 @@ export async function processEmailJob(job: Job<EmailJobData>) {
 	console.log(`[Email Job] Processing ${type} email to ${to}`);
 
 	try {
-		let result;
+		let result: { success: boolean; messageId?: string; error?: string };
 
 		switch (type) {
 			case "welcome":

@@ -22,7 +22,7 @@ export default function MessagesPage() {
 
 	const { data: conversationDetails, isLoading: detailsLoading } =
 		trpc.portal.conversationDetails.useQuery(
-			{ conversationId: selectedConversationId! },
+			{ conversationId: selectedConversationId ?? 0 },
 			{ enabled: !!selectedConversationId },
 		);
 
@@ -66,7 +66,10 @@ export default function MessagesPage() {
 						{conversationsLoading ? (
 							<div className="space-y-2">
 								{[...Array(3)].map((_, i) => (
-									<Skeleton key={i} className="h-16 w-full" />
+									<Skeleton /* biome-ignore lint/suspicious/noArrayIndexKey: skeleton loaders are temporary UI elements that do not persist */
+										key={`skeleton-${i}`}
+										className="h-16 w-full"
+									/>
 								))}
 							</div>
 						) : !conversations || conversations.length === 0 ? (
@@ -81,6 +84,7 @@ export default function MessagesPage() {
 								{conversations.map((conv) => (
 									<button
 										key={conv.id}
+										type="button"
 										onClick={() => setSelectedConversationId(conv.id)}
 										className={`w-full rounded-lg border p-3 text-left transition-colors hover:bg-accent ${
 											selectedConversationId === conv.id
@@ -130,7 +134,10 @@ export default function MessagesPage() {
 						) : detailsLoading ? (
 							<div className="space-y-4">
 								{[...Array(3)].map((_, i) => (
-									<Skeleton key={i} className="h-20 w-full" />
+									<Skeleton /* biome-ignore lint/suspicious/noArrayIndexKey: skeleton loaders are temporary UI elements that do not persist */
+										key={`skeleton-${i}`}
+										className="h-20 w-full"
+									/>
 								))}
 							</div>
 						) : !conversationDetails ? (

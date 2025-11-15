@@ -187,12 +187,12 @@ export const wizardsRouter = router({
 					update: {
 						scoreValue: 0,
 						level: "high",
-						missingCount: bundles.reduce((sum, b) => sum + b.items.length, 0),
+						missingCount: bundles.reduce((sum: number, b: typeof bundles[number]) => sum + b.items.length, 0),
 						expiringCount: 0,
 						overdueFilingsCount: 0,
 						lastCalculatedAt: new Date(),
 						breakdown: {
-							bundles: bundles.map((b) => ({
+							bundles: bundles.map((b: typeof bundles[number]) => ({
 								id: b.id,
 								name: b.name,
 								authority: b.authority,
@@ -206,12 +206,12 @@ export const wizardsRouter = router({
 						clientId: input.clientId,
 						scoreValue: 0,
 						level: "high",
-						missingCount: bundles.reduce((sum, b) => sum + b.items.length, 0),
+						missingCount: bundles.reduce((sum: number, b: typeof bundles[number]) => sum + b.items.length, 0),
 						expiringCount: 0,
 						overdueFilingsCount: 0,
 						lastCalculatedAt: new Date(),
 						breakdown: {
-							bundles: bundles.map((b) => ({
+							bundles: bundles.map((b: typeof bundles[number]) => ({
 								id: b.id,
 								name: b.name,
 								authority: b.authority,
