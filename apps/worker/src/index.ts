@@ -12,6 +12,9 @@ import prisma from "@GCMC-KAJ/db";
 import { Queue, Worker } from "bullmq";
 import { Hono } from "hono";
 import Redis from "ioredis";
+import type { EmailJobData } from "./jobs/emailJob";
+import { processEmailJob } from "./jobs/emailJob";
+import { processScheduledEmailJob } from "./jobs/scheduledEmailJob";
 
 // Redis connection
 const connection = new Redis(
@@ -39,6 +42,8 @@ healthApp.get("/health", (c) => {
 			compliance: "active",
 			notifications: "active",
 			filings: "active",
+			email: "active",
+			scheduledEmail: "active",
 		},
 	});
 });
@@ -50,6 +55,8 @@ healthApp.get("/health", (c) => {
 export const complianceQueue = new Queue("compliance-refresh", { connection });
 export const notificationQueue = new Queue("notifications", { connection });
 export const filingQueue = new Queue("filing-reminders", { connection });
+export const emailQueue = new Queue<EmailJobData>("email", { connection });
+export const scheduledEmailQueue = new Queue("scheduled-email", { connection });
 
 // ============================================================================
 // WORKERS
@@ -323,6 +330,46 @@ filingWorker.on("failed", (job, err) => {
 	console.error(`❌ [Filings] Job ${job?.id} failed:`, err);
 });
 
+/**
+ * Email Worker
+ * Processes email queue and sends emails
+ */
+const emailWorker = new Worker(
+	"email",
+	async (job) => {
+		return processEmailJob(job);
+	},
+	{ connection },
+);
+
+/**
+ * Scheduled Email Worker
+ * Daily checks for expiring documents and upcoming filings
+ */
+const scheduledEmailWorker = new Worker(
+	"scheduled-email",
+	async (job) => {
+		return processScheduledEmailJob(job, emailQueue);
+	},
+	{ connection },
+);
+
+emailWorker.on("completed", (job) => {
+	console.log(`✅ [Email] Job ${job.id} completed`);
+});
+
+emailWorker.on("failed", (job, err) => {
+	console.error(`❌ [Email] Job ${job?.id} failed:`, err);
+});
+
+scheduledEmailWorker.on("completed", (job) => {
+	console.log(`✅ [Scheduled Email] Job ${job.id} completed`);
+});
+
+scheduledEmailWorker.on("failed", (job, err) => {
+	console.error(`❌ [Scheduled Email] Job ${job?.id} failed:`, err);
+});
+
 // ============================================================================
 // SCHEDULED JOBS
 // ============================================================================
@@ -375,6 +422,38 @@ async function scheduleFilingReminders() {
 	console.log("📅 Scheduled: Daily filing reminders at 9 AM");
 }
 
+/**
+ * Schedule email document expiry checks daily at 7 AM
+ */
+async function scheduleDocumentExpiryEmails() {
+	await scheduledEmailQueue.add(
+		"daily-document-expiry",
+		{ type: "daily_document_expiry" },
+		{
+			repeat: {
+				pattern: "0 7 * * *", // 7 AM daily
+			},
+		},
+	);
+	console.log("📅 Scheduled: Daily document expiry emails at 7 AM");
+}
+
+/**
+ * Schedule email filing reminders daily at 8 AM
+ */
+async function scheduleFilingReminderEmails() {
+	await scheduledEmailQueue.add(
+		"daily-filing-reminders",
+		{ type: "daily_filing_reminders" },
+		{
+			repeat: {
+				pattern: "0 8 * * *", // 8 AM daily
+			},
+		},
+	);
+	console.log("📅 Scheduled: Daily filing reminder emails at 8 AM");
+}
+
 // ============================================================================
 // STARTUP
 // ============================================================================
@@ -399,6 +478,8 @@ async function start() {
 		await scheduleComplianceRefresh();
 		await scheduleExpiryNotifications();
 		await scheduleFilingReminders();
+		await scheduleDocumentExpiryEmails();
+		await scheduleFilingReminderEmails();
 
 		isHealthy = true;
 		console.log("✅ Worker ready and listening for jobs");
@@ -414,6 +495,8 @@ process.on("SIGTERM", async () => {
 	await complianceWorker.close();
 	await notificationWorker.close();
 	await filingWorker.close();
+	await emailWorker.close();
+	await scheduledEmailWorker.close();
 	await prisma.$disconnect();
 	process.exit(0);
 });

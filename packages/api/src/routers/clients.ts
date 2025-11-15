@@ -9,6 +9,7 @@ import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { rbacProcedure, router } from "../index";
+import { queueWelcomeEmail } from "../utils/emailQueue";
 
 /**
  * Client validation schema
@@ -151,6 +152,9 @@ export const clientsRouter = router({
 					...input,
 					tenantId: ctx.tenantId,
 				},
+				include: {
+					tenant: true,
+				},
 			});
 
 			// Audit log
@@ -165,6 +169,24 @@ export const clientsRouter = router({
 					changes: { created: input },
 				},
 			});
+
+			// Send welcome email if client has email
+			if (client.email) {
+				try {
+					await queueWelcomeEmail(client.email, {
+						clientName: client.name,
+						tenantName: client.tenant.name,
+						portalUrl: process.env.PORTAL_URL || "https://portal.gcmc.com",
+						supportEmail:
+							process.env.SUPPORT_EMAIL ||
+							(client.tenant.contactInfo as any)?.email ||
+							"support@gcmc.com",
+					});
+				} catch (error) {
+					console.error("Failed to queue welcome email:", error);
+					// Don't fail the request if email fails
+				}
+			}
 
 			return client;
 		}),

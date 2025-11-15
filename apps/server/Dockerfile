@@ -15,7 +15,15 @@ COPY turbo.json ./
 
 # Copy workspace package files
 COPY apps/server/package.json ./apps/server/
-COPY packages/*/package.json ./packages/*/
+COPY packages/api/package.json ./packages/api/
+COPY packages/auth/package.json ./packages/auth/
+COPY packages/config/package.json ./packages/config/
+COPY packages/db/package.json ./packages/db/
+COPY packages/email/package.json ./packages/email/
+COPY packages/rbac/package.json ./packages/rbac/
+COPY packages/reports/package.json ./packages/reports/
+COPY packages/storage/package.json ./packages/storage/
+COPY packages/types/package.json ./packages/types/
 
 # Install dependencies
 RUN bun install --frozen-lockfile

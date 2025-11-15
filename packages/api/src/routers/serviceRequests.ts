@@ -9,6 +9,7 @@ import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { rbacProcedure, router } from "../index";
+import { queueServiceRequestUpdateEmail } from "../utils/emailQueue";
 
 /**
  * Service request validation schema
@@ -251,6 +252,15 @@ export const serviceRequestsRouter = router({
 		.mutation(async ({ ctx, input }) => {
 			const existing = await prisma.serviceRequest.findUnique({
 				where: { id: input.id, tenantId: ctx.tenantId },
+				include: {
+					client: true,
+					service: true,
+					steps: {
+						where: { status: "in_progress" },
+						orderBy: { order: "asc" },
+						take: 1,
+					},
+				},
 			});
 
 			if (!existing) {
@@ -266,6 +276,12 @@ export const serviceRequestsRouter = router({
 				include: {
 					client: true,
 					service: true,
+					tenant: true,
+					steps: {
+						where: { status: "in_progress" },
+						orderBy: { order: "asc" },
+						take: 1,
+					},
 				},
 			});
 
@@ -281,6 +297,27 @@ export const serviceRequestsRouter = router({
 					changes: { from: existing, to: updated },
 				},
 			});
+
+			// Send email if status changed and client has email
+			const statusChanged = existing.status !== updated.status;
+			if (statusChanged && updated.client.email) {
+				try {
+					await queueServiceRequestUpdateEmail(updated.client.email, {
+						recipientName: updated.client.name,
+						serviceName: updated.service.name,
+						clientName: updated.client.name,
+						previousStatus: existing.status,
+						newStatus: updated.status,
+						updatedBy: ctx.user.name,
+						currentStep: updated.steps[0]?.title,
+						portalUrl: process.env.PORTAL_URL || "https://portal.gcmc.com",
+						tenantName: updated.tenant.name,
+					});
+				} catch (error) {
+					console.error("Failed to queue service request update email:", error);
+					// Don't fail the request if email fails
+				}
+			}
 
 			return updated;
 		}),

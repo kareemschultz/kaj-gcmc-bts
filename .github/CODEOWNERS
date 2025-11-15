@@ -1,0 +1,122 @@
+# CODEOWNERS file
+# This file defines individuals or teams responsible for code in this repository.
+# Code owners are automatically requested for review when someone opens a pull request
+# that modifies code that they own.
+#
+# Learn more: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# ==============================================================================
+# Default Owners
+# ==============================================================================
+# These owners will be the default owners for everything in the repo.
+# Unless a later match takes precedence, they will be requested for review.
+* @kareemschultz
+
+# ==============================================================================
+# Apps
+# ==============================================================================
+
+# Web application (Next.js)
+/apps/web/ @kareemschultz
+/apps/web/src/components/ @kareemschultz
+/apps/web/src/app/ @kareemschultz
+
+# Server application (Hono + tRPC)
+/apps/server/ @kareemschultz
+
+# Worker application (BullMQ)
+/apps/worker/ @kareemschultz
+
+# Portal application
+/apps/portal/ @kareemschultz
+
+# ==============================================================================
+# Packages
+# ==============================================================================
+
+# API package (tRPC routers)
+/packages/api/ @kareemschultz
+
+# Authentication package
+/packages/auth/ @kareemschultz
+
+# Database package (Prisma)
+/packages/db/ @kareemschultz
+/packages/db/prisma/schema.prisma @kareemschultz
+/packages/db/prisma/migrations/ @kareemschultz
+
+# RBAC package (Role-Based Access Control)
+/packages/rbac/ @kareemschultz
+
+# Reports package
+/packages/reports/ @kareemschultz
+
+# Storage package (MinIO)
+/packages/storage/ @kareemschultz
+
+# Types package
+/packages/types/ @kareemschultz
+
+# Config package
+/packages/config/ @kareemschultz
+
+# ==============================================================================
+# Infrastructure & DevOps
+# ==============================================================================
+
+# Docker configuration
+*.Dockerfile @kareemschultz
+/apps/*/Dockerfile @kareemschultz
+docker-compose*.yml @kareemschultz
+
+# GitHub Actions & CI/CD
+/.github/ @kareemschultz
+/.github/workflows/ @kareemschultz
+
+# Environment & Configuration
+.env.example @kareemschultz
+*.config.ts @kareemschultz
+*.config.js @kareemschultz
+turbo.json @kareemschultz
+
+# ==============================================================================
+# Documentation
+# ==============================================================================
+
+# Root documentation
+/*.md @kareemschultz
+/docs/ @kareemschultz
+
+# ==============================================================================
+# Dependencies & Package Management
+# ==============================================================================
+
+# Root package.json
+/package.json @kareemschultz
+/bun.lockb @kareemschultz
+/bun.lock @kareemschultz
+
+# ==============================================================================
+# Code Quality & Linting
+# ==============================================================================
+
+# Biome configuration
+biome.json @kareemschultz
+.editorconfig @kareemschultz
+
+# ==============================================================================
+# Database Migrations (Requires Extra Review)
+# ==============================================================================
+# Database migrations are critical and should be reviewed carefully
+/packages/db/prisma/migrations/*.sql @kareemschultz
+
+# ==============================================================================
+# Security-Sensitive Files (Requires Extra Review)
+# ==============================================================================
+
+# Authentication and authorization
+/packages/auth/src/ @kareemschultz
+/packages/rbac/src/ @kareemschultz
+
+# Environment files (should never contain real secrets)
+**/.env* @kareemschultz

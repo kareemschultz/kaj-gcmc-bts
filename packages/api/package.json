@@ -29,8 +29,11 @@
 		"zod": "catalog:",
 		"@GCMC-KAJ/auth": "workspace:*",
 		"@GCMC-KAJ/db": "workspace:*",
+		"@GCMC-KAJ/email": "workspace:*",
 		"@GCMC-KAJ/types": "workspace:*",
 		"@GCMC-KAJ/rbac": "workspace:*",
-		"@GCMC-KAJ/reports": "workspace:*"
+		"@GCMC-KAJ/reports": "workspace:*",
+		"bullmq": "^5.34.2",
+		"ioredis": "^5.4.1"
 	}
 }
