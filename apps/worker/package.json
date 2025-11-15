@@ -1,0 +1,22 @@
+{
+	"name": "@GCMC-KAJ/worker",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "bun --watch src/index.ts",
+		"build": "tsdown",
+		"start": "bun dist/index.js"
+	},
+	"dependencies": {
+		"@GCMC-KAJ/db": "workspace:*",
+		"@GCMC-KAJ/types": "workspace:*",
+		"bullmq": "^5.34.2",
+		"ioredis": "^5.4.1"
+	},
+	"devDependencies": {
+		"@types/node": "^22.10.2",
+		"tsdown": "^0.2.20",
+		"typescript": "^5.7.2"
+	}
+}
