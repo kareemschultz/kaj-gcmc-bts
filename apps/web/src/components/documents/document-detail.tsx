@@ -166,8 +166,8 @@ export function DocumentDetail({ documentId }: DocumentDetailProps) {
 									Tags
 								</p>
 								<div className="flex flex-wrap gap-2">
-									{document.tags.map((tag: string, index: number) => (
-										<Badge key={index} variant="secondary">
+									{document.tags.map((tag: string) => (
+										<Badge key={`document-tag-${tag}`} variant="secondary">
 											{tag}
 										</Badge>
 									))}

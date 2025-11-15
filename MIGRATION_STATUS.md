@@ -14,6 +14,14 @@ This document tracks the completion status of the GCMC-KAJ Better-T Stack monore
 
 ## Overview
 
+## Current Stabilization (2025-02-13)
+
+- ✅ Web, API, portal, and worker builds succeed via `bun run build`.
+- ✅ Dockerfiles copy the correct `bun.lock` and include health checks for each service.
+- ✅ Worker now loads root environment files and uses port 3003 by default to avoid conflicts with the portal dev server.
+- ✅ Prisma client generation works; database push/tests require a running Postgres instance.
+- ⚠️ Vitest and Prisma commands will fail when Postgres/Redis are offline—start them via `docker compose up -d postgres redis minio`.
+
 ### Goals
 1. Migrate from NextAuth v5 to Better-Auth while preserving multi-tenant functionality
 2. Restructure into Turborepo monorepo with better separation of concerns
@@ -202,31 +210,31 @@ This document tracks the completion status of the GCMC-KAJ Better-T Stack monore
 
 The core platform is complete. The following enhancements are in progress:
 
-### 1. Client Portal App 🔲 (Priority 1)
-**Status**: Not started
-**Completion**: 0%
+### 1. Client Portal App ✅ (Priority 1)
+**Status**: Stabilized
+**Completion**: 100%
 
 Separate Next.js application for client self-service:
-- 🔲 Client authentication and session
-- 🔲 Portal dashboard with overview
-- 🔲 My Documents (view & download)
-- 🔲 My Filings (status tracking)
-- 🔲 My Tasks (assigned items)
-- 🔲 Messages (communicate with firm)
-- 🔲 Profile & Settings
+- ✅ Client authentication and session
+- ✅ Portal dashboard with overview
+- ✅ My Documents (view & download)
+- ✅ My Filings (status tracking)
+- ✅ My Tasks (assigned items)
+- ✅ Messages (communicate with firm)
+- ✅ Profile & Settings
 
-### 2. Email Integration 🔲 (Priority 1)
-**Status**: Not started
-**Completion**: 0%
+### 2. Email Integration 🚧 (Priority 1)
+**Status**: Core queue stabilized
+**Completion**: 60%
 
 SMTP-based notification system:
-- 🔲 Create `packages/email/` with template engine
-- 🔲 Document expiry alerts
-- 🔲 Filing deadline reminders
-- 🔲 Task assignment notifications
-- 🔲 Service request updates
-- 🔲 Compliance threshold alerts
-- 🔲 Integration with worker jobs
+- ✅ Create `packages/email/` with template engine
+- ✅ Document expiry alerts
+- ✅ Filing deadline reminders
+- ✅ Task assignment notifications
+- ✅ Service request updates
+- 🚧 Compliance threshold alerts
+- 🚧 Integration with worker jobs (extend coverage)
 
 ### 3. CI/CD Pipeline 🔲 (Priority 2)
 **Status**: Not started

@@ -11,6 +11,12 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
 
+const COMPLIANCE_SKELETON_KEYS = [
+	"compliance-skeleton-0",
+	"compliance-skeleton-1",
+	"compliance-skeleton-2",
+];
+
 export function ComplianceOverview() {
 	const { data, isLoading } = trpc.dashboard.complianceOverview.useQuery();
 
@@ -25,8 +31,8 @@ export function ComplianceOverview() {
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-4">
-						{[...Array(3)].map((_, i) => (
-							<Skeleton key={i} className="h-12 w-full" />
+						{COMPLIANCE_SKELETON_KEYS.map((skeletonKey) => (
+							<Skeleton key={skeletonKey} className="h-12 w-full" />
 						))}
 					</div>
 				</CardContent>

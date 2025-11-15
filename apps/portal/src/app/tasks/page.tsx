@@ -81,7 +81,9 @@ export default function TasksPage() {
 				<Select
 					value={statusFilter || "all"}
 					onChange={(e) =>
-						setStatusFilter(e.target.value === "all" ? undefined : e.target.value)
+						setStatusFilter(
+							e.target.value === "all" ? undefined : e.target.value,
+						)
 					}
 				>
 					<option value="all">All Tasks</option>

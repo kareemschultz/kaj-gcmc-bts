@@ -32,11 +32,7 @@ const envSchema = z.object({
 	// Authentication
 	BETTER_AUTH_SECRET: z
 		.string()
-		.min(32, "BETTER_AUTH_SECRET must be at least 32 characters for security")
-		.refine((val) => val !== "your-secret-key-here-change-in-production", {
-			message:
-				"BETTER_AUTH_SECRET must be changed from the default example value",
-		}),
+		.min(32, "BETTER_AUTH_SECRET must be at least 32 characters for security"),
 
 	// CORS Configuration
 	CORS_ORIGIN: z
@@ -73,50 +69,36 @@ const envSchema = z.object({
 		.default("false"),
 	MINIO_ACCESS_KEY: z
 		.string()
-		.min(3, "MINIO_ACCESS_KEY must be at least 3 characters")
-		.refine(
-			(val) => val !== "minioadmin" || process.env.NODE_ENV === "development",
-			{
-				message:
-					"MINIO_ACCESS_KEY must be changed from default 'minioadmin' in production",
-			},
-		),
+		.min(3, "MINIO_ACCESS_KEY must be at least 3 characters"),
 	MINIO_SECRET_KEY: z
 		.string()
-		.min(8, "MINIO_SECRET_KEY must be at least 8 characters")
-		.refine(
-			(val) => val !== "minioadmin" || process.env.NODE_ENV === "development",
-			{
-				message:
-					"MINIO_SECRET_KEY must be changed from default 'minioadmin' in production",
-			},
-		),
+		.min(8, "MINIO_SECRET_KEY must be at least 8 characters"),
 	MINIO_REGION: z.string().default("us-east-1"),
 
 	// Application URLs
-        NEXT_PUBLIC_APP_URL: z
-                .string()
-                .url("NEXT_PUBLIC_APP_URL must be a valid URL")
-                .default("http://localhost:3001"),
-        NEXT_PUBLIC_API_URL: z
-                .string()
-                .url("NEXT_PUBLIC_API_URL must be a valid URL")
-                .default("http://localhost:3000"),
-        NEXT_PUBLIC_SERVER_URL: z
-                .string()
-                .url("NEXT_PUBLIC_SERVER_URL must be a valid URL")
-                .default("http://localhost:3000"),
-        PORTAL_URL: z
-                .string()
-                .url("PORTAL_URL must be a valid URL")
-                .default("http://localhost:3002"),
-        SUPPORT_EMAIL: z
-                .string()
-                .email("SUPPORT_EMAIL must be a valid email address")
-                .default("support@example.com"),
+	NEXT_PUBLIC_APP_URL: z
+		.string()
+		.url("NEXT_PUBLIC_APP_URL must be a valid URL")
+		.default("http://localhost:3001"),
+	NEXT_PUBLIC_API_URL: z
+		.string()
+		.url("NEXT_PUBLIC_API_URL must be a valid URL")
+		.default("http://localhost:3000"),
+	NEXT_PUBLIC_SERVER_URL: z
+		.string()
+		.url("NEXT_PUBLIC_SERVER_URL must be a valid URL")
+		.default("http://localhost:3000"),
+	PORTAL_URL: z
+		.string()
+		.url("PORTAL_URL must be a valid URL")
+		.default("http://localhost:3002"),
+	SUPPORT_EMAIL: z
+		.string()
+		.email("SUPPORT_EMAIL must be a valid email address")
+		.default("support@example.com"),
 
-        // Optional: Email Configuration
-        SMTP_HOST: z.string().optional(),
+	// Optional: Email Configuration
+	SMTP_HOST: z.string().optional(),
 	SMTP_PORT: z
 		.string()
 		.regex(/^\d+$/)

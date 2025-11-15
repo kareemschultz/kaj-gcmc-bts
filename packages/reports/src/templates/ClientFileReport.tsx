@@ -157,30 +157,38 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 				{businesses.length > 0 && (
 					<View style={commonStyles.section}>
 						<Text style={commonStyles.sectionTitle}>Associated Businesses</Text>
-						{businesses.map((business, index) => (
-							<View key={index} style={{ marginBottom: 8 }}>
-								<Text
-									style={{ fontSize: 10, fontWeight: "bold", marginBottom: 3 }}
-								>
-									{business.name}
-								</Text>
-								{business.registrationNumber && (
-									<Text style={{ fontSize: 9, color: colors.textLight }}>
-										Reg #: {business.registrationNumber}
+						{businesses.map((business) => {
+							const businessKey = `${business.name}-${business.registrationNumber ?? "no-reg"}`;
+
+							return (
+								<View key={businessKey} style={{ marginBottom: 8 }}>
+									<Text
+										style={{
+											fontSize: 10,
+											fontWeight: "bold",
+											marginBottom: 3,
+										}}
+									>
+										{business.name}
 									</Text>
-								)}
-								{business.registrationType && (
-									<Text style={{ fontSize: 9, color: colors.textLight }}>
-										Type: {business.registrationType}
-									</Text>
-								)}
-								{business.sector && (
-									<Text style={{ fontSize: 9, color: colors.textLight }}>
-										Sector: {business.sector}
-									</Text>
-								)}
-							</View>
-						))}
+									{business.registrationNumber && (
+										<Text style={{ fontSize: 9, color: colors.textLight }}>
+											Reg #: {business.registrationNumber}
+										</Text>
+									)}
+									{business.registrationType && (
+										<Text style={{ fontSize: 9, color: colors.textLight }}>
+											Type: {business.registrationType}
+										</Text>
+									)}
+									{business.sector && (
+										<Text style={{ fontSize: 9, color: colors.textLight }}>
+											Sector: {business.sector}
+										</Text>
+									)}
+								</View>
+							);
+						})}
 					</View>
 				)}
 
@@ -324,7 +332,7 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 							</View>
 							{documentsSummary.byType.map((item, index) => (
 								<View
-									key={index}
+									key={`${item.type}-${item.count}`}
 									style={
 										index === documentsSummary.byType.length - 1
 											? commonStyles.tableRowLast
@@ -398,7 +406,7 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 							</View>
 							{filingsSummary.byStatus.map((item, index) => (
 								<View
-									key={index}
+									key={`${item.status}-${item.count}`}
 									style={
 										index === filingsSummary.byStatus.length - 1
 											? commonStyles.tableRowLast
@@ -451,28 +459,33 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 										Status
 									</Text>
 								</View>
-								{filingsSummary.upcomingDeadlines.map((filing, index) => (
-									<View
-										key={index}
-										style={
-											index === filingsSummary.upcomingDeadlines.length - 1
-												? commonStyles.tableRowLast
-												: commonStyles.tableRow
-										}
-									>
-										<Text style={[commonStyles.tableCell, { width: "40%" }]}>
-											{filing.type}
-										</Text>
-										<Text style={[commonStyles.tableCell, { width: "30%" }]}>
-											{format(filing.dueDate, "MMM dd, yyyy")}
-										</Text>
-										<Text style={[commonStyles.tableCell, { width: "30%" }]}>
-											<Text style={getStatusStyle(filing.status)}>
-												{filing.status}
+								{filingsSummary.upcomingDeadlines.map((filing, index) => {
+									const dueKey = new Date(filing.dueDate).toISOString();
+									const deadlineKey = `${filing.type}-${dueKey}`;
+
+									return (
+										<View
+											key={deadlineKey}
+											style={
+												index === filingsSummary.upcomingDeadlines.length - 1
+													? commonStyles.tableRowLast
+													: commonStyles.tableRow
+											}
+										>
+											<Text style={[commonStyles.tableCell, { width: "40%" }]}>
+												{filing.type}
 											</Text>
-										</Text>
-									</View>
-								))}
+											<Text style={[commonStyles.tableCell, { width: "30%" }]}>
+												{format(filing.dueDate, "MMM dd, yyyy")}
+											</Text>
+											<Text style={[commonStyles.tableCell, { width: "30%" }]}>
+												<Text style={getStatusStyle(filing.status)}>
+													{filing.status}
+												</Text>
+											</Text>
+										</View>
+									);
+								})}
 							</View>
 						</>
 					)}
@@ -497,31 +510,35 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 									Updated
 								</Text>
 							</View>
-							{serviceHistory.map((service, index) => (
-								<View
-									key={index}
-									style={
-										index === serviceHistory.length - 1
-											? commonStyles.tableRowLast
-											: commonStyles.tableRow
-									}
-								>
-									<Text style={[commonStyles.tableCell, { width: "40%" }]}>
-										{service.serviceName}
-									</Text>
-									<Text style={[commonStyles.tableCell, { width: "20%" }]}>
-										<Text style={getStatusStyle(service.status)}>
-											{service.status}
+							{serviceHistory.map((service, index) => {
+								const serviceKey = `${service.serviceName}-${service.createdAt.toISOString()}-${service.updatedAt.toISOString()}`;
+
+								return (
+									<View
+										key={serviceKey}
+										style={
+											index === serviceHistory.length - 1
+												? commonStyles.tableRowLast
+												: commonStyles.tableRow
+										}
+									>
+										<Text style={[commonStyles.tableCell, { width: "40%" }]}>
+											{service.serviceName}
 										</Text>
-									</Text>
-									<Text style={[commonStyles.tableCell, { width: "20%" }]}>
-										{format(service.createdAt, "MMM dd, yy")}
-									</Text>
-									<Text style={[commonStyles.tableCell, { width: "20%" }]}>
-										{format(service.updatedAt, "MMM dd, yy")}
-									</Text>
-								</View>
-							))}
+										<Text style={[commonStyles.tableCell, { width: "20%" }]}>
+											<Text style={getStatusStyle(service.status)}>
+												{service.status}
+											</Text>
+										</Text>
+										<Text style={[commonStyles.tableCell, { width: "20%" }]}>
+											{format(service.createdAt, "MMM dd, yy")}
+										</Text>
+										<Text style={[commonStyles.tableCell, { width: "20%" }]}>
+											{format(service.updatedAt, "MMM dd, yy")}
+										</Text>
+									</View>
+								);
+							})}
 						</View>
 					</View>
 				)}

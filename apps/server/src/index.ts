@@ -1,4 +1,13 @@
-import "dotenv/config";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { config as loadEnv } from "dotenv";
+
+const moduleDir = dirname(fileURLToPath(import.meta.url));
+loadEnv();
+if (!process.env.DATABASE_URL || !process.env.BETTER_AUTH_SECRET) {
+	loadEnv({ path: resolve(moduleDir, "../../../.env") });
+}
+
 import { createContext } from "@GCMC-KAJ/api/context";
 import { appRouter } from "@GCMC-KAJ/api/routers/index";
 import { auth } from "@GCMC-KAJ/auth";

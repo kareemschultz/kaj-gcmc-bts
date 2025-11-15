@@ -107,8 +107,8 @@ export const DocumentsListReport: React.FC<DocumentsListReportProps> = ({
 				</View>
 
 				{/* Documents Table by Type */}
-				{sortedTypes.map((type, typeIndex) => (
-					<View key={typeIndex} style={commonStyles.section}>
+				{sortedTypes.map((type) => (
+					<View key={`documents-type-${type}`} style={commonStyles.section}>
 						<Text
 							style={{
 								fontSize: 12,

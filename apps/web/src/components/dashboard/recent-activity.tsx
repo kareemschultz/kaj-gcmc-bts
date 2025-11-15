@@ -12,6 +12,11 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
 
+const RECENT_ACTIVITY_SKELETON_KEYS = Array.from(
+	{ length: 5 },
+	(_, index) => `recent-activity-skeleton-${index}`,
+);
+
 export function RecentActivity() {
 	const { data, isLoading } = trpc.dashboard.overview.useQuery();
 
@@ -24,8 +29,8 @@ export function RecentActivity() {
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-3">
-						{[...Array(5)].map((_, i) => (
-							<div key={i} className="flex items-center gap-3">
+						{RECENT_ACTIVITY_SKELETON_KEYS.map((skeletonKey) => (
+							<div key={skeletonKey} className="flex items-center gap-3">
 								<Skeleton className="h-10 w-10 rounded-full" />
 								<div className="flex-1">
 									<Skeleton className="mb-2 h-4 w-3/4" />

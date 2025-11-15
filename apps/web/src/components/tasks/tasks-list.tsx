@@ -16,6 +16,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
 import { TaskForm } from "./task-form";
 
+const TASK_LIST_SKELETON_KEYS = Array.from(
+	{ length: 6 },
+	(_, index) => `tasks-list-skeleton-${index}`,
+);
+
 export function TasksList() {
 	const [page, setPage] = useState(1);
 	const [status, setStatus] = useState<string>("");
@@ -132,8 +137,8 @@ export function TasksList() {
 
 			{isLoading ? (
 				<div className="space-y-3">
-					{[...Array(6)].map((_, i) => (
-						<Card key={i}>
+					{TASK_LIST_SKELETON_KEYS.map((skeletonKey) => (
+						<Card key={skeletonKey}>
 							<CardContent className="pt-6">
 								<Skeleton className="mb-2 h-6 w-3/4" />
 								<Skeleton className="h-4 w-1/2" />

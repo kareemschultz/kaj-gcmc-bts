@@ -15,6 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
 
+const CLIENT_SKELETON_ITEMS = Array.from(
+	{ length: 6 },
+	(_, index) => `client-skeleton-${index}`,
+);
+
 export function ClientsList() {
 	const [search, setSearch] = useState("");
 	const [page, setPage] = useState(1);
@@ -62,8 +67,8 @@ export function ClientsList() {
 
 			{isLoading ? (
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-					{[...Array(6)].map((_, i) => (
-						<Card key={i}>
+					{CLIENT_SKELETON_ITEMS.map((skeletonKey) => (
+						<Card key={skeletonKey}>
 							<CardHeader>
 								<Skeleton className="h-6 w-32" />
 								<Skeleton className="h-4 w-24" />
