@@ -377,39 +377,114 @@ export const complianceRulesRouter = router({
 				});
 			}
 
-			// TODO: Implement compliance scoring logic
-			// This is a placeholder - actual implementation would calculate based on rules
-			const scoreValue = 75.0;
-			const level = "medium";
-
-			// Get counts for breakdown
-			const [missingCount, expiringCount, overdueFilingsCount] =
-				await Promise.all([
-					prisma.document.count({
-						where: {
-							clientId: input.clientId,
-							status: { in: ["pending_review", "rejected"] },
-						},
-					}),
-					prisma.document.count({
-						where: {
-							clientId: input.clientId,
-							latestVersion: {
-								expiryDate: {
-									lte: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-									gte: new Date(),
-								},
+			// COMPLIANCE SCORING ALGORITHM
+			// Get compliance metrics
+			const [
+				missingCount,
+				expiringCount,
+				overdueFilingsCount,
+				totalDocuments,
+				validDocuments,
+				totalFilings,
+			] = await Promise.all([
+				// Missing/problematic documents
+				prisma.document.count({
+					where: {
+						clientId: input.clientId,
+						status: { in: ["pending_review", "rejected"] },
+					},
+				}),
+				// Documents expiring within 30 days
+				prisma.document.count({
+					where: {
+						clientId: input.clientId,
+						status: "valid",
+						latestVersion: {
+							expiryDate: {
+								lte: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+								gte: new Date(),
 							},
 						},
-					}),
-					prisma.filing.count({
-						where: {
-							clientId: input.clientId,
-							status: { in: ["draft", "prepared"] },
-							periodEnd: { lt: new Date() },
+					},
+				}),
+				// Overdue filings
+				prisma.filing.count({
+					where: {
+						clientId: input.clientId,
+						status: { in: ["draft", "prepared"] },
+						periodEnd: { lt: new Date() },
+					},
+				}),
+				// Total documents for percentage calculation
+				prisma.document.count({
+					where: { clientId: input.clientId },
+				}),
+				// Valid documents
+				prisma.document.count({
+					where: {
+						clientId: input.clientId,
+						status: "valid",
+						latestVersion: {
+							OR: [
+								{ expiryDate: null },
+								{ expiryDate: { gt: new Date() } },
+							],
 						},
-					}),
-				]);
+					},
+				}),
+				// Total filings for context
+				prisma.filing.count({
+					where: { clientId: input.clientId },
+				}),
+			]);
+
+			/**
+			 * Score ranges from 0-100 where:
+			 * - 100 = Perfect compliance (no issues)
+			 * - 0 = Critical non-compliance
+			 *
+			 * Weights:
+			 * - Missing/rejected documents: -10 points each (critical)
+			 * - Expiring documents: -5 points each (warning)
+			 * - Overdue filings: -15 points each (critical)
+			 *
+			 * Bonuses:
+			 * - High valid document ratio: up to +10 points
+			 */
+
+			let scoreValue = 100; // Start with perfect score
+
+			// Deduct for missing/problematic documents (critical impact)
+			scoreValue -= missingCount * 10;
+
+			// Deduct for expiring documents (warning impact)
+			scoreValue -= expiringCount * 5;
+
+			// Deduct for overdue filings (critical impact)
+			scoreValue -= overdueFilingsCount * 15;
+
+			// Add bonus for high valid document ratio
+			if (totalDocuments > 0) {
+				const validRatio = validDocuments / totalDocuments;
+				if (validRatio >= 0.9) {
+					scoreValue += 10; // 90%+ valid
+				} else if (validRatio >= 0.75) {
+					scoreValue += 5; // 75%+ valid
+				}
+			}
+
+			// Ensure score stays within 0-100 range
+			scoreValue = Math.max(0, Math.min(100, scoreValue));
+
+			// Determine compliance level based on score
+			let level: "low" | "medium" | "high";
+			if (scoreValue >= 80) {
+				level = "high"; // Good compliance
+			} else if (scoreValue >= 50) {
+				level = "medium"; // Moderate compliance
+			} else {
+				level = "low"; // Poor compliance
+			}
 
 			// Upsert compliance score
 			const score = await prisma.complianceScore.upsert({
