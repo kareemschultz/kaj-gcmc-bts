@@ -40,7 +40,7 @@ export function RoleForm({ roleId, onSuccess }: RoleFormProps) {
 
 	// Fetch existing role data if editing
 	const { data: existingRole } = trpc.roles.get.useQuery(
-		{ id: roleId! },
+		{ id: roleId as number },
 		{ enabled: !!roleId },
 	);
 
