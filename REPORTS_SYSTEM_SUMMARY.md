@@ -143,7 +143,7 @@ apps/web/src/
 
 **Output:** Multi-page portrait PDF
 
-**Permission:** `service_requests:view`
+**Permission:** `services:view`
 
 ## How to Use the System
 

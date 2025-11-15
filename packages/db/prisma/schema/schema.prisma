@@ -31,6 +31,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   tenantUsers   TenantUser[]
+  portalClientAccesses ClientPortalAccess[]
   messages      Message[]      @relation("MessageAuthor")
   tasks         Task[]         @relation("TaskAssignee")
   notifications Notification[] @relation("NotificationRecipient")
@@ -118,6 +119,7 @@ model Tenant {
   documents               Document[]
   complianceScores        ComplianceScore[]
   requirementBundles      RequirementBundle[]
+  portalClientAccesses    ClientPortalAccess[]
 
   @@map("tenants")
 }
@@ -190,6 +192,7 @@ model Client {
   conversations    Conversation[]
   auditLogs        AuditLog[]
   recurringFilings RecurringFiling[]
+  portalAccesses   ClientPortalAccess[]
 
   @@index([tenantId])
   @@index([tenantId, type])
@@ -197,6 +200,23 @@ model Client {
   @@index([tenantId, sector])
   @@index([createdAt])
   @@map("clients")
+}
+
+model ClientPortalAccess {
+  id        Int      @id @default(autoincrement())
+  tenantId  Int
+  userId    String
+  clientId  Int
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, userId, clientId])
+  @@index([tenantId, userId])
+  @@index([tenantId, clientId])
+  @@map("client_portal_access")
 }
 
 model ClientBusiness {

@@ -52,39 +52,51 @@ export const usersRouter = router({
 
 			const skip = (page - 1) * pageSize;
 
-			// Build where clause for TenantUser
-			const where: Prisma.UserWhereInput = { tenantId: ctx.tenantId };
+                        // Build where clause for TenantUser
+                        const where: Prisma.TenantUserWhereInput = { tenantId: ctx.tenantId };
 
-			if (roleId) {
-				where.roleId = roleId;
-			}
+                        if (roleId) {
+                                where.roleId = roleId;
+                        }
 
-			// Fetch tenant users with their user and role information
-			const [tenantUsers, total] = await Promise.all([
-				prisma.tenantUser.findMany({
-					where,
-					skip,
-					take: pageSize,
-					include: {
-						user: true,
-						role: true,
-					},
-				}),
-				prisma.tenantUser.count({ where }),
-			]);
+                        if (search?.trim()) {
+                                const searchTerm = search.trim();
+                                where.user = {
+                                        is: {
+                                                OR: [
+                                                        {
+                                                                name: {
+                                                                        contains: searchTerm,
+                                                                        mode: "insensitive",
+                                                                },
+                                                        },
+                                                        {
+                                                                email: {
+                                                                        contains: searchTerm,
+                                                                        mode: "insensitive",
+                                                                },
+                                                        },
+                                                ],
+                                        },
+                                };
+                        }
 
-			// Filter by search on user fields if provided
-			let filteredUsers = tenantUsers;
-			if (search) {
-				filteredUsers = tenantUsers.filter(
-					(tu) =>
-						tu.user.name.toLowerCase().includes(search.toLowerCase()) ||
-						tu.user.email.toLowerCase().includes(search.toLowerCase()),
-				);
-			}
+                        // Fetch tenant users with their user and role information
+                        const [tenantUsers, total] = await Promise.all([
+                                prisma.tenantUser.findMany({
+                                        where,
+                                        skip,
+                                        take: pageSize,
+                                        include: {
+                                                user: true,
+                                                role: true,
+                                        },
+                                }),
+                                prisma.tenantUser.count({ where }),
+                        ]);
 
 			return {
-				users: filteredUsers.map((tu) => ({
+                                users: tenantUsers.map((tu) => ({
 					id: tu.user.id,
 					name: tu.user.name,
 					email: tu.user.email,
@@ -98,16 +110,14 @@ export const usersRouter = router({
 					roleName: tu.role.name,
 					roleDescription: tu.role.description,
 				})),
-				pagination: {
-					page,
-					pageSize,
-					total: search ? filteredUsers.length : total,
-					totalPages: Math.ceil(
-						(search ? filteredUsers.length : total) / pageSize,
-					),
-				},
-			};
-		}),
+                                pagination: {
+                                        page,
+                                        pageSize,
+                                        total,
+                                        totalPages: Math.ceil(total / pageSize),
+                                },
+                        };
+                }),
 
 	/**
 	 * Get single user by ID

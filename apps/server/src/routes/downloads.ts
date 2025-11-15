@@ -109,8 +109,8 @@ app.get("/reports/:reportType/:clientId", async (c) => {
 				filename = `compliance-report-${client.name.replace(/\s+/g, "-")}-${Date.now()}.pdf`;
 				break;
 
-			case "service-history":
-				if (!hasPermission("service_requests", "view")) {
+                        case "service-history":
+                                if (!hasPermission("services", "view")) {
 					return c.json({ error: "Permission denied" }, 403);
 				}
 				pdfBuffer = await generateServiceHistoryReport(clientId, tenantId);
