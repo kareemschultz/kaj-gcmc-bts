@@ -8,6 +8,6 @@
 		"./tsconfig.base.json": "./tsconfig.base.json"
 	},
 	"dependencies": {
-		"zod": "^3.22.4"
+		"zod": "catalog:"
 	}
 }

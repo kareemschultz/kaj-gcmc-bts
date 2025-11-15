@@ -62,9 +62,10 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Install curl for health checks
+# Install curl and tini for health checks and signal handling
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
+    tini \
     && rm -rf /var/lib/apt/lists/*
 
 # Create non-root user
@@ -94,6 +95,7 @@ ENV HOSTNAME="0.0.0.0"
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD curl -f http://localhost:3001/api/health || exit 1
 
-# Use exec form for proper signal handling
+# Use tini for proper signal handling
 # Next.js standalone output uses Node.js, not Bun
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["node", "server.js"]

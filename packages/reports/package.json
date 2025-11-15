@@ -24,7 +24,7 @@
 	"dependencies": {
 		"@react-pdf/renderer": "^4.2.0",
 		"date-fns": "^4.1.0",
-		"react": "^19.0.0",
+		"react": "catalog:",
 		"zod": "catalog:",
 		"@GCMC-KAJ/db": "workspace:*",
 		"@GCMC-KAJ/types": "workspace:*"

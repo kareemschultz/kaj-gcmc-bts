@@ -3,6 +3,9 @@ import dotenv from "dotenv";
 import type { PrismaConfig } from "prisma";
 
 dotenv.config({
+	path: "../../.env",
+});
+dotenv.config({
 	path: "../../apps/server/.env",
 });
 

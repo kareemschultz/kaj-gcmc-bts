@@ -8,7 +8,7 @@
 	},
 	"type": "module",
 	"scripts": {
-		"build": "tsdown"
+		"build": "tsc --build"
 	},
 	"devDependencies": {
 		"tsdown": "catalog:",
