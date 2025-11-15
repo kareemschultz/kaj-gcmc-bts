@@ -16,11 +16,15 @@ import { protectedProcedure, router } from "../index";
  */
 export const tenantSchema = z.object({
 	name: z.string().min(1).max(255),
-	code: z.string().min(1).max(50).regex(/^[a-z0-9-]+$/, {
-		message: "Code must be lowercase alphanumeric with hyphens only",
-	}),
-	contactInfo: z.record(z.any()).optional(),
-	settings: z.record(z.any()).optional(),
+	code: z
+		.string()
+		.min(1)
+		.max(50)
+		.regex(/^[a-z0-9-]+$/, {
+			message: "Code must be lowercase alphanumeric with hyphens only",
+		}),
+	contactInfo: z.record(z.string(), z.any()).optional(),
+	settings: z.record(z.string(), z.any()).optional(),
 });
 
 /**
@@ -28,7 +32,11 @@ export const tenantSchema = z.object({
  */
 function assertSuperAdmin(ctx: any) {
 	if (
-		!isSuperAdmin({ role: ctx.role, tenantId: ctx.tenantId, userId: ctx.user.id })
+		!isSuperAdmin({
+			role: ctx.role,
+			tenantId: ctx.tenantId,
+			userId: ctx.user.id,
+		})
 	) {
 		throw new TRPCError({
 			code: "FORBIDDEN",

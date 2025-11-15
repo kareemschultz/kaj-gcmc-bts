@@ -331,12 +331,19 @@ export const analyticsRouter = router({
 			});
 
 			const totalRevenue = serviceRequests.reduce(
-				(sum, sr) => sum + (sr.service.basePrice || 0),
+				(sum: number, sr: (typeof serviceRequests)[number]) =>
+					sum + (sr.service.basePrice || 0),
 				0,
 			);
 
 			const byService = serviceRequests.reduce(
-				(acc, sr) => {
+				(
+					acc: Record<
+						number,
+						{ serviceId: number; count: number; revenue: number }
+					>,
+					sr: (typeof serviceRequests)[number],
+				) => {
 					if (!acc[sr.serviceId]) {
 						acc[sr.serviceId] = {
 							serviceId: sr.serviceId,
@@ -348,7 +355,10 @@ export const analyticsRouter = router({
 					acc[sr.serviceId].revenue += sr.service.basePrice || 0;
 					return acc;
 				},
-				{} as Record<number, { serviceId: number; count: number; revenue: number }>,
+				{} as Record<
+					number,
+					{ serviceId: number; count: number; revenue: number }
+				>,
 			);
 
 			return {
@@ -396,7 +406,10 @@ export const analyticsRouter = router({
 			});
 
 			const byUser = auditLogs.reduce(
-				(acc, log) => {
+				(
+					acc: Record<string, { userId: string; count: number }>,
+					log: (typeof auditLogs)[number],
+				) => {
 					if (!log.actorUserId) return acc;
 					if (!acc[log.actorUserId]) {
 						acc[log.actorUserId] = { userId: log.actorUserId, count: 0 };
@@ -408,7 +421,10 @@ export const analyticsRouter = router({
 			);
 
 			const byAction = auditLogs.reduce(
-				(acc, log) => {
+				(
+					acc: Record<string, { action: string; count: number }>,
+					log: (typeof auditLogs)[number],
+				) => {
 					if (!acc[log.action]) {
 						acc[log.action] = { action: log.action, count: 0 };
 					}

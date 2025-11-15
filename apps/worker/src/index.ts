@@ -8,14 +8,17 @@
  * - Email dispatching
  */
 
-import { Queue, Worker, QueueEvents } from "bullmq";
-import Redis from "ioredis";
 import prisma from "@GCMC-KAJ/db";
+import { Queue, Worker } from "bullmq";
+import Redis from "ioredis";
 
 // Redis connection
-const connection = new Redis(process.env.REDIS_URL || "redis://localhost:6379", {
-	maxRetriesPerRequest: null,
-});
+const connection = new Redis(
+	process.env.REDIS_URL || "redis://localhost:6379",
+	{
+		maxRetriesPerRequest: null,
+	},
+);
 
 console.log("🚀 Worker starting...");
 console.log(`📡 Redis: ${process.env.REDIS_URL || "redis://localhost:6379"}`);
@@ -85,7 +88,8 @@ const complianceWorker = new Worker(
 						]);
 
 					// Simple scoring logic
-					const totalIssues = missingCount + expiringCount + overdueFilingsCount;
+					const totalIssues =
+						missingCount + expiringCount + overdueFilingsCount;
 					const scoreValue = Math.max(0, 100 - totalIssues * 5);
 					const level =
 						scoreValue >= 80 ? "low" : scoreValue >= 50 ? "medium" : "high";
@@ -197,7 +201,9 @@ const notificationWorker = new Worker(
 				}
 			}
 
-			console.log(`[Notifications] Sent ${expiringDocuments.length} expiry notifications`);
+			console.log(
+				`[Notifications] Sent ${expiringDocuments.length} expiry notifications`,
+			);
 
 			return { success: true, notificationsSent: expiringDocuments.length };
 		} catch (error) {
@@ -256,7 +262,9 @@ const filingWorker = new Worker(
 				}
 			}
 
-			console.log(`[Filings] Sent ${overdueFilings.length} overdue filing notifications`);
+			console.log(
+				`[Filings] Sent ${overdueFilings.length} overdue filing notifications`,
+			);
 
 			return { success: true, notificationsSent: overdueFilings.length };
 		} catch (error) {

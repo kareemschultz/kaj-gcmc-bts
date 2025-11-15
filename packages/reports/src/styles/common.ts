@@ -4,19 +4,19 @@
  * Shared styles for all PDF reports using @react-pdf/renderer
  */
 
-import { StyleSheet } from '@react-pdf/renderer';
+import { StyleSheet } from "@react-pdf/renderer";
 
 export const colors = {
-	primary: '#2563eb',      // Blue
-	secondary: '#64748b',    // Slate
-	success: '#10b981',      // Green
-	warning: '#f59e0b',      // Amber
-	danger: '#ef4444',       // Red
-	text: '#1e293b',         // Dark slate
-	textLight: '#64748b',    // Light slate
-	border: '#e2e8f0',       // Light border
-	background: '#f8fafc',   // Light background
-	white: '#ffffff',
+	primary: "#2563eb", // Blue
+	secondary: "#64748b", // Slate
+	success: "#10b981", // Green
+	warning: "#f59e0b", // Amber
+	danger: "#ef4444", // Red
+	text: "#1e293b", // Dark slate
+	textLight: "#64748b", // Light slate
+	border: "#e2e8f0", // Light border
+	background: "#f8fafc", // Light background
+	white: "#ffffff",
 };
 
 export const commonStyles = StyleSheet.create({
@@ -24,7 +24,7 @@ export const commonStyles = StyleSheet.create({
 	page: {
 		padding: 40,
 		fontSize: 10,
-		fontFamily: 'Helvetica',
+		fontFamily: "Helvetica",
 		color: colors.text,
 		backgroundColor: colors.white,
 	},
@@ -38,14 +38,14 @@ export const commonStyles = StyleSheet.create({
 
 	reportTitle: {
 		fontSize: 24,
-		fontWeight: 'bold',
+		fontWeight: "bold",
 		color: colors.primary,
 		marginBottom: 8,
 	},
 
 	companyName: {
 		fontSize: 14,
-		fontWeight: 'bold',
+		fontWeight: "bold",
 		color: colors.text,
 		marginBottom: 4,
 	},
@@ -63,7 +63,7 @@ export const commonStyles = StyleSheet.create({
 
 	sectionTitle: {
 		fontSize: 14,
-		fontWeight: 'bold',
+		fontWeight: "bold",
 		color: colors.text,
 		marginBottom: 10,
 		paddingBottom: 5,
@@ -72,53 +72,53 @@ export const commonStyles = StyleSheet.create({
 
 	// Client info
 	infoRow: {
-		flexDirection: 'row',
+		flexDirection: "row",
 		marginBottom: 6,
 	},
 
 	infoLabel: {
-		width: '30%',
+		width: "30%",
 		fontSize: 10,
-		fontWeight: 'bold',
+		fontWeight: "bold",
 		color: colors.text,
 	},
 
 	infoValue: {
-		width: '70%',
+		width: "70%",
 		fontSize: 10,
 		color: colors.text,
 	},
 
 	// Tables
 	table: {
-		width: '100%',
+		width: "100%",
 		borderWidth: 1,
 		borderColor: colors.border,
-		borderStyle: 'solid',
+		borderStyle: "solid",
 		marginBottom: 15,
 	},
 
 	tableHeader: {
-		flexDirection: 'row',
+		flexDirection: "row",
 		backgroundColor: colors.background,
 		borderBottomWidth: 1,
 		borderBottomColor: colors.border,
-		borderBottomStyle: 'solid',
-		fontWeight: 'bold',
+		borderBottomStyle: "solid",
+		fontWeight: "bold",
 		padding: 8,
 	},
 
 	tableRow: {
-		flexDirection: 'row',
+		flexDirection: "row",
 		borderBottomWidth: 1,
 		borderBottomColor: colors.border,
-		borderBottomStyle: 'solid',
+		borderBottomStyle: "solid",
 		padding: 8,
 		minHeight: 30,
 	},
 
 	tableRowLast: {
-		flexDirection: 'row',
+		flexDirection: "row",
 		padding: 8,
 		minHeight: 30,
 	},
@@ -126,14 +126,14 @@ export const commonStyles = StyleSheet.create({
 	tableCell: {
 		fontSize: 9,
 		padding: 4,
-		textAlign: 'left',
+		textAlign: "left",
 	},
 
 	tableCellHeader: {
 		fontSize: 9,
-		fontWeight: 'bold',
+		fontWeight: "bold",
 		padding: 4,
-		textAlign: 'left',
+		textAlign: "left",
 	},
 
 	// Status badges
@@ -142,8 +142,8 @@ export const commonStyles = StyleSheet.create({
 		paddingVertical: 3,
 		borderRadius: 4,
 		fontSize: 8,
-		fontWeight: 'bold',
-		textAlign: 'center',
+		fontWeight: "bold",
+		textAlign: "center",
 	},
 
 	badgeSuccess: {
@@ -168,12 +168,12 @@ export const commonStyles = StyleSheet.create({
 
 	// Footer
 	pageFooter: {
-		position: 'absolute',
+		position: "absolute",
 		bottom: 30,
 		left: 40,
 		right: 40,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
+		flexDirection: "row",
+		justifyContent: "space-between",
 		paddingTop: 10,
 		borderTop: `1pt solid ${colors.border}`,
 		fontSize: 8,
@@ -182,8 +182,8 @@ export const commonStyles = StyleSheet.create({
 
 	// Stats/Summary boxes
 	statsContainer: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
+		flexDirection: "row",
+		justifyContent: "space-between",
 		marginBottom: 20,
 		gap: 10,
 	},
@@ -195,7 +195,7 @@ export const commonStyles = StyleSheet.create({
 		borderRadius: 4,
 		borderWidth: 1,
 		borderColor: colors.border,
-		borderStyle: 'solid',
+		borderStyle: "solid",
 	},
 
 	statLabel: {
@@ -206,7 +206,7 @@ export const commonStyles = StyleSheet.create({
 
 	statValue: {
 		fontSize: 18,
-		fontWeight: 'bold',
+		fontWeight: "bold",
 		color: colors.primary,
 	},
 
@@ -216,7 +216,7 @@ export const commonStyles = StyleSheet.create({
 	},
 
 	listItem: {
-		flexDirection: 'row',
+		flexDirection: "row",
 		marginBottom: 6,
 	},
 
@@ -232,7 +232,7 @@ export const commonStyles = StyleSheet.create({
 
 	// Compliance score
 	scoreContainer: {
-		alignItems: 'center',
+		alignItems: "center",
 		marginBottom: 20,
 		padding: 20,
 		backgroundColor: colors.background,
@@ -241,7 +241,7 @@ export const commonStyles = StyleSheet.create({
 
 	scoreValue: {
 		fontSize: 48,
-		fontWeight: 'bold',
+		fontWeight: "bold",
 		marginBottom: 5,
 	},
 
@@ -253,28 +253,28 @@ export const commonStyles = StyleSheet.create({
 	// Warnings and highlights
 	warningBox: {
 		padding: 12,
-		backgroundColor: '#fef3c7',
+		backgroundColor: "#fef3c7",
 		borderLeftWidth: 3,
 		borderLeftColor: colors.warning,
-		borderLeftStyle: 'solid',
+		borderLeftStyle: "solid",
 		marginBottom: 10,
 	},
 
 	dangerBox: {
 		padding: 12,
-		backgroundColor: '#fee2e2',
+		backgroundColor: "#fee2e2",
 		borderLeftWidth: 3,
 		borderLeftColor: colors.danger,
-		borderLeftStyle: 'solid',
+		borderLeftStyle: "solid",
 		marginBottom: 10,
 	},
 
 	successBox: {
 		padding: 12,
-		backgroundColor: '#d1fae5',
+		backgroundColor: "#d1fae5",
 		borderLeftWidth: 3,
 		borderLeftColor: colors.success,
-		borderLeftStyle: 'solid',
+		borderLeftStyle: "solid",
 		marginBottom: 10,
 	},
 });
@@ -285,15 +285,23 @@ export const commonStyles = StyleSheet.create({
 export function getStatusStyle(status: string) {
 	const statusLower = status.toLowerCase();
 
-	if (statusLower.includes('valid') || statusLower.includes('approved') || statusLower.includes('completed')) {
+	if (
+		statusLower.includes("valid") ||
+		statusLower.includes("approved") ||
+		statusLower.includes("completed")
+	) {
 		return [commonStyles.badge, commonStyles.badgeSuccess];
 	}
 
-	if (statusLower.includes('pending') || statusLower.includes('progress')) {
+	if (statusLower.includes("pending") || statusLower.includes("progress")) {
 		return [commonStyles.badge, commonStyles.badgeWarning];
 	}
 
-	if (statusLower.includes('expired') || statusLower.includes('overdue') || statusLower.includes('rejected')) {
+	if (
+		statusLower.includes("expired") ||
+		statusLower.includes("overdue") ||
+		statusLower.includes("rejected")
+	) {
 		return [commonStyles.badge, commonStyles.badgeDanger];
 	}
 

@@ -247,7 +247,9 @@ export const tasksRouter = router({
 				where: { id: input.id },
 				data: {
 					...input.data,
-					dueDate: input.data.dueDate ? new Date(input.data.dueDate) : undefined,
+					dueDate: input.data.dueDate
+						? new Date(input.data.dueDate)
+						: undefined,
 				},
 				include: {
 					client: true,

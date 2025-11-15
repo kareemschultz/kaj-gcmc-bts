@@ -8,15 +8,14 @@
  * - Test version management
  */
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { documentsRouter } from "../documents";
-import {
-	setupTestDb,
-	cleanupTestDb,
-	testFixtures,
-	createTestDocument,
-} from "../../__tests__/helpers/test-db";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { testContexts } from "../../__tests__/helpers/test-context";
+import {
+	cleanupTestDb,
+	setupTestDb,
+	testFixtures,
+} from "../../__tests__/helpers/test-db";
+import { documentsRouter } from "../documents";
 
 describe("Documents Router", () => {
 	beforeEach(async () => {
@@ -93,14 +92,18 @@ describe("Documents Router", () => {
 			const ctx = testContexts.viewer();
 			const caller = documentsRouter.createCaller(ctx);
 
-			await expect(caller.list({ page: 1, pageSize: 10 })).resolves.toBeDefined();
+			await expect(
+				caller.list({ page: 1, pageSize: 10 }),
+			).resolves.toBeDefined();
 		});
 
 		it("should allow DocumentOfficer to view documents", async () => {
 			const ctx = testContexts.documentOfficer();
 			const caller = documentsRouter.createCaller(ctx);
 
-			await expect(caller.list({ page: 1, pageSize: 10 })).resolves.toBeDefined();
+			await expect(
+				caller.list({ page: 1, pageSize: 10 }),
+			).resolves.toBeDefined();
 		});
 	});
 
@@ -177,7 +180,7 @@ describe("Documents Router", () => {
 
 		it("should allow DocumentOfficer to create documents", async () => {
 			const ctx = testContexts.documentOfficer();
-			const caller = documentsRouter.createCaller(ctx);
+			const _caller = documentsRouter.createCaller(ctx);
 
 			// This would work if the create procedure exists
 			// Testing that DocumentOfficer has permission
@@ -186,7 +189,7 @@ describe("Documents Router", () => {
 
 		it("should allow ComplianceOfficer to create documents", async () => {
 			const ctx = testContexts.complianceOfficer();
-			const caller = documentsRouter.createCaller(ctx);
+			const _caller = documentsRouter.createCaller(ctx);
 
 			expect(ctx.role).toBe("ComplianceOfficer");
 		});
@@ -195,7 +198,7 @@ describe("Documents Router", () => {
 	describe("update", () => {
 		it("should deny Viewer from updating documents", async () => {
 			const ctx = testContexts.viewer();
-			const caller = documentsRouter.createCaller(ctx);
+			const _caller = documentsRouter.createCaller(ctx);
 
 			// Viewer should not be able to update
 			expect(ctx.role).toBe("Viewer");
@@ -203,14 +206,14 @@ describe("Documents Router", () => {
 
 		it("should allow DocumentOfficer to update documents", async () => {
 			const ctx = testContexts.documentOfficer();
-			const caller = documentsRouter.createCaller(ctx);
+			const _caller = documentsRouter.createCaller(ctx);
 
 			expect(ctx.role).toBe("DocumentOfficer");
 		});
 
 		it("should allow FirmAdmin to update documents", async () => {
 			const ctx = testContexts.firmAdmin();
-			const caller = documentsRouter.createCaller(ctx);
+			const _caller = documentsRouter.createCaller(ctx);
 
 			expect(ctx.role).toBe("FirmAdmin");
 		});
@@ -219,21 +222,21 @@ describe("Documents Router", () => {
 	describe("delete", () => {
 		it("should deny Viewer from deleting documents", async () => {
 			const ctx = testContexts.viewer();
-			const caller = documentsRouter.createCaller(ctx);
+			const _caller = documentsRouter.createCaller(ctx);
 
 			expect(ctx.role).toBe("Viewer");
 		});
 
 		it("should allow FirmAdmin to delete documents", async () => {
 			const ctx = testContexts.firmAdmin();
-			const caller = documentsRouter.createCaller(ctx);
+			const _caller = documentsRouter.createCaller(ctx);
 
 			expect(ctx.role).toBe("FirmAdmin");
 		});
 
 		it("should deny DocumentOfficer from deleting documents", async () => {
 			const ctx = testContexts.documentOfficer();
-			const caller = documentsRouter.createCaller(ctx);
+			const _caller = documentsRouter.createCaller(ctx);
 
 			// DocumentOfficer can create and edit, but not delete
 			expect(ctx.role).toBe("DocumentOfficer");
@@ -306,7 +309,9 @@ describe("Documents Router", () => {
 
 			for (const ctx of roles) {
 				const caller = documentsRouter.createCaller(ctx);
-				await expect(caller.list({ page: 1, pageSize: 10 })).resolves.toBeDefined();
+				await expect(
+					caller.list({ page: 1, pageSize: 10 }),
+				).resolves.toBeDefined();
 			}
 		});
 
@@ -317,7 +322,9 @@ describe("Documents Router", () => {
 				{ name: "ComplianceOfficer", ctx: testContexts.complianceOfficer() },
 			];
 
-			const unauthorizedRoles = [{ name: "Viewer", ctx: testContexts.viewer() }];
+			const unauthorizedRoles = [
+				{ name: "Viewer", ctx: testContexts.viewer() },
+			];
 
 			// Verify authorized roles have the right role set
 			for (const role of authorizedRoles) {

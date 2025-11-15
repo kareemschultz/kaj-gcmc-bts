@@ -9,10 +9,10 @@
  * - Recommendations
  */
 
-import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { format, differenceInDays } from 'date-fns';
-import React from 'react';
-import { commonStyles, colors, getScoreColor } from '../styles/common';
+import { Document, Page, Text, View } from "@react-pdf/renderer";
+import { format } from "date-fns";
+import type React from "react";
+import { colors, commonStyles, getScoreColor } from "../styles/common";
 
 interface ComplianceReportProps {
 	client: {
@@ -73,7 +73,8 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 					<Text style={commonStyles.companyName}>{tenantName}</Text>
 					<Text style={commonStyles.reportTitle}>Compliance Report</Text>
 					<Text style={commonStyles.subtitle}>
-						Client: {client.name} • Generated on {format(generatedAt, 'MMMM dd, yyyy HH:mm')}
+						Client: {client.name} • Generated on{" "}
+						{format(generatedAt, "MMMM dd, yyyy HH:mm")}
 					</Text>
 				</View>
 
@@ -102,22 +103,26 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 						<Text style={[commonStyles.scoreValue, { color: scoreColor }]}>
 							{score}%
 						</Text>
-						<Text style={commonStyles.scoreLabel}>Overall Compliance Score</Text>
+						<Text style={commonStyles.scoreLabel}>
+							Overall Compliance Score
+						</Text>
 						<Text
 							style={{
 								fontSize: 12,
 								marginTop: 5,
 								color: colors.textLight,
-								textTransform: 'uppercase',
-								fontWeight: 'bold',
+								textTransform: "uppercase",
+								fontWeight: "bold",
 							}}
 						>
-							Level: {complianceScore?.level || 'N/A'}
+							Level: {complianceScore?.level || "N/A"}
 						</Text>
 						{complianceScore && (
-							<Text style={{ fontSize: 9, marginTop: 5, color: colors.textLight }}>
-								Last calculated:{' '}
-								{format(complianceScore.lastCalculatedAt, 'MMM dd, yyyy HH:mm')}
+							<Text
+								style={{ fontSize: 9, marginTop: 5, color: colors.textLight }}
+							>
+								Last calculated:{" "}
+								{format(complianceScore.lastCalculatedAt, "MMM dd, yyyy HH:mm")}
 							</Text>
 						)}
 					</View>
@@ -178,36 +183,36 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 				{/* Compliance Status Summary */}
 				{score >= 80 && (
 					<View style={commonStyles.successBox}>
-						<Text style={{ fontSize: 10, fontWeight: 'bold', marginBottom: 3 }}>
+						<Text style={{ fontSize: 10, fontWeight: "bold", marginBottom: 3 }}>
 							Excellent Compliance
 						</Text>
 						<Text style={{ fontSize: 9 }}>
-							This client maintains strong compliance standards. Continue monitoring for
-							upcoming requirements.
+							This client maintains strong compliance standards. Continue
+							monitoring for upcoming requirements.
 						</Text>
 					</View>
 				)}
 
 				{score >= 60 && score < 80 && (
 					<View style={commonStyles.warningBox}>
-						<Text style={{ fontSize: 10, fontWeight: 'bold', marginBottom: 3 }}>
+						<Text style={{ fontSize: 10, fontWeight: "bold", marginBottom: 3 }}>
 							Moderate Compliance
 						</Text>
 						<Text style={{ fontSize: 9 }}>
-							This client has some compliance gaps that require attention. Review the
-							recommendations below.
+							This client has some compliance gaps that require attention.
+							Review the recommendations below.
 						</Text>
 					</View>
 				)}
 
 				{score < 60 && (
 					<View style={commonStyles.dangerBox}>
-						<Text style={{ fontSize: 10, fontWeight: 'bold', marginBottom: 3 }}>
+						<Text style={{ fontSize: 10, fontWeight: "bold", marginBottom: 3 }}>
 							Low Compliance - Immediate Action Required
 						</Text>
 						<Text style={{ fontSize: 9 }}>
-							This client has significant compliance issues that require immediate attention
-							to avoid penalties.
+							This client has significant compliance issues that require
+							immediate attention to avoid penalties.
 						</Text>
 					</View>
 				)}
@@ -220,13 +225,13 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 						</Text>
 						<View style={commonStyles.table}>
 							<View style={commonStyles.tableHeader}>
-								<Text style={[commonStyles.tableCellHeader, { width: '40%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "40%" }]}>
 									Document Type
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '15%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "15%" }]}>
 									Required
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '45%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "45%" }]}>
 									Description
 								</Text>
 							</View>
@@ -239,23 +244,23 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 											: commonStyles.tableRow
 									}
 								>
-									<Text style={[commonStyles.tableCell, { width: '40%' }]}>
+									<Text style={[commonStyles.tableCell, { width: "40%" }]}>
 										{doc.documentType}
 									</Text>
 									<Text
 										style={[
 											commonStyles.tableCell,
 											{
-												width: '15%',
+												width: "15%",
 												color: doc.required ? colors.danger : colors.warning,
-												fontWeight: 'bold',
+												fontWeight: "bold",
 											},
 										]}
 									>
-										{doc.required ? 'Required' : 'Optional'}
+										{doc.required ? "Required" : "Optional"}
 									</Text>
-									<Text style={[commonStyles.tableCell, { width: '45%' }]}>
-										{doc.description || '-'}
+									<Text style={[commonStyles.tableCell, { width: "45%" }]}>
+										{doc.description || "-"}
 									</Text>
 								</View>
 							))}
@@ -267,7 +272,9 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 				<View style={commonStyles.pageFooter}>
 					<Text>Compliance Report - {client.name}</Text>
 					<Text
-						render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
+						render={({ pageNumber, totalPages }) =>
+							`Page ${pageNumber} of ${totalPages}`
+						}
 						fixed
 					/>
 				</View>
@@ -278,7 +285,9 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 				{/* Header */}
 				<View style={commonStyles.pageHeader}>
 					<Text style={commonStyles.companyName}>{tenantName}</Text>
-					<Text style={commonStyles.reportTitle}>Compliance Report (continued)</Text>
+					<Text style={commonStyles.reportTitle}>
+						Compliance Report (continued)
+					</Text>
 					<Text style={commonStyles.subtitle}>{client.name}</Text>
 				</View>
 
@@ -290,17 +299,19 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 						</Text>
 						<View style={commonStyles.table}>
 							<View style={commonStyles.tableHeader}>
-								<Text style={[commonStyles.tableCellHeader, { width: '30%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "30%" }]}>
 									Document Title
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '25%' }]}>Type</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '20%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "25%" }]}>
+									Type
+								</Text>
+								<Text style={[commonStyles.tableCellHeader, { width: "20%" }]}>
 									Expiry Date
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '15%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "15%" }]}>
 									Days Left
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '10%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "10%" }]}>
 									Status
 								</Text>
 							</View>
@@ -321,28 +332,28 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 												: commonStyles.tableRow
 										}
 									>
-										<Text style={[commonStyles.tableCell, { width: '30%' }]}>
+										<Text style={[commonStyles.tableCell, { width: "30%" }]}>
 											{doc.title}
 										</Text>
-										<Text style={[commonStyles.tableCell, { width: '25%' }]}>
+										<Text style={[commonStyles.tableCell, { width: "25%" }]}>
 											{doc.documentType}
 										</Text>
-										<Text style={[commonStyles.tableCell, { width: '20%' }]}>
-											{format(doc.expiryDate, 'MMM dd, yyyy')}
+										<Text style={[commonStyles.tableCell, { width: "20%" }]}>
+											{format(doc.expiryDate, "MMM dd, yyyy")}
 										</Text>
 										<Text
 											style={[
 												commonStyles.tableCell,
 												{
-													width: '15%',
+													width: "15%",
 													color: urgencyColor,
-													fontWeight: 'bold',
+													fontWeight: "bold",
 												},
 											]}
 										>
 											{doc.daysUntilExpiry} days
 										</Text>
-										<Text style={[commonStyles.tableCell, { width: '10%' }]}>
+										<Text style={[commonStyles.tableCell, { width: "10%" }]}>
 											{doc.status}
 										</Text>
 									</View>
@@ -360,14 +371,16 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 						</Text>
 						<View style={commonStyles.table}>
 							<View style={commonStyles.tableHeader}>
-								<Text style={[commonStyles.tableCellHeader, { width: '40%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "40%" }]}>
 									Filing Type
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '25%' }]}>Period</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '20%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "25%" }]}>
+									Period
+								</Text>
+								<Text style={[commonStyles.tableCellHeader, { width: "20%" }]}>
 									Due Date
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '15%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "15%" }]}>
 									Days Overdue
 								</Text>
 							</View>
@@ -380,22 +393,24 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 											: commonStyles.tableRow
 									}
 								>
-									<Text style={[commonStyles.tableCell, { width: '40%' }]}>
+									<Text style={[commonStyles.tableCell, { width: "40%" }]}>
 										{filing.filingType}
 									</Text>
-									<Text style={[commonStyles.tableCell, { width: '25%' }]}>
-										{filing.periodLabel || '-'}
+									<Text style={[commonStyles.tableCell, { width: "25%" }]}>
+										{filing.periodLabel || "-"}
 									</Text>
-									<Text style={[commonStyles.tableCell, { width: '20%' }]}>
-										{filing.dueDate ? format(filing.dueDate, 'MMM dd, yyyy') : '-'}
+									<Text style={[commonStyles.tableCell, { width: "20%" }]}>
+										{filing.dueDate
+											? format(filing.dueDate, "MMM dd, yyyy")
+											: "-"}
 									</Text>
 									<Text
 										style={[
 											commonStyles.tableCell,
 											{
-												width: '15%',
+												width: "15%",
 												color: colors.danger,
-												fontWeight: 'bold',
+												fontWeight: "bold",
 											},
 										]}
 									>
@@ -427,12 +442,15 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 					expiringDocuments.length === 0 &&
 					overdueFilings.length === 0 && (
 						<View style={commonStyles.successBox}>
-							<Text style={{ fontSize: 11, fontWeight: 'bold', marginBottom: 5 }}>
+							<Text
+								style={{ fontSize: 11, fontWeight: "bold", marginBottom: 5 }}
+							>
 								No Compliance Issues Found
 							</Text>
 							<Text style={{ fontSize: 10 }}>
-								This client is fully compliant with all document and filing requirements.
-								Continue regular monitoring to maintain this status.
+								This client is fully compliant with all document and filing
+								requirements. Continue regular monitoring to maintain this
+								status.
 							</Text>
 						</View>
 					)}
@@ -441,7 +459,9 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 				<View style={commonStyles.pageFooter}>
 					<Text>Compliance Report - {client.name}</Text>
 					<Text
-						render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
+						render={({ pageNumber, totalPages }) =>
+							`Page ${pageNumber} of ${totalPages}`
+						}
 						fixed
 					/>
 				</View>

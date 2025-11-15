@@ -1,13 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { trpc } from "@/utils/trpc";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
 import { Plus, Search } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { trpc } from "@/utils/trpc";
 
 export function ClientsList() {
 	const [search, setSearch] = useState("");
@@ -23,7 +29,9 @@ export function ClientsList() {
 		return (
 			<Card>
 				<CardContent className="pt-6">
-					<p className="text-destructive">Error loading clients: {error.message}</p>
+					<p className="text-destructive">
+						Error loading clients: {error.message}
+					</p>
 				</CardContent>
 			</Card>
 		);
@@ -33,7 +41,7 @@ export function ClientsList() {
 		<div className="space-y-4">
 			<div className="flex gap-4">
 				<div className="relative flex-1">
-					<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+					<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
 					<Input
 						placeholder="Search clients..."
 						value={search}
@@ -46,7 +54,7 @@ export function ClientsList() {
 				</div>
 				<Link href="/clients/new">
 					<Button>
-						<Plus className="h-4 w-4 mr-2" />
+						<Plus className="mr-2 h-4 w-4" />
 						New Client
 					</Button>
 				</Link>
@@ -61,7 +69,7 @@ export function ClientsList() {
 								<Skeleton className="h-4 w-24" />
 							</CardHeader>
 							<CardContent>
-								<Skeleton className="h-4 w-full mb-2" />
+								<Skeleton className="mb-2 h-4 w-full" />
 								<Skeleton className="h-4 w-3/4" />
 							</CardContent>
 						</Card>
@@ -70,12 +78,14 @@ export function ClientsList() {
 			) : (
 				<>
 					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-						{data?.clients.map((client) => (
+						{data?.clients.map((client: (typeof data.clients)[number]) => (
 							<Link key={client.id} href={`/clients/${client.id}`}>
-								<Card className="hover:shadow-lg transition-shadow cursor-pointer">
+								<Card className="cursor-pointer transition-shadow hover:shadow-lg">
 									<CardHeader>
 										<CardTitle className="text-lg">{client.name}</CardTitle>
-										<CardDescription className="capitalize">{client.type}</CardDescription>
+										<CardDescription className="capitalize">
+											{client.type}
+										</CardDescription>
 									</CardHeader>
 									<CardContent>
 										<div className="space-y-1 text-sm">
@@ -83,9 +93,11 @@ export function ClientsList() {
 												<p className="text-muted-foreground">{client.email}</p>
 											)}
 											{client.sector && (
-												<p className="text-muted-foreground">Sector: {client.sector}</p>
+												<p className="text-muted-foreground">
+													Sector: {client.sector}
+												</p>
 											)}
-											<div className="flex gap-4 mt-3 text-xs text-muted-foreground">
+											<div className="mt-3 flex gap-4 text-muted-foreground text-xs">
 												<span>{client._count.documents} docs</span>
 												<span>{client._count.filings} filings</span>
 												<span>{client._count.serviceRequests} services</span>
@@ -98,7 +110,7 @@ export function ClientsList() {
 					</div>
 
 					{data && data.pagination.totalPages > 1 && (
-						<div className="flex justify-center gap-2 mt-6">
+						<div className="mt-6 flex justify-center gap-2">
 							<Button
 								variant="outline"
 								onClick={() => setPage((p) => Math.max(1, p - 1))}

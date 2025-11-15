@@ -8,7 +8,7 @@
 import prisma from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { protectedProcedure, rbacProcedure, router } from "../index";
+import { rbacProcedure, router } from "../index";
 
 /**
  * Client validation schema

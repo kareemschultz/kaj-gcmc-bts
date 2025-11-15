@@ -1,13 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { trpc } from "@/utils/trpc";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
-import { toast } from "sonner";
+import { trpc } from "@/utils/trpc";
 
 interface FilingFormProps {
 	open: boolean;
@@ -16,14 +22,26 @@ interface FilingFormProps {
 	onSuccess?: () => void;
 }
 
-export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFormProps) {
+export function FilingForm({
+	open,
+	onOpenChange,
+	filingId,
+	onSuccess,
+}: FilingFormProps) {
 	const [formData, setFormData] = useState({
 		clientId: "",
 		filingTypeId: "",
 		periodLabel: "",
 		periodStart: "",
 		periodEnd: "",
-		status: "draft" as "draft" | "prepared" | "submitted" | "approved" | "rejected" | "overdue" | "archived",
+		status: "draft" as
+			| "draft"
+			| "prepared"
+			| "submitted"
+			| "approved"
+			| "rejected"
+			| "overdue"
+			| "archived",
 		referenceNumber: "",
 		taxAmount: "",
 		penalties: "",
@@ -36,7 +54,7 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 	// Get filing data if editing
 	const { data: filing } = trpc.filings.get.useQuery(
 		{ id: filingId! },
-		{ enabled: !!filingId }
+		{ enabled: !!filingId },
 	);
 
 	// Get clients for dropdown
@@ -79,8 +97,12 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 				clientId: filing.clientId.toString(),
 				filingTypeId: filing.filingTypeId.toString(),
 				periodLabel: filing.periodLabel || "",
-				periodStart: filing.periodStart ? new Date(filing.periodStart).toISOString().split("T")[0] : "",
-				periodEnd: filing.periodEnd ? new Date(filing.periodEnd).toISOString().split("T")[0] : "",
+				periodStart: filing.periodStart
+					? new Date(filing.periodStart).toISOString().split("T")[0]
+					: "",
+				periodEnd: filing.periodEnd
+					? new Date(filing.periodEnd).toISOString().split("T")[0]
+					: "",
 				status: filing.status,
 				referenceNumber: filing.referenceNumber || "",
 				taxAmount: filing.taxAmount?.toString() || "",
@@ -115,21 +137,34 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 		}
 
 		const payload = {
-			clientId: parseInt(formData.clientId),
-			filingTypeId: parseInt(formData.filingTypeId),
+			clientId: Number.parseInt(formData.clientId, 10),
+			filingTypeId: Number.parseInt(formData.filingTypeId, 10),
 			periodLabel: formData.periodLabel || undefined,
-			periodStart: formData.periodStart ? new Date(formData.periodStart).toISOString() : undefined,
-			periodEnd: formData.periodEnd ? new Date(formData.periodEnd).toISOString() : undefined,
+			periodStart: formData.periodStart
+				? new Date(formData.periodStart).toISOString()
+				: undefined,
+			periodEnd: formData.periodEnd
+				? new Date(formData.periodEnd).toISOString()
+				: undefined,
 			status: formData.status,
 			referenceNumber: formData.referenceNumber || undefined,
-			taxAmount: formData.taxAmount ? parseFloat(formData.taxAmount) : undefined,
-			penalties: formData.penalties ? parseFloat(formData.penalties) : undefined,
-			interest: formData.interest ? parseFloat(formData.interest) : undefined,
+			taxAmount: formData.taxAmount
+				? Number.parseFloat(formData.taxAmount)
+				: undefined,
+			penalties: formData.penalties
+				? Number.parseFloat(formData.penalties)
+				: undefined,
+			interest: formData.interest
+				? Number.parseFloat(formData.interest)
+				: undefined,
 			internalNotes: formData.internalNotes || undefined,
 		};
 
 		// Calculate total if amounts are provided
-		const total = (payload.taxAmount || 0) + (payload.penalties || 0) + (payload.interest || 0);
+		const total =
+			(payload.taxAmount || 0) +
+			(payload.penalties || 0) +
+			(payload.interest || 0);
 
 		if (filingId) {
 			updateMutation.mutate({
@@ -137,15 +172,20 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 				data: { ...payload, total: total > 0 ? total : undefined },
 			});
 		} else {
-			createMutation.mutate({ ...payload, total: total > 0 ? total : undefined });
+			createMutation.mutate({
+				...payload,
+				total: total > 0 ? total : undefined,
+			});
 		}
 	};
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+			<DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
 				<DialogHeader>
-					<DialogTitle>{filingId ? "Edit Filing" : "Create New Filing"}</DialogTitle>
+					<DialogTitle>
+						{filingId ? "Edit Filing" : "Create New Filing"}
+					</DialogTitle>
 				</DialogHeader>
 
 				<form onSubmit={handleSubmit}>
@@ -156,15 +196,19 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 								<Select
 									id="clientId"
 									value={formData.clientId}
-									onChange={(e) => setFormData({ ...formData, clientId: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, clientId: e.target.value })
+									}
 									required
 								>
 									<option value="">Select a client</option>
-									{clientsData?.clients.map((client) => (
-										<option key={client.id} value={client.id}>
-											{client.name}
-										</option>
-									))}
+									{clientsData?.clients.map(
+										(client: (typeof clientsData.clients)[number]) => (
+											<option key={client.id} value={client.id}>
+												{client.name}
+											</option>
+										),
+									)}
 								</Select>
 							</div>
 
@@ -174,7 +218,9 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 									id="filingTypeId"
 									type="number"
 									value={formData.filingTypeId}
-									onChange={(e) => setFormData({ ...formData, filingTypeId: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, filingTypeId: e.target.value })
+									}
 									placeholder="Filing type ID"
 									required
 								/>
@@ -186,7 +232,9 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 							<Input
 								id="periodLabel"
 								value={formData.periodLabel}
-								onChange={(e) => setFormData({ ...formData, periodLabel: e.target.value })}
+								onChange={(e) =>
+									setFormData({ ...formData, periodLabel: e.target.value })
+								}
 								placeholder="e.g., Q1 2024, January 2024"
 							/>
 						</div>
@@ -198,7 +246,9 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 									id="periodStart"
 									type="date"
 									value={formData.periodStart}
-									onChange={(e) => setFormData({ ...formData, periodStart: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, periodStart: e.target.value })
+									}
 								/>
 							</div>
 
@@ -208,7 +258,9 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 									id="periodEnd"
 									type="date"
 									value={formData.periodEnd}
-									onChange={(e) => setFormData({ ...formData, periodEnd: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, periodEnd: e.target.value })
+									}
 								/>
 							</div>
 						</div>
@@ -242,7 +294,10 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 									id="referenceNumber"
 									value={formData.referenceNumber}
 									onChange={(e) =>
-										setFormData({ ...formData, referenceNumber: e.target.value })
+										setFormData({
+											...formData,
+											referenceNumber: e.target.value,
+										})
 									}
 									placeholder="Filing reference"
 								/>
@@ -257,7 +312,9 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 									type="number"
 									step="0.01"
 									value={formData.taxAmount}
-									onChange={(e) => setFormData({ ...formData, taxAmount: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, taxAmount: e.target.value })
+									}
 									placeholder="0.00"
 								/>
 							</div>
@@ -269,7 +326,9 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 									type="number"
 									step="0.01"
 									value={formData.penalties}
-									onChange={(e) => setFormData({ ...formData, penalties: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, penalties: e.target.value })
+									}
 									placeholder="0.00"
 								/>
 							</div>
@@ -281,21 +340,24 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 									type="number"
 									step="0.01"
 									value={formData.interest}
-									onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, interest: e.target.value })
+									}
 									placeholder="0.00"
 								/>
 							</div>
 						</div>
 
-						{(formData.taxAmount || formData.penalties || formData.interest) && (
-							<div className="p-3 bg-muted rounded-md">
-								<p className="text-sm font-medium">
-									Total:{" "}
-									$
+						{(formData.taxAmount ||
+							formData.penalties ||
+							formData.interest) && (
+							<div className="rounded-md bg-muted p-3">
+								<p className="font-medium text-sm">
+									Total: $
 									{(
-										(parseFloat(formData.taxAmount) || 0) +
-										(parseFloat(formData.penalties) || 0) +
-										(parseFloat(formData.interest) || 0)
+										(Number.parseFloat(formData.taxAmount) || 0) +
+										(Number.parseFloat(formData.penalties) || 0) +
+										(Number.parseFloat(formData.interest) || 0)
 									).toFixed(2)}
 								</p>
 							</div>
@@ -306,7 +368,9 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 							<textarea
 								id="internalNotes"
 								value={formData.internalNotes}
-								onChange={(e) => setFormData({ ...formData, internalNotes: e.target.value })}
+								onChange={(e) =>
+									setFormData({ ...formData, internalNotes: e.target.value })
+								}
 								placeholder="Internal notes (not visible to client)"
 								className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 							/>
@@ -318,15 +382,15 @@ export function FilingForm({ open, onOpenChange, filingId, onSuccess }: FilingFo
 							type="button"
 							variant="outline"
 							onClick={() => onOpenChange(false)}
-							disabled={createMutation.isLoading || updateMutation.isLoading}
+							disabled={createMutation.isPending || updateMutation.isPending}
 						>
 							Cancel
 						</Button>
 						<Button
 							type="submit"
-							disabled={createMutation.isLoading || updateMutation.isLoading}
+							disabled={createMutation.isPending || updateMutation.isPending}
 						>
-							{createMutation.isLoading || updateMutation.isLoading
+							{createMutation.isPending || updateMutation.isPending
 								? "Saving..."
 								: filingId
 									? "Update Filing"

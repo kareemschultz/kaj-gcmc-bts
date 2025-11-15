@@ -1,15 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { trpc } from "@/utils/trpc";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
-import { Select } from "@/components/ui/select";
+import { AlertTriangle, Plus, Search } from "lucide-react";
 import Link from "next/link";
-import { Plus, Search, AlertTriangle } from "lucide-react";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
+import { trpc } from "@/utils/trpc";
 
 export function FilingsList() {
 	const [search, setSearch] = useState("");
@@ -30,27 +36,38 @@ export function FilingsList() {
 		return (
 			<Card>
 				<CardContent className="pt-6">
-					<p className="text-destructive">Error loading filings: {error.message}</p>
+					<p className="text-destructive">
+						Error loading filings: {error.message}
+					</p>
 				</CardContent>
 			</Card>
 		);
 	}
 
 	const getStatusBadge = (status: string) => {
-		const variants: Record<string, "success" | "warning" | "destructive" | "secondary" | "info"> = {
+		const variants: Record<
+			string,
+			"success" | "warning" | "destructive" | "secondary"
+		> = {
 			draft: "secondary",
-			prepared: "info",
+			prepared: "secondary",
 			submitted: "warning",
 			approved: "success",
 			rejected: "destructive",
 			overdue: "destructive",
 			archived: "secondary",
 		};
-		return <Badge variant={variants[status] || "secondary"}>{status.replace("_", " ")}</Badge>;
+		return (
+			<Badge variant={variants[status] || "secondary"}>
+				{status.replace("_", " ")}
+			</Badge>
+		);
 	};
 
 	const isOverdue = (filingId: number) => {
-		return overdueFiling?.some((filing) => filing.id === filingId);
+		return overdueFiling?.some(
+			(filing: (typeof overdueFiling)[number]) => filing.id === filingId,
+		);
 	};
 
 	return (
@@ -63,15 +80,16 @@ export function FilingsList() {
 							Overdue Filings
 						</CardTitle>
 						<CardDescription className="text-red-800">
-							{overdueFiling.length} overdue filing(s) require immediate attention
+							{overdueFiling.length} overdue filing(s) require immediate
+							attention
 						</CardDescription>
 					</CardHeader>
 				</Card>
 			)}
 
-			<div className="flex gap-4 flex-wrap">
-				<div className="relative flex-1 min-w-[200px]">
-					<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+			<div className="flex flex-wrap gap-4">
+				<div className="relative min-w-[200px] flex-1">
+					<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
 					<Input
 						placeholder="Search filings..."
 						value={search}
@@ -100,7 +118,7 @@ export function FilingsList() {
 				</Select>
 				<Link href="/filings/new">
 					<Button>
-						<Plus className="h-4 w-4 mr-2" />
+						<Plus className="mr-2 h-4 w-4" />
 						New Filing
 					</Button>
 				</Link>
@@ -115,7 +133,7 @@ export function FilingsList() {
 								<Skeleton className="h-4 w-24" />
 							</CardHeader>
 							<CardContent>
-								<Skeleton className="h-4 w-full mb-2" />
+								<Skeleton className="mb-2 h-4 w-full" />
 								<Skeleton className="h-4 w-3/4" />
 							</CardContent>
 						</Card>
@@ -124,16 +142,18 @@ export function FilingsList() {
 			) : (
 				<>
 					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-						{data?.filings.map((filing) => (
+						{data?.filings.map((filing: (typeof data.filings)[number]) => (
 							<Link key={filing.id} href={`/filings/${filing.id}`}>
 								<Card
-									className={`hover:shadow-lg transition-shadow cursor-pointer ${
+									className={`cursor-pointer transition-shadow hover:shadow-lg ${
 										isOverdue(filing.id) ? "border-red-500" : ""
 									}`}
 								>
 									<CardHeader>
 										<div className="flex items-start justify-between">
-											<CardTitle className="text-lg">{filing.filingType.name}</CardTitle>
+											<CardTitle className="text-lg">
+												{filing.filingType.name}
+											</CardTitle>
 											{isOverdue(filing.id) && (
 												<AlertTriangle className="h-4 w-4 text-red-500" />
 											)}
@@ -145,7 +165,9 @@ export function FilingsList() {
 									<CardContent>
 										<div className="space-y-2 text-sm">
 											{filing.client && (
-												<p className="text-muted-foreground">Client: {filing.client.name}</p>
+												<p className="text-muted-foreground">
+													Client: {filing.client.name}
+												</p>
 											)}
 											<div className="flex items-center gap-2">
 												<span>Status:</span>
@@ -153,7 +175,8 @@ export function FilingsList() {
 											</div>
 											{filing.periodEnd && (
 												<p className="text-muted-foreground text-xs">
-													Period End: {new Date(filing.periodEnd).toLocaleDateString()}
+													Period End:{" "}
+													{new Date(filing.periodEnd).toLocaleDateString()}
 												</p>
 											)}
 											{filing.referenceNumber && (
@@ -161,7 +184,7 @@ export function FilingsList() {
 													Ref: {filing.referenceNumber}
 												</p>
 											)}
-											<div className="flex gap-4 mt-3 text-xs text-muted-foreground">
+											<div className="mt-3 flex gap-4 text-muted-foreground text-xs">
 												<span>{filing._count.documents} doc(s)</span>
 												<span>{filing._count.tasks} task(s)</span>
 											</div>
@@ -181,7 +204,7 @@ export function FilingsList() {
 					)}
 
 					{data && data.pagination.totalPages > 1 && (
-						<div className="flex justify-center gap-2 mt-6">
+						<div className="mt-6 flex justify-center gap-2">
 							<Button
 								variant="outline"
 								onClick={() => setPage((p) => Math.max(1, p - 1))}

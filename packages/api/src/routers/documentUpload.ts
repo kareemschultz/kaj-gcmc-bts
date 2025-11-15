@@ -50,7 +50,7 @@ export const documentUploadRouter = router({
 
 			// Generate unique file key
 			const timestamp = Date.now();
-			const fileKey = `documents/${document.clientId}/${input.documentId}/${timestamp}-${input.fileName}`;
+			const _fileKey = `documents/${document.clientId}/${input.documentId}/${timestamp}-${input.fileName}`;
 
 			try {
 				// Generate presigned upload URL
@@ -90,7 +90,7 @@ export const documentUploadRouter = router({
 				issuingAuthority: z.string().optional(),
 				ocrText: z.string().optional(),
 				aiSummary: z.string().optional(),
-				metadata: z.record(z.any()).optional(),
+				metadata: z.record(z.string(), z.any()).optional(),
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -272,10 +272,7 @@ export const documentUploadRouter = router({
 
 			// Delete file from storage
 			try {
-				await deleteFile(
-					ctx.tenantId,
-					version.fileUrl,
-				);
+				await deleteFile(ctx.tenantId, version.fileUrl);
 			} catch (error) {
 				// Log error but continue with database deletion
 				console.error("Failed to delete file from storage:", error);

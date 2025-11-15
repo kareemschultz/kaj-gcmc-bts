@@ -18,7 +18,7 @@ export const notificationSchema = z.object({
 	type: z.enum(["email", "in_app", "sms"]),
 	channelStatus: z.enum(["pending", "sent", "failed"]),
 	message: z.string().min(1),
-	metadata: z.record(z.any()).optional(),
+	metadata: z.record(z.string(), z.any()).optional(),
 });
 
 /**

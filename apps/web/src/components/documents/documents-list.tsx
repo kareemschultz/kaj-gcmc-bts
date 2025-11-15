@@ -1,15 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { trpc } from "@/utils/trpc";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
-import { Select } from "@/components/ui/select";
+import { AlertTriangle, Search, Upload } from "lucide-react";
 import Link from "next/link";
-import { Upload, Search, Download, AlertTriangle } from "lucide-react";
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
+import { trpc } from "@/utils/trpc";
 import { DocumentUploadDialog } from "./document-upload-dialog";
 
 export function DocumentsList() {
@@ -34,24 +40,35 @@ export function DocumentsList() {
 		return (
 			<Card>
 				<CardContent className="pt-6">
-					<p className="text-destructive">Error loading documents: {error.message}</p>
+					<p className="text-destructive">
+						Error loading documents: {error.message}
+					</p>
 				</CardContent>
 			</Card>
 		);
 	}
 
 	const getStatusBadge = (status: string) => {
-		const variants: Record<string, "success" | "warning" | "destructive" | "secondary"> = {
+		const variants: Record<
+			string,
+			"success" | "warning" | "destructive" | "secondary"
+		> = {
 			valid: "success",
 			pending_review: "warning",
 			expired: "destructive",
 			rejected: "destructive",
 		};
-		return <Badge variant={variants[status] || "secondary"}>{status.replace("_", " ")}</Badge>;
+		return (
+			<Badge variant={variants[status] || "secondary"}>
+				{status.replace("_", " ")}
+			</Badge>
+		);
 	};
 
 	const isExpiringSoon = (documentId: number) => {
-		return expiringDocs?.some((doc) => doc.id === documentId);
+		return expiringDocs?.some(
+			(doc: (typeof expiringDocs)[number]) => doc.id === documentId,
+		);
 	};
 
 	return (
@@ -70,9 +87,9 @@ export function DocumentsList() {
 				</Card>
 			)}
 
-			<div className="flex gap-4 flex-wrap">
-				<div className="relative flex-1 min-w-[200px]">
-					<Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+			<div className="flex flex-wrap gap-4">
+				<div className="relative min-w-[200px] flex-1">
+					<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
 					<Input
 						placeholder="Search documents..."
 						value={search}
@@ -97,7 +114,7 @@ export function DocumentsList() {
 					<option value="rejected">Rejected</option>
 				</Select>
 				<Button onClick={() => setUploadOpen(true)}>
-					<Upload className="h-4 w-4 mr-2" />
+					<Upload className="mr-2 h-4 w-4" />
 					Upload Document
 				</Button>
 			</div>
@@ -111,7 +128,7 @@ export function DocumentsList() {
 								<Skeleton className="h-4 w-24" />
 							</CardHeader>
 							<CardContent>
-								<Skeleton className="h-4 w-full mb-2" />
+								<Skeleton className="mb-2 h-4 w-full" />
 								<Skeleton className="h-4 w-3/4" />
 							</CardContent>
 						</Card>
@@ -120,44 +137,55 @@ export function DocumentsList() {
 			) : (
 				<>
 					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-						{data?.documents.map((document) => (
-							<Link key={document.id} href={`/documents/${document.id}`}>
-								<Card
-									className={`hover:shadow-lg transition-shadow cursor-pointer ${
-										isExpiringSoon(document.id) ? "border-yellow-500" : ""
-									}`}
-								>
-									<CardHeader>
-										<div className="flex items-start justify-between">
-											<CardTitle className="text-lg">{document.title}</CardTitle>
-											{isExpiringSoon(document.id) && (
-												<AlertTriangle className="h-4 w-4 text-yellow-500" />
-											)}
-										</div>
-										<CardDescription>{document.documentType.name}</CardDescription>
-									</CardHeader>
-									<CardContent>
-										<div className="space-y-2 text-sm">
-											{document.client && (
-												<p className="text-muted-foreground">Client: {document.client.name}</p>
-											)}
-											<div className="flex items-center gap-2">
-												<span>Status:</span>
-												{getStatusBadge(document.status)}
+						{data?.documents.map(
+							(document: (typeof data.documents)[number]) => (
+								<Link key={document.id} href={`/documents/${document.id}`}>
+									<Card
+										className={`cursor-pointer transition-shadow hover:shadow-lg ${
+											isExpiringSoon(document.id) ? "border-yellow-500" : ""
+										}`}
+									>
+										<CardHeader>
+											<div className="flex items-start justify-between">
+												<CardTitle className="text-lg">
+													{document.title}
+												</CardTitle>
+												{isExpiringSoon(document.id) && (
+													<AlertTriangle className="h-4 w-4 text-yellow-500" />
+												)}
 											</div>
-											{document.latestVersion?.expiryDate && (
-												<p className="text-muted-foreground text-xs">
-													Expires: {new Date(document.latestVersion.expiryDate).toLocaleDateString()}
-												</p>
-											)}
-											<div className="flex gap-4 mt-3 text-xs text-muted-foreground">
-												<span>{document._count.versions} version(s)</span>
+											<CardDescription>
+												{document.documentType.name}
+											</CardDescription>
+										</CardHeader>
+										<CardContent>
+											<div className="space-y-2 text-sm">
+												{document.client && (
+													<p className="text-muted-foreground">
+														Client: {document.client.name}
+													</p>
+												)}
+												<div className="flex items-center gap-2">
+													<span>Status:</span>
+													{getStatusBadge(document.status)}
+												</div>
+												{document.latestVersion?.expiryDate && (
+													<p className="text-muted-foreground text-xs">
+														Expires:{" "}
+														{new Date(
+															document.latestVersion.expiryDate,
+														).toLocaleDateString()}
+													</p>
+												)}
+												<div className="mt-3 flex gap-4 text-muted-foreground text-xs">
+													<span>{document._count.versions} version(s)</span>
+												</div>
 											</div>
-										</div>
-									</CardContent>
-								</Card>
-							</Link>
-						))}
+										</CardContent>
+									</Card>
+								</Link>
+							),
+						)}
 					</div>
 
 					{data && data.documents.length === 0 && (
@@ -169,7 +197,7 @@ export function DocumentsList() {
 					)}
 
 					{data && data.pagination.totalPages > 1 && (
-						<div className="flex justify-center gap-2 mt-6">
+						<div className="mt-6 flex justify-center gap-2">
 							<Button
 								variant="outline"
 								onClick={() => setPage((p) => Math.max(1, p - 1))}

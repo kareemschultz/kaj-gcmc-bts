@@ -52,7 +52,7 @@ export async function ensureBucket(tenantId: number): Promise<void> {
 export async function generatePresignedUploadUrl(
 	tenantId: number,
 	fileName: string,
-	contentType?: string,
+	_contentType?: string,
 ): Promise<{ uploadUrl: string; filePath: string }> {
 	const bucketName = getTenantBucketName(tenantId);
 

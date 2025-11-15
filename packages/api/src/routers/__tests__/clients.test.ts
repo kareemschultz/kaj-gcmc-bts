@@ -8,15 +8,15 @@
  * - Test search and pagination
  */
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { clientsRouter } from "../clients";
-import {
-	setupTestDb,
-	cleanupTestDb,
-	testFixtures,
-	createTestClient,
-} from "../../__tests__/helpers/test-db";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { testContexts } from "../../__tests__/helpers/test-context";
+import {
+	cleanupTestDb,
+	createTestClient,
+	setupTestDb,
+	testFixtures,
+} from "../../__tests__/helpers/test-db";
+import { clientsRouter } from "../clients";
 
 describe("Clients Router", () => {
 	beforeEach(async () => {
@@ -100,14 +100,18 @@ describe("Clients Router", () => {
 			const ctx = testContexts.firmAdmin();
 			const caller = clientsRouter.createCaller(ctx);
 
-			await expect(caller.list({ page: 1, pageSize: 10 })).resolves.toBeDefined();
+			await expect(
+				caller.list({ page: 1, pageSize: 10 }),
+			).resolves.toBeDefined();
 		});
 
 		it("should allow Viewer to view clients", async () => {
 			const ctx = testContexts.viewer();
 			const caller = clientsRouter.createCaller(ctx);
 
-			await expect(caller.list({ page: 1, pageSize: 10 })).resolves.toBeDefined();
+			await expect(
+				caller.list({ page: 1, pageSize: 10 }),
+			).resolves.toBeDefined();
 		});
 	});
 
@@ -257,7 +261,7 @@ describe("Clients Router", () => {
 		});
 
 		it("should enforce tenant isolation on update", async () => {
-			const tenant1Ctx = testContexts.firmAdmin(
+			const _tenant1Ctx = testContexts.firmAdmin(
 				"test-firmadmin-1",
 				testFixtures.tenant.id,
 			);

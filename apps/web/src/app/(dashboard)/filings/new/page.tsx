@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
 import { FilingFormPage } from "@/components/filings/filing-form-page";
+import { authClient } from "@/lib/auth-client";
 
 export default async function NewFilingPage() {
 	const session = await authClient.getSession({

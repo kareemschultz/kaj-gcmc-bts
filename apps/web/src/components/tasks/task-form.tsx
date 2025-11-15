@@ -1,13 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { trpc } from "@/utils/trpc";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
-import { toast } from "sonner";
+import { trpc } from "@/utils/trpc";
 
 interface TaskFormProps {
 	open: boolean;
@@ -16,7 +22,12 @@ interface TaskFormProps {
 	onSuccess?: () => void;
 }
 
-export function TaskForm({ open, onOpenChange, taskId, onSuccess }: TaskFormProps) {
+export function TaskForm({
+	open,
+	onOpenChange,
+	taskId,
+	onSuccess,
+}: TaskFormProps) {
 	const [formData, setFormData] = useState({
 		title: "",
 		description: "",
@@ -31,7 +42,7 @@ export function TaskForm({ open, onOpenChange, taskId, onSuccess }: TaskFormProp
 	// Get task data if editing
 	const { data: task } = trpc.tasks.get.useQuery(
 		{ id: taskId! },
-		{ enabled: !!taskId }
+		{ enabled: !!taskId },
 	);
 
 	// Get clients for dropdown
@@ -72,7 +83,9 @@ export function TaskForm({ open, onOpenChange, taskId, onSuccess }: TaskFormProp
 				description: task.description || "",
 				status: task.status,
 				priority: task.priority || "medium",
-				dueDate: task.dueDate ? new Date(task.dueDate).toISOString().split("T")[0] : "",
+				dueDate: task.dueDate
+					? new Date(task.dueDate).toISOString().split("T")[0]
+					: "",
 				clientId: task.clientId?.toString() || "",
 			});
 		} else {
@@ -101,8 +114,12 @@ export function TaskForm({ open, onOpenChange, taskId, onSuccess }: TaskFormProp
 			description: formData.description || undefined,
 			status: formData.status,
 			priority: formData.priority,
-			dueDate: formData.dueDate ? new Date(formData.dueDate).toISOString() : undefined,
-			clientId: formData.clientId ? parseInt(formData.clientId) : undefined,
+			dueDate: formData.dueDate
+				? new Date(formData.dueDate).toISOString()
+				: undefined,
+			clientId: formData.clientId
+				? Number.parseInt(formData.clientId, 10)
+				: undefined,
 		};
 
 		if (taskId) {
@@ -129,7 +146,9 @@ export function TaskForm({ open, onOpenChange, taskId, onSuccess }: TaskFormProp
 							<Input
 								id="title"
 								value={formData.title}
-								onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+								onChange={(e) =>
+									setFormData({ ...formData, title: e.target.value })
+								}
 								placeholder="Task title"
 								required
 							/>
@@ -140,7 +159,9 @@ export function TaskForm({ open, onOpenChange, taskId, onSuccess }: TaskFormProp
 							<textarea
 								id="description"
 								value={formData.description}
-								onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+								onChange={(e) =>
+									setFormData({ ...formData, description: e.target.value })
+								}
 								placeholder="Task description"
 								className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 							/>
@@ -192,7 +213,9 @@ export function TaskForm({ open, onOpenChange, taskId, onSuccess }: TaskFormProp
 								id="dueDate"
 								type="date"
 								value={formData.dueDate}
-								onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+								onChange={(e) =>
+									setFormData({ ...formData, dueDate: e.target.value })
+								}
 							/>
 						</div>
 
@@ -201,14 +224,18 @@ export function TaskForm({ open, onOpenChange, taskId, onSuccess }: TaskFormProp
 							<Select
 								id="clientId"
 								value={formData.clientId}
-								onChange={(e) => setFormData({ ...formData, clientId: e.target.value })}
+								onChange={(e) =>
+									setFormData({ ...formData, clientId: e.target.value })
+								}
 							>
 								<option value="">Select a client</option>
-								{clientsData?.clients.map((client) => (
-									<option key={client.id} value={client.id}>
-										{client.name}
-									</option>
-								))}
+								{clientsData?.clients.map(
+									(client: (typeof clientsData.clients)[number]) => (
+										<option key={client.id} value={client.id}>
+											{client.name}
+										</option>
+									),
+								)}
 							</Select>
 						</div>
 					</div>
@@ -218,15 +245,15 @@ export function TaskForm({ open, onOpenChange, taskId, onSuccess }: TaskFormProp
 							type="button"
 							variant="outline"
 							onClick={() => onOpenChange(false)}
-							disabled={createMutation.isLoading || updateMutation.isLoading}
+							disabled={createMutation.isPending || updateMutation.isPending}
 						>
 							Cancel
 						</Button>
 						<Button
 							type="submit"
-							disabled={createMutation.isLoading || updateMutation.isLoading}
+							disabled={createMutation.isPending || updateMutation.isPending}
 						>
-							{createMutation.isLoading || updateMutation.isLoading
+							{createMutation.isPending || updateMutation.isPending
 								? "Saving..."
 								: taskId
 									? "Update Task"

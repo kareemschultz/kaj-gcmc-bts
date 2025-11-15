@@ -4,23 +4,23 @@
  * Comprehensive tests for permission checking across all roles and modules
  */
 
-import { describe, it, expect } from "vitest";
+import type { UserRole } from "@GCMC-KAJ/types";
+import { describe, expect, it } from "vitest";
 import {
-	hasPermission,
-	assertPermission,
-	canViewModule,
-	canCreateEntity,
-	canEditEntity,
-	canDeleteEntity,
 	assertAdmin,
-	isSuperAdmin,
-	isAdmin,
-	getUserPermissions,
-	getUserModules,
+	assertPermission,
+	canCreateEntity,
+	canDeleteEntity,
+	canEditEntity,
+	canViewModule,
 	ForbiddenError,
+	getUserModules,
+	getUserPermissions,
+	hasPermission,
+	isAdmin,
+	isSuperAdmin,
 	type UserPermissionContext,
 } from "../permissions";
-import type { UserRole } from "@GCMC-KAJ/types";
 
 describe("RBAC Permissions", () => {
 	const createUser = (
@@ -275,16 +275,14 @@ describe("RBAC Permissions", () => {
 	describe("assertPermission", () => {
 		it("should not throw for valid permissions", () => {
 			const user = createUser("FirmAdmin");
-			expect(() =>
-				assertPermission(user, "clients", "view"),
-			).not.toThrow();
+			expect(() => assertPermission(user, "clients", "view")).not.toThrow();
 		});
 
 		it("should throw ForbiddenError for invalid permissions", () => {
 			const user = createUser("Viewer");
-			expect(() =>
-				assertPermission(user, "clients", "create"),
-			).toThrow(ForbiddenError);
+			expect(() => assertPermission(user, "clients", "create")).toThrow(
+				ForbiddenError,
+			);
 		});
 
 		it("should use custom error message", () => {

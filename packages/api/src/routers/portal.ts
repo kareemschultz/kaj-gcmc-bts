@@ -14,7 +14,7 @@ import { protectedProcedure, router } from "../index";
  * Helper to get client IDs accessible by portal user
  */
 async function getPortalUserClientIds(
-	userId: string,
+	_userId: string,
 	tenantId: number,
 ): Promise<number[]> {
 	// Portal users should have client assignments stored somewhere
@@ -98,13 +98,13 @@ export const portalRouter = router({
 			const { page = 1, pageSize = 20 } = input || {};
 			const skip = (page - 1) * pageSize;
 
-			const clientIds = await getPortalUserClientIds(
-				ctx.user.id,
-				ctx.tenantId,
-			);
+			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
 
 			if (clientIds.length === 0) {
-				return { documents: [], pagination: { page, pageSize, total: 0, totalPages: 0 } };
+				return {
+					documents: [],
+					pagination: { page, pageSize, total: 0, totalPages: 0 },
+				};
 			}
 
 			const [documents, total] = await Promise.all([
@@ -156,13 +156,13 @@ export const portalRouter = router({
 			const { page = 1, pageSize = 20 } = input || {};
 			const skip = (page - 1) * pageSize;
 
-			const clientIds = await getPortalUserClientIds(
-				ctx.user.id,
-				ctx.tenantId,
-			);
+			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
 
 			if (clientIds.length === 0) {
-				return { filings: [], pagination: { page, pageSize, total: 0, totalPages: 0 } };
+				return {
+					filings: [],
+					pagination: { page, pageSize, total: 0, totalPages: 0 },
+				};
 			}
 
 			const [filings, total] = await Promise.all([
@@ -213,13 +213,13 @@ export const portalRouter = router({
 			const { page = 1, pageSize = 20 } = input || {};
 			const skip = (page - 1) * pageSize;
 
-			const clientIds = await getPortalUserClientIds(
-				ctx.user.id,
-				ctx.tenantId,
-			);
+			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
 
 			if (clientIds.length === 0) {
-				return { serviceRequests: [], pagination: { page, pageSize, total: 0, totalPages: 0 } };
+				return {
+					serviceRequests: [],
+					pagination: { page, pageSize, total: 0, totalPages: 0 },
+				};
 			}
 
 			const [serviceRequests, total] = await Promise.all([
@@ -274,13 +274,13 @@ export const portalRouter = router({
 			const { status, page = 1, pageSize = 20 } = input || {};
 			const skip = (page - 1) * pageSize;
 
-			const clientIds = await getPortalUserClientIds(
-				ctx.user.id,
-				ctx.tenantId,
-			);
+			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
 
 			if (clientIds.length === 0) {
-				return { tasks: [], pagination: { page, pageSize, total: 0, totalPages: 0 } };
+				return {
+					tasks: [],
+					pagination: { page, pageSize, total: 0, totalPages: 0 },
+				};
 			}
 
 			const where: any = {

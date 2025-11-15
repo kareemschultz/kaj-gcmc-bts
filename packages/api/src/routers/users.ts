@@ -48,12 +48,7 @@ export const usersRouter = router({
 				.optional(),
 		)
 		.query(async ({ ctx, input }) => {
-			const {
-				search = "",
-				roleId,
-				page = 1,
-				pageSize = 20,
-			} = input || {};
+			const { search = "", roleId, page = 1, pageSize = 20 } = input || {};
 
 			const skip = (page - 1) * pageSize;
 
@@ -107,7 +102,9 @@ export const usersRouter = router({
 					page,
 					pageSize,
 					total: search ? filteredUsers.length : total,
-					totalPages: Math.ceil((search ? filteredUsers.length : total) / pageSize),
+					totalPages: Math.ceil(
+						(search ? filteredUsers.length : total) / pageSize,
+					),
 				},
 			};
 		}),

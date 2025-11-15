@@ -8,10 +8,10 @@
  * - Total revenue (if applicable)
  */
 
-import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { format } from 'date-fns';
-import React from 'react';
-import { commonStyles, colors, getStatusStyle } from '../styles/common';
+import { Document, Page, Text, View } from "@react-pdf/renderer";
+import { format } from "date-fns";
+import type React from "react";
+import { colors, commonStyles, getStatusStyle } from "../styles/common";
 
 interface ServiceHistoryReportProps {
 	client: {
@@ -59,12 +59,23 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 
 	// Group by status
 	const activeRequests = sortedRequests.filter(
-		(sr) => sr.status === 'in_progress' || sr.status === 'new' || sr.status === 'awaiting_client' || sr.status === 'awaiting_authority',
+		(sr) =>
+			sr.status === "in_progress" ||
+			sr.status === "new" ||
+			sr.status === "awaiting_client" ||
+			sr.status === "awaiting_authority",
 	);
-	const completedRequests = sortedRequests.filter((sr) => sr.status === 'completed');
-	const cancelledRequests = sortedRequests.filter((sr) => sr.status === 'cancelled');
+	const completedRequests = sortedRequests.filter(
+		(sr) => sr.status === "completed",
+	);
+	const cancelledRequests = sortedRequests.filter(
+		(sr) => sr.status === "cancelled",
+	);
 
-	const renderServiceRequestsTable = (requests: typeof serviceRequests, title: string) => {
+	const renderServiceRequestsTable = (
+		requests: typeof serviceRequests,
+		title: string,
+	) => {
 		if (requests.length === 0) return null;
 
 		return (
@@ -83,13 +94,21 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 							borderRadius: 4,
 							borderWidth: 1,
 							borderColor: colors.border,
-							borderStyle: 'solid',
+							borderStyle: "solid",
 						}}
 					>
 						{/* Service Request Header */}
-						<View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+						<View
+							style={{
+								flexDirection: "row",
+								justifyContent: "space-between",
+								marginBottom: 8,
+							}}
+						>
 							<View style={{ flex: 1 }}>
-								<Text style={{ fontSize: 11, fontWeight: 'bold', marginBottom: 3 }}>
+								<Text
+									style={{ fontSize: 11, fontWeight: "bold", marginBottom: 3 }}
+								>
 									{request.serviceName}
 								</Text>
 								{request.businessName && (
@@ -99,20 +118,22 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 								)}
 							</View>
 							<View>
-								<Text style={getStatusStyle(request.status)}>{request.status}</Text>
+								<Text style={getStatusStyle(request.status)}>
+									{request.status}
+								</Text>
 							</View>
 						</View>
 
 						{/* Service Request Details */}
-						<View style={{ flexDirection: 'row', marginBottom: 8 }}>
+						<View style={{ flexDirection: "row", marginBottom: 8 }}>
 							<View style={{ flex: 1 }}>
 								<Text style={{ fontSize: 9, color: colors.textLight }}>
-									Created: {format(request.createdAt, 'MMM dd, yyyy')}
+									Created: {format(request.createdAt, "MMM dd, yyyy")}
 								</Text>
 							</View>
 							<View style={{ flex: 1 }}>
 								<Text style={{ fontSize: 9, color: colors.textLight }}>
-									Updated: {format(request.updatedAt, 'MMM dd, yyyy')}
+									Updated: {format(request.updatedAt, "MMM dd, yyyy")}
 								</Text>
 							</View>
 							{request.priority && (
@@ -130,20 +151,21 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 								<Text
 									style={{
 										fontSize: 9,
-										fontWeight: 'bold',
+										fontWeight: "bold",
 										marginTop: 5,
 										marginBottom: 5,
 										color: colors.text,
 									}}
 								>
-									Steps ({request.steps.filter((s) => s.status === 'done').length}/
+									Steps (
+									{request.steps.filter((s) => s.status === "done").length}/
 									{request.steps.length} completed):
 								</Text>
 								{request.steps.map((step, stepIndex) => (
 									<View
 										key={stepIndex}
 										style={{
-											flexDirection: 'row',
+											flexDirection: "row",
 											marginBottom: 3,
 											paddingLeft: 10,
 										}}
@@ -153,19 +175,23 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 												fontSize: 8,
 												width: 15,
 												color:
-													step.status === 'done'
+													step.status === "done"
 														? colors.success
-														: step.status === 'in_progress'
+														: step.status === "in_progress"
 															? colors.warning
 															: colors.textLight,
 											}}
 										>
-											{step.status === 'done' ? '✓' : step.status === 'in_progress' ? '→' : '○'}
+											{step.status === "done"
+												? "✓"
+												: step.status === "in_progress"
+													? "→"
+													: "○"}
 										</Text>
 										<Text style={{ fontSize: 8, flex: 1 }}>{step.title}</Text>
 										{step.dueDate && (
 											<Text style={{ fontSize: 8, color: colors.textLight }}>
-												Due: {format(step.dueDate, 'MMM dd')}
+												Due: {format(step.dueDate, "MMM dd")}
 											</Text>
 										)}
 									</View>
@@ -186,7 +212,8 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 					<Text style={commonStyles.companyName}>{tenantName}</Text>
 					<Text style={commonStyles.reportTitle}>Service History Report</Text>
 					<Text style={commonStyles.subtitle}>
-						Client: {client.name} • Generated on {format(generatedAt, 'MMMM dd, yyyy HH:mm')}
+						Client: {client.name} • Generated on{" "}
+						{format(generatedAt, "MMMM dd, yyyy HH:mm")}
 					</Text>
 				</View>
 
@@ -214,7 +241,9 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 					<View style={commonStyles.statsContainer}>
 						<View style={commonStyles.statBox}>
 							<Text style={commonStyles.statLabel}>Total Requests</Text>
-							<Text style={commonStyles.statValue}>{summary.totalRequests}</Text>
+							<Text style={commonStyles.statValue}>
+								{summary.totalRequests}
+							</Text>
 						</View>
 						<View style={commonStyles.statBox}>
 							<Text style={commonStyles.statLabel}>Completed</Text>
@@ -230,7 +259,9 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 						</View>
 						<View style={commonStyles.statBox}>
 							<Text style={commonStyles.statLabel}>Cancelled</Text>
-							<Text style={[commonStyles.statValue, { color: colors.secondary }]}>
+							<Text
+								style={[commonStyles.statValue, { color: colors.secondary }]}
+							>
 								{summary.cancelled}
 							</Text>
 						</View>
@@ -243,14 +274,24 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 								padding: 12,
 								backgroundColor: colors.background,
 								borderRadius: 4,
-								alignItems: 'center',
+								alignItems: "center",
 							}}
 						>
-							<Text style={{ fontSize: 10, color: colors.textLight, marginBottom: 5 }}>
+							<Text
+								style={{
+									fontSize: 10,
+									color: colors.textLight,
+									marginBottom: 5,
+								}}
+							>
 								Total Revenue
 							</Text>
 							<Text
-								style={{ fontSize: 24, fontWeight: 'bold', color: colors.primary }}
+								style={{
+									fontSize: 24,
+									fontWeight: "bold",
+									color: colors.primary,
+								}}
 							>
 								${summary.totalRevenue.toFixed(2)}
 							</Text>
@@ -262,7 +303,9 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 				<View style={commonStyles.pageFooter}>
 					<Text>Service History Report - {client.name}</Text>
 					<Text
-						render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
+						render={({ pageNumber, totalPages }) =>
+							`Page ${pageNumber} of ${totalPages}`
+						}
 						fixed
 					/>
 				</View>
@@ -281,18 +324,31 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 					</View>
 
 					{/* Active Service Requests */}
-					{renderServiceRequestsTable(activeRequests, 'Active Service Requests')}
+					{renderServiceRequestsTable(
+						activeRequests,
+						"Active Service Requests",
+					)}
 
 					{/* Completed Service Requests */}
-					{renderServiceRequestsTable(completedRequests, 'Completed Service Requests')}
+					{renderServiceRequestsTable(
+						completedRequests,
+						"Completed Service Requests",
+					)}
 
 					{/* Cancelled Service Requests */}
-					{renderServiceRequestsTable(cancelledRequests, 'Cancelled Service Requests')}
+					{renderServiceRequestsTable(
+						cancelledRequests,
+						"Cancelled Service Requests",
+					)}
 
 					{serviceRequests.length === 0 && (
 						<View style={commonStyles.section}>
 							<Text
-								style={{ fontSize: 11, color: colors.textLight, textAlign: 'center' }}
+								style={{
+									fontSize: 11,
+									color: colors.textLight,
+									textAlign: "center",
+								}}
 							>
 								No service requests found for this client.
 							</Text>
@@ -303,7 +359,9 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 					<View style={commonStyles.pageFooter}>
 						<Text>Service History Report - {client.name}</Text>
 						<Text
-							render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
+							render={({ pageNumber, totalPages }) =>
+								`Page ${pageNumber} of ${totalPages}`
+							}
 							fixed
 						/>
 					</View>

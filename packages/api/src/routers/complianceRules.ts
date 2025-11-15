@@ -15,7 +15,7 @@ import { rbacProcedure, router } from "../index";
  */
 export const ruleSetSchema = z.object({
 	name: z.string().min(1).max(255),
-	appliesTo: z.record(z.any()).optional(),
+	appliesTo: z.record(z.string(), z.any()).optional(),
 	active: z.boolean().default(true),
 });
 
@@ -25,7 +25,7 @@ export const ruleSetSchema = z.object({
 export const complianceRuleSchema = z.object({
 	ruleSetId: z.number(),
 	ruleType: z.string().min(1),
-	condition: z.record(z.any()).optional(),
+	condition: z.record(z.string(), z.any()).optional(),
 	targetId: z.number().optional(),
 	weight: z.number(),
 	description: z.string().optional(),
