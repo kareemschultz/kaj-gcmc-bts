@@ -17,6 +17,7 @@ Enterprise-grade compliance and client management platform built with Better-T S
 
 ## Features
 
+### Core Platform
 - **Multi-Tenant Architecture**: Complete tenant isolation at database and application level
 - **Role-Based Access Control (RBAC)**: 8 roles with granular permissions
 - **Client Management**: Individual, company, and partnership clients
@@ -26,28 +27,66 @@ Enterprise-grade compliance and client management platform built with Better-T S
 - **Service Requests**: Workflow-based service delivery
 - **Task Management**: Internal tasks and client-facing tasks
 - **Messaging**: Conversations and notifications
-- **Analytics Dashboard**: Compliance metrics, client statistics
-- **Client Portal**: Self-service portal for clients
 - **Audit Logging**: Complete audit trail for all operations
+
+### Client Portal (NEW!)
+- Dedicated Next.js app for client self-service
+- Document access and download
+- Filing status tracking
+- Task completion
+- Direct messaging with account managers
+- Profile management
+- Mobile-responsive design
+
+### Analytics & Reporting
+- **5 Analytics Dashboards**: Overview, Clients, Documents, Filings, Compliance
+- **20+ Interactive Charts**: Line, bar, pie, and trend charts using Recharts
+- **KPI Cards**: Revenue, client growth, compliance scores
+- **Data Export**: CSV, PNG, PDF export functionality
+- **Real-time Updates**: Auto-refreshing dashboards
+- **Date Range Filtering**: Custom time period analysis
+
+### Email & Notifications
+- **7 Professional Email Templates**: React Email with responsive design
+- **Automated Emails**: Welcome, document expiry, filing reminders, task assignments
+- **SMTP Integration**: Resend API support
+- **Background Processing**: BullMQ job queue for async email delivery
+- **Development Preview**: Email preview mode for testing
+
+### CI/CD & DevOps
+- **GitHub Actions Workflows**: CI, deployment, PR checks, database migrations
+- **Docker Support**: Multi-stage builds with health checks
+- **Automated Testing**: E2E tests with Playwright
+- **Dependency Management**: Automated updates with Dependabot
+- **Production Ready**: Docker Compose for production deployment
+
+### Testing
+- **50+ E2E Tests**: Playwright test coverage for all critical flows
+- **Test Utilities**: Database seeding, auth helpers, fixtures
+- **CI Integration**: Automated test runs on every commit
+- **Visual Regression**: Screenshots and videos on failure
 
 ## Project Structure
 
 ```
 GCMC-KAJ/
 ├── apps/
-│   ├── web/              # Next.js frontend (port 3001)
+│   ├── web/              # Next.js admin frontend (port 3001)
+│   ├── portal/           # Next.js client portal (port 3002) ✨NEW
 │   ├── server/           # Hono API server (port 3000)
 │   └── worker/           # BullMQ background jobs
 ├── packages/
 │   ├── api/              # tRPC routers and business logic
 │   ├── auth/             # Better-Auth configuration
 │   ├── db/               # Prisma schema and client
+│   ├── email/            # Email templates and service ✨NEW
 │   ├── types/            # Shared TypeScript types
 │   ├── rbac/             # Role-based access control
 │   ├── storage/          # MinIO storage utilities
-│   ├── compliance/       # Compliance engine (TODO)
-│   ├── queue/            # BullMQ job definitions (TODO)
+│   ├── reports/          # PDF report generation
 │   └── config/           # Shared configuration
+├── tests/                # E2E tests with Playwright ✨NEW
+└── .github/              # CI/CD workflows ✨NEW
 ├── docker-compose.yml    # Full stack orchestration
 └── .env.example          # Environment variables template
 ```
