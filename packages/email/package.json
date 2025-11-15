@@ -21,7 +21,7 @@
 	"dependencies": {
 		"@GCMC-KAJ/db": "workspace:*",
 		"@GCMC-KAJ/types": "workspace:*",
-		"@react-email/components": "^0.0.31",
+		"@react-email/components": "^1.0.1",
 		"@react-email/render": "^1.0.1",
 		"react": "^18.3.1",
 		"react-email": "^3.0.3",
