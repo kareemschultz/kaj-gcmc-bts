@@ -1,5 +1,6 @@
 {
-	"name": "@GCMC-KAJ/api",
+	"name": "@GCMC-KAJ/reports",
+	"type": "module",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
@@ -10,7 +11,6 @@
 			"default": "./src/*.ts"
 		}
 	},
-	"type": "module",
 	"scripts": {
 		"build": "tsdown"
 	},
@@ -22,15 +22,11 @@
 		"typescript": "^5"
 	},
 	"dependencies": {
-		"@trpc/server": "catalog:",
-		"@trpc/client": "catalog:",
-		"hono": "catalog:",
-		"dotenv": "catalog:",
+		"@react-pdf/renderer": "^4.2.0",
+		"date-fns": "^4.1.0",
+		"react": "^19.0.0",
 		"zod": "catalog:",
-		"@GCMC-KAJ/auth": "workspace:*",
 		"@GCMC-KAJ/db": "workspace:*",
-		"@GCMC-KAJ/types": "workspace:*",
-		"@GCMC-KAJ/rbac": "workspace:*",
-		"@GCMC-KAJ/reports": "workspace:*"
+		"@GCMC-KAJ/types": "workspace:*"
 	}
 }
