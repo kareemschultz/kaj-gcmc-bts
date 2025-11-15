@@ -211,12 +211,25 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/gcmc_kaj
       REDIS_URL: redis://redis:6379
       HEALTH_PORT: 3002
+      # MinIO configuration for file processing jobs
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_USE_SSL: false
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_REGION: us-east-1
+      # Email configuration
+      PORTAL_URL: http://localhost:3002
+      SUPPORT_EMAIL: support@example.com
+      EMAIL_PROVIDER: log
     ports:
       - "3002:3002"
     depends_on:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      minio:
         condition: service_healthy
     restart: unless-stopped
     deploy:

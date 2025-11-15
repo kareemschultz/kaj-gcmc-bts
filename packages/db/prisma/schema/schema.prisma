@@ -37,6 +37,8 @@ model User {
   notifications Notification[] @relation("NotificationRecipient")
   auditLogs     AuditLog[]     @relation("AuditActor")
 
+  @@index([email])
+  @@index([createdAt])
   @@map("user")
 }
 
@@ -52,6 +54,7 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+  @@index([expiresAt])
   @@map("session")
 }
 
@@ -72,6 +75,8 @@ model Account {
   updatedAt             DateTime  @updatedAt
 
   @@index([userId])
+  @@index([providerId])
+  @@index([accountId])
   @@map("account")
 }
 
@@ -83,6 +88,8 @@ model Verification {
   createdAt  DateTime? @default(now())
   updatedAt  DateTime? @updatedAt
 
+  @@index([identifier, value])
+  @@index([expiresAt])
   @@map("verification")
 }
 
@@ -100,6 +107,7 @@ model Tenant {
   updatedAt   DateTime @updatedAt
 
   tenantUsers             TenantUser[]
+  roles                   Role[]
   clients                 Client[]
   clientBusinesses        ClientBusiness[]
   documentTypes           DocumentType[]
@@ -135,16 +143,24 @@ model TenantUser {
   role   Role   @relation(fields: [roleId], references: [id])
 
   @@unique([tenantId, userId])
+  @@index([userId])
+  @@index([tenantId])
+  @@index([roleId])
   @@map("tenant_users")
 }
 
 model Role {
   id          Int          @id @default(autoincrement())
-  name        String       @unique
+  tenantId    Int
+  name        String
   description String?
   permissions Permission[]
   tenantUsers TenantUser[]
 
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
   @@map("roles")
 }
 
@@ -158,6 +174,7 @@ model Permission {
   role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
   @@unique([roleId, module, action])
+  @@index([roleId])
   @@map("permissions")
 }
 
@@ -660,6 +677,7 @@ model Message {
   @@index([authorId])
   @@index([createdAt])
   @@index([conversationId, createdAt])
+  @@index([conversationId, readAt])
   @@map("messages")
 }
 

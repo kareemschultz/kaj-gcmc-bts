@@ -475,7 +475,7 @@ async function start() {
 		// Start health check server
 		const healthPort = process.env.HEALTH_PORT
 			? Number.parseInt(process.env.HEALTH_PORT, 10)
-			: 3003;
+			: 3002;
 		Bun.serve({
 			port: healthPort,
 			fetch: healthApp.fetch,

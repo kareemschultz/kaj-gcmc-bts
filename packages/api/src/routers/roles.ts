@@ -36,8 +36,9 @@ export const rolesRouter = router({
 	 * List all roles
 	 * Requires: settings:view permission
 	 */
-	list: rbacProcedure("settings", "view").query(async () => {
+	list: rbacProcedure("settings", "view").query(async ({ ctx }) => {
 		const roles = await prisma.role.findMany({
+			where: { tenantId: ctx.tenantId },
 			orderBy: { name: "asc" },
 			include: {
 				permissions: true,
@@ -58,9 +59,12 @@ export const rolesRouter = router({
 	 */
 	get: rbacProcedure("settings", "view")
 		.input(z.object({ id: z.number() }))
-		.query(async ({ input }) => {
-			const role = await prisma.role.findUnique({
-				where: { id: input.id },
+		.query(async ({ ctx, input }) => {
+			const role = await prisma.role.findFirst({
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				include: {
 					permissions: {
 						orderBy: [{ module: "asc" }, { action: "asc" }],
@@ -84,39 +88,31 @@ export const rolesRouter = router({
 		}),
 
 	/**
-	 * Create new role (SuperAdmin only)
+	 * Create new role (FirmAdmin or SuperAdmin)
 	 */
-	create: protectedProcedure
+	create: rbacProcedure("settings", "edit")
 		.input(roleSchema)
 		.mutation(async ({ ctx, input }) => {
-			// Only SuperAdmin can create roles
-			if (
-				!isSuperAdmin({
-					role: ctx.role,
+			// Check if role name already exists in this tenant
+			const existing = await prisma.role.findFirst({
+				where: {
 					tenantId: ctx.tenantId,
-					userId: ctx.user.id,
-				})
-			) {
-				throw new TRPCError({
-					code: "FORBIDDEN",
-					message: "Only SuperAdmin can create roles",
-				});
-			}
-
-			// Check if role name already exists
-			const existing = await prisma.role.findUnique({
-				where: { name: input.name },
+					name: input.name,
+				},
 			});
 
 			if (existing) {
 				throw new TRPCError({
 					code: "CONFLICT",
-					message: "Role name already exists",
+					message: "Role name already exists in this tenant",
 				});
 			}
 
 			const role = await prisma.role.create({
-				data: input,
+				data: {
+					...input,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log
@@ -135,9 +131,9 @@ export const rolesRouter = router({
 		}),
 
 	/**
-	 * Update role (SuperAdmin only)
+	 * Update role (FirmAdmin or SuperAdmin)
 	 */
-	update: protectedProcedure
+	update: rbacProcedure("settings", "edit")
 		.input(
 			z.object({
 				id: z.number(),
@@ -145,22 +141,11 @@ export const rolesRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			// Only SuperAdmin can update roles
-			if (
-				!isSuperAdmin({
-					role: ctx.role,
+			const existing = await prisma.role.findFirst({
+				where: {
+					id: input.id,
 					tenantId: ctx.tenantId,
-					userId: ctx.user.id,
-				})
-			) {
-				throw new TRPCError({
-					code: "FORBIDDEN",
-					message: "Only SuperAdmin can update roles",
-				});
-			}
-
-			const existing = await prisma.role.findUnique({
-				where: { id: input.id },
+				},
 			});
 
 			if (!existing) {
@@ -170,16 +155,19 @@ export const rolesRouter = router({
 				});
 			}
 
-			// Prevent renaming to existing name
+			// Prevent renaming to existing name in this tenant
 			if (input.data.name && input.data.name !== existing.name) {
-				const nameExists = await prisma.role.findUnique({
-					where: { name: input.data.name },
+				const nameExists = await prisma.role.findFirst({
+					where: {
+						tenantId: ctx.tenantId,
+						name: input.data.name,
+					},
 				});
 
 				if (nameExists) {
 					throw new TRPCError({
 						code: "CONFLICT",
-						message: "Role name already exists",
+						message: "Role name already exists in this tenant",
 					});
 				}
 			}
@@ -205,27 +193,16 @@ export const rolesRouter = router({
 		}),
 
 	/**
-	 * Delete role (SuperAdmin only)
+	 * Delete role (FirmAdmin or SuperAdmin)
 	 */
-	delete: protectedProcedure
+	delete: rbacProcedure("settings", "delete")
 		.input(z.object({ id: z.number() }))
 		.mutation(async ({ ctx, input }) => {
-			// Only SuperAdmin can delete roles
-			if (
-				!isSuperAdmin({
-					role: ctx.role,
+			const existing = await prisma.role.findFirst({
+				where: {
+					id: input.id,
 					tenantId: ctx.tenantId,
-					userId: ctx.user.id,
-				})
-			) {
-				throw new TRPCError({
-					code: "FORBIDDEN",
-					message: "Only SuperAdmin can delete roles",
-				});
-			}
-
-			const existing = await prisma.role.findUnique({
-				where: { id: input.id },
+				},
 				include: {
 					_count: {
 						select: { tenantUsers: true },
@@ -268,9 +245,9 @@ export const rolesRouter = router({
 		}),
 
 	/**
-	 * Add permission to role (SuperAdmin only)
+	 * Add permission to role (FirmAdmin or SuperAdmin)
 	 */
-	addPermission: protectedProcedure
+	addPermission: rbacProcedure("settings", "edit")
 		.input(
 			z.object({
 				roleId: z.number(),
@@ -278,23 +255,12 @@ export const rolesRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			// Only SuperAdmin can modify permissions
-			if (
-				!isSuperAdmin({
-					role: ctx.role,
+			// Check if role exists and belongs to this tenant
+			const role = await prisma.role.findFirst({
+				where: {
+					id: input.roleId,
 					tenantId: ctx.tenantId,
-					userId: ctx.user.id,
-				})
-			) {
-				throw new TRPCError({
-					code: "FORBIDDEN",
-					message: "Only SuperAdmin can modify permissions",
-				});
-			}
-
-			// Check if role exists
-			const role = await prisma.role.findUnique({
-				where: { id: input.roleId },
+				},
 			});
 
 			if (!role) {
@@ -345,33 +311,30 @@ export const rolesRouter = router({
 		}),
 
 	/**
-	 * Remove permission from role (SuperAdmin only)
+	 * Remove permission from role (FirmAdmin or SuperAdmin)
 	 */
-	removePermission: protectedProcedure
+	removePermission: rbacProcedure("settings", "edit")
 		.input(z.object({ permissionId: z.number() }))
 		.mutation(async ({ ctx, input }) => {
-			// Only SuperAdmin can modify permissions
-			if (
-				!isSuperAdmin({
-					role: ctx.role,
-					tenantId: ctx.tenantId,
-					userId: ctx.user.id,
-				})
-			) {
-				throw new TRPCError({
-					code: "FORBIDDEN",
-					message: "Only SuperAdmin can modify permissions",
-				});
-			}
-
 			const existing = await prisma.permission.findUnique({
 				where: { id: input.permissionId },
+				include: {
+					role: true,
+				},
 			});
 
 			if (!existing) {
 				throw new TRPCError({
 					code: "NOT_FOUND",
 					message: "Permission not found",
+				});
+			}
+
+			// Verify the role belongs to this tenant
+			if (existing.role.tenantId !== ctx.tenantId) {
+				throw new TRPCError({
+					code: "FORBIDDEN",
+					message: "Cannot modify permissions for roles in other tenants",
 				});
 			}
 
