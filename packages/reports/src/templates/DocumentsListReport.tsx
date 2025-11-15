@@ -8,10 +8,10 @@
  * - Expiry warnings highlighted
  */
 
-import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { format, differenceInDays } from 'date-fns';
-import React from 'react';
-import { commonStyles, colors, getStatusStyle } from '../styles/common';
+import { Document, Page, Text, View } from "@react-pdf/renderer";
+import { differenceInDays, format } from "date-fns";
+import type React from "react";
+import { colors, commonStyles, getStatusStyle } from "../styles/common";
 
 interface DocumentsListReportProps {
 	client: {
@@ -60,10 +60,13 @@ export const DocumentsListReport: React.FC<DocumentsListReportProps> = ({
 		const daysUntilExpiry = differenceInDays(expiryDate, new Date());
 
 		if (daysUntilExpiry < 0) {
-			return { text: 'EXPIRED', color: colors.danger };
+			return { text: "EXPIRED", color: colors.danger };
 		}
 		if (daysUntilExpiry <= 30) {
-			return { text: `Expires in ${daysUntilExpiry} days`, color: colors.warning };
+			return {
+				text: `Expires in ${daysUntilExpiry} days`,
+				color: colors.warning,
+			};
 		}
 		return null;
 	};
@@ -76,7 +79,8 @@ export const DocumentsListReport: React.FC<DocumentsListReportProps> = ({
 					<Text style={commonStyles.companyName}>{tenantName}</Text>
 					<Text style={commonStyles.reportTitle}>Documents List Report</Text>
 					<Text style={commonStyles.subtitle}>
-						Client: {client.name} • Generated on {format(generatedAt, 'MMMM dd, yyyy HH:mm')}
+						Client: {client.name} • Generated on{" "}
+						{format(generatedAt, "MMMM dd, yyyy HH:mm")}
 					</Text>
 				</View>
 
@@ -108,7 +112,7 @@ export const DocumentsListReport: React.FC<DocumentsListReportProps> = ({
 						<Text
 							style={{
 								fontSize: 12,
-								fontWeight: 'bold',
+								fontWeight: "bold",
 								marginBottom: 8,
 								color: colors.primary,
 							}}
@@ -118,21 +122,27 @@ export const DocumentsListReport: React.FC<DocumentsListReportProps> = ({
 
 						<View style={commonStyles.table}>
 							<View style={commonStyles.tableHeader}>
-								<Text style={[commonStyles.tableCellHeader, { width: '25%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "25%" }]}>
 									Document Title
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '15%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "15%" }]}>
 									Document #
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '12%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "12%" }]}>
 									Issue Date
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '12%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "12%" }]}>
 									Expiry Date
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '12%' }]}>Status</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '12%' }]}>Authority</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '12%' }]}>Warning</Text>
+								<Text style={[commonStyles.tableCellHeader, { width: "12%" }]}>
+									Status
+								</Text>
+								<Text style={[commonStyles.tableCellHeader, { width: "12%" }]}>
+									Authority
+								</Text>
+								<Text style={[commonStyles.tableCellHeader, { width: "12%" }]}>
+									Warning
+								</Text>
 							</View>
 
 							{groupedDocuments[type].map((doc, docIndex) => {
@@ -142,33 +152,41 @@ export const DocumentsListReport: React.FC<DocumentsListReportProps> = ({
 								return (
 									<View
 										key={doc.id}
-										style={isLast ? commonStyles.tableRowLast : commonStyles.tableRow}
+										style={
+											isLast ? commonStyles.tableRowLast : commonStyles.tableRow
+										}
 									>
-										<Text style={[commonStyles.tableCell, { width: '25%' }]}>
+										<Text style={[commonStyles.tableCell, { width: "25%" }]}>
 											{doc.title}
 										</Text>
-										<Text style={[commonStyles.tableCell, { width: '15%' }]}>
-											{doc.documentNumber || '-'}
+										<Text style={[commonStyles.tableCell, { width: "15%" }]}>
+											{doc.documentNumber || "-"}
 										</Text>
-										<Text style={[commonStyles.tableCell, { width: '12%' }]}>
-											{doc.issueDate ? format(doc.issueDate, 'MMM dd, yyyy') : '-'}
+										<Text style={[commonStyles.tableCell, { width: "12%" }]}>
+											{doc.issueDate
+												? format(doc.issueDate, "MMM dd, yyyy")
+												: "-"}
 										</Text>
-										<Text style={[commonStyles.tableCell, { width: '12%' }]}>
-											{doc.expiryDate ? format(doc.expiryDate, 'MMM dd, yyyy') : '-'}
+										<Text style={[commonStyles.tableCell, { width: "12%" }]}>
+											{doc.expiryDate
+												? format(doc.expiryDate, "MMM dd, yyyy")
+												: "-"}
 										</Text>
-										<Text style={[commonStyles.tableCell, { width: '12%' }]}>
-											<Text style={getStatusStyle(doc.status)}>{doc.status}</Text>
+										<Text style={[commonStyles.tableCell, { width: "12%" }]}>
+											<Text style={getStatusStyle(doc.status)}>
+												{doc.status}
+											</Text>
 										</Text>
-										<Text style={[commonStyles.tableCell, { width: '12%' }]}>
-											{doc.authority || '-'}
+										<Text style={[commonStyles.tableCell, { width: "12%" }]}>
+											{doc.authority || "-"}
 										</Text>
 										<Text
 											style={[
 												commonStyles.tableCell,
-												{ width: '12%', color: warning?.color || colors.text },
+												{ width: "12%", color: warning?.color || colors.text },
 											]}
 										>
-											{warning?.text || '-'}
+											{warning?.text || "-"}
 										</Text>
 									</View>
 								);
@@ -179,7 +197,13 @@ export const DocumentsListReport: React.FC<DocumentsListReportProps> = ({
 
 				{documents.length === 0 && (
 					<View style={commonStyles.section}>
-						<Text style={{ fontSize: 11, color: colors.textLight, textAlign: 'center' }}>
+						<Text
+							style={{
+								fontSize: 11,
+								color: colors.textLight,
+								textAlign: "center",
+							}}
+						>
 							No documents found for this client.
 						</Text>
 					</View>
@@ -189,7 +213,9 @@ export const DocumentsListReport: React.FC<DocumentsListReportProps> = ({
 				<View style={commonStyles.pageFooter}>
 					<Text>Documents List Report - {client.name}</Text>
 					<Text
-						render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
+						render={({ pageNumber, totalPages }) =>
+							`Page ${pageNumber} of ${totalPages}`
+						}
 						fixed
 					/>
 				</View>

@@ -1,11 +1,21 @@
+import { Download, FileText } from "lucide-react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
 import { ReportDownloadButton } from "@/components/reports/ReportDownloadButton";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Download } from "lucide-react";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { authClient } from "@/lib/auth-client";
 
-export default async function ClientDetailPage({ params }: { params: { id: string } }) {
+export default async function ClientDetailPage({
+	params,
+}: {
+	params: { id: string };
+}) {
 	const session = await authClient.getSession({
 		fetchOptions: {
 			headers: await headers(),
@@ -17,16 +27,16 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
 		redirect("/login");
 	}
 
-	const clientId = parseInt(params.id, 10);
+	const clientId = Number.parseInt(params.id, 10);
 
-	if (isNaN(clientId)) {
+	if (Number.isNaN(clientId)) {
 		redirect("/clients");
 	}
 
 	return (
 		<div className="container mx-auto py-8">
-			<div className="flex justify-between items-center mb-6">
-				<h1 className="text-3xl font-bold">Client Reports</h1>
+			<div className="mb-6 flex items-center justify-between">
+				<h1 className="font-bold text-3xl">Client Reports</h1>
 			</div>
 
 			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -38,8 +48,8 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
 							Client File Report
 						</CardTitle>
 						<CardDescription>
-							Comprehensive overview including client details, documents, filings, compliance score,
-							and service history
+							Comprehensive overview including client details, documents,
+							filings, compliance score, and service history
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -60,8 +70,8 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
 							Documents List
 						</CardTitle>
 						<CardDescription>
-							Detailed list of all client documents with types, status, issue dates, and expiry
-							dates
+							Detailed list of all client documents with types, status, issue
+							dates, and expiry dates
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -82,8 +92,8 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
 							Filings Summary
 						</CardTitle>
 						<CardDescription>
-							Summary of all filings categorized by status, including filed, pending, and
-							overdue filings
+							Summary of all filings categorized by status, including filed,
+							pending, and overdue filings
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -104,8 +114,8 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
 							Compliance Report
 						</CardTitle>
 						<CardDescription>
-							Compliance score, missing documents, expiring documents, overdue filings, and
-							recommendations
+							Compliance score, missing documents, expiring documents, overdue
+							filings, and recommendations
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -126,8 +136,8 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
 							Service History
 						</CardTitle>
 						<CardDescription>
-							Complete history of all service requests with status, steps, and completion
-							details
+							Complete history of all service requests with status, steps, and
+							completion details
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -152,8 +162,9 @@ export default async function ClientDetailPage({ params }: { params: { id: strin
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
-						<div className="text-sm text-muted-foreground">
-							Use the individual download buttons above to generate specific reports.
+						<div className="text-muted-foreground text-sm">
+							Use the individual download buttons above to generate specific
+							reports.
 						</div>
 					</CardContent>
 				</Card>

@@ -9,10 +9,15 @@
  * - Service history
  */
 
-import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { format } from 'date-fns';
-import React from 'react';
-import { commonStyles, colors, getScoreColor, getStatusStyle } from '../styles/common';
+import { Document, Page, Text, View } from "@react-pdf/renderer";
+import { format } from "date-fns";
+import type React from "react";
+import {
+	colors,
+	commonStyles,
+	getScoreColor,
+	getStatusStyle,
+} from "../styles/common";
 
 interface ClientFileReportProps {
 	client: {
@@ -83,7 +88,7 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 					<Text style={commonStyles.companyName}>{tenantName}</Text>
 					<Text style={commonStyles.reportTitle}>Client File Report</Text>
 					<Text style={commonStyles.subtitle}>
-						Generated on {format(generatedAt, 'MMMM dd, yyyy HH:mm')}
+						Generated on {format(generatedAt, "MMMM dd, yyyy HH:mm")}
 					</Text>
 				</View>
 
@@ -143,7 +148,7 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 					<View style={commonStyles.infoRow}>
 						<Text style={commonStyles.infoLabel}>Client Since:</Text>
 						<Text style={commonStyles.infoValue}>
-							{format(client.createdAt, 'MMMM dd, yyyy')}
+							{format(client.createdAt, "MMMM dd, yyyy")}
 						</Text>
 					</View>
 				</View>
@@ -154,7 +159,9 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 						<Text style={commonStyles.sectionTitle}>Associated Businesses</Text>
 						{businesses.map((business, index) => (
 							<View key={index} style={{ marginBottom: 8 }}>
-								<Text style={{ fontSize: 10, fontWeight: 'bold', marginBottom: 3 }}>
+								<Text
+									style={{ fontSize: 10, fontWeight: "bold", marginBottom: 3 }}
+								>
 									{business.name}
 								</Text>
 								{business.registrationNumber && (
@@ -196,7 +203,7 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 									fontSize: 11,
 									marginTop: 5,
 									color: colors.textLight,
-									textTransform: 'uppercase',
+									textTransform: "uppercase",
 								}}
 							>
 								Level: {complianceScore.level}
@@ -209,7 +216,12 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 								<Text
 									style={[
 										commonStyles.statValue,
-										{ color: complianceScore.missingCount > 0 ? colors.danger : colors.success },
+										{
+											color:
+												complianceScore.missingCount > 0
+													? colors.danger
+													: colors.success,
+										},
 									]}
 								>
 									{complianceScore.missingCount}
@@ -220,7 +232,12 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 								<Text
 									style={[
 										commonStyles.statValue,
-										{ color: complianceScore.expiringCount > 0 ? colors.warning : colors.success },
+										{
+											color:
+												complianceScore.expiringCount > 0
+													? colors.warning
+													: colors.success,
+										},
 									]}
 								>
 									{complianceScore.expiringCount}
@@ -233,7 +250,9 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 										commonStyles.statValue,
 										{
 											color:
-												complianceScore.overdueFilingsCount > 0 ? colors.danger : colors.success,
+												complianceScore.overdueFilingsCount > 0
+													? colors.danger
+													: colors.success,
 										},
 									]}
 								>
@@ -250,7 +269,9 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 					<View style={commonStyles.statsContainer}>
 						<View style={commonStyles.statBox}>
 							<Text style={commonStyles.statLabel}>Total Documents</Text>
-							<Text style={commonStyles.statValue}>{documentsSummary.total}</Text>
+							<Text style={commonStyles.statValue}>
+								{documentsSummary.total}
+							</Text>
 						</View>
 						<View style={commonStyles.statBox}>
 							<Text style={commonStyles.statLabel}>Expiring Soon</Text>
@@ -258,7 +279,10 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 								style={[
 									commonStyles.statValue,
 									{
-										color: documentsSummary.expiringSoon > 0 ? colors.warning : colors.success,
+										color:
+											documentsSummary.expiringSoon > 0
+												? colors.warning
+												: colors.success,
 									},
 								]}
 							>
@@ -270,7 +294,12 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 							<Text
 								style={[
 									commonStyles.statValue,
-									{ color: documentsSummary.expired > 0 ? colors.danger : colors.success },
+									{
+										color:
+											documentsSummary.expired > 0
+												? colors.danger
+												: colors.success,
+									},
 								]}
 							>
 								{documentsSummary.expired}
@@ -281,10 +310,15 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 					{documentsSummary.byType.length > 0 && (
 						<View style={commonStyles.table}>
 							<View style={commonStyles.tableHeader}>
-								<Text style={[commonStyles.tableCellHeader, { width: '70%' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "70%" }]}>
 									Document Type
 								</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '30%', textAlign: 'right' }]}>
+								<Text
+									style={[
+										commonStyles.tableCellHeader,
+										{ width: "30%", textAlign: "right" },
+									]}
+								>
 									Count
 								</Text>
 							</View>
@@ -297,9 +331,14 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 											: commonStyles.tableRow
 									}
 								>
-									<Text style={[commonStyles.tableCell, { width: '70%' }]}>{item.type}</Text>
+									<Text style={[commonStyles.tableCell, { width: "70%" }]}>
+										{item.type}
+									</Text>
 									<Text
-										style={[commonStyles.tableCell, { width: '30%', textAlign: 'right' }]}
+										style={[
+											commonStyles.tableCell,
+											{ width: "30%", textAlign: "right" },
+										]}
 									>
 										{item.count}
 									</Text>
@@ -313,7 +352,9 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 				<View style={commonStyles.pageFooter}>
 					<Text>Client File Report - {client.name}</Text>
 					<Text
-						render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
+						render={({ pageNumber, totalPages }) =>
+							`Page ${pageNumber} of ${totalPages}`
+						}
 						fixed
 					/>
 				</View>
@@ -324,7 +365,9 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 				{/* Header */}
 				<View style={commonStyles.pageHeader}>
 					<Text style={commonStyles.companyName}>{tenantName}</Text>
-					<Text style={commonStyles.reportTitle}>Client File Report (continued)</Text>
+					<Text style={commonStyles.reportTitle}>
+						Client File Report (continued)
+					</Text>
 					<Text style={commonStyles.subtitle}>{client.name}</Text>
 				</View>
 
@@ -341,8 +384,15 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 					{filingsSummary.byStatus.length > 0 && (
 						<View style={commonStyles.table}>
 							<View style={commonStyles.tableHeader}>
-								<Text style={[commonStyles.tableCellHeader, { width: '70%' }]}>Status</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '30%', textAlign: 'right' }]}>
+								<Text style={[commonStyles.tableCellHeader, { width: "70%" }]}>
+									Status
+								</Text>
+								<Text
+									style={[
+										commonStyles.tableCellHeader,
+										{ width: "30%", textAlign: "right" },
+									]}
+								>
 									Count
 								</Text>
 							</View>
@@ -355,9 +405,14 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 											: commonStyles.tableRow
 									}
 								>
-									<Text style={[commonStyles.tableCell, { width: '70%' }]}>{item.status}</Text>
+									<Text style={[commonStyles.tableCell, { width: "70%" }]}>
+										{item.status}
+									</Text>
 									<Text
-										style={[commonStyles.tableCell, { width: '30%', textAlign: 'right' }]}
+										style={[
+											commonStyles.tableCell,
+											{ width: "30%", textAlign: "right" },
+										]}
 									>
 										{item.count}
 									</Text>
@@ -368,16 +423,33 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 
 					{filingsSummary.upcomingDeadlines.length > 0 && (
 						<>
-							<Text style={{ fontSize: 11, fontWeight: 'bold', marginTop: 15, marginBottom: 10 }}>
+							<Text
+								style={{
+									fontSize: 11,
+									fontWeight: "bold",
+									marginTop: 15,
+									marginBottom: 10,
+								}}
+							>
 								Upcoming Deadlines
 							</Text>
 							<View style={commonStyles.table}>
 								<View style={commonStyles.tableHeader}>
-									<Text style={[commonStyles.tableCellHeader, { width: '40%' }]}>
+									<Text
+										style={[commonStyles.tableCellHeader, { width: "40%" }]}
+									>
 										Filing Type
 									</Text>
-									<Text style={[commonStyles.tableCellHeader, { width: '30%' }]}>Due Date</Text>
-									<Text style={[commonStyles.tableCellHeader, { width: '30%' }]}>Status</Text>
+									<Text
+										style={[commonStyles.tableCellHeader, { width: "30%" }]}
+									>
+										Due Date
+									</Text>
+									<Text
+										style={[commonStyles.tableCellHeader, { width: "30%" }]}
+									>
+										Status
+									</Text>
 								</View>
 								{filingsSummary.upcomingDeadlines.map((filing, index) => (
 									<View
@@ -388,14 +460,16 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 												: commonStyles.tableRow
 										}
 									>
-										<Text style={[commonStyles.tableCell, { width: '40%' }]}>
+										<Text style={[commonStyles.tableCell, { width: "40%" }]}>
 											{filing.type}
 										</Text>
-										<Text style={[commonStyles.tableCell, { width: '30%' }]}>
-											{format(filing.dueDate, 'MMM dd, yyyy')}
+										<Text style={[commonStyles.tableCell, { width: "30%" }]}>
+											{format(filing.dueDate, "MMM dd, yyyy")}
 										</Text>
-										<Text style={[commonStyles.tableCell, { width: '30%' }]}>
-											<Text style={getStatusStyle(filing.status)}>{filing.status}</Text>
+										<Text style={[commonStyles.tableCell, { width: "30%" }]}>
+											<Text style={getStatusStyle(filing.status)}>
+												{filing.status}
+											</Text>
 										</Text>
 									</View>
 								))}
@@ -410,10 +484,18 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 						<Text style={commonStyles.sectionTitle}>Service History</Text>
 						<View style={commonStyles.table}>
 							<View style={commonStyles.tableHeader}>
-								<Text style={[commonStyles.tableCellHeader, { width: '40%' }]}>Service</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '20%' }]}>Status</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '20%' }]}>Started</Text>
-								<Text style={[commonStyles.tableCellHeader, { width: '20%' }]}>Updated</Text>
+								<Text style={[commonStyles.tableCellHeader, { width: "40%" }]}>
+									Service
+								</Text>
+								<Text style={[commonStyles.tableCellHeader, { width: "20%" }]}>
+									Status
+								</Text>
+								<Text style={[commonStyles.tableCellHeader, { width: "20%" }]}>
+									Started
+								</Text>
+								<Text style={[commonStyles.tableCellHeader, { width: "20%" }]}>
+									Updated
+								</Text>
 							</View>
 							{serviceHistory.map((service, index) => (
 								<View
@@ -424,17 +506,19 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 											: commonStyles.tableRow
 									}
 								>
-									<Text style={[commonStyles.tableCell, { width: '40%' }]}>
+									<Text style={[commonStyles.tableCell, { width: "40%" }]}>
 										{service.serviceName}
 									</Text>
-									<Text style={[commonStyles.tableCell, { width: '20%' }]}>
-										<Text style={getStatusStyle(service.status)}>{service.status}</Text>
+									<Text style={[commonStyles.tableCell, { width: "20%" }]}>
+										<Text style={getStatusStyle(service.status)}>
+											{service.status}
+										</Text>
 									</Text>
-									<Text style={[commonStyles.tableCell, { width: '20%' }]}>
-										{format(service.createdAt, 'MMM dd, yy')}
+									<Text style={[commonStyles.tableCell, { width: "20%" }]}>
+										{format(service.createdAt, "MMM dd, yy")}
 									</Text>
-									<Text style={[commonStyles.tableCell, { width: '20%' }]}>
-										{format(service.updatedAt, 'MMM dd, yy')}
+									<Text style={[commonStyles.tableCell, { width: "20%" }]}>
+										{format(service.updatedAt, "MMM dd, yy")}
 									</Text>
 								</View>
 							))}
@@ -446,7 +530,9 @@ export const ClientFileReport: React.FC<ClientFileReportProps> = ({
 				<View style={commonStyles.pageFooter}>
 					<Text>Client File Report - {client.name}</Text>
 					<Text
-						render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
+						render={({ pageNumber, totalPages }) =>
+							`Page ${pageNumber} of ${totalPages}`
+						}
 						fixed
 					/>
 				</View>

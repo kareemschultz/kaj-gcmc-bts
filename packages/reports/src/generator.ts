@@ -8,15 +8,15 @@
  * - Returns Buffer
  */
 
-import prisma from '@GCMC-KAJ/db';
-import { renderToBuffer } from '@react-pdf/renderer';
-import { addDays, differenceInDays } from 'date-fns';
-import React from 'react';
-import { ClientFileReport } from './templates/ClientFileReport';
-import { ComplianceReport } from './templates/ComplianceReport';
-import { DocumentsListReport } from './templates/DocumentsListReport';
-import { FilingsSummaryReport } from './templates/FilingsSummaryReport';
-import { ServiceHistoryReport } from './templates/ServiceHistoryReport';
+import prisma from "@GCMC-KAJ/db";
+import { renderToBuffer } from "@react-pdf/renderer";
+import { addDays, differenceInDays } from "date-fns";
+import React from "react";
+import { ClientFileReport } from "./templates/ClientFileReport";
+import { ComplianceReport } from "./templates/ComplianceReport";
+import { DocumentsListReport } from "./templates/DocumentsListReport";
+import { FilingsSummaryReport } from "./templates/FilingsSummaryReport";
+import { ServiceHistoryReport } from "./templates/ServiceHistoryReport";
 
 /**
  * Generate Client File Report
@@ -46,7 +46,7 @@ export async function generateClientFileReport(
 	});
 
 	if (!client) {
-		throw new Error('Client not found or access denied');
+		throw new Error("Client not found or access denied");
 	}
 
 	// Fetch documents summary
@@ -83,7 +83,8 @@ export async function generateClientFileReport(
 				doc.latestVersion.expiryDate <= thirtyDaysFromNow,
 		).length,
 		expired: documents.filter(
-			(doc) => doc.latestVersion?.expiryDate && doc.latestVersion.expiryDate < now,
+			(doc) =>
+				doc.latestVersion?.expiryDate && doc.latestVersion.expiryDate < now,
 		).length,
 	};
 
@@ -93,7 +94,7 @@ export async function generateClientFileReport(
 		include: {
 			filingType: true,
 		},
-		orderBy: { createdAt: 'desc' },
+		orderBy: { createdAt: "desc" },
 	});
 
 	const filingsSummary = {
@@ -110,7 +111,9 @@ export async function generateClientFileReport(
 		upcomingDeadlines: filings
 			.filter(
 				(f) =>
-					(f.status === 'draft' || f.status === 'prepared' || f.status === 'pending') &&
+					(f.status === "draft" ||
+						f.status === "prepared" ||
+						f.status === "pending") &&
 					f.periodEnd &&
 					f.periodEnd > now,
 			)
@@ -135,7 +138,7 @@ export async function generateClientFileReport(
 		include: {
 			service: true,
 		},
-		orderBy: { createdAt: 'desc' },
+		orderBy: { createdAt: "desc" },
 		take: 10, // Latest 10 service requests
 	});
 
@@ -192,7 +195,7 @@ export async function generateDocumentsListReport(
 	});
 
 	if (!client) {
-		throw new Error('Client not found or access denied');
+		throw new Error("Client not found or access denied");
 	}
 
 	// Fetch all documents
@@ -202,7 +205,7 @@ export async function generateDocumentsListReport(
 			documentType: true,
 			latestVersion: true,
 		},
-		orderBy: [{ documentType: { name: 'asc' } }, { createdAt: 'desc' }],
+		orderBy: [{ documentType: { name: "asc" } }, { createdAt: "desc" }],
 	});
 
 	const documentsList = documents.map((doc) => ({
@@ -253,7 +256,7 @@ export async function generateFilingsSummaryReport(
 	});
 
 	if (!client) {
-		throw new Error('Client not found or access denied');
+		throw new Error("Client not found or access denied");
 	}
 
 	// Fetch all filings
@@ -262,7 +265,7 @@ export async function generateFilingsSummaryReport(
 		include: {
 			filingType: true,
 		},
-		orderBy: [{ status: 'asc' }, { createdAt: 'desc' }],
+		orderBy: [{ status: "asc" }, { createdAt: "desc" }],
 	});
 
 	const filingsList = filings.map((filing) => ({
@@ -315,7 +318,7 @@ export async function generateComplianceReport(
 	});
 
 	if (!client) {
-		throw new Error('Client not found or access denied');
+		throw new Error("Client not found or access denied");
 	}
 
 	// Fetch compliance score
@@ -335,10 +338,12 @@ export async function generateComplianceReport(
 	const existingDocTypes = await prisma.document.findMany({
 		where: { clientId, tenantId },
 		select: { documentTypeId: true },
-		distinct: ['documentTypeId'],
+		distinct: ["documentTypeId"],
 	});
 
-	const existingDocTypeIds = new Set(existingDocTypes.map((d) => d.documentTypeId));
+	const existingDocTypeIds = new Set(
+		existingDocTypes.map((d) => d.documentTypeId),
+	);
 
 	const missingDocuments = requiredDocTypes
 		.filter((dt) => !existingDocTypeIds.has(dt.id))
@@ -369,7 +374,7 @@ export async function generateComplianceReport(
 		},
 		orderBy: {
 			latestVersion: {
-				expiryDate: 'asc',
+				expiryDate: "asc",
 			},
 		},
 	});
@@ -379,8 +384,8 @@ export async function generateComplianceReport(
 		.map((doc) => ({
 			title: doc.title,
 			documentType: doc.documentType.name,
-			expiryDate: doc.latestVersion!.expiryDate!,
-			daysUntilExpiry: differenceInDays(doc.latestVersion!.expiryDate!, now),
+			expiryDate: doc.latestVersion?.expiryDate!,
+			daysUntilExpiry: differenceInDays(doc.latestVersion?.expiryDate!, now),
 			status: doc.status,
 		}));
 
@@ -389,13 +394,13 @@ export async function generateComplianceReport(
 		where: {
 			clientId,
 			tenantId,
-			status: 'overdue',
+			status: "overdue",
 		},
 		include: {
 			filingType: true,
 		},
 		orderBy: {
-			periodEnd: 'asc',
+			periodEnd: "asc",
 		},
 	});
 
@@ -436,10 +441,10 @@ export async function generateComplianceReport(
 
 	if (recommendations.length === 0) {
 		recommendations.push(
-			'Maintain current compliance status through regular monitoring and timely renewals.',
+			"Maintain current compliance status through regular monitoring and timely renewals.",
 		);
 		recommendations.push(
-			'Review upcoming filing deadlines monthly to ensure timely submissions.',
+			"Review upcoming filing deadlines monthly to ensure timely submissions.",
 		);
 	}
 
@@ -482,7 +487,7 @@ export async function generateServiceHistoryReport(
 	});
 
 	if (!client) {
-		throw new Error('Client not found or access denied');
+		throw new Error("Client not found or access denied");
 	}
 
 	// Fetch all service requests
@@ -497,11 +502,11 @@ export async function generateServiceHistoryReport(
 			},
 			steps: {
 				orderBy: {
-					order: 'asc',
+					order: "asc",
 				},
 			},
 		},
-		orderBy: { createdAt: 'desc' },
+		orderBy: { createdAt: "desc" },
 	});
 
 	const serviceRequestsList = serviceRequests.map((sr) => ({
@@ -523,15 +528,15 @@ export async function generateServiceHistoryReport(
 	// Calculate summary
 	const summary = {
 		totalRequests: serviceRequests.length,
-		completed: serviceRequests.filter((sr) => sr.status === 'completed').length,
+		completed: serviceRequests.filter((sr) => sr.status === "completed").length,
 		inProgress: serviceRequests.filter(
 			(sr) =>
-				sr.status === 'in_progress' ||
-				sr.status === 'new' ||
-				sr.status === 'awaiting_client' ||
-				sr.status === 'awaiting_authority',
+				sr.status === "in_progress" ||
+				sr.status === "new" ||
+				sr.status === "awaiting_client" ||
+				sr.status === "awaiting_authority",
 		).length,
-		cancelled: serviceRequests.filter((sr) => sr.status === 'cancelled').length,
+		cancelled: serviceRequests.filter((sr) => sr.status === "cancelled").length,
 		totalRevenue: 0, // You may want to calculate this from service pricing
 	};
 

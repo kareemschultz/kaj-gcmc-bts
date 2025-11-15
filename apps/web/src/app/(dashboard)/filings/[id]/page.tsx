@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
 import { FilingDetail } from "@/components/filings/filing-detail";
+import { authClient } from "@/lib/auth-client";
 
 interface FilingDetailPageProps {
 	params: {
@@ -9,7 +9,9 @@ interface FilingDetailPageProps {
 	};
 }
 
-export default async function FilingDetailPage({ params }: FilingDetailPageProps) {
+export default async function FilingDetailPage({
+	params,
+}: FilingDetailPageProps) {
 	const session = await authClient.getSession({
 		fetchOptions: {
 			headers: await headers(),
@@ -23,7 +25,7 @@ export default async function FilingDetailPage({ params }: FilingDetailPageProps
 
 	return (
 		<div className="container mx-auto py-8">
-			<FilingDetail filingId={parseInt(params.id)} />
+			<FilingDetail filingId={Number.parseInt(params.id, 10)} />
 		</div>
 	);
 }

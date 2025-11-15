@@ -1,19 +1,29 @@
 "use client";
 
+import { Upload } from "lucide-react";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Upload } from "lucide-react";
-import { toast } from "sonner";
 
 interface DocumentUploadDialogProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
 }
 
-export function DocumentUploadDialog({ open, onOpenChange }: DocumentUploadDialogProps) {
+export function DocumentUploadDialog({
+	open,
+	onOpenChange,
+}: DocumentUploadDialogProps) {
 	const [file, setFile] = useState<File | null>(null);
 	const [uploading, setUploading] = useState(false);
 	const [progress, setProgress] = useState(0);
@@ -71,7 +81,8 @@ export function DocumentUploadDialog({ open, onOpenChange }: DocumentUploadDialo
 				<DialogHeader>
 					<DialogTitle>Upload Document</DialogTitle>
 					<DialogDescription>
-						Select a file to upload. Supported formats: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG
+						Select a file to upload. Supported formats: PDF, DOC, DOCX, XLS,
+						XLSX, JPG, PNG
 					</DialogDescription>
 				</DialogHeader>
 
@@ -86,31 +97,38 @@ export function DocumentUploadDialog({ open, onOpenChange }: DocumentUploadDialo
 							disabled={uploading}
 						/>
 						{file && (
-							<p className="text-sm text-muted-foreground mt-2">
-								Selected: {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
+							<p className="mt-2 text-muted-foreground text-sm">
+								Selected: {file.name} ({(file.size / 1024 / 1024).toFixed(2)}{" "}
+								MB)
 							</p>
 						)}
 					</div>
 
 					{uploading && (
 						<div className="space-y-2">
-							<div className="w-full bg-gray-200 rounded-full h-2">
+							<div className="h-2 w-full rounded-full bg-gray-200">
 								<div
-									className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+									className="h-2 rounded-full bg-blue-600 transition-all duration-300"
 									style={{ width: `${progress}%` }}
 								/>
 							</div>
-							<p className="text-sm text-center text-muted-foreground">Uploading... {progress}%</p>
+							<p className="text-center text-muted-foreground text-sm">
+								Uploading... {progress}%
+							</p>
 						</div>
 					)}
 				</div>
 
 				<DialogFooter>
-					<Button variant="outline" onClick={() => onOpenChange(false)} disabled={uploading}>
+					<Button
+						variant="outline"
+						onClick={() => onOpenChange(false)}
+						disabled={uploading}
+					>
 						Cancel
 					</Button>
 					<Button onClick={handleUpload} disabled={!file || uploading}>
-						<Upload className="h-4 w-4 mr-2" />
+						<Upload className="mr-2 h-4 w-4" />
 						Upload
 					</Button>
 				</DialogFooter>

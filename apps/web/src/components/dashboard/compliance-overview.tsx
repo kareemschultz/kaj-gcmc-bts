@@ -1,9 +1,15 @@
 "use client";
 
-import { trpc } from "@/utils/trpc";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { trpc } from "@/utils/trpc";
 
 export function ComplianceOverview() {
 	const { data, isLoading } = trpc.dashboard.complianceOverview.useQuery();
@@ -13,7 +19,9 @@ export function ComplianceOverview() {
 			<Card>
 				<CardHeader>
 					<CardTitle>Compliance Overview</CardTitle>
-					<CardDescription>Client compliance score distribution</CardDescription>
+					<CardDescription>
+						Client compliance score distribution
+					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-4">
@@ -63,7 +71,9 @@ export function ComplianceOverview() {
 			</CardHeader>
 			<CardContent>
 				{total === 0 ? (
-					<p className="text-sm text-muted-foreground">No compliance scores available yet</p>
+					<p className="text-muted-foreground text-sm">
+						No compliance scores available yet
+					</p>
 				) : (
 					<div className="space-y-4">
 						{levels.map((level) => (
@@ -71,15 +81,15 @@ export function ComplianceOverview() {
 								<div className="flex items-center justify-between">
 									<div className="flex items-center gap-2">
 										<Badge variant={level.variant}>{level.label}</Badge>
-										<span className="text-sm text-muted-foreground">
+										<span className="text-muted-foreground text-sm">
 											{level.count} client{level.count !== 1 ? "s" : ""}
 										</span>
 									</div>
-									<span className="text-sm font-medium">
+									<span className="font-medium text-sm">
 										{level.percentage.toFixed(1)}%
 									</span>
 								</div>
-								<div className="w-full bg-gray-200 rounded-full h-2">
+								<div className="h-2 w-full rounded-full bg-gray-200">
 									<div
 										className={`${level.color} h-2 rounded-full transition-all duration-300`}
 										style={{ width: `${level.percentage}%` }}
@@ -91,25 +101,32 @@ export function ComplianceOverview() {
 				)}
 
 				{data.recentScores && data.recentScores.length > 0 && (
-					<div className="mt-6 pt-6 border-t">
-						<h4 className="text-sm font-medium mb-3">Recent Scores</h4>
+					<div className="mt-6 border-t pt-6">
+						<h4 className="mb-3 font-medium text-sm">Recent Scores</h4>
 						<div className="space-y-2">
-							{data.recentScores.slice(0, 5).map((score) => (
-								<div key={score.id} className="flex items-center justify-between text-sm">
-									<span className="text-muted-foreground">{score.client.name}</span>
-									<Badge
-										variant={
-											score.level === "high"
-												? "success"
-												: score.level === "medium"
-													? "warning"
-													: "destructive"
-										}
+							{data.recentScores
+								.slice(0, 5)
+								.map((score: (typeof data.recentScores)[number]) => (
+									<div
+										key={score.id}
+										className="flex items-center justify-between text-sm"
 									>
-										{score.score.toFixed(1)}%
-									</Badge>
-								</div>
-							))}
+										<span className="text-muted-foreground">
+											{score.client.name}
+										</span>
+										<Badge
+											variant={
+												score.level === "high"
+													? "success"
+													: score.level === "medium"
+														? "warning"
+														: "destructive"
+											}
+										>
+											{score.score.toFixed(1)}%
+										</Badge>
+									</div>
+								))}
 						</div>
 					</div>
 				)}

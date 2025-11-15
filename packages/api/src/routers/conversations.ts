@@ -47,8 +47,12 @@ export const conversationsRouter = router({
 				.optional(),
 		)
 		.query(async ({ ctx, input }) => {
-			const { clientId, serviceRequestId, page = 1, pageSize = 20 } =
-				input || {};
+			const {
+				clientId,
+				serviceRequestId,
+				page = 1,
+				pageSize = 20,
+			} = input || {};
 
 			const skip = (page - 1) * pageSize;
 

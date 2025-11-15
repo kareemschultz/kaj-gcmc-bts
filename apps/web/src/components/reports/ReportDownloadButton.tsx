@@ -1,20 +1,31 @@
 "use client";
 
-import { useState } from "react";
-import { trpc } from "@/utils/trpc";
-import { Button } from "@/components/ui/button";
 import { Download, Loader2 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { trpc } from "@/utils/trpc";
 
 /**
  * Report types available
  */
-type ReportType = "client_file" | "documents_list" | "filings_summary" | "compliance" | "service_history";
+type ReportType =
+	| "client_file"
+	| "documents_list"
+	| "filings_summary"
+	| "compliance"
+	| "service_history";
 
 interface ReportDownloadButtonProps {
 	clientId: number;
 	reportType: ReportType;
-	variant?: "default" | "outline" | "secondary" | "ghost" | "link" | "destructive";
+	variant?:
+		| "default"
+		| "outline"
+		| "secondary"
+		| "ghost"
+		| "link"
+		| "destructive";
 	size?: "default" | "sm" | "lg" | "icon";
 	label?: string;
 	className?: string;
@@ -51,10 +62,14 @@ export function ReportDownloadButton({
 
 	// Get the appropriate mutation based on report type
 	const clientFileMutation = trpc.reports.generateClientFile.useMutation();
-	const documentsListMutation = trpc.reports.generateDocumentsList.useMutation();
-	const filingsSummaryMutation = trpc.reports.generateFilingsSummary.useMutation();
-	const complianceMutation = trpc.reports.generateComplianceReport.useMutation();
-	const serviceHistoryMutation = trpc.reports.generateServiceHistory.useMutation();
+	const documentsListMutation =
+		trpc.reports.generateDocumentsList.useMutation();
+	const filingsSummaryMutation =
+		trpc.reports.generateFilingsSummary.useMutation();
+	const complianceMutation =
+		trpc.reports.generateComplianceReport.useMutation();
+	const serviceHistoryMutation =
+		trpc.reports.generateServiceHistory.useMutation();
 
 	const handleDownload = async () => {
 		setIsDownloading(true);
@@ -109,7 +124,8 @@ export function ReportDownloadButton({
 		} catch (error) {
 			console.error("Error downloading report:", error);
 			toast.error("Failed to download report", {
-				description: error instanceof Error ? error.message : "An unknown error occurred",
+				description:
+					error instanceof Error ? error.message : "An unknown error occurred",
 			});
 		} finally {
 			setIsDownloading(false);

@@ -187,10 +187,7 @@ export const wizardsRouter = router({
 					update: {
 						scoreValue: 0,
 						level: "high",
-						missingCount: bundles.reduce(
-							(sum, b) => sum + b.items.length,
-							0,
-						),
+						missingCount: bundles.reduce((sum, b) => sum + b.items.length, 0),
 						expiringCount: 0,
 						overdueFilingsCount: 0,
 						lastCalculatedAt: new Date(),
@@ -209,10 +206,7 @@ export const wizardsRouter = router({
 						clientId: input.clientId,
 						scoreValue: 0,
 						level: "high",
-						missingCount: bundles.reduce(
-							(sum, b) => sum + b.items.length,
-							0,
-						),
+						missingCount: bundles.reduce((sum, b) => sum + b.items.length, 0),
 						expiringCount: 0,
 						overdueFilingsCount: 0,
 						lastCalculatedAt: new Date(),

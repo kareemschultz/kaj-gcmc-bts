@@ -8,7 +8,7 @@
 import prisma from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { protectedProcedure, rbacProcedure, router } from "../index";
+import { rbacProcedure, router } from "../index";
 
 /**
  * Document validation schema
@@ -38,7 +38,7 @@ export const documentVersionSchema = z.object({
 	issuingAuthority: z.string().optional(),
 	ocrText: z.string().optional(),
 	aiSummary: z.string().optional(),
-	metadata: z.record(z.any()).optional(),
+	metadata: z.record(z.string(), z.any()).optional(),
 });
 
 /**

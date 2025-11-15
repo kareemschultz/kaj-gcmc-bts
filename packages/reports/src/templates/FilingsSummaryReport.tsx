@@ -8,10 +8,10 @@
  * - Summary statistics
  */
 
-import { Document, Page, Text, View } from '@react-pdf/renderer';
-import { format } from 'date-fns';
-import React from 'react';
-import { commonStyles, colors, getStatusStyle } from '../styles/common';
+import { Document, Page, Text, View } from "@react-pdf/renderer";
+import { format } from "date-fns";
+import type React from "react";
+import { colors, commonStyles, getStatusStyle } from "../styles/common";
 
 interface FilingsSummaryReportProps {
 	client: {
@@ -45,12 +45,13 @@ export const FilingsSummaryReport: React.FC<FilingsSummaryReportProps> = ({
 }) => {
 	// Group filings by status category
 	const filedFilings = filings.filter(
-		(f) => f.status === 'approved' || f.status === 'submitted',
+		(f) => f.status === "approved" || f.status === "submitted",
 	);
 	const pendingFilings = filings.filter(
-		(f) => f.status === 'draft' || f.status === 'prepared' || f.status === 'pending',
+		(f) =>
+			f.status === "draft" || f.status === "prepared" || f.status === "pending",
 	);
-	const overdueFilings = filings.filter((f) => f.status === 'overdue');
+	const overdueFilings = filings.filter((f) => f.status === "overdue");
 	const otherFilings = filings.filter(
 		(f) =>
 			!filedFilings.includes(f) &&
@@ -71,19 +72,32 @@ export const FilingsSummaryReport: React.FC<FilingsSummaryReportProps> = ({
 
 				<View style={commonStyles.table}>
 					<View style={commonStyles.tableHeader}>
-						<Text style={[commonStyles.tableCellHeader, { width: '20%' }]}>Filing Type</Text>
-						<Text style={[commonStyles.tableCellHeader, { width: '15%' }]}>Period</Text>
-						<Text style={[commonStyles.tableCellHeader, { width: '12%' }]}>Status</Text>
-						<Text style={[commonStyles.tableCellHeader, { width: '12%' }]}>
+						<Text style={[commonStyles.tableCellHeader, { width: "20%" }]}>
+							Filing Type
+						</Text>
+						<Text style={[commonStyles.tableCellHeader, { width: "15%" }]}>
+							Period
+						</Text>
+						<Text style={[commonStyles.tableCellHeader, { width: "12%" }]}>
+							Status
+						</Text>
+						<Text style={[commonStyles.tableCellHeader, { width: "12%" }]}>
 							Submission Date
 						</Text>
-						<Text style={[commonStyles.tableCellHeader, { width: '12%' }]}>
+						<Text style={[commonStyles.tableCellHeader, { width: "12%" }]}>
 							Reference #
 						</Text>
-						<Text style={[commonStyles.tableCellHeader, { width: '14%', textAlign: 'right' }]}>
+						<Text
+							style={[
+								commonStyles.tableCellHeader,
+								{ width: "14%", textAlign: "right" },
+							]}
+						>
 							Amount
 						</Text>
-						<Text style={[commonStyles.tableCellHeader, { width: '15%' }]}>Notes</Text>
+						<Text style={[commonStyles.tableCellHeader, { width: "15%" }]}>
+							Notes
+						</Text>
 					</View>
 
 					{filingsList.map((filing, index) => {
@@ -91,44 +105,48 @@ export const FilingsSummaryReport: React.FC<FilingsSummaryReportProps> = ({
 						return (
 							<View
 								key={filing.id}
-								style={isLast ? commonStyles.tableRowLast : commonStyles.tableRow}
+								style={
+									isLast ? commonStyles.tableRowLast : commonStyles.tableRow
+								}
 							>
-								<Text style={[commonStyles.tableCell, { width: '20%' }]}>
+								<Text style={[commonStyles.tableCell, { width: "20%" }]}>
 									{filing.filingType}
 								</Text>
-								<Text style={[commonStyles.tableCell, { width: '15%' }]}>
+								<Text style={[commonStyles.tableCell, { width: "15%" }]}>
 									{filing.periodLabel ||
 										(filing.periodStart
-											? format(filing.periodStart, 'MMM yyyy')
-											: '-')}
+											? format(filing.periodStart, "MMM yyyy")
+											: "-")}
 								</Text>
-								<Text style={[commonStyles.tableCell, { width: '12%' }]}>
-									<Text style={getStatusStyle(filing.status)}>{filing.status}</Text>
+								<Text style={[commonStyles.tableCell, { width: "12%" }]}>
+									<Text style={getStatusStyle(filing.status)}>
+										{filing.status}
+									</Text>
 								</Text>
-								<Text style={[commonStyles.tableCell, { width: '12%' }]}>
+								<Text style={[commonStyles.tableCell, { width: "12%" }]}>
 									{filing.submissionDate
-										? format(filing.submissionDate, 'MMM dd, yyyy')
-										: '-'}
+										? format(filing.submissionDate, "MMM dd, yyyy")
+										: "-"}
 								</Text>
-								<Text style={[commonStyles.tableCell, { width: '12%' }]}>
-									{filing.referenceNumber || '-'}
+								<Text style={[commonStyles.tableCell, { width: "12%" }]}>
+									{filing.referenceNumber || "-"}
 								</Text>
 								<Text
 									style={[
 										commonStyles.tableCell,
-										{ width: '14%', textAlign: 'right' },
+										{ width: "14%", textAlign: "right" },
 									]}
 								>
-									{filing.total ? `$${filing.total.toFixed(2)}` : '-'}
+									{filing.total ? `$${filing.total.toFixed(2)}` : "-"}
 								</Text>
 								<Text
 									style={[
 										commonStyles.tableCell,
-										{ width: '15%', fontSize: 8 },
+										{ width: "15%", fontSize: 8 },
 									]}
 									numberOfLines={2}
 								>
-									{filing.internalNotes || '-'}
+									{filing.internalNotes || "-"}
 								</Text>
 							</View>
 						);
@@ -146,7 +164,8 @@ export const FilingsSummaryReport: React.FC<FilingsSummaryReportProps> = ({
 					<Text style={commonStyles.companyName}>{tenantName}</Text>
 					<Text style={commonStyles.reportTitle}>Filings Summary Report</Text>
 					<Text style={commonStyles.subtitle}>
-						Client: {client.name} • Generated on {format(generatedAt, 'MMMM dd, yyyy HH:mm')}
+						Client: {client.name} • Generated on{" "}
+						{format(generatedAt, "MMMM dd, yyyy HH:mm")}
 					</Text>
 				</View>
 
@@ -207,14 +226,18 @@ export const FilingsSummaryReport: React.FC<FilingsSummaryReportProps> = ({
 				<View style={commonStyles.pageFooter}>
 					<Text>Filings Summary Report - {client.name}</Text>
 					<Text
-						render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
+						render={({ pageNumber, totalPages }) =>
+							`Page ${pageNumber} of ${totalPages}`
+						}
 						fixed
 					/>
 				</View>
 			</Page>
 
 			{/* Additional pages for filing details */}
-			{(overdueFilings.length > 0 || pendingFilings.length > 0 || filedFilings.length > 0) && (
+			{(overdueFilings.length > 0 ||
+				pendingFilings.length > 0 ||
+				filedFilings.length > 0) && (
 				<Page size="A4" style={commonStyles.page} orientation="landscape">
 					{/* Header */}
 					<View style={commonStyles.pageHeader}>
@@ -226,21 +249,25 @@ export const FilingsSummaryReport: React.FC<FilingsSummaryReportProps> = ({
 					</View>
 
 					{/* Overdue Filings */}
-					{renderFilingsTable(overdueFilings, 'Overdue Filings')}
+					{renderFilingsTable(overdueFilings, "Overdue Filings")}
 
 					{/* Pending Filings */}
-					{renderFilingsTable(pendingFilings, 'Pending Filings')}
+					{renderFilingsTable(pendingFilings, "Pending Filings")}
 
 					{/* Filed Filings */}
-					{renderFilingsTable(filedFilings, 'Filed/Approved Filings')}
+					{renderFilingsTable(filedFilings, "Filed/Approved Filings")}
 
 					{/* Other Filings */}
-					{renderFilingsTable(otherFilings, 'Other Filings')}
+					{renderFilingsTable(otherFilings, "Other Filings")}
 
 					{filings.length === 0 && (
 						<View style={commonStyles.section}>
 							<Text
-								style={{ fontSize: 11, color: colors.textLight, textAlign: 'center' }}
+								style={{
+									fontSize: 11,
+									color: colors.textLight,
+									textAlign: "center",
+								}}
 							>
 								No filings found for this client.
 							</Text>
@@ -251,7 +278,9 @@ export const FilingsSummaryReport: React.FC<FilingsSummaryReportProps> = ({
 					<View style={commonStyles.pageFooter}>
 						<Text>Filings Summary Report - {client.name}</Text>
 						<Text
-							render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
+							render={({ pageNumber, totalPages }) =>
+								`Page ${pageNumber} of ${totalPages}`
+							}
 							fixed
 						/>
 					</View>

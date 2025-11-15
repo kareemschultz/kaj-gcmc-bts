@@ -4,8 +4,8 @@
  * Helper function to create mock context for testing tRPC procedures
  */
 
-import type { Context } from "../../context";
 import type { UserRole } from "@GCMC-KAJ/types";
+import type { Context } from "../../context";
 
 /**
  * Create a mock tRPC context for testing

@@ -28,7 +28,7 @@ export const serviceRequestSchema = z.object({
 	]),
 	priority: z.enum(["low", "medium", "high", "urgent"]).optional(),
 	currentStepOrder: z.number().int().optional(),
-	metadata: z.record(z.any()).optional(),
+	metadata: z.record(z.string(), z.any()).optional(),
 });
 
 /**
@@ -393,7 +393,9 @@ export const serviceRequestsRouter = router({
 				where: { id: input.id },
 				data: {
 					...input.data,
-					dueDate: input.data.dueDate ? new Date(input.data.dueDate) : undefined,
+					dueDate: input.data.dueDate
+						? new Date(input.data.dueDate)
+						: undefined,
 				},
 			});
 

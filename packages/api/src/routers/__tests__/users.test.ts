@@ -8,14 +8,14 @@
  * - Test user creation with validation
  */
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { usersRouter } from "../users";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { testContexts } from "../../__tests__/helpers/test-context";
 import {
-	setupTestDb,
 	cleanupTestDb,
+	setupTestDb,
 	testFixtures,
 } from "../../__tests__/helpers/test-db";
-import { testContexts } from "../../__tests__/helpers/test-context";
+import { usersRouter } from "../users";
 
 describe("Users Router", () => {
 	beforeEach(async () => {
@@ -62,7 +62,9 @@ describe("Users Router", () => {
 			const ctx = testContexts.firmAdmin();
 			const caller = usersRouter.createCaller(ctx);
 
-			await expect(caller.list({ page: 1, pageSize: 10 })).resolves.toBeDefined();
+			await expect(
+				caller.list({ page: 1, pageSize: 10 }),
+			).resolves.toBeDefined();
 		});
 
 		it("should deny ComplianceManager from viewing users", async () => {
@@ -179,7 +181,7 @@ describe("Users Router", () => {
 
 		it("should allow FirmAdmin to invite users", async () => {
 			const ctx = testContexts.firmAdmin();
-			const caller = usersRouter.createCaller(ctx);
+			const _caller = usersRouter.createCaller(ctx);
 
 			// FirmAdmin has users:create permission
 			expect(ctx.role).toBe("FirmAdmin");
@@ -187,7 +189,7 @@ describe("Users Router", () => {
 
 		it("should allow SuperAdmin to invite users", async () => {
 			const ctx = testContexts.superAdmin();
-			const caller = usersRouter.createCaller(ctx);
+			const _caller = usersRouter.createCaller(ctx);
 
 			expect(ctx.role).toBe("SuperAdmin");
 		});
@@ -196,7 +198,7 @@ describe("Users Router", () => {
 	describe("update", () => {
 		it("should allow FirmAdmin to update user details", async () => {
 			const ctx = testContexts.firmAdmin();
-			const caller = usersRouter.createCaller(ctx);
+			const _caller = usersRouter.createCaller(ctx);
 
 			expect(ctx.role).toBe("FirmAdmin");
 		});
@@ -230,7 +232,7 @@ describe("Users Router", () => {
 	describe("role assignment", () => {
 		it("should allow FirmAdmin to assign roles", async () => {
 			const ctx = testContexts.firmAdmin();
-			const caller = usersRouter.createCaller(ctx);
+			const _caller = usersRouter.createCaller(ctx);
 
 			// FirmAdmin can manage roles
 			expect(ctx.role).toBe("FirmAdmin");
@@ -250,7 +252,7 @@ describe("Users Router", () => {
 
 		it("should validate role exists before assignment", async () => {
 			const ctx = testContexts.firmAdmin();
-			const caller = usersRouter.createCaller(ctx);
+			const _caller = usersRouter.createCaller(ctx);
 
 			// Test with invalid role ID would fail validation
 			expect(ctx.role).toBe("FirmAdmin");
@@ -260,7 +262,7 @@ describe("Users Router", () => {
 	describe("delete", () => {
 		it("should allow FirmAdmin to delete users", async () => {
 			const ctx = testContexts.firmAdmin();
-			const caller = usersRouter.createCaller(ctx);
+			const _caller = usersRouter.createCaller(ctx);
 
 			expect(ctx.role).toBe("FirmAdmin");
 		});
@@ -330,7 +332,9 @@ describe("Users Router", () => {
 			// Verify admins can access user list
 			for (const role of adminRoles) {
 				const caller = usersRouter.createCaller(role.ctx);
-				await expect(caller.list({ page: 1, pageSize: 10 })).resolves.toBeDefined();
+				await expect(
+					caller.list({ page: 1, pageSize: 10 }),
+				).resolves.toBeDefined();
 			}
 
 			// Verify non-admins cannot access user list

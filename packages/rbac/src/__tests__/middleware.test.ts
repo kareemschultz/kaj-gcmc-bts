@@ -4,7 +4,8 @@
  * Tests for RBAC middleware integration with tRPC procedures
  */
 
-import { describe, it, expect } from "vitest";
+import type { UserRole } from "@GCMC-KAJ/types";
+import { describe, expect, it } from "vitest";
 import {
 	assertPermission,
 	assertTenantAccess,
@@ -12,7 +13,6 @@ import {
 	ForbiddenError,
 	type UserPermissionContext,
 } from "../permissions";
-import type { UserRole } from "@GCMC-KAJ/types";
 
 describe("RBAC Middleware", () => {
 	const createUser = (
@@ -29,47 +29,33 @@ describe("RBAC Middleware", () => {
 		it("should grant access with correct permissions", () => {
 			const user = createUser("FirmAdmin");
 
-			expect(() =>
-				assertPermission(user, "clients", "view"),
-			).not.toThrow();
-			expect(() =>
-				assertPermission(user, "clients", "create"),
-			).not.toThrow();
-			expect(() =>
-				assertPermission(user, "clients", "edit"),
-			).not.toThrow();
-			expect(() =>
-				assertPermission(user, "clients", "delete"),
-			).not.toThrow();
+			expect(() => assertPermission(user, "clients", "view")).not.toThrow();
+			expect(() => assertPermission(user, "clients", "create")).not.toThrow();
+			expect(() => assertPermission(user, "clients", "edit")).not.toThrow();
+			expect(() => assertPermission(user, "clients", "delete")).not.toThrow();
 		});
 
 		it("should deny access without permissions", () => {
 			const user = createUser("Viewer");
 
-			expect(() =>
-				assertPermission(user, "clients", "create"),
-			).toThrow(ForbiddenError);
-			expect(() =>
-				assertPermission(user, "clients", "edit"),
-			).toThrow(ForbiddenError);
-			expect(() =>
-				assertPermission(user, "clients", "delete"),
-			).toThrow(ForbiddenError);
+			expect(() => assertPermission(user, "clients", "create")).toThrow(
+				ForbiddenError,
+			);
+			expect(() => assertPermission(user, "clients", "edit")).toThrow(
+				ForbiddenError,
+			);
+			expect(() => assertPermission(user, "clients", "delete")).toThrow(
+				ForbiddenError,
+			);
 		});
 
 		it("should allow SuperAdmin to bypass all checks", () => {
 			const user = createUser("SuperAdmin");
 
 			// SuperAdmin can access any module with any action
-			expect(() =>
-				assertPermission(user, "clients", "delete"),
-			).not.toThrow();
-			expect(() =>
-				assertPermission(user, "users", "delete"),
-			).not.toThrow();
-			expect(() =>
-				assertPermission(user, "settings", "edit"),
-			).not.toThrow();
+			expect(() => assertPermission(user, "clients", "delete")).not.toThrow();
+			expect(() => assertPermission(user, "users", "delete")).not.toThrow();
+			expect(() => assertPermission(user, "settings", "edit")).not.toThrow();
 			expect(() =>
 				assertPermission(user, "any-module", "any-action"),
 			).not.toThrow();
@@ -79,23 +65,15 @@ describe("RBAC Middleware", () => {
 			const user = createUser("DocumentOfficer");
 
 			// Can view clients but not modify
-			expect(() =>
-				assertPermission(user, "clients", "view"),
-			).not.toThrow();
-			expect(() =>
-				assertPermission(user, "clients", "create"),
-			).toThrow(ForbiddenError);
+			expect(() => assertPermission(user, "clients", "view")).not.toThrow();
+			expect(() => assertPermission(user, "clients", "create")).toThrow(
+				ForbiddenError,
+			);
 
 			// Can fully manage documents
-			expect(() =>
-				assertPermission(user, "documents", "view"),
-			).not.toThrow();
-			expect(() =>
-				assertPermission(user, "documents", "create"),
-			).not.toThrow();
-			expect(() =>
-				assertPermission(user, "documents", "edit"),
-			).not.toThrow();
+			expect(() => assertPermission(user, "documents", "view")).not.toThrow();
+			expect(() => assertPermission(user, "documents", "create")).not.toThrow();
+			expect(() => assertPermission(user, "documents", "edit")).not.toThrow();
 		});
 	});
 
@@ -162,35 +140,19 @@ describe("RBAC Middleware", () => {
 			it("should allow FirmAdmin full CRUD", () => {
 				const user = createUser("FirmAdmin");
 
-				expect(() =>
-					assertPermission(user, "clients", "view"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "clients", "create"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "clients", "edit"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "clients", "delete"),
-				).not.toThrow();
+				expect(() => assertPermission(user, "clients", "view")).not.toThrow();
+				expect(() => assertPermission(user, "clients", "create")).not.toThrow();
+				expect(() => assertPermission(user, "clients", "edit")).not.toThrow();
+				expect(() => assertPermission(user, "clients", "delete")).not.toThrow();
 			});
 
 			it("should allow Viewer read-only", () => {
 				const user = createUser("Viewer");
 
-				expect(() =>
-					assertPermission(user, "clients", "view"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "clients", "create"),
-				).toThrow();
-				expect(() =>
-					assertPermission(user, "clients", "edit"),
-				).toThrow();
-				expect(() =>
-					assertPermission(user, "clients", "delete"),
-				).toThrow();
+				expect(() => assertPermission(user, "clients", "view")).not.toThrow();
+				expect(() => assertPermission(user, "clients", "create")).toThrow();
+				expect(() => assertPermission(user, "clients", "edit")).toThrow();
+				expect(() => assertPermission(user, "clients", "delete")).toThrow();
 			});
 		});
 
@@ -198,26 +160,18 @@ describe("RBAC Middleware", () => {
 			it("should allow DocumentOfficer to manage documents", () => {
 				const user = createUser("DocumentOfficer");
 
-				expect(() =>
-					assertPermission(user, "documents", "view"),
-				).not.toThrow();
+				expect(() => assertPermission(user, "documents", "view")).not.toThrow();
 				expect(() =>
 					assertPermission(user, "documents", "create"),
 				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "documents", "edit"),
-				).not.toThrow();
+				expect(() => assertPermission(user, "documents", "edit")).not.toThrow();
 			});
 
 			it("should deny Viewer from creating documents", () => {
 				const user = createUser("Viewer");
 
-				expect(() =>
-					assertPermission(user, "documents", "view"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "documents", "create"),
-				).toThrow();
+				expect(() => assertPermission(user, "documents", "view")).not.toThrow();
+				expect(() => assertPermission(user, "documents", "create")).toThrow();
 			});
 		});
 
@@ -225,23 +179,15 @@ describe("RBAC Middleware", () => {
 			it("should allow ComplianceOfficer to submit filings", () => {
 				const user = createUser("ComplianceOfficer");
 
-				expect(() =>
-					assertPermission(user, "filings", "view"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "filings", "create"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "filings", "submit"),
-				).not.toThrow();
+				expect(() => assertPermission(user, "filings", "view")).not.toThrow();
+				expect(() => assertPermission(user, "filings", "create")).not.toThrow();
+				expect(() => assertPermission(user, "filings", "submit")).not.toThrow();
 			});
 
 			it("should deny DocumentOfficer from accessing filings", () => {
 				const user = createUser("DocumentOfficer");
 
-				expect(() =>
-					assertPermission(user, "filings", "view"),
-				).toThrow();
+				expect(() => assertPermission(user, "filings", "view")).toThrow();
 			});
 		});
 
@@ -249,26 +195,16 @@ describe("RBAC Middleware", () => {
 			it("should allow FirmAdmin to manage users", () => {
 				const user = createUser("FirmAdmin");
 
-				expect(() =>
-					assertPermission(user, "users", "view"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "users", "create"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "users", "edit"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "users", "delete"),
-				).not.toThrow();
+				expect(() => assertPermission(user, "users", "view")).not.toThrow();
+				expect(() => assertPermission(user, "users", "create")).not.toThrow();
+				expect(() => assertPermission(user, "users", "edit")).not.toThrow();
+				expect(() => assertPermission(user, "users", "delete")).not.toThrow();
 			});
 
 			it("should deny non-admins from managing users", () => {
 				const user = createUser("ComplianceManager");
 
-				expect(() =>
-					assertPermission(user, "users", "view"),
-				).toThrow();
+				expect(() => assertPermission(user, "users", "view")).toThrow();
 			});
 		});
 
@@ -276,20 +212,14 @@ describe("RBAC Middleware", () => {
 			it("should allow FirmAdmin to access settings", () => {
 				const user = createUser("FirmAdmin");
 
-				expect(() =>
-					assertPermission(user, "settings", "view"),
-				).not.toThrow();
-				expect(() =>
-					assertPermission(user, "settings", "edit"),
-				).not.toThrow();
+				expect(() => assertPermission(user, "settings", "view")).not.toThrow();
+				expect(() => assertPermission(user, "settings", "edit")).not.toThrow();
 			});
 
 			it("should deny non-admins from accessing settings", () => {
 				const user = createUser("ComplianceOfficer");
 
-				expect(() =>
-					assertPermission(user, "settings", "view"),
-				).toThrow();
+				expect(() => assertPermission(user, "settings", "view")).toThrow();
 			});
 		});
 
@@ -329,12 +259,8 @@ describe("RBAC Middleware", () => {
 			expect(() =>
 				assertPermission(firmAdmin, "clients", "view"),
 			).not.toThrow();
-			expect(() =>
-				assertPermission(staff, "clients", "view"),
-			).not.toThrow();
-			expect(() =>
-				assertPermission(viewer, "clients", "view"),
-			).not.toThrow();
+			expect(() => assertPermission(staff, "clients", "view")).not.toThrow();
+			expect(() => assertPermission(viewer, "clients", "view")).not.toThrow();
 
 			// Only admins can delete
 			expect(() =>
@@ -343,12 +269,8 @@ describe("RBAC Middleware", () => {
 			expect(() =>
 				assertPermission(firmAdmin, "clients", "delete"),
 			).not.toThrow();
-			expect(() =>
-				assertPermission(staff, "clients", "delete"),
-			).toThrow();
-			expect(() =>
-				assertPermission(viewer, "clients", "delete"),
-			).toThrow();
+			expect(() => assertPermission(staff, "clients", "delete")).toThrow();
+			expect(() => assertPermission(viewer, "clients", "delete")).toThrow();
 		});
 	});
 

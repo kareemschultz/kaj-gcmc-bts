@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
 import { FilingsList } from "@/components/filings/filings-list";
+import { authClient } from "@/lib/auth-client";
 
 export default async function FilingsPage() {
 	const session = await authClient.getSession({
@@ -17,8 +17,8 @@ export default async function FilingsPage() {
 
 	return (
 		<div className="container mx-auto py-8">
-			<div className="flex justify-between items-center mb-6">
-				<h1 className="text-3xl font-bold">Filings</h1>
+			<div className="mb-6 flex items-center justify-between">
+				<h1 className="font-bold text-3xl">Filings</h1>
 			</div>
 			<FilingsList />
 		</div>

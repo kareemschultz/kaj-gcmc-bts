@@ -19,7 +19,7 @@ export const documentTypeSchema = z.object({
 	description: z.string().optional(),
 	tags: z.array(z.string()).default([]),
 	authority: z.string().optional(),
-	metadata: z.record(z.any()).optional(),
+	metadata: z.record(z.string(), z.any()).optional(),
 });
 
 /**
@@ -191,7 +191,8 @@ export const documentTypesRouter = router({
 					if (duplicate) {
 						throw new TRPCError({
 							code: "CONFLICT",
-							message: "Document type with this name and category already exists",
+							message:
+								"Document type with this name and category already exists",
 						});
 					}
 				}

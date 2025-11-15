@@ -11,14 +11,17 @@ export {
 	generateDocumentsListReport,
 	generateFilingsSummaryReport,
 	generateServiceHistoryReport,
-} from './generator';
-
-// Export PDF templates (for custom usage if needed)
-export { ClientFileReport } from './templates/ClientFileReport';
-export { ComplianceReport } from './templates/ComplianceReport';
-export { DocumentsListReport } from './templates/DocumentsListReport';
-export { FilingsSummaryReport } from './templates/FilingsSummaryReport';
-export { ServiceHistoryReport } from './templates/ServiceHistoryReport';
-
+} from "./generator";
 // Export common styles and utilities
-export { colors, commonStyles, getScoreColor, getStatusStyle } from './styles/common';
+export {
+	colors,
+	commonStyles,
+	getScoreColor,
+	getStatusStyle,
+} from "./styles/common";
+// Export PDF templates (for custom usage if needed)
+export { ClientFileReport } from "./templates/ClientFileReport";
+export { ComplianceReport } from "./templates/ComplianceReport";
+export { DocumentsListReport } from "./templates/DocumentsListReport";
+export { FilingsSummaryReport } from "./templates/FilingsSummaryReport";
+export { ServiceHistoryReport } from "./templates/ServiceHistoryReport";

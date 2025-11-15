@@ -6,7 +6,7 @@
  */
 
 import prisma from "@GCMC-KAJ/db";
-import { isAdmin, isSuperAdmin } from "@GCMC-KAJ/rbac";
+import { isSuperAdmin } from "@GCMC-KAJ/rbac";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, rbacProcedure, router } from "../index";
