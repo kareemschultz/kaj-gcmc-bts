@@ -1,13 +1,9 @@
 {
-	"name": "@GCMC-KAJ/auth",
+	"name": "@GCMC-KAJ/storage",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
 			"default": "./src/index.ts"
-		},
-		"./*": {
-			"types": "./dist/*.d.ts",
-			"default": "./src/*.ts"
 		}
 	},
 	"type": "module",
@@ -22,10 +18,6 @@
 		"typescript": "^5"
 	},
 	"dependencies": {
-		"better-auth": "catalog:",
-		"dotenv": "catalog:",
-		"zod": "catalog:",
-		"@GCMC-KAJ/db": "workspace:*",
-		"@GCMC-KAJ/types": "workspace:*"
+		"minio": "^8.0.1"
 	}
 }
