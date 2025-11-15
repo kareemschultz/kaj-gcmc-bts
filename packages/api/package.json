@@ -1,0 +1,33 @@
+{
+  "name": "@GCMC-KAJ/api",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./src/*.ts"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "build": "tsdown"
+  },
+  "devDependencies": {
+    "tsdown": "catalog:",
+    "@GCMC-KAJ/config": "workspace:*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@trpc/server": "catalog:",
+    "@trpc/client": "catalog:",
+    "hono": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:",
+    "@GCMC-KAJ/auth": "workspace:*",
+    "@GCMC-KAJ/db": "workspace:*"
+  }
+}
