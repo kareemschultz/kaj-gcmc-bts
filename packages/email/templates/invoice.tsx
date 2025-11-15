@@ -161,22 +161,26 @@ export const InvoiceEmail = ({
 							</tr>
 						</thead>
 						<tbody>
-							{lineItems.map((item, index) => (
-								<tr key={index} style={tableRow}>
-									<td style={{ ...tableCell, textAlign: "left" }}>
-										{item.description}
-									</td>
-									<td style={{ ...tableCell, textAlign: "center" }}>
-										{item.quantity}
-									</td>
-									<td style={{ ...tableCell, textAlign: "right" }}>
-										${item.unitPrice.toFixed(2)}
-									</td>
-									<td style={{ ...tableCell, textAlign: "right" }}>
-										${item.total.toFixed(2)}
-									</td>
-								</tr>
-							))}
+							{lineItems.map((item) => {
+								const itemKey = `${item.description}-${item.quantity}-${item.unitPrice}`;
+
+								return (
+									<tr key={itemKey} style={tableRow}>
+										<td style={{ ...tableCell, textAlign: "left" }}>
+											{item.description}
+										</td>
+										<td style={{ ...tableCell, textAlign: "center" }}>
+											{item.quantity}
+										</td>
+										<td style={{ ...tableCell, textAlign: "right" }}>
+											${item.unitPrice.toFixed(2)}
+										</td>
+										<td style={{ ...tableCell, textAlign: "right" }}>
+											${item.total.toFixed(2)}
+										</td>
+									</tr>
+								);
+							})}
 						</tbody>
 					</table>
 				</Section>

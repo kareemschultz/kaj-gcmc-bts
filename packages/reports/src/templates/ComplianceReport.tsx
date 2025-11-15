@@ -235,35 +235,39 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 									Description
 								</Text>
 							</View>
-							{missingDocuments.map((doc, index) => (
-								<View
-									key={index}
-									style={
-										index === missingDocuments.length - 1
-											? commonStyles.tableRowLast
-											: commonStyles.tableRow
-									}
-								>
-									<Text style={[commonStyles.tableCell, { width: "40%" }]}>
-										{doc.documentType}
-									</Text>
-									<Text
-										style={[
-											commonStyles.tableCell,
-											{
-												width: "15%",
-												color: doc.required ? colors.danger : colors.warning,
-												fontWeight: "bold",
-											},
-										]}
+							{missingDocuments.map((doc, index) => {
+								const docKey = `${doc.documentType}-${doc.description ?? "no-description"}-${doc.required ? "required" : "optional"}`;
+
+								return (
+									<View
+										key={docKey}
+										style={
+											index === missingDocuments.length - 1
+												? commonStyles.tableRowLast
+												: commonStyles.tableRow
+										}
 									>
-										{doc.required ? "Required" : "Optional"}
-									</Text>
-									<Text style={[commonStyles.tableCell, { width: "45%" }]}>
-										{doc.description || "-"}
-									</Text>
-								</View>
-							))}
+										<Text style={[commonStyles.tableCell, { width: "40%" }]}>
+											{doc.documentType}
+										</Text>
+										<Text
+											style={[
+												commonStyles.tableCell,
+												{
+													width: "15%",
+													color: doc.required ? colors.danger : colors.warning,
+													fontWeight: "bold",
+												},
+											]}
+										>
+											{doc.required ? "Required" : "Optional"}
+										</Text>
+										<Text style={[commonStyles.tableCell, { width: "45%" }]}>
+											{doc.description || "-"}
+										</Text>
+									</View>
+								);
+							})}
 						</View>
 					</View>
 				)}
@@ -322,10 +326,14 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 										: doc.daysUntilExpiry <= 14
 											? colors.warning
 											: colors.text;
+								const expiryKey = doc.expiryDate
+									? new Date(doc.expiryDate).toISOString()
+									: "no-expiry";
+								const documentKey = `${doc.title}-${doc.documentType}-${expiryKey}`;
 
 								return (
 									<View
-										key={index}
+										key={documentKey}
 										style={
 											index === expiringDocuments.length - 1
 												? commonStyles.tableRowLast
@@ -384,40 +392,47 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 									Days Overdue
 								</Text>
 							</View>
-							{overdueFilings.map((filing, index) => (
-								<View
-									key={index}
-									style={
-										index === overdueFilings.length - 1
-											? commonStyles.tableRowLast
-											: commonStyles.tableRow
-									}
-								>
-									<Text style={[commonStyles.tableCell, { width: "40%" }]}>
-										{filing.filingType}
-									</Text>
-									<Text style={[commonStyles.tableCell, { width: "25%" }]}>
-										{filing.periodLabel || "-"}
-									</Text>
-									<Text style={[commonStyles.tableCell, { width: "20%" }]}>
-										{filing.dueDate
-											? format(filing.dueDate, "MMM dd, yyyy")
-											: "-"}
-									</Text>
-									<Text
-										style={[
-											commonStyles.tableCell,
-											{
-												width: "15%",
-												color: colors.danger,
-												fontWeight: "bold",
-											},
-										]}
+							{overdueFilings.map((filing, index) => {
+								const dueKey = filing.dueDate
+									? new Date(filing.dueDate).toISOString()
+									: "no-due";
+								const filingKey = `${filing.filingType}-${filing.periodLabel ?? "none"}-${dueKey}`;
+
+								return (
+									<View
+										key={filingKey}
+										style={
+											index === overdueFilings.length - 1
+												? commonStyles.tableRowLast
+												: commonStyles.tableRow
+										}
 									>
-										{filing.daysOverdue} days
-									</Text>
-								</View>
-							))}
+										<Text style={[commonStyles.tableCell, { width: "40%" }]}>
+											{filing.filingType}
+										</Text>
+										<Text style={[commonStyles.tableCell, { width: "25%" }]}>
+											{filing.periodLabel || "-"}
+										</Text>
+										<Text style={[commonStyles.tableCell, { width: "20%" }]}>
+											{filing.dueDate
+												? format(filing.dueDate, "MMM dd, yyyy")
+												: "-"}
+										</Text>
+										<Text
+											style={[
+												commonStyles.tableCell,
+												{
+													width: "15%",
+													color: colors.danger,
+													fontWeight: "bold",
+												},
+											]}
+										>
+											{filing.daysOverdue} days
+										</Text>
+									</View>
+								);
+							})}
 						</View>
 					</View>
 				)}
@@ -427,12 +442,21 @@ export const ComplianceReport: React.FC<ComplianceReportProps> = ({
 					<View style={commonStyles.section}>
 						<Text style={commonStyles.sectionTitle}>Recommendations</Text>
 						<View style={commonStyles.list}>
-							{recommendations.map((recommendation, index) => (
-								<View key={index} style={commonStyles.listItem}>
-									<Text style={commonStyles.listBullet}>•</Text>
-									<Text style={commonStyles.listContent}>{recommendation}</Text>
-								</View>
-							))}
+							{recommendations.map((recommendation, index) => {
+								const normalized = recommendation
+									.replace(/\s+/g, "-")
+									.toLowerCase();
+								const recommendationKey = `${normalized || "recommendation"}-${index}`;
+
+								return (
+									<View key={recommendationKey} style={commonStyles.listItem}>
+										<Text style={commonStyles.listBullet}>•</Text>
+										<Text style={commonStyles.listContent}>
+											{recommendation}
+										</Text>
+									</View>
+								);
+							})}
 						</View>
 					</View>
 				)}

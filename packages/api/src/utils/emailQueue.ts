@@ -3,6 +3,7 @@
  */
 
 import type {
+	CustomEmailData,
 	DocumentExpiryWarningData,
 	FilingReminderData,
 	InvoiceData,
@@ -26,7 +27,15 @@ export interface EmailJobData {
 		| "invoice"
 		| "custom";
 	to: string;
-	data: unknown;
+	data:
+		| WelcomeEmailData
+		| DocumentExpiryWarningData
+		| FilingReminderData
+		| TaskAssignmentData
+		| ServiceRequestUpdateData
+		| PasswordResetData
+		| InvoiceData
+		| CustomEmailData;
 }
 
 // Singleton email queue

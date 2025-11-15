@@ -3,7 +3,9 @@
  */
 
 import type {
+	CustomEmailData,
 	DocumentExpiryWarningData,
+	EmailJob,
 	FilingReminderData,
 	InvoiceData,
 	PasswordResetData,
@@ -25,7 +27,15 @@ export interface EmailJobData {
 		| "invoice"
 		| "custom";
 	to: string;
-	data: unknown;
+	data:
+		| WelcomeEmailData
+		| DocumentExpiryWarningData
+		| FilingReminderData
+		| TaskAssignmentData
+		| ServiceRequestUpdateData
+		| PasswordResetData
+		| InvoiceData
+		| CustomEmailData;
 }
 
 /**
@@ -83,9 +93,22 @@ export async function processEmailJob(job: Job<EmailJobData>) {
 				result = await emailService.sendInvoice(to, data as InvoiceData);
 				break;
 
-			case "custom":
-				result = await emailService.sendCustom(data as any);
+			case "custom": {
+				const customData = data as CustomEmailData;
+				const customJob: EmailJob = {
+					to: customData.to ?? to,
+					subject: customData.subject,
+					html: customData.html,
+					text: customData.text,
+					cc: customData.cc,
+					bcc: customData.bcc,
+					replyTo: customData.replyTo,
+					attachments: customData.attachments,
+					metadata: customData.metadata,
+				};
+				result = await emailService.sendCustom(customJob);
 				break;
+			}
 
 			default:
 				throw new Error(`Unknown email type: ${type}`);

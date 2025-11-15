@@ -5,18 +5,38 @@
  * Use it for global mocks, environment setup, etc.
  */
 
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { config } from "dotenv";
 import { beforeAll } from "vitest";
 
 // Load test environment variables
 beforeAll(() => {
-	// Load .env.test if it exists, otherwise fall back to .env
-	config({ path: ".env.test" });
+	const root = process.cwd();
+	const testEnvPath = path.join(root, ".env.test");
+	const defaultEnvPath = path.join(root, ".env");
 
-	// Ensure we're using a test database
-	if (process.env.DATABASE_URL && !process.env.DATABASE_URL.includes("test")) {
+	const envPath = existsSync(testEnvPath)
+		? testEnvPath
+		: existsSync(defaultEnvPath)
+			? defaultEnvPath
+			: undefined;
+
+	if (envPath) {
+		config({ path: envPath });
+	} else {
+		config();
+	}
+
+	if (!process.env.DATABASE_URL) {
+		throw new Error(
+			"DATABASE_URL must be defined before running tests. Set it in .env.test or .env.",
+		);
+	}
+
+	if (!process.env.DATABASE_URL.includes("test")) {
 		console.warn(
-			"WARNING: DATABASE_URL does not contain 'test'. Make sure you're using a test database!",
+			"WARNING: DATABASE_URL does not contain 'test'. Make sure you're using a dedicated test database!",
 		);
 	}
 });

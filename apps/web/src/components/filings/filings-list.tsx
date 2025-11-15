@@ -17,6 +17,11 @@ import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
 
+const FILINGS_LIST_SKELETON_KEYS = Array.from(
+	{ length: 6 },
+	(_, index) => `filings-list-skeleton-${index}`,
+);
+
 export function FilingsList() {
 	const [search, setSearch] = useState("");
 	const [page, setPage] = useState(1);
@@ -126,8 +131,8 @@ export function FilingsList() {
 
 			{isLoading ? (
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-					{[...Array(6)].map((_, i) => (
-						<Card key={i}>
+					{FILINGS_LIST_SKELETON_KEYS.map((skeletonKey) => (
+						<Card key={skeletonKey}>
 							<CardHeader>
 								<Skeleton className="h-6 w-32" />
 								<Skeleton className="h-4 w-24" />

@@ -26,6 +26,18 @@ export interface EmailJob {
 	metadata?: Record<string, unknown>;
 }
 
+export interface CustomEmailData {
+	to?: string;
+	subject: string;
+	html: string;
+	text?: string;
+	cc?: string[];
+	bcc?: string[];
+	replyTo?: string;
+	attachments?: EmailAttachment[];
+	metadata?: Record<string, unknown>;
+}
+
 export interface EmailAttachment {
 	filename: string;
 	content: string | Buffer;

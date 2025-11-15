@@ -136,7 +136,14 @@ GCMC-KAJ/
    bun db:generate
    ```
 
-7. **Start development servers**
+7. **(Optional) Run test suite**
+   ```bash
+   bun test
+   ```
+
+   > **Note:** Integration tests require PostgreSQL and Redis to be running. Use `docker compose up -d postgres redis minio` first.
+
+8. **Start development servers**
    ```bash
    bun dev
    ```
@@ -144,7 +151,23 @@ GCMC-KAJ/
    This starts:
    - Next.js app: http://localhost:3001
    - Hono API: http://localhost:3000
+   - Client portal: http://localhost:3002
+   - Worker health endpoint: http://localhost:3003/health (requires Redis & Postgres)
    - MinIO console: http://localhost:9001
+
+### Full Docker stack
+
+Build and run the entire platform (API, web, worker, Postgres, Redis, MinIO):
+
+```bash
+docker compose up --build
+```
+
+To stop the stack:
+
+```bash
+docker compose down
+```
 
 ## Available Scripts
 

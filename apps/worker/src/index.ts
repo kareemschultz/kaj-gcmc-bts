@@ -1,3 +1,15 @@
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { config as loadEnv } from "dotenv";
+
+const moduleDir = dirname(fileURLToPath(import.meta.url));
+
+// Load environment variables from the worker directory first, then fall back to repo root
+loadEnv();
+if (!process.env.DATABASE_URL) {
+	loadEnv({ path: resolve(moduleDir, "../../../.env") });
+}
+
 /**
  * Worker Application - BullMQ Background Jobs
  *
@@ -463,7 +475,7 @@ async function start() {
 		// Start health check server
 		const healthPort = process.env.HEALTH_PORT
 			? Number.parseInt(process.env.HEALTH_PORT, 10)
-			: 3002;
+			: 3003;
 		Bun.serve({
 			port: healthPort,
 			fetch: healthApp.fetch,

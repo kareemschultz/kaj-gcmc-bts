@@ -164,11 +164,11 @@ export const reportsRouter = router({
 			}
 		}),
 
-        /**
-         * Generate Service History Report
-         * Requires: services:view permission
-         */
-        generateServiceHistory: rbacProcedure("services", "view")
+	/**
+	 * Generate Service History Report
+	 * Requires: services:view permission
+	 */
+	generateServiceHistory: rbacProcedure("services", "view")
 		.input(
 			z.object({
 				clientId: z.number(),

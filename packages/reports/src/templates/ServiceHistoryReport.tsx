@@ -161,9 +161,9 @@ export const ServiceHistoryReport: React.FC<ServiceHistoryReportProps> = ({
 									{request.steps.filter((s) => s.status === "done").length}/
 									{request.steps.length} completed):
 								</Text>
-								{request.steps.map((step, stepIndex) => (
+								{request.steps.map((step) => (
 									<View
-										key={stepIndex}
+										key={`${request.id}-${step.order}-${step.title}`}
 										style={{
 											flexDirection: "row",
 											marginBottom: 3,

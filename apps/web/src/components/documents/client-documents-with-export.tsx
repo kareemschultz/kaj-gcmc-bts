@@ -17,6 +17,11 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
 
+const DOCUMENT_SKELETON_KEYS = Array.from(
+	{ length: 6 },
+	(_, index) => `document-skeleton-${index}`,
+);
+
 interface ClientDocumentsWithExportProps {
 	clientId: number;
 }
@@ -126,8 +131,8 @@ export function ClientDocumentsWithExport({
 
 			{isLoading ? (
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-					{[...Array(6)].map((_, i) => (
-						<Card key={i}>
+					{DOCUMENT_SKELETON_KEYS.map((skeletonKey) => (
+						<Card key={skeletonKey}>
 							<CardHeader>
 								<Skeleton className="h-6 w-32" />
 								<Skeleton className="h-4 w-24" />
