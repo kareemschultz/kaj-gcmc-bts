@@ -240,7 +240,7 @@ jobs:
       name: ${{ github.event.inputs.environment }}
     steps:
       - name: Download backup
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: db-backup-${{ github.event.inputs.environment }}-${{ github.run_id }}
 
