@@ -5,9 +5,9 @@ services:
     image: postgres
     container_name: GCMC-KAJ-postgres
     environment:
-      POSTGRES_DB: GCMC-KAJ
+      POSTGRES_DB: gcmc_kaj
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     volumes:

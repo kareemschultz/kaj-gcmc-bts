@@ -24,6 +24,7 @@
 		"typescript": "catalog:",
 		"@types/bun": "^1.2.6",
 		"tsdown": "catalog:",
-		"@GCMC-KAJ/config": "workspace:*"
+		"@GCMC-KAJ/config": "workspace:*",
+		"vitest": "^2.0.0"
 	}
 }

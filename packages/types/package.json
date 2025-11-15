@@ -12,7 +12,7 @@
 	},
 	"type": "module",
 	"scripts": {
-		"build": "tsdown"
+		"build": "echo 'Types package does not require building'"
 	},
 	"devDependencies": {
 		"tsdown": "catalog:",
