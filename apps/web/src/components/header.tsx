@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
 import UserMenu from "./user-menu";
+import { NotificationBell } from "./notifications/notification-bell";
 
 export default function Header() {
 	const pathname = usePathname();
@@ -77,6 +78,7 @@ export default function Header() {
 
 					{/* Right Section */}
 					<div className="flex items-center gap-2">
+						<NotificationBell />
 						<ModeToggle />
 						<UserMenu />
 					</div>
