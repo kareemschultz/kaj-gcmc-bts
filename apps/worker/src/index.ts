@@ -10,6 +10,7 @@
 
 import prisma from "@GCMC-KAJ/db";
 import { Queue, Worker } from "bullmq";
+import { Hono } from "hono";
 import Redis from "ioredis";
 
 // Redis connection
@@ -22,6 +23,25 @@ const connection = new Redis(
 
 console.log("🚀 Worker starting...");
 console.log(`📡 Redis: ${process.env.REDIS_URL || "redis://localhost:6379"}`);
+
+// Health check server
+const healthApp = new Hono();
+let isHealthy = false;
+
+healthApp.get("/health", (c) => {
+	if (!isHealthy) {
+		return c.json({ status: "starting" }, 503);
+	}
+	return c.json({
+		status: "healthy",
+		timestamp: new Date().toISOString(),
+		workers: {
+			compliance: "active",
+			notifications: "active",
+			filings: "active",
+		},
+	});
+});
 
 // ============================================================================
 // QUEUE DEFINITIONS
@@ -361,6 +381,16 @@ async function scheduleFilingReminders() {
 
 async function start() {
 	try {
+		// Start health check server
+		const healthPort = process.env.HEALTH_PORT
+			? Number.parseInt(process.env.HEALTH_PORT, 10)
+			: 3002;
+		Bun.serve({
+			port: healthPort,
+			fetch: healthApp.fetch,
+		});
+		console.log(`🏥 Health check server running on port ${healthPort}`);
+
 		// Test database connection
 		await prisma.$connect();
 		console.log("✅ Database connected");
@@ -370,6 +400,7 @@ async function start() {
 		await scheduleExpiryNotifications();
 		await scheduleFilingReminders();
 
+		isHealthy = true;
 		console.log("✅ Worker ready and listening for jobs");
 	} catch (error) {
 		console.error("❌ Worker startup failed:", error);

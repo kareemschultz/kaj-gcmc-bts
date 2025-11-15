@@ -5,7 +5,7 @@
  * Enforces tenant isolation and RBAC permissions
  */
 
-import prisma from "@GCMC-KAJ/db";
+import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, rbacProcedure, router } from "../index";
@@ -53,7 +53,7 @@ export const usersRouter = router({
 			const skip = (page - 1) * pageSize;
 
 			// Build where clause for TenantUser
-			const where: any = { tenantId: ctx.tenantId };
+			const where: Prisma.UserWhereInput = { tenantId: ctx.tenantId };
 
 			if (roleId) {
 				where.roleId = roleId;

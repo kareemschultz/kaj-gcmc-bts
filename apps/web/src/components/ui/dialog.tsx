@@ -12,9 +12,11 @@ function Dialog({ open, onOpenChange, children }: DialogProps) {
 
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center">
-			<div
+			<button
+				type="button"
 				className="fixed inset-0 bg-black/50"
 				onClick={() => onOpenChange(false)}
+				aria-label="Close dialog"
 			/>
 			<div className="relative z-50 mx-4 w-full max-w-lg rounded-lg bg-background shadow-lg">
 				{children}

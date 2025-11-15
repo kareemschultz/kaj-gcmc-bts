@@ -53,7 +53,7 @@ export function FilingForm({
 
 	// Get filing data if editing
 	const { data: filing } = trpc.filings.get.useQuery(
-		{ id: filingId! },
+		{ id: filingId ?? 0 },
 		{ enabled: !!filingId },
 	);
 

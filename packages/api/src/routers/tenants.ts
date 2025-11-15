@@ -5,7 +5,7 @@
  * Most operations require SuperAdmin role
  */
 
-import prisma from "@GCMC-KAJ/db";
+import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { isSuperAdmin } from "@GCMC-KAJ/rbac";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
@@ -30,7 +30,11 @@ export const tenantSchema = z.object({
 /**
  * Helper to check SuperAdmin
  */
-function assertSuperAdmin(ctx: any) {
+function assertSuperAdmin(ctx: {
+	role: string;
+	tenantId: number;
+	user: { email: string };
+}) {
 	if (
 		!isSuperAdmin({
 			role: ctx.role,
@@ -68,7 +72,7 @@ export const tenantsRouter = router({
 			const { search = "", page = 1, pageSize = 20 } = input || {};
 			const skip = (page - 1) * pageSize;
 
-			const where: any = {};
+			const where: Prisma.TenantWhereInput = {};
 
 			if (search) {
 				where.OR = [

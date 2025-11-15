@@ -49,6 +49,12 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Install curl for health checks and tini for signal handling
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    tini \
+    && rm -rf /var/lib/apt/lists/*
+
 # Create non-root user
 RUN addgroup --system --gid 1001 worker
 RUN adduser --system --uid 1001 worker
@@ -67,8 +73,15 @@ RUN chown -R worker:worker /app
 
 USER worker
 
-# Health check - worker should stay running
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD pgrep -f "bun" || exit 1
+# Expose health check port
+EXPOSE 3002
 
+ENV HEALTH_PORT=3002
+
+# Health check - verify worker health endpoint
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:3002/health || exit 1
+
+# Use tini for proper signal handling (SIGTERM forwarding)
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["bun", "apps/worker/dist/index.js"]

@@ -27,7 +27,7 @@ interface ComplianceReportProps {
 		expiringCount: number;
 		overdueFilingsCount: number;
 		lastCalculatedAt: Date;
-		breakdown?: any;
+		breakdown?: Record<string, unknown>;
 	} | null;
 	missingDocuments: Array<{
 		documentType: string;

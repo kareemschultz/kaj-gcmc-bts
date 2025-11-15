@@ -5,7 +5,7 @@
  * Enforces tenant isolation and client-specific access control
  */
 
-import prisma from "@GCMC-KAJ/db";
+import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, router } from "../index";
@@ -283,7 +283,7 @@ export const portalRouter = router({
 				};
 			}
 
-			const where: any = {
+			const where: Prisma.ClientTaskWhereInput = {
 				tenantId: ctx.tenantId,
 				clientId: { in: clientIds },
 			};

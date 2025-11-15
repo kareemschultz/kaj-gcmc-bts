@@ -5,7 +5,7 @@
  * Enforces tenant isolation and RBAC permissions
  */
 
-import prisma from "@GCMC-KAJ/db";
+import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, router } from "../index";
@@ -44,7 +44,7 @@ export const notificationsRouter = router({
 
 			const skip = (page - 1) * pageSize;
 
-			const where: any = {
+			const where: Prisma.NotificationWhereInput = {
 				tenantId: ctx.tenantId,
 				recipientUserId: ctx.user.id,
 			};
@@ -168,7 +168,7 @@ export const notificationsRouter = router({
 				.optional(),
 		)
 		.query(async ({ ctx, input }) => {
-			const where: any = {
+			const where: Prisma.NotificationWhereInput = {
 				tenantId: ctx.tenantId,
 				recipientUserId: ctx.user.id,
 			};

@@ -1,627 +1,969 @@
 # Docker Deployment Guide
 
-Complete guide for running KAJ-GCMC platform with Docker.
+Complete guide for deploying and managing the GCMC-KAJ platform with Docker. This guide covers development, production deployment, scaling, monitoring, and troubleshooting.
+
+## Table of Contents
+
+- [Architecture Overview](#architecture-overview)
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [Development Deployment](#development-deployment)
+- [Production Deployment](#production-deployment)
+- [Environment Variables](#environment-variables)
+- [Health Checks](#health-checks)
+- [Scaling](#scaling)
+- [Monitoring](#monitoring)
+- [Backup and Restore](#backup-and-restore)
+- [Troubleshooting](#troubleshooting)
+- [Performance Optimization](#performance-optimization)
+- [Security Best Practices](#security-best-practices)
+
+## Architecture Overview
+
+The application consists of 6 main services orchestrated with Docker Compose:
+
+### Services
+
+1. **PostgreSQL** (Port: 5432)
+   - Primary relational database
+   - Stores application data, users, documents, filings
+   - Health check: `pg_isready`
+
+2. **Redis** (Port: 6379)
+   - Job queue backend (BullMQ)
+   - Session storage and caching
+   - Health check: `redis-cli ping`
+
+3. **MinIO** (Ports: 9000, 9001)
+   - S3-compatible object storage
+   - Document file storage
+   - Health check: HTTP endpoint
+
+4. **API Server** (Port: 3000)
+   - Hono + tRPC backend
+   - RESTful and tRPC endpoints
+   - Health endpoints: `/health`, `/ready`
+
+5. **Web Application** (Port: 3001)
+   - Next.js frontend
+   - Server-side rendering
+   - Health endpoint: `/api/health`
+
+6. **Worker** (Port: 3002)
+   - BullMQ background job processor
+   - Scheduled tasks (compliance, notifications, filings)
+   - Health endpoint: `/health` on port 3002
+
+### Container Features
+
+All application containers include:
+- **Multi-stage builds**: Optimized for minimal image size
+- **Non-root users**: Security-hardened
+- **Signal handling**: Proper SIGTERM forwarding with tini
+- **Health checks**: Automatic recovery and monitoring
+- **Resource limits**: CPU and memory constraints
+- **Log rotation**: Automatic log management
+
+## Prerequisites
+
+### Required Software
+
+- **Docker Engine**: 20.10+ ([Install](https://docs.docker.com/engine/install/))
+- **Docker Compose**: 2.0+ ([Install](https://docs.docker.com/compose/install/))
+
+### System Requirements
+
+- **RAM**: Minimum 8GB, recommended 16GB
+- **Disk Space**: Minimum 20GB free
+- **CPU**: 4+ cores recommended
+
+### Verify Installation
+
+```bash
+docker --version
+# Docker version 24.0.0+
+
+docker-compose --version
+# Docker Compose version v2.20.0+
+```
 
 ## Quick Start
 
 ### Development Mode
 
-Start infrastructure only (apps run locally):
 ```bash
-docker compose up -d postgres redis minio
+# Clone repository
+git clone <repository-url>
+cd kaj-gcmc-bts
+
+# Start infrastructure only
+docker-compose up -d postgres redis minio
+
+# Install dependencies and run locally
 bun install
-bun db:push
+bun run db:push
 bun dev
 ```
 
 ### Full Stack Mode
 
-Start everything in containers:
 ```bash
-docker compose up --build
+# Build and start all services
+docker-compose up --build -d
+
+# View logs
+docker-compose logs -f
+
+# Check service status
+docker-compose ps
 ```
 
-Visit:
+### Access Services
+
 - **Web App**: http://localhost:3001
-- **API**: http://localhost:3000
-- **MinIO Console**: http://localhost:9001 (minioadmin / minioadmin)
+- **API Server**: http://localhost:3000
+- **API Health**: http://localhost:3000/health
+- **MinIO Console**: http://localhost:9001 (minioadmin/minioadmin)
+- **Worker Health**: http://localhost:3002/health
 
-## Services Overview
+## Development Deployment
 
-### Infrastructure Services
-
-#### PostgreSQL
-- **Port**: 5432
-- **Database**: gcmc_kaj
-- **User**: postgres
-- **Password**: postgres (change in production)
-- **Volume**: postgres_data
-
-#### Redis
-- **Port**: 6379
-- **Volume**: redis_data
-- **Purpose**: BullMQ job queue backend
-
-#### MinIO
-- **API Port**: 9000
-- **Console Port**: 9001
-- **Credentials**: minioadmin / minioadmin (change in production)
-- **Volume**: minio_data
-- **Purpose**: S3-compatible object storage for documents
-
-### Application Services
-
-#### API Server
-- **Port**: 3000
-- **Image**: Built from apps/server/Dockerfile
-- **Purpose**: Hono + tRPC backend
-- **Health Check**: GET /health
-- **Depends on**: postgres, redis, minio
-
-#### Web App
-- **Port**: 3001
-- **Image**: Built from apps/web/Dockerfile
-- **Purpose**: Next.js frontend
-- **Depends on**: api, postgres
-
-#### Worker
-- **No exposed ports**
-- **Image**: Built from apps/worker/Dockerfile
-- **Purpose**: BullMQ background jobs
-- **Jobs**:
-  - Compliance refresh (daily at 2 AM)
-  - Expiry notifications (daily at 8 AM)
-  - Filing reminders (daily at 9 AM)
-- **Depends on**: postgres, redis
-
-## Docker Commands
-
-### Build & Start
+### Building Images
 
 ```bash
 # Build all images
-docker compose build
+docker-compose build
 
-# Build single service
-docker compose build api
-docker compose build web
-docker compose build worker
+# Build specific service
+docker-compose build api
+docker-compose build web
+docker-compose build worker
 
-# Start all services
-docker compose up -d
+# Build with no cache (clean build)
+docker-compose build --no-cache
 
-# Start specific services
-docker compose up -d postgres redis minio
-docker compose up -d api web worker
-
-# Start with live logs
-docker compose up
+# Build with progress output
+docker-compose build --progress=plain
 ```
 
-### Manage Services
+### Starting Services
+
+```bash
+# Start all services (detached)
+docker-compose up -d
+
+# Start specific services
+docker-compose up -d postgres redis minio
+docker-compose up -d api web worker
+
+# Start with live logs (foreground)
+docker-compose up
+
+# Start single service
+docker-compose up -d api
+```
+
+### Managing Services
 
 ```bash
 # View running containers
-docker compose ps
+docker-compose ps
 
 # View logs
-docker compose logs -f           # All services
-docker compose logs -f api       # API only
-docker compose logs -f worker    # Worker only
+docker-compose logs -f              # All services
+docker-compose logs -f api          # API only
+docker-compose logs -f --tail=100   # Last 100 lines
 
 # Restart services
-docker compose restart api
-docker compose restart worker
+docker-compose restart api
+docker-compose restart worker
 
 # Stop services
-docker compose stop
+docker-compose stop
 
 # Stop and remove containers
-docker compose down
+docker-compose down
 
-# Stop and remove volumes (⚠️ data loss)
-docker compose down -v
+# Stop and remove volumes (⚠️ DATA LOSS)
+docker-compose down -v
 ```
 
 ### Database Operations
 
 ```bash
-# Run migrations inside container
-docker compose exec api bun db:push
+# Run migrations
+docker-compose exec api bun run db:push
 
-# Access Prisma Studio
-docker compose exec api bun db:studio
+# Generate Prisma client
+docker-compose exec api bun run db:generate
+
+# Open Prisma Studio
+docker-compose exec api bun run db:studio
 
 # Connect to PostgreSQL
-docker compose exec postgres psql -U postgres -d gcmc_kaj
+docker-compose exec postgres psql -U postgres -d gcmc_kaj
 
-# Backup database
-docker compose exec postgres pg_dump -U postgres gcmc_kaj > backup.sql
-
-# Restore database
-cat backup.sql | docker compose exec -T postgres psql -U postgres gcmc_kaj
+# Run SQL query
+docker-compose exec postgres psql -U postgres -d gcmc_kaj -c "SELECT COUNT(*) FROM \"User\";"
 ```
 
 ### Debugging
 
 ```bash
-# Execute command in container
-docker compose exec api sh
-docker compose exec web sh
-docker compose exec worker sh
+# Execute shell in container
+docker-compose exec api sh
+docker-compose exec web sh
+docker-compose exec worker sh
 
-# View container resource usage
+# View container stats
 docker stats
 
 # Inspect service configuration
-docker compose config
+docker-compose config
 
-# View service health
-docker compose ps
+# View service details
+docker inspect gcmc-kaj-api
 ```
 
-## Environment Configuration
+## Production Deployment
 
-### Development (.env.local)
+### Step 1: Environment Configuration
+
+Create a production `.env` file:
 
 ```bash
 # Database
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/gcmc_kaj
+POSTGRES_DB=gcmc_kaj_prod
+POSTGRES_USER=gcmc_admin
+POSTGRES_PASSWORD=<generate-secure-password>
 
-# Auth
-BETTER_AUTH_SECRET=dev-secret-change-in-production
-BETTER_AUTH_URL=http://localhost:3000
-
-# Redis
-REDIS_URL=redis://localhost:6379
+# Authentication (CRITICAL: Generate secure random value)
+BETTER_AUTH_SECRET=<generate-with-openssl-rand-base64-32>
+BETTER_AUTH_URL=https://api.yourdomain.com
 
 # MinIO
+MINIO_ROOT_USER=<secure-username>
+MINIO_ROOT_PASSWORD=<generate-secure-password>
+MINIO_BUCKET_PREFIX=prod
+
+# Application URLs
+NEXT_PUBLIC_API_URL=https://api.yourdomain.com
+CORS_ORIGIN=https://app.yourdomain.com
+
+# Docker Registry (optional)
+DOCKER_REGISTRY=registry.yourdomain.com/gcmc-kaj
+VERSION=1.0.0
+
+# Data Storage
+DATA_PATH=/var/lib/gcmc-kaj
+
+# Scaling
+API_REPLICAS=2
+WEB_REPLICAS=2
+WORKER_REPLICAS=1
+```
+
+### Step 2: Generate Secure Secrets
+
+```bash
+# Generate BETTER_AUTH_SECRET
+openssl rand -base64 32
+
+# Generate passwords
+openssl rand -base64 24
+
+# Or use uuidgen
+uuidgen
+```
+
+### Step 3: Prepare Data Directories
+
+```bash
+# Create data directories
+sudo mkdir -p /var/lib/gcmc-kaj/{postgres,redis,minio}
+
+# Set permissions
+sudo chown -R $(whoami):$(whoami) /var/lib/gcmc-kaj
+
+# Or use specific user
+sudo chown -R 1001:1001 /var/lib/gcmc-kaj
+```
+
+### Step 4: Deploy with Production Config
+
+```bash
+# Deploy using production compose file
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+# View deployment status
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+
+# Follow logs
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml logs -f
+```
+
+### Step 5: Initialize Database
+
+```bash
+# Run migrations
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec api bun run db:push
+
+# Seed initial data (if needed)
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml exec api bun run db:seed
+```
+
+### Step 6: Verify Deployment
+
+```bash
+# Check health endpoints
+curl https://api.yourdomain.com/health
+curl https://api.yourdomain.com/ready
+
+# Check service status
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+
+# View resource usage
+docker stats
+```
+
+### Docker Swarm Deployment (Recommended for Production)
+
+For high availability and automatic orchestration:
+
+```bash
+# Initialize swarm
+docker swarm init
+
+# Deploy stack
+docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml gcmc-kaj
+
+# List services
+docker service ls
+
+# View service logs
+docker service logs -f gcmc-kaj_api
+
+# Scale services
+docker service scale gcmc-kaj_api=5
+docker service scale gcmc-kaj_web=3
+
+# Update service
+docker service update --image gcmc-kaj/api:1.1.0 gcmc-kaj_api
+
+# Remove stack
+docker stack rm gcmc-kaj
+```
+
+## Environment Variables
+
+### Required Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `POSTGRES_PASSWORD` | PostgreSQL password | `secure_random_password_123` |
+| `BETTER_AUTH_SECRET` | JWT signing secret (32+ chars) | `<openssl-rand-base64-32>` |
+| `BETTER_AUTH_URL` | Auth service URL | `https://api.example.com` |
+| `MINIO_ROOT_USER` | MinIO admin username | `minio_admin` |
+| `MINIO_ROOT_PASSWORD` | MinIO admin password | `secure_password_456` |
+| `NEXT_PUBLIC_API_URL` | API endpoint for frontend | `https://api.example.com` |
+
+### Optional Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `POSTGRES_DB` | Database name | `gcmc_kaj` |
+| `POSTGRES_USER` | Database user | `postgres` |
+| `DATA_PATH` | Host data directory | `./data` |
+| `API_REPLICAS` | Number of API instances | `2` |
+| `WEB_REPLICAS` | Number of web instances | `2` |
+| `WORKER_REPLICAS` | Number of worker instances | `1` |
+| `CORS_ORIGIN` | Allowed CORS origins | `` |
+| `MINIO_REGION` | MinIO/S3 region | `us-east-1` |
+| `MINIO_BUCKET_PREFIX` | Bucket name prefix | `tenant` |
+
+### Development Variables
+
+```bash
+# .env.local
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/gcmc_kaj
+REDIS_URL=redis://localhost:6379
+BETTER_AUTH_SECRET=dev-secret-change-in-production
+BETTER_AUTH_URL=http://localhost:3000
 MINIO_ENDPOINT=localhost
 MINIO_PORT=9000
 MINIO_USE_SSL=false
 MINIO_ACCESS_KEY=minioadmin
 MINIO_SECRET_KEY=minioadmin
-MINIO_REGION=us-east-1
-
-# App URLs
 NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
-### Production (.env.production)
+## Health Checks
 
+All services include comprehensive health monitoring.
+
+### API Server Health Endpoints
+
+**Liveness Check** (basic availability):
 ```bash
-# Database (use managed PostgreSQL)
-DATABASE_URL=postgresql://user:password@db.example.com:5432/gcmc_kaj
-
-# Auth (CRITICAL: Use strong random secret)
-BETTER_AUTH_SECRET=<generate-with-openssl-rand-base64-32>
-BETTER_AUTH_URL=https://api.yourdomain.com
-
-# Redis (use managed Redis)
-REDIS_URL=redis://redis.example.com:6379
-
-# MinIO/S3 (use AWS S3 or managed MinIO)
-MINIO_ENDPOINT=s3.amazonaws.com
-MINIO_PORT=443
-MINIO_USE_SSL=true
-MINIO_ACCESS_KEY=<aws-access-key>
-MINIO_SECRET_KEY=<aws-secret-key>
-MINIO_REGION=us-east-1
-
-# App URLs
-NEXT_PUBLIC_API_URL=https://api.yourdomain.com
-
-# Optional: Email
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_USER=notifications@yourdomain.com
-SMTP_PASSWORD=<smtp-password>
-SMTP_FROM=noreply@yourdomain.com
+curl http://localhost:3000/health
 ```
 
-## Production Deployment
+Response:
+```json
+{
+  "status": "ok",
+  "timestamp": "2025-11-15T10:30:00.000Z"
+}
+```
 
-### Prerequisites
+**Readiness Check** (with dependency validation):
+```bash
+curl http://localhost:3000/ready
+```
 
-1. **Server Requirements**:
-   - Docker 24+ and Docker Compose V2
-   - 4GB+ RAM recommended
-   - 20GB+ disk space
+Response:
+```json
+{
+  "status": "ready",
+  "timestamp": "2025-11-15T10:30:00.000Z",
+  "checks": {
+    "database": "connected"
+  }
+}
+```
 
-2. **Generate Secrets**:
-   ```bash
-   # Generate BETTER_AUTH_SECRET
-   openssl rand -base64 32
-   ```
+### Web Application Health
 
-3. **Set up Environment**:
-   ```bash
-   cp .env.example .env
-   # Edit .env with production values
-   ```
+```bash
+curl http://localhost:3001/api/health
+```
 
-### Deployment Steps
+### Worker Health
 
-1. **Clone Repository**:
-   ```bash
-   git clone <repository-url>
-   cd GCMC-KAJ
-   ```
+```bash
+curl http://localhost:3002/health
+```
 
-2. **Configure Environment**:
-   ```bash
-   nano .env  # Set production values
-   ```
+Response:
+```json
+{
+  "status": "healthy",
+  "timestamp": "2025-11-15T10:30:00.000Z",
+  "workers": {
+    "compliance": "active",
+    "notifications": "active",
+    "filings": "active"
+  }
+}
+```
 
-3. **Build Images**:
-   ```bash
-   docker compose build
-   ```
+### Container Health Status
 
-4. **Start Services**:
-   ```bash
-   docker compose up -d
-   ```
+```bash
+# View health status in docker-compose
+docker-compose ps
 
-5. **Run Database Migrations**:
-   ```bash
-   docker compose exec api bun db:push
-   ```
+# Inspect health details
+docker inspect --format='{{json .State.Health}}' gcmc-kaj-api | jq
 
-6. **Verify Services**:
-   ```bash
-   docker compose ps
-   docker compose logs -f
-   ```
+# View health logs
+docker inspect --format='{{range .State.Health.Log}}{{.Output}}{{end}}' gcmc-kaj-api
+```
 
-7. **Health Checks**:
-   ```bash
-   curl http://localhost:3000/health  # API
-   curl http://localhost:3001         # Web
-   ```
+## Scaling
 
-### Production docker-compose.yml
+### Horizontal Scaling with Docker Compose
 
-For production, create `docker-compose.prod.yml`:
+```bash
+# Scale API servers
+docker-compose up -d --scale api=3
+
+# Scale web servers
+docker-compose up -d --scale web=2
+
+# Scale workers
+docker-compose up -d --scale worker=2
+
+# Note: Requires load balancer for API/Web scaling
+```
+
+### Horizontal Scaling with Docker Swarm
+
+```bash
+# Scale services dynamically
+docker service scale gcmc-kaj_api=5
+docker service scale gcmc-kaj_web=3
+docker service scale gcmc-kaj_worker=2
+
+# Auto-scaling based on load (requires external orchestrator)
+```
+
+### Resource Limits
+
+Services have configured resource constraints:
+
+| Service | CPU Limit | Memory Limit | CPU Reserved | Memory Reserved |
+|---------|-----------|--------------|--------------|-----------------|
+| PostgreSQL | 2 cores | 2GB | 1 core | 1GB |
+| Redis | 1 core | 512MB | 0.5 core | 256MB |
+| MinIO | 2 cores | 2GB | 1 core | 1GB |
+| API | 2 cores | 2GB | 1 core | 1GB |
+| Web | 2 cores | 2GB | 1 core | 1GB |
+| Worker | 2 cores | 2GB | 0.5 core | 512MB |
+
+### Adjusting Resource Limits
+
+Edit `docker-compose.prod.yml`:
 
 ```yaml
-version: "3.9"
-
 services:
   api:
-    build:
-      context: .
-      dockerfile: apps/server/Dockerfile
-    restart: always
-    environment:
-      NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL}
-      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
-      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
-      REDIS_URL: ${REDIS_URL}
-      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
-      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
-      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
-    ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
-      - redis
-
-  web:
-    build:
-      context: .
-      dockerfile: apps/web/Dockerfile
-    restart: always
-    environment:
-      NODE_ENV: production
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
-      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
-      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
-    ports:
-      - "3001:3001"
-    depends_on:
-      - api
-
-  worker:
-    build:
-      context: .
-      dockerfile: apps/worker/Dockerfile
-    restart: always
-    environment:
-      NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL}
-      REDIS_URL: ${REDIS_URL}
-    depends_on:
-      - postgres
-      - redis
-
-  postgres:
-    image: postgres:16-alpine
-    restart: always
-    environment:
-      POSTGRES_DB: gcmc_kaj
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./backups:/backups  # For backup storage
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  redis:
-    image: redis:7-alpine
-    restart: always
-    command: redis-server --requirepass ${REDIS_PASSWORD}
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "--pass", "${REDIS_PASSWORD}", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-
-volumes:
-  postgres_data:
-  redis_data:
+    deploy:
+      resources:
+        limits:
+          cpus: '4'        # Increase CPU limit
+          memory: 4G       # Increase memory limit
+        reservations:
+          cpus: '2'
+          memory: 2G
 ```
 
-Run with:
+## Monitoring
+
+### Log Management
+
 ```bash
-docker compose -f docker-compose.prod.yml up -d
+# View all logs
+docker-compose logs -f
+
+# View specific service
+docker-compose logs -f api
+
+# Last N lines
+docker-compose logs --tail=100 api
+
+# Since specific time
+docker-compose logs --since 30m api
+
+# Export logs to file
+docker-compose logs --no-color > application.log
+
+# Follow logs with timestamps
+docker-compose logs -f -t
 ```
 
-## Security Best Practices
+### Resource Monitoring
 
-### 1. Secrets Management
-- Never commit `.env` files
-- Use Docker secrets or environment variables
-- Rotate secrets regularly
-- Use strong random values for `BETTER_AUTH_SECRET`
-
-### 2. Network Security
-- Use reverse proxy (nginx/Traefik) for SSL/TLS
-- Restrict PostgreSQL/Redis to internal network
-- Enable firewall rules
-- Use VPC in cloud deployments
-
-### 3. Data Persistence
-- Regular database backups
-- Volume backups before major updates
-- Test restore procedures
-
-### 4. Updates
 ```bash
-# Pull latest code
-git pull
+# Real-time resource usage
+docker stats
 
-# Rebuild images
-docker compose build
+# Specific containers only
+docker stats gcmc-kaj-api gcmc-kaj-web gcmc-kaj-worker
 
-# Rolling update
-docker compose up -d --no-deps --build api
-docker compose up -d --no-deps --build web
-docker compose up -d --no-deps --build worker
+# Single snapshot
+docker stats --no-stream
+
+# With custom format
+docker stats --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}"
+```
+
+### Log Rotation
+
+Automatic log rotation is configured:
+
+**Development**:
+- Max file size: 10MB
+- Max files: 3
+- Total: ~30MB per service
+
+**Production**:
+- Max file size: 100MB
+- Max files: 5
+- Compression: Enabled
+- Total: ~500MB per service
+
+## Backup and Restore
+
+### Database Backup
+
+```bash
+# Create backup
+docker-compose exec postgres pg_dump -U postgres gcmc_kaj > backup-$(date +%Y%m%d).sql
+
+# Create compressed backup
+docker-compose exec postgres pg_dump -U postgres gcmc_kaj | gzip > backup-$(date +%Y%m%d).sql.gz
+
+# Backup specific schema
+docker-compose exec postgres pg_dump -U postgres -n public gcmc_kaj > backup-public.sql
+
+# Automated daily backups (crontab)
+0 2 * * * cd /path/to/kaj-gcmc-bts && docker-compose exec -T postgres pg_dump -U postgres gcmc_kaj | gzip > /backups/gcmc-$(date +\%Y\%m\%d).sql.gz
+```
+
+### Database Restore
+
+```bash
+# Stop application services
+docker-compose stop api web worker
+
+# Restore from backup
+cat backup.sql | docker-compose exec -T postgres psql -U postgres gcmc_kaj
+
+# Restore from compressed backup
+gunzip < backup.sql.gz | docker-compose exec -T postgres psql -U postgres gcmc_kaj
+
+# Restart application services
+docker-compose start api web worker
+```
+
+### Volume Backup
+
+```bash
+# Backup PostgreSQL volume
+docker run --rm \
+  -v gcmc-kaj_postgres_data:/data \
+  -v $(pwd)/backups:/backup \
+  alpine tar czf /backup/postgres-$(date +%Y%m%d).tar.gz /data
+
+# Backup MinIO volume
+docker run --rm \
+  -v gcmc-kaj_minio_data:/data \
+  -v $(pwd)/backups:/backup \
+  alpine tar czf /backup/minio-$(date +%Y%m%d).tar.gz /data
+
+# Restore volume
+docker run --rm \
+  -v gcmc-kaj_postgres_data:/data \
+  -v $(pwd)/backups:/backup \
+  alpine tar xzf /backup/postgres-20251115.tar.gz -C /
+```
+
+### MinIO Backup
+
+```bash
+# Using MinIO client inside container
+docker-compose exec minio mc mirror /data/tenant-1-documents /backups/tenant-1
+
+# Export bucket to local
+docker-compose exec minio mc cp --recursive /data/tenant-1-documents /backups/
 ```
 
 ## Troubleshooting
 
-### Services Won't Start
+### Service Won't Start
 
 ```bash
 # Check logs
-docker compose logs
+docker-compose logs service-name
 
-# Check specific service
-docker compose logs api
+# Check container exit code
+docker-compose ps
 
-# Rebuild from scratch
-docker compose down -v
-docker compose build --no-cache
-docker compose up -d
+# Inspect container
+docker inspect gcmc-kaj-service
+
+# Check resource availability
+docker system df
+docker system info
+
+# Rebuild service
+docker-compose up -d --force-recreate service-name
+
+# Clean rebuild
+docker-compose build --no-cache service-name
+docker-compose up -d service-name
 ```
 
 ### Database Connection Issues
 
 ```bash
 # Verify PostgreSQL is running
-docker compose ps postgres
+docker-compose ps postgres
 
 # Check PostgreSQL logs
-docker compose logs postgres
+docker-compose logs postgres
 
-# Test connection
-docker compose exec postgres pg_isready -U postgres
+# Test database connection
+docker-compose exec postgres pg_isready -U postgres
 
-# Verify DATABASE_URL format
-# Should be: postgresql://user:password@postgres:5432/gcmc_kaj
+# Verify connectivity from API
+docker-compose exec api sh -c 'bunx prisma db pull'
+
+# Check DATABASE_URL format
+# Correct: postgresql://user:password@postgres:5432/gcmc_kaj
+```
+
+### Redis Connection Issues
+
+```bash
+# Test Redis connectivity
+docker-compose exec redis redis-cli ping
+
+# Check Redis info
+docker-compose exec redis redis-cli info
+
+# View connected clients
+docker-compose exec redis redis-cli client list
+
+# Monitor Redis commands
+docker-compose exec redis redis-cli monitor
 ```
 
 ### MinIO Connection Issues
 
 ```bash
-# Check MinIO is running
-docker compose ps minio
+# Check MinIO status
+docker-compose ps minio
+
+# View MinIO logs
+docker-compose logs minio
 
 # Access MinIO console
-# Visit http://localhost:9001
+# http://localhost:9001 (minioadmin/minioadmin)
 
-# Verify buckets exist
-docker compose exec minio mc ls local
+# Verify buckets
+docker-compose exec minio mc ls local
 ```
 
 ### Worker Not Processing Jobs
 
 ```bash
 # Check worker logs
-docker compose logs -f worker
+docker-compose logs -f worker
 
-# Verify Redis connection
-docker compose exec redis redis-cli ping
+# Verify worker is healthy
+curl http://localhost:3002/health
 
-# Check job queues
-docker compose exec worker bun run -e "
-import { Queue } from 'bullmq';
-import Redis from 'ioredis';
-const connection = new Redis(process.env.REDIS_URL);
-const queue = new Queue('compliance-refresh', { connection });
-const jobs = await queue.getJobs();
-console.log('Jobs:', jobs.length);
-"
+# Check Redis connectivity
+docker-compose exec worker sh -c 'bunx redis-cli -u $REDIS_URL ping'
+
+# View worker database connection
+docker-compose exec worker sh -c 'bunx prisma db pull'
 ```
 
-### Memory Issues
+### Out of Memory
 
 ```bash
-# Check resource usage
+# Check memory usage
 docker stats
 
-# Limit container memory (in docker-compose.yml)
+# Increase Docker memory limit
+# Docker Desktop: Settings > Resources > Memory
+
+# Adjust service limits in docker-compose.prod.yml
 services:
   api:
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 4G  # Increase from 2G
 ```
 
-## Monitoring
-
-### Health Checks
-
-API health endpoint:
-```bash
-curl http://localhost:3000/health
-```
-
-### Logs
+### Build Failures
 
 ```bash
-# Follow all logs
-docker compose logs -f
+# Clean Docker build cache
+docker builder prune
 
-# Last 100 lines
-docker compose logs --tail=100
+# Remove all build cache
+docker builder prune -a
 
-# Specific service
-docker compose logs -f worker
+# Rebuild without cache
+docker-compose build --no-cache
 
-# Export logs
-docker compose logs > app.log
+# Check .dockerignore exists
+cat .dockerignore
+
+# Verify disk space
+docker system df
+df -h
 ```
 
-### Metrics
-
-Consider adding:
-- Prometheus for metrics collection
-- Grafana for visualization
-- Loki for log aggregation
-
-## Backup & Restore
-
-### Database Backup
+### Permission Issues
 
 ```bash
-# Create backup
-docker compose exec postgres pg_dump -U postgres gcmc_kaj > backup-$(date +%Y%m%d).sql
+# Fix data directory permissions
+sudo chown -R $(whoami):$(whoami) ./data
 
-# Automated daily backups (cron)
-0 2 * * * cd /path/to/GCMC-KAJ && docker compose exec -T postgres pg_dump -U postgres gcmc_kaj > /backups/gcmc-$(date +\%Y\%m\%d).sql
+# For production
+sudo chown -R $(whoami):$(whoami) /var/lib/gcmc-kaj
+
+# Container user mismatch (view UIDs)
+docker-compose exec api id
+docker-compose exec web id
+docker-compose exec worker id
 ```
 
-### Database Restore
+### Complete Reset
 
 ```bash
-# Stop applications
-docker compose stop api web worker
+# Stop all containers
+docker-compose down
 
-# Restore database
-cat backup.sql | docker compose exec -T postgres psql -U postgres gcmc_kaj
+# Remove volumes (⚠️ DATA LOSS)
+docker-compose down -v
 
-# Restart applications
-docker compose start api web worker
+# Remove images
+docker-compose down --rmi all
+
+# Clean entire system
+docker system prune -a --volumes
+
+# Rebuild and start
+docker-compose build
+docker-compose up -d
 ```
 
-### MinIO Backup
+## Performance Optimization
+
+### Docker Build Optimization
+
+1. **Layer Caching**: Dockerfiles are structured to maximize cache hits
+2. **.dockerignore**: Reduces build context size (~90% reduction)
+3. **Multi-stage Builds**: Minimal runtime images
+4. **Parallel Builds**: Build multiple images simultaneously
 
 ```bash
-# Backup MinIO data
-docker compose exec minio mc mirror local/tenant-1-documents /backups/minio/tenant-1-documents
+# Build all images in parallel
+docker-compose build
 
-# Or backup volume
-docker run --rm -v gcmc-kaj_minio_data:/data -v $(pwd)/backups:/backup alpine tar czf /backup/minio-backup.tar.gz /data
+# Enable BuildKit for better caching
+DOCKER_BUILDKIT=1 docker-compose build
 ```
 
-## Scaling
+### Image Sizes
 
-### Horizontal Scaling
+Optimized image sizes (compressed):
+
+- **API Server**: ~300MB
+- **Web Application**: ~350MB
+- **Worker**: ~300MB
+
+### Network Optimization
+
+Production uses isolated networks:
+
+- **Frontend Network**: Web ↔ API (172.20.0.0/24)
+- **Backend Network**: API/Worker ↔ Database/Redis/MinIO (172.21.0.0/24)
+
+### Database Optimization
+
+Connection pooling configured in DATABASE_URL:
 
 ```bash
-# Scale workers
-docker compose up -d --scale worker=3
-
-# Scale API (requires load balancer)
-docker compose up -d --scale api=3
+DATABASE_URL="postgresql://user:pass@host:5432/db?connection_limit=20&pool_timeout=10"
 ```
 
-### Resource Limits
+### Redis Optimization
+
+Production configuration:
+- Memory limit: 256MB
+- Eviction policy: allkeys-lru
+- Persistence: AOF with everysec fsync
 
 ```yaml
 services:
-  api:
-    deploy:
-      resources:
-        limits:
-          cpus: '2'
-          memory: 2G
-        reservations:
-          cpus: '1'
-          memory: 1G
+  redis:
+    command: >
+      redis-server
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --appendonly yes
+      --appendfsync everysec
 ```
 
-## Migration from Development to Production
+## Security Best Practices
 
-1. **Backup Development Data**:
-   ```bash
-   docker compose exec postgres pg_dump -U postgres gcmc_kaj > dev-backup.sql
-   ```
+### 1. Secrets Management
 
-2. **Set Up Production Environment**:
-   - Configure `.env` with production values
-   - Set up managed PostgreSQL, Redis
-   - Configure S3 or managed MinIO
+- Never commit `.env` files to version control
+- Use Docker secrets or external secret managers (Vault, AWS Secrets Manager)
+- Rotate secrets regularly (quarterly recommended)
+- Use strong random values (32+ characters)
 
-3. **Deploy Production Stack**:
-   ```bash
-   docker compose -f docker-compose.prod.yml up -d
-   ```
+```bash
+# Generate secure secrets
+openssl rand -base64 32
+openssl rand -hex 32
+```
 
-4. **Restore Data** (if needed):
-   ```bash
-   cat dev-backup.sql | docker compose -f docker-compose.prod.yml exec -T postgres psql -U postgres gcmc_kaj
-   ```
+### 2. Network Security
 
-5. **Verify**:
-   - Test API endpoints
-   - Test web app
-   - Monitor worker logs
-   - Check job processing
+- Use reverse proxy (nginx/Traefik) for SSL/TLS termination
+- Restrict database/Redis to internal networks only
+- Enable firewall rules on host
+- Use VPC in cloud deployments
 
-## Support
+Example nginx reverse proxy:
 
-For issues:
-1. Check logs: `docker compose logs`
-2. Verify environment variables
-3. Check service health: `docker compose ps`
-4. Review this guide's troubleshooting section
-5. Contact development team
+```nginx
+server {
+    listen 443 ssl http2;
+    server_name api.example.com;
+
+    ssl_certificate /etc/ssl/certs/api.example.com.crt;
+    ssl_certificate_key /etc/ssl/private/api.example.com.key;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+### 3. Container Security
+
+- All containers run as non-root users
+- Read-only root filesystems where possible
+- Minimal attack surface with multi-stage builds
+- Regular security updates to base images
+
+### 4. Data Security
+
+- Regular automated backups
+- Encrypted volumes in production
+- Backup testing and validation
+- Disaster recovery plan
+
+### 5. Updates and Patching
+
+```bash
+# Pull latest code
+git pull origin main
+
+# Rebuild images with latest security patches
+docker-compose build --pull
+
+# Rolling update (zero downtime)
+docker-compose up -d --no-deps --build api
+docker-compose up -d --no-deps --build web
+docker-compose up -d --no-deps --build worker
+```
 
 ## Additional Resources
 
 - [Docker Documentation](https://docs.docker.com/)
-- [Docker Compose Reference](https://docs.docker.com/compose/compose-file/)
-- [Better-T Stack Docs](https://better-t-stack.com/)
-- Project README.md
+- [Docker Compose File Reference](https://docs.docker.com/compose/compose-file/)
+- [Docker Swarm Tutorial](https://docs.docker.com/engine/swarm/swarm-tutorial/)
+- [Dockerfile Best Practices](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+- [Docker Security](https://docs.docker.com/engine/security/)
+- [Project README](./README.md)
+
+## Support
+
+For issues or questions:
+
+1. Check this guide's [Troubleshooting](#troubleshooting) section
+2. Review service logs: `docker-compose logs -f`
+3. Verify health checks: `curl http://localhost:3000/health`
+4. Check service status: `docker-compose ps`
+5. Create an issue in the repository
+6. Contact the development team
+
+---
+
+**Version**: 1.0.0
+**Last Updated**: 2025-11-15
+**Maintained By**: GCMC-KAJ Development Team
