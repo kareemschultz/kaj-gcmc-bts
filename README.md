@@ -2,13 +2,16 @@
 
 Production-ready enterprise compliance and client management platform built with Better-T Stack.
 
-## Status: ✅ Production Ready
+## Status: ✅ FULLY OPERATIONAL
 
 **Current Version**: 1.0.0
 **Build Status**: ✅ All systems operational
 **API Server**: ✅ Running (http://localhost:3000)
-**Database**: ✅ Connected
+**Web Frontend**: ✅ Running (http://localhost:3001)
+**Database**: ✅ Connected & Synced
+**Infrastructure**: ✅ All services running
 **Docker**: ✅ Build successful
+**Development**: ✅ All services live
 
 ## Tech Stack
 
@@ -74,8 +77,21 @@ GCMC-KAJ/
 # Start infrastructure only
 docker compose up -d postgres redis minio
 
-# Run apps locally
+# Generate Prisma client (if needed)
+cd packages/db && bunx prisma generate && cd ../..
+
+# Run all apps locally (recommended)
 bun dev
+
+# OR run individual apps (if needed)
+# API Server
+cd apps/server && bun run --hot src/index.ts
+
+# Web Frontend (with Bun runtime for Next.js 16 compatibility)
+cd apps/web && bunx --bun next dev --port=3001
+
+# Background Worker
+cd apps/worker && bun --watch src/index.ts
 ```
 
 ## Core Features

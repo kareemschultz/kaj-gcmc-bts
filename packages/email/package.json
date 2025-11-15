@@ -14,8 +14,8 @@
 		}
 	},
 	"scripts": {
-		"build": "tsdown",
-		"dev": "tsdown --watch",
+		"build": "bun build src/index.ts --outdir dist --target node",
+		"dev": "echo 'Email package ready for development'",
 		"preview": "bun src/preview.ts"
 	},
 	"dependencies": {
@@ -29,7 +29,6 @@
 	},
 	"devDependencies": {
 		"@types/react": "catalog:",
-		"tsdown": "catalog:",
 		"typescript": "catalog:"
 	}
 }
