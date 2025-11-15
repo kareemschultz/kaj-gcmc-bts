@@ -28,7 +28,7 @@ jobs:
     if: github.event_name != 'workflow_dispatch'
     steps:
       - name: Wait for CI workflow
-        uses: lewagon/wait-on-check-action@v1.3.1
+        uses: lewagon/wait-on-check-action@v1.4.1
         with:
           ref: ${{ github.sha }}
           check-name: "All Checks Passed"
