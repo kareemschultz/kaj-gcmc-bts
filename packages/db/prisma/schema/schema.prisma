@@ -133,14 +133,16 @@ model Tenant {
 }
 
 model TenantUser {
-  id       Int    @id @default(autoincrement())
-  tenantId Int
-  userId   String
-  roleId   Int
+  id        Int      @id @default(autoincrement())
+  tenantId  Int
+  userId    String
+  roleId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  role   Role   @relation(fields: [roleId], references: [id])
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Restrict)
 
   @@unique([tenantId, userId])
   @@index([userId])
@@ -154,6 +156,8 @@ model Role {
   tenantId    Int
   name        String
   description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
   permissions Permission[]
   tenantUsers TenantUser[]
 
@@ -165,16 +169,19 @@ model Role {
 }
 
 model Permission {
-  id      Int     @id @default(autoincrement())
-  roleId  Int
-  module  String
-  action  String
-  allowed Boolean @default(true)
+  id        Int      @id @default(autoincrement())
+  roleId    Int
+  module    String
+  action    String
+  allowed   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
   @@unique([roleId, module, action])
   @@index([roleId])
+  @@index([roleId, module])
   @@map("permissions")
 }
 
@@ -307,8 +314,8 @@ model Document {
 
   tenant          Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   client          Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientBusiness  ClientBusiness?   @relation(fields: [clientBusinessId], references: [id])
-  documentType    DocumentType      @relation(fields: [documentTypeId], references: [id])
+  clientBusiness  ClientBusiness?   @relation(fields: [clientBusinessId], references: [id], onDelete: SetNull)
+  documentType    DocumentType      @relation(fields: [documentTypeId], references: [id], onDelete: Restrict)
   versions        DocumentVersion[]
   latestVersion   DocumentVersion?  @relation("LatestDocumentVersion", fields: [latestVersionId], references: [id], onDelete: SetNull)
   filingDocuments FilingDocument[]
@@ -346,6 +353,8 @@ model DocumentVersion {
   latestOfDocument Document? @relation("LatestDocumentVersion")
 
   @@index([documentId])
+  @@index([documentId, isLatest])
+  @@index([documentId, uploadedAt])
   @@index([expiryDate])
   @@index([isLatest])
   @@map("document_versions")
@@ -404,8 +413,8 @@ model Filing {
 
   tenant         Tenant           @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   client         Client           @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientBusiness ClientBusiness?  @relation(fields: [clientBusinessId], references: [id])
-  filingType     FilingType       @relation(fields: [filingTypeId], references: [id])
+  clientBusiness ClientBusiness?  @relation(fields: [clientBusinessId], references: [id], onDelete: SetNull)
+  filingType     FilingType       @relation(fields: [filingTypeId], references: [id], onDelete: Restrict)
   documents      FilingDocument[]
   serviceSteps   ServiceStep[]
   tasks          Task[]
@@ -424,9 +433,10 @@ model Filing {
 }
 
 model FilingDocument {
-  id         Int @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   filingId   Int
   documentId Int
+  createdAt  DateTime @default(now())
 
   filing   Filing   @relation(fields: [filingId], references: [id], onDelete: Cascade)
   document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
@@ -498,9 +508,9 @@ model ServiceRequest {
 
   tenant         Tenant                  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   client         Client                  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientBusiness ClientBusiness?         @relation(fields: [clientBusinessId], references: [id])
-  service        Service                 @relation(fields: [serviceId], references: [id])
-  template       ServiceRequestTemplate? @relation(fields: [templateId], references: [id])
+  clientBusiness ClientBusiness?         @relation(fields: [clientBusinessId], references: [id], onDelete: SetNull)
+  service        Service                 @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  template       ServiceRequestTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
   steps          ServiceStep[]
   tasks          Task[]
   clientTasks    ClientTask[]
@@ -520,7 +530,7 @@ model ServiceRequest {
 }
 
 model ServiceStep {
-  id                 Int       @id @default(autoincrement())
+  id                 Int           @id @default(autoincrement())
   serviceRequestId   Int
   filingId           Int?
   title              String
@@ -530,14 +540,21 @@ model ServiceStep {
   dueDate            DateTime?
   requiredDocTypeIds Int[]
   dependsOnStepId    Int?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
 
-  serviceRequest ServiceRequest @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
-  filing         Filing?        @relation(fields: [filingId], references: [id])
+  serviceRequest ServiceRequest  @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
+  filing         Filing?         @relation(fields: [filingId], references: [id], onDelete: SetNull)
+  dependsOnStep  ServiceStep?    @relation("StepDependency", fields: [dependsOnStepId], references: [id], onDelete: SetNull)
+  dependentSteps ServiceStep[]   @relation("StepDependency")
 
   @@index([serviceRequestId])
   @@index([filingId])
   @@index([status])
+  @@index([dueDate])
+  @@index([dependsOnStepId])
   @@index([serviceRequestId, order])
+  @@index([serviceRequestId, status, order])
   @@map("service_steps")
 }
 
@@ -556,8 +573,8 @@ model RecurringFiling {
 
   tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   client         Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientBusiness ClientBusiness? @relation(fields: [clientBusinessId], references: [id])
-  filingType     FilingType      @relation(fields: [filingTypeId], references: [id])
+  clientBusiness ClientBusiness? @relation(fields: [clientBusinessId], references: [id], onDelete: SetNull)
+  filingType     FilingType      @relation(fields: [filingTypeId], references: [id], onDelete: Restrict)
 
   @@index([tenantId])
   @@index([clientId])
@@ -589,10 +606,10 @@ model Task {
   updatedAt        DateTime  @updatedAt
 
   tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  client         Client?         @relation(fields: [clientId], references: [id])
-  serviceRequest ServiceRequest? @relation(fields: [serviceRequestId], references: [id])
-  filing         Filing?         @relation(fields: [filingId], references: [id])
-  assignedTo     User?           @relation("TaskAssignee", fields: [assignedToId], references: [id])
+  client         Client?         @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  serviceRequest ServiceRequest? @relation(fields: [serviceRequestId], references: [id], onDelete: SetNull)
+  filing         Filing?         @relation(fields: [filingId], references: [id], onDelete: SetNull)
+  assignedTo     User?           @relation("TaskAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
 
   @@index([tenantId])
   @@index([clientId])
@@ -625,7 +642,7 @@ model ClientTask {
 
   tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   client         Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  serviceRequest ServiceRequest? @relation(fields: [serviceRequestId], references: [id])
+  serviceRequest ServiceRequest? @relation(fields: [serviceRequestId], references: [id], onDelete: SetNull)
 
   @@index([tenantId])
   @@index([clientId])
@@ -651,8 +668,8 @@ model Conversation {
   updatedAt        DateTime @updatedAt
 
   tenant         Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  client         Client?         @relation(fields: [clientId], references: [id])
-  serviceRequest ServiceRequest? @relation(fields: [serviceRequestId], references: [id])
+  client         Client?         @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  serviceRequest ServiceRequest? @relation(fields: [serviceRequestId], references: [id], onDelete: SetNull)
   messages       Message[]
 
   @@index([tenantId])
@@ -671,7 +688,7 @@ model Message {
   readAt         DateTime?
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  author       User         @relation("MessageAuthor", fields: [authorId], references: [id])
+  author       User         @relation("MessageAuthor", fields: [authorId], references: [id], onDelete: SetNull)
 
   @@index([conversationId])
   @@index([authorId])
@@ -703,18 +720,21 @@ model ComplianceRuleSet {
 }
 
 model ComplianceRule {
-  id          Int     @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   ruleSetId   Int
   ruleType    String // document_required, filing_required, etc.
   condition   Json?
   targetId    Int?
   weight      Float
   description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   ruleSet ComplianceRuleSet @relation(fields: [ruleSetId], references: [id], onDelete: Cascade)
 
   @@index([ruleSetId])
   @@index([ruleType])
+  @@index([ruleSetId, ruleType])
   @@map("compliance_rules")
 }
 
@@ -759,7 +779,7 @@ model Notification {
   createdAt       DateTime @default(now())
 
   tenant    Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  recipient User   @relation("NotificationRecipient", fields: [recipientUserId], references: [id])
+  recipient User   @relation("NotificationRecipient", fields: [recipientUserId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
   @@index([recipientUserId])
@@ -789,8 +809,8 @@ model AuditLog {
   userAgent   String?
 
   tenant Tenant  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  actor  User?   @relation("AuditActor", fields: [actorUserId], references: [id])
-  client Client? @relation(fields: [clientId], references: [id])
+  actor  User?   @relation("AuditActor", fields: [actorUserId], references: [id], onDelete: SetNull)
+  client Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
 
   @@index([tenantId])
   @@index([actorUserId])
@@ -809,15 +829,18 @@ model AuditLog {
 // ============================================================================
 
 model Plan {
-  id           Int     @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   name         String
   description  String?
   monthlyPrice Float?
   yearlyPrice  Float?
   limits       Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   subscriptions Subscription[]
 
+  @@index([name])
   @@map("plans")
 }
 
@@ -829,14 +852,18 @@ model Subscription {
   startDate   DateTime
   endDate     DateTime?
   renewalDate DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  plan   Plan   @relation(fields: [planId], references: [id])
+  plan   Plan   @relation(fields: [planId], references: [id], onDelete: Restrict)
 
   @@index([tenantId])
   @@index([planId])
   @@index([status])
   @@index([renewalDate])
+  @@index([tenantId, status])
+  @@index([tenantId, renewalDate])
   @@map("subscriptions")
 }
 
@@ -876,8 +903,8 @@ model RequirementBundleItem {
   updatedAt      DateTime @updatedAt
 
   bundle       RequirementBundle @relation(fields: [bundleId], references: [id], onDelete: Cascade)
-  documentType DocumentType?     @relation(fields: [documentTypeId], references: [id])
-  filingType   FilingType?       @relation(fields: [filingTypeId], references: [id])
+  documentType DocumentType?     @relation(fields: [documentTypeId], references: [id], onDelete: Restrict)
+  filingType   FilingType?       @relation(fields: [filingTypeId], references: [id], onDelete: Restrict)
 
   @@index([bundleId])
   @@index([documentTypeId])
