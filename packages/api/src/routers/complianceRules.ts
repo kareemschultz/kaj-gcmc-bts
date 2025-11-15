@@ -5,7 +5,7 @@
  * Enforces tenant isolation and RBAC permissions
  */
 
-import prisma from "@GCMC-KAJ/db";
+import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { rbacProcedure, router } from "../index";
@@ -50,7 +50,7 @@ export const complianceRulesRouter = router({
 		.query(async ({ ctx, input }) => {
 			const { active } = input || {};
 
-			const where: any = { tenantId: ctx.tenantId };
+			const where: Prisma.ComplianceRuleWhereInput = { tenantId: ctx.tenantId };
 
 			if (active !== undefined) where.active = active;
 

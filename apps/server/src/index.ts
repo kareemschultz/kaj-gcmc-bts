@@ -2,22 +2,38 @@ import "dotenv/config";
 import { createContext } from "@GCMC-KAJ/api/context";
 import { appRouter } from "@GCMC-KAJ/api/routers/index";
 import { auth } from "@GCMC-KAJ/auth";
+import { validateEnv } from "@GCMC-KAJ/config";
+import prisma from "@GCMC-KAJ/db";
 import { trpcServer } from "@hono/trpc-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { securityHeaders } from "./middleware/security";
 import downloadsRoute from "./routes/downloads";
+
+// Validate environment variables at startup (fail-fast approach)
+const env = validateEnv();
 
 const app = new Hono();
 
+// Track readiness state
+let isReady = false;
+
+// Security headers middleware (applied to all routes)
+app.use("*", securityHeaders());
+
+// Request logging
 app.use(logger());
+
+// CORS configuration with validated environment
 app.use(
 	"/*",
 	cors({
-		origin: process.env.CORS_ORIGIN || "",
+		origin: env.CORS_ORIGIN,
 		allowMethods: ["GET", "POST", "OPTIONS"],
 		allowHeaders: ["Content-Type", "Authorization"],
 		credentials: true,
+		maxAge: 86400, // 24 hours
 	}),
 );
 
@@ -35,8 +51,67 @@ app.use(
 
 app.route("/downloads", downloadsRoute);
 
+// Health check endpoint - basic liveness check
+app.get("/health", (c) => {
+	return c.json({
+		status: "ok",
+		timestamp: new Date().toISOString(),
+	});
+});
+
+// Readiness check endpoint - checks dependencies
+app.get("/ready", async (c) => {
+	try {
+		// Check database connection
+		await prisma.$queryRaw`SELECT 1`;
+
+		if (!isReady) {
+			isReady = true;
+			console.log("✅ Service is ready");
+		}
+
+		return c.json({
+			status: "ready",
+			timestamp: new Date().toISOString(),
+			checks: {
+				database: "connected",
+			},
+		});
+	} catch (error) {
+		console.error("❌ Readiness check failed:", error);
+		return c.json(
+			{
+				status: "not_ready",
+				timestamp: new Date().toISOString(),
+				checks: {
+					database: "disconnected",
+				},
+				error: error instanceof Error ? error.message : "Unknown error",
+			},
+			503,
+		);
+	}
+});
+
 app.get("/", (c) => {
 	return c.text("OK");
 });
+
+// Initialize readiness check on startup
+async function checkReadiness() {
+	try {
+		await prisma.$connect();
+		console.log("✅ Database connected");
+		isReady = true;
+	} catch (error) {
+		console.error("❌ Database connection failed:", error);
+		isReady = false;
+		// Retry after 5 seconds
+		setTimeout(checkReadiness, 5000);
+	}
+}
+
+// Start readiness check
+checkReadiness();
 
 export default app;

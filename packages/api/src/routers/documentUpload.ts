@@ -3,6 +3,9 @@
  *
  * Handles document file upload operations via MinIO
  * Provides presigned URLs for secure uploads and downloads
+ *
+ * SECURITY: Implements file size limits, MIME type validation,
+ * filename sanitization, and rate limiting to prevent abuse
  */
 
 import prisma from "@GCMC-KAJ/db";
@@ -14,6 +17,9 @@ import {
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { rbacProcedure, router } from "../index";
+import { rateLimiters } from "../middleware/rateLimit";
+import { VALIDATION_LIMITS } from "../validation/constants";
+import { documentFileSchema, metadataSchema } from "../validation/schemas";
 
 /**
  * Document Upload router
@@ -22,14 +28,14 @@ export const documentUploadRouter = router({
 	/**
 	 * Request a presigned upload URL
 	 * Requires: documents:create permission
+	 * Rate limited: 20 uploads per minute
 	 */
 	requestUploadUrl: rbacProcedure("documents", "create")
+		.use(rateLimiters.upload("requestUploadUrl"))
 		.input(
 			z.object({
 				documentId: z.number(),
-				fileName: z.string(),
-				fileType: z.string(),
-				fileSize: z.number(),
+				...documentFileSchema.shape, // Validates fileName, fileType, fileSize with security limits
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -77,20 +83,29 @@ export const documentUploadRouter = router({
 	/**
 	 * Complete upload and create document version
 	 * Requires: documents:create permission
+	 * Rate limited: 20 uploads per minute
 	 */
 	completeUpload: rbacProcedure("documents", "create")
+		.use(rateLimiters.upload("completeUpload"))
 		.input(
 			z.object({
 				documentId: z.number(),
-				fileKey: z.string(),
-				fileSize: z.number(),
-				mimeType: z.string(),
+				fileKey: z.string().max(VALIDATION_LIMITS.STRING.MEDIUM),
+				fileSize: z
+					.number()
+					.int()
+					.min(1)
+					.max(VALIDATION_LIMITS.FILE.MAX_SIZE_DOCUMENT),
+				mimeType: z.string().max(100),
 				issueDate: z.string().datetime().optional(),
 				expiryDate: z.string().datetime().optional(),
-				issuingAuthority: z.string().optional(),
-				ocrText: z.string().optional(),
-				aiSummary: z.string().optional(),
-				metadata: z.record(z.string(), z.any()).optional(),
+				issuingAuthority: z
+					.string()
+					.max(VALIDATION_LIMITS.STRING.SMALL)
+					.optional(),
+				ocrText: z.string().max(VALIDATION_LIMITS.STRING.XLARGE).optional(),
+				aiSummary: z.string().max(VALIDATION_LIMITS.STRING.LARGE).optional(),
+				metadata: metadataSchema,
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {

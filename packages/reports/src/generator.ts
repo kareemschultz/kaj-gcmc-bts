@@ -120,7 +120,7 @@ export async function generateClientFileReport(
 			.slice(0, 5)
 			.map((f) => ({
 				type: f.filingType.name,
-				dueDate: f.periodEnd!,
+				dueDate: f.periodEnd as Date,
 				status: f.status,
 			})),
 	};
@@ -217,7 +217,8 @@ export async function generateDocumentsListReport(
 		expiryDate: doc.latestVersion?.expiryDate || null,
 		authority: doc.authority,
 		documentNumber: doc.latestVersion?.metadata
-			? (doc.latestVersion.metadata as any)?.documentNumber
+			? (doc.latestVersion.metadata as { documentNumber?: string })
+					?.documentNumber
 			: null,
 	}));
 
@@ -384,8 +385,11 @@ export async function generateComplianceReport(
 		.map((doc) => ({
 			title: doc.title,
 			documentType: doc.documentType.name,
-			expiryDate: doc.latestVersion?.expiryDate!,
-			daysUntilExpiry: differenceInDays(doc.latestVersion?.expiryDate!, now),
+			expiryDate: doc.latestVersion.expiryDate as Date,
+			daysUntilExpiry: differenceInDays(
+				doc.latestVersion.expiryDate as Date,
+				now,
+			),
 			status: doc.status,
 		}));
 

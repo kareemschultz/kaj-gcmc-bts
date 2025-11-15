@@ -1,0 +1,11 @@
+{
+	"extends": "@GCMC-KAJ/config/tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"rootDir": "./",
+		"jsx": "react",
+		"jsxImportSource": "react"
+	},
+	"include": ["src/**/*", "templates/**/*"],
+	"exclude": ["node_modules", "dist"]
+}

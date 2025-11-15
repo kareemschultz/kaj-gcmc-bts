@@ -159,7 +159,8 @@ export function TasksList() {
 											{getStatusIcon(task.status)}
 											<div className="min-w-0 flex-1">
 												<div className="mb-1 flex items-center gap-2">
-													<h3
+													<button
+														type="button"
 														className="cursor-pointer font-medium hover:text-blue-600"
 														onClick={() => {
 															setEditingTask(task.id);
@@ -167,7 +168,7 @@ export function TasksList() {
 														}}
 													>
 														{task.title}
-													</h3>
+													</button>
 													{task.priority && getPriorityBadge(task.priority)}
 												</div>
 												{task.description && (

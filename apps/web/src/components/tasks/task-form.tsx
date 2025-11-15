@@ -41,7 +41,7 @@ export function TaskForm({
 
 	// Get task data if editing
 	const { data: task } = trpc.tasks.get.useQuery(
-		{ id: taskId! },
+		{ id: taskId ?? 0 },
 		{ enabled: !!taskId },
 	);
 

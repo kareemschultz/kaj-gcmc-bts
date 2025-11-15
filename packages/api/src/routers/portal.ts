@@ -5,7 +5,7 @@
  * Enforces tenant isolation and client-specific access control
  */
 
-import prisma from "@GCMC-KAJ/db";
+import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, router } from "../index";
@@ -283,7 +283,7 @@ export const portalRouter = router({
 				};
 			}
 
-			const where: any = {
+			const where: Prisma.ClientTaskWhereInput = {
 				tenantId: ctx.tenantId,
 				clientId: { in: clientIds },
 			};
@@ -385,4 +385,169 @@ export const portalRouter = router({
 			clients,
 		};
 	}),
+
+	/**
+	 * Get conversation details with messages
+	 */
+	conversationDetails: protectedProcedure
+		.input(z.object({ conversationId: z.number() }))
+		.query(async ({ ctx, input }) => {
+			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+
+			if (clientIds.length === 0) {
+				throw new TRPCError({
+					code: "FORBIDDEN",
+					message: "No client access assigned",
+				});
+			}
+
+			const conversation = await prisma.conversation.findFirst({
+				where: {
+					id: input.conversationId,
+					tenantId: ctx.tenantId,
+					clientId: { in: clientIds },
+				},
+				include: {
+					messages: {
+						orderBy: { createdAt: "asc" },
+						include: {
+							author: {
+								select: { id: true, name: true },
+							},
+						},
+					},
+					client: {
+						select: { id: true, name: true },
+					},
+				},
+			});
+
+			if (!conversation) {
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "Conversation not found",
+				});
+			}
+
+			return conversation;
+		}),
+
+	/**
+	 * Send a message in a conversation
+	 */
+	sendMessage: protectedProcedure
+		.input(
+			z.object({
+				conversationId: z.number(),
+				body: z.string().min(1),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+
+			if (clientIds.length === 0) {
+				throw new TRPCError({
+					code: "FORBIDDEN",
+					message: "No client access assigned",
+				});
+			}
+
+			// Verify the conversation belongs to this user's client
+			const conversation = await prisma.conversation.findFirst({
+				where: {
+					id: input.conversationId,
+					tenantId: ctx.tenantId,
+					clientId: { in: clientIds },
+				},
+			});
+
+			if (!conversation) {
+				throw new TRPCError({
+					code: "FORBIDDEN",
+					message: "Cannot send message to this conversation",
+				});
+			}
+
+			const message = await prisma.message.create({
+				data: {
+					conversationId: input.conversationId,
+					authorId: ctx.user.id,
+					body: input.body,
+					tenantId: ctx.tenantId,
+				},
+				include: {
+					author: {
+						select: { id: true, name: true },
+					},
+				},
+			});
+
+			// Update conversation updatedAt
+			await prisma.conversation.update({
+				where: { id: input.conversationId },
+				data: { updatedAt: new Date() },
+			});
+
+			return message;
+		}),
+
+	/**
+	 * Mark a task as complete
+	 */
+	completeTask: protectedProcedure
+		.input(z.object({ taskId: z.number() }))
+		.mutation(async ({ ctx, input }) => {
+			const clientIds = await getPortalUserClientIds(ctx.user.id, ctx.tenantId);
+
+			if (clientIds.length === 0) {
+				throw new TRPCError({
+					code: "FORBIDDEN",
+					message: "No client access assigned",
+				});
+			}
+
+			// Verify the task belongs to this user's client
+			const task = await prisma.clientTask.findFirst({
+				where: {
+					id: input.taskId,
+					tenantId: ctx.tenantId,
+					clientId: { in: clientIds },
+				},
+			});
+
+			if (!task) {
+				throw new TRPCError({
+					code: "FORBIDDEN",
+					message: "Cannot update this task",
+				});
+			}
+
+			return await prisma.clientTask.update({
+				where: { id: input.taskId },
+				data: {
+					status: "completed",
+					completedAt: new Date(),
+				},
+			});
+		}),
+
+	/**
+	 * Update user profile
+	 */
+	updateProfile: protectedProcedure
+		.input(
+			z.object({
+				name: z.string().min(1).optional(),
+				phone: z.string().optional(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			return await prisma.user.update({
+				where: { id: ctx.user.id },
+				data: {
+					name: input.name,
+					phone: input.phone,
+				},
+			});
+		}),
 });

@@ -15,7 +15,15 @@ COPY turbo.json ./
 
 # Copy workspace package files
 COPY apps/web/package.json ./apps/web/
-COPY packages/*/package.json ./packages/*/
+COPY packages/api/package.json ./packages/api/
+COPY packages/auth/package.json ./packages/auth/
+COPY packages/config/package.json ./packages/config/
+COPY packages/db/package.json ./packages/db/
+COPY packages/email/package.json ./packages/email/
+COPY packages/rbac/package.json ./packages/rbac/
+COPY packages/reports/package.json ./packages/reports/
+COPY packages/storage/package.json ./packages/storage/
+COPY packages/types/package.json ./packages/types/
 
 # Install dependencies
 RUN bun install --frozen-lockfile
@@ -50,6 +58,11 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Install curl for health checks
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -73,4 +86,9 @@ EXPOSE 3001
 ENV PORT=3001
 ENV HOSTNAME="0.0.0.0"
 
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:3001/api/health || exit 1
+
+# Use exec form for proper signal handling
 CMD ["bun", "apps/web/server.js"]

@@ -3,7 +3,11 @@
 	"version": "0.0.0",
 	"private": true,
 	"exports": {
+		".": "./src/index.ts",
 		"./base.json": "./tsconfig.base.json",
 		"./tsconfig.base.json": "./tsconfig.base.json"
+	},
+	"dependencies": {
+		"zod": "^3.22.4"
 	}
 }

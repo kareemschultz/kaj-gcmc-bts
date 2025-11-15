@@ -5,10 +5,11 @@
  * Enforces tenant isolation and RBAC permissions
  */
 
-import prisma from "@GCMC-KAJ/db";
+import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, rbacProcedure, router } from "../index";
+import { queueTaskAssignmentEmail } from "../utils/emailQueue";
 
 /**
  * Task validation schema
@@ -62,7 +63,7 @@ export const tasksRouter = router({
 
 			const skip = (page - 1) * pageSize;
 
-			const where: any = { tenantId: ctx.tenantId };
+			const where: Prisma.TaskWhereInput = { tenantId: ctx.tenantId };
 
 			if (clientId) where.clientId = clientId;
 			if (serviceRequestId) where.serviceRequestId = serviceRequestId;
@@ -201,6 +202,7 @@ export const tasksRouter = router({
 					assignedTo: {
 						select: { id: true, name: true, email: true },
 					},
+					tenant: true,
 				},
 			});
 
@@ -216,6 +218,26 @@ export const tasksRouter = router({
 					changes: { created: input },
 				},
 			});
+
+			// Send task assignment email if assigned to someone
+			if (task.assignedTo?.email) {
+				try {
+					await queueTaskAssignmentEmail(task.assignedTo.email, {
+						assigneeName: task.assignedTo.name,
+						taskTitle: task.title,
+						taskDescription: task.description || "",
+						clientName: task.client?.name,
+						priority: task.priority || "medium",
+						dueDate: task.dueDate || undefined,
+						assignedBy: ctx.user.name,
+						portalUrl: process.env.PORTAL_URL || "https://portal.gcmc.com",
+						tenantName: task.tenant.name,
+					});
+				} catch (error) {
+					console.error("Failed to queue task assignment email:", error);
+					// Don't fail the request if email fails
+				}
+			}
 
 			return task;
 		}),
@@ -330,7 +352,7 @@ export const tasksRouter = router({
 			const { status, page = 1, pageSize = 20 } = input || {};
 			const skip = (page - 1) * pageSize;
 
-			const where: any = {
+			const where: Prisma.TaskWhereInput = {
 				tenantId: ctx.tenantId,
 				assignedToId: ctx.user.id,
 			};

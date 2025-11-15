@@ -75,7 +75,7 @@ export function ReportDownloadButton({
 		setIsDownloading(true);
 
 		try {
-			let result;
+			let result: { url: string } | undefined;
 
 			// Call the appropriate mutation based on report type
 			switch (reportType) {

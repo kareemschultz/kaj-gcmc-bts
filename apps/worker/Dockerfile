@@ -15,7 +15,15 @@ COPY turbo.json ./
 
 # Copy workspace package files
 COPY apps/worker/package.json ./apps/worker/
-COPY packages/*/package.json ./packages/*/
+COPY packages/api/package.json ./packages/api/
+COPY packages/auth/package.json ./packages/auth/
+COPY packages/config/package.json ./packages/config/
+COPY packages/db/package.json ./packages/db/
+COPY packages/email/package.json ./packages/email/
+COPY packages/rbac/package.json ./packages/rbac/
+COPY packages/reports/package.json ./packages/reports/
+COPY packages/storage/package.json ./packages/storage/
+COPY packages/types/package.json ./packages/types/
 
 # Install dependencies
 RUN bun install --frozen-lockfile
@@ -49,6 +57,12 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Install curl for health checks and tini for signal handling
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    tini \
+    && rm -rf /var/lib/apt/lists/*
+
 # Create non-root user
 RUN addgroup --system --gid 1001 worker
 RUN adduser --system --uid 1001 worker
@@ -67,8 +81,15 @@ RUN chown -R worker:worker /app
 
 USER worker
 
-# Health check - worker should stay running
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD pgrep -f "bun" || exit 1
+# Expose health check port
+EXPOSE 3002
 
+ENV HEALTH_PORT=3002
+
+# Health check - verify worker health endpoint
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:3002/health || exit 1
+
+# Use tini for proper signal handling (SIGTERM forwarding)
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["bun", "apps/worker/dist/index.js"]

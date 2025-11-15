@@ -5,7 +5,7 @@
  * Enforces tenant isolation and RBAC permissions
  */
 
-import prisma from "@GCMC-KAJ/db";
+import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { z } from "zod";
 import { rbacProcedure, router } from "../index";
 
@@ -29,7 +29,7 @@ export const analyticsRouter = router({
 		.query(async ({ ctx, input }) => {
 			const { startDate, endDate } = input || {};
 
-			const where: any = { tenantId: ctx.tenantId };
+			const where: Prisma.ClientWhereInput = { tenantId: ctx.tenantId };
 			if (startDate || endDate) {
 				where.createdAt = {};
 				if (startDate) where.createdAt.gte = new Date(startDate);
@@ -89,7 +89,7 @@ export const analyticsRouter = router({
 		.query(async ({ ctx, input }) => {
 			const { startDate, endDate } = input || {};
 
-			const where: any = { tenantId: ctx.tenantId };
+			const where: Prisma.DocumentWhereInput = { tenantId: ctx.tenantId };
 			if (startDate || endDate) {
 				where.createdAt = {};
 				if (startDate) where.createdAt.gte = new Date(startDate);
@@ -153,7 +153,7 @@ export const analyticsRouter = router({
 		.query(async ({ ctx, input }) => {
 			const { startDate, endDate } = input || {};
 
-			const where: any = { tenantId: ctx.tenantId };
+			const where: Prisma.FilingWhereInput = { tenantId: ctx.tenantId };
 			if (startDate || endDate) {
 				where.createdAt = {};
 				if (startDate) where.createdAt.gte = new Date(startDate);
@@ -214,7 +214,7 @@ export const analyticsRouter = router({
 		.query(async ({ ctx, input }) => {
 			const { startDate, endDate } = input || {};
 
-			const where: any = { tenantId: ctx.tenantId };
+			const where: Prisma.ServiceRequestWhereInput = { tenantId: ctx.tenantId };
 			if (startDate || endDate) {
 				where.createdAt = {};
 				if (startDate) where.createdAt.gte = new Date(startDate);
@@ -312,7 +312,10 @@ export const analyticsRouter = router({
 		.query(async ({ ctx, input }) => {
 			const { startDate, endDate } = input || {};
 
-			const where: any = { tenantId: ctx.tenantId, status: "completed" };
+			const where: Prisma.ServiceRequestWhereInput = {
+				tenantId: ctx.tenantId,
+				status: "completed",
+			};
 			if (startDate || endDate) {
 				where.updatedAt = {};
 				if (startDate) where.updatedAt.gte = new Date(startDate);
@@ -388,7 +391,7 @@ export const analyticsRouter = router({
 		.query(async ({ ctx, input }) => {
 			const { startDate, endDate } = input || {};
 
-			const where: any = { tenantId: ctx.tenantId };
+			const where: Prisma.AuditLogWhereInput = { tenantId: ctx.tenantId };
 			if (startDate || endDate) {
 				where.createdAt = {};
 				if (startDate) where.createdAt.gte = new Date(startDate);

@@ -5,7 +5,7 @@
  * Enforces tenant isolation and RBAC permissions
  */
 
-import prisma from "@GCMC-KAJ/db";
+import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { rbacProcedure, router } from "../index";
@@ -56,7 +56,9 @@ export const recurringFilingsRouter = router({
 
 			const skip = (page - 1) * pageSize;
 
-			const where: any = { tenantId: ctx.tenantId };
+			const where: Prisma.RecurringFilingWhereInput = {
+				tenantId: ctx.tenantId,
+			};
 
 			if (clientId) where.clientId = clientId;
 			if (clientBusinessId) where.clientBusinessId = clientBusinessId;
