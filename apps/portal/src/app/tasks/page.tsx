@@ -7,13 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
+import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
 
@@ -86,19 +80,14 @@ export default function TasksPage() {
 			<div className="flex items-center gap-4">
 				<Select
 					value={statusFilter || "all"}
-					onValueChange={(value) =>
-						setStatusFilter(value === "all" ? undefined : value)
+					onChange={(e) =>
+						setStatusFilter(e.target.value === "all" ? undefined : e.target.value)
 					}
 				>
-					<SelectTrigger className="w-[200px]">
-						<SelectValue placeholder="Filter by status" />
-					</SelectTrigger>
-					<SelectContent>
-						<SelectItem value="all">All Tasks</SelectItem>
-						<SelectItem value="pending">Pending</SelectItem>
-						<SelectItem value="in_progress">In Progress</SelectItem>
-						<SelectItem value="completed">Completed</SelectItem>
-					</SelectContent>
+					<option value="all">All Tasks</option>
+					<option value="pending">Pending</option>
+					<option value="in_progress">In Progress</option>
+					<option value="completed">Completed</option>
 				</Select>
 			</div>
 
