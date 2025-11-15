@@ -1,7 +1,7 @@
 # API Server Dockerfile (Hono + tRPC)
 # Multi-stage build for optimized production image
 
-FROM oven/bun:1.1.38 AS base
+FROM oven/bun:1.3.2 AS base
 
 # ============================================================================
 # Stage 1: Dependencies
