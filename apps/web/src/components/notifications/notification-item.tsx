@@ -1,7 +1,14 @@
 "use client";
 
-import { Mail, MessageSquare, Smartphone, CheckCircle, AlertCircle, Clock } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import {
+	AlertCircle,
+	CheckCircle,
+	Clock,
+	Mail,
+	MessageSquare,
+	Smartphone,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -77,8 +84,8 @@ export function NotificationItem({
 	return (
 		<Card
 			className={cn(
-				"transition-shadow hover:shadow-md cursor-pointer",
-				channelStatus === "failed" && "border-red-200 bg-red-50/50"
+				"cursor-pointer transition-shadow hover:shadow-md",
+				channelStatus === "failed" && "border-red-200 bg-red-50/50",
 			)}
 			onClick={onClick}
 		>

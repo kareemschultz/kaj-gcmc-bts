@@ -1,19 +1,12 @@
 "use client";
 
-import { MessageCircle, Search, User, Briefcase } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import { Briefcase, MessageCircle, User } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { formatDistanceToNow } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
 
@@ -23,8 +16,8 @@ const SKELETON_ITEMS = Array.from(
 );
 
 export function ConversationsList() {
-	const [clientFilter, setClientFilter] = useState<number | undefined>();
-	const [serviceRequestFilter, setServiceRequestFilter] = useState<
+	const [clientFilter, _setClientFilter] = useState<number | undefined>();
+	const [serviceRequestFilter, _setServiceRequestFilter] = useState<
 		number | undefined
 	>();
 	const [page, setPage] = useState(1);
@@ -55,7 +48,7 @@ export function ConversationsList() {
 			<div className="flex items-center gap-4">
 				<div className="flex items-center gap-2">
 					<MessageCircle className="h-5 w-5 text-muted-foreground" />
-					<span className="text-sm text-muted-foreground">
+					<span className="text-muted-foreground text-sm">
 						{unreadCount !== undefined && unreadCount > 0 && (
 							<Badge variant="destructive">{unreadCount} unread</Badge>
 						)}
@@ -117,7 +110,10 @@ export function ConversationsList() {
 																{conversation.subject || "Conversation"}
 															</CardTitle>
 															{hasUnreadMessages && (
-																<Badge variant="destructive" className="text-xs">
+																<Badge
+																	variant="destructive"
+																	className="text-xs"
+																>
 																	New
 																</Badge>
 															)}
@@ -133,10 +129,7 @@ export function ConversationsList() {
 																<div className="flex items-center gap-1">
 																	<Briefcase className="h-3 w-3" />
 																	<span>
-																		{
-																			conversation.serviceRequest.service
-																				.name
-																		}
+																		{conversation.serviceRequest.service.name}
 																	</span>
 																</div>
 															)}
@@ -154,13 +147,13 @@ export function ConversationsList() {
 											</CardHeader>
 											{lastMessage && (
 												<CardContent>
-													<p className="line-clamp-2 text-sm text-muted-foreground">
+													<p className="line-clamp-2 text-muted-foreground text-sm">
 														<span className="font-medium">
 															{lastMessage.author.name}:
 														</span>{" "}
 														{lastMessage.body}
 													</p>
-													<div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+													<div className="mt-2 flex items-center justify-between text-muted-foreground text-xs">
 														<span>
 															{conversation._count.messages}{" "}
 															{conversation._count.messages === 1

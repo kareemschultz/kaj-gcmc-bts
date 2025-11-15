@@ -1,21 +1,21 @@
 "use client";
+import {
+	Bell,
+	Briefcase,
+	CheckSquare,
+	ClipboardList,
+	FileText,
+	LayoutDashboard,
+	MessageSquare,
+	Send,
+	Settings,
+	Users,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-	LayoutDashboard,
-	Users,
-	FileText,
-	Send,
-	Briefcase,
-	ClipboardList,
-	CheckSquare,
-	MessageSquare,
-	Bell,
-	Settings,
-} from "lucide-react";
 import { ModeToggle } from "./mode-toggle";
-import UserMenu from "./user-menu";
 import { NotificationBell } from "./notifications/notification-bell";
+import UserMenu from "./user-menu";
 
 export default function Header() {
 	const pathname = usePathname();
@@ -47,26 +47,24 @@ export default function Header() {
 					{/* Logo/Brand */}
 					<Link href="/dashboard" className="flex items-center gap-2">
 						<div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-							<span className="text-sm font-bold">KAJ</span>
+							<span className="font-bold text-sm">KAJ</span>
 						</div>
-						<span className="text-lg font-semibold">GCMC Platform</span>
+						<span className="font-semibold text-lg">GCMC Platform</span>
 					</Link>
 
 					{/* Main Navigation */}
-					<nav className="hidden lg:flex items-center gap-1">
+					<nav className="hidden items-center gap-1 lg:flex">
 						{links.map(({ to, label, icon: Icon }) => {
 							const active = isActive(to);
 							return (
 								<Link
 									key={to}
 									href={to}
-									className={`
-										flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors
-										${
-											active
-												? "bg-accent text-accent-foreground"
-												: "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
-										}
+									className={`flex items-center gap-2 rounded-md px-3 py-2 font-medium text-sm transition-colors${
+										active
+											? "bg-accent text-accent-foreground"
+											: "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
+									}
 									`}
 								>
 									<Icon className="h-4 w-4" />
@@ -85,7 +83,7 @@ export default function Header() {
 				</div>
 
 				{/* Mobile Navigation */}
-				<div className="lg:hidden overflow-x-auto px-4 pb-3">
+				<div className="overflow-x-auto px-4 pb-3 lg:hidden">
 					<div className="flex gap-2">
 						{links.slice(0, 6).map(({ to, label, icon: Icon }) => {
 							const active = isActive(to);
@@ -93,13 +91,11 @@ export default function Header() {
 								<Link
 									key={to}
 									href={to}
-									className={`
-										flex shrink-0 items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors
-										${
-											active
-												? "bg-accent text-accent-foreground"
-												: "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
-										}
+									className={`flex shrink-0 items-center gap-2 rounded-md px-3 py-2 font-medium text-sm transition-colors${
+										active
+											? "bg-accent text-accent-foreground"
+											: "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
+									}
 									`}
 								>
 									<Icon className="h-4 w-4" />

@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowLeft, MessageSquare, CheckSquare, Trash2 } from "lucide-react";
+import { ArrowLeft, CheckSquare, MessageSquare, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+import { WorkflowSteps } from "@/components/service-requests/workflow-steps";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +17,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { WorkflowSteps } from "@/components/service-requests/workflow-steps";
 import { trpc } from "@/utils/trpc";
 
 interface ServiceRequestDetailProps {
@@ -195,9 +195,7 @@ export function ServiceRequestDetail({
 					<h1 className="mt-2 font-bold text-3xl">
 						{serviceRequest.service.name}
 					</h1>
-					<p className="text-muted-foreground">
-						{serviceRequest.client.name}
-					</p>
+					<p className="text-muted-foreground">{serviceRequest.client.name}</p>
 				</div>
 				<Button variant="destructive" onClick={handleDelete} size="sm">
 					<Trash2 className="mr-2 h-4 w-4" />
@@ -221,7 +219,9 @@ export function ServiceRequestDetail({
 							</p>
 						</div>
 						<div>
-							<p className="font-medium text-muted-foreground text-sm">Client</p>
+							<p className="font-medium text-muted-foreground text-sm">
+								Client
+							</p>
 							<Link href={`/clients/${serviceRequest.client.id}`}>
 								<p className="text-blue-600 text-sm hover:underline">
 									{serviceRequest.client.name}
@@ -245,8 +245,12 @@ export function ServiceRequestDetail({
 							</div>
 						)}
 						<div>
-							<p className="font-medium text-muted-foreground text-sm">Status</p>
-							<div className="mt-1">{getStatusBadge(serviceRequest.status)}</div>
+							<p className="font-medium text-muted-foreground text-sm">
+								Status
+							</p>
+							<div className="mt-1">
+								{getStatusBadge(serviceRequest.status)}
+							</div>
 						</div>
 						{serviceRequest.priority && (
 							<div>
@@ -263,11 +267,15 @@ export function ServiceRequestDetail({
 								<p className="font-medium text-muted-foreground text-sm">
 									Current Step
 								</p>
-								<p className="text-sm">Step {serviceRequest.currentStepOrder + 1}</p>
+								<p className="text-sm">
+									Step {serviceRequest.currentStepOrder + 1}
+								</p>
 							</div>
 						)}
 						<div>
-							<p className="font-medium text-muted-foreground text-sm">Created</p>
+							<p className="font-medium text-muted-foreground text-sm">
+								Created
+							</p>
 							<p className="text-sm">
 								{new Date(serviceRequest.createdAt).toLocaleString()}
 							</p>
@@ -290,8 +298,8 @@ export function ServiceRequestDetail({
 					<CardHeader>
 						<CardTitle>Change Status</CardTitle>
 						<CardDescription>
-							Update the status of this service request. Email notifications will
-							be sent to the client.
+							Update the status of this service request. Email notifications
+							will be sent to the client.
 						</CardDescription>
 					</CardHeader>
 					<CardContent className="space-y-4">
@@ -326,7 +334,10 @@ export function ServiceRequestDetail({
 			</div>
 
 			{/* Workflow Steps */}
-			<WorkflowSteps serviceRequestId={serviceRequestId} steps={serviceRequest.steps} />
+			<WorkflowSteps
+				serviceRequestId={serviceRequestId}
+				steps={serviceRequest.steps}
+			/>
 
 			{/* Related Tasks */}
 			{serviceRequest.tasks && serviceRequest.tasks.length > 0 && (
@@ -375,44 +386,56 @@ export function ServiceRequestDetail({
 			)}
 
 			{/* Related Conversations */}
-			{serviceRequest.conversations && serviceRequest.conversations.length > 0 && (
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<MessageSquare className="h-5 w-5" />
-							Related Conversations
-						</CardTitle>
-						<CardDescription>
-							{serviceRequest.conversations.length} conversation(s) about this
-							request
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<div className="space-y-3">
-							{serviceRequest.conversations.map((conversation) => (
-								<Link key={conversation.id} href={`/conversations/${conversation.id}`}>
-									<Card className="cursor-pointer p-3 transition-shadow hover:shadow-md">
-										<div>
-											<p className="font-medium text-sm">{conversation.subject}</p>
-											{conversation.messages && conversation.messages.length > 0 && (
-												<div className="mt-2 space-y-1">
-													{conversation.messages.slice(0, 2).map((message) => (
-														<p key={message.id} className="text-muted-foreground text-xs">
-															{message.author?.name}:{" "}
-															{message.body.substring(0, 50)}
-															{message.body.length > 50 ? "..." : ""}
-														</p>
-													))}
-												</div>
-											)}
-										</div>
-									</Card>
-								</Link>
-							))}
-						</div>
-					</CardContent>
-				</Card>
-			)}
+			{serviceRequest.conversations &&
+				serviceRequest.conversations.length > 0 && (
+					<Card>
+						<CardHeader>
+							<CardTitle className="flex items-center gap-2">
+								<MessageSquare className="h-5 w-5" />
+								Related Conversations
+							</CardTitle>
+							<CardDescription>
+								{serviceRequest.conversations.length} conversation(s) about this
+								request
+							</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<div className="space-y-3">
+								{serviceRequest.conversations.map((conversation) => (
+									<Link
+										key={conversation.id}
+										href={`/conversations/${conversation.id}`}
+									>
+										<Card className="cursor-pointer p-3 transition-shadow hover:shadow-md">
+											<div>
+												<p className="font-medium text-sm">
+													{conversation.subject}
+												</p>
+												{conversation.messages &&
+													conversation.messages.length > 0 && (
+														<div className="mt-2 space-y-1">
+															{conversation.messages
+																.slice(0, 2)
+																.map((message) => (
+																	<p
+																		key={message.id}
+																		className="text-muted-foreground text-xs"
+																	>
+																		{message.author?.name}:{" "}
+																		{message.body.substring(0, 50)}
+																		{message.body.length > 50 ? "..." : ""}
+																	</p>
+																))}
+														</div>
+													)}
+											</div>
+										</Card>
+									</Link>
+								))}
+							</div>
+						</CardContent>
+					</Card>
+				)}
 		</div>
 	);
 }

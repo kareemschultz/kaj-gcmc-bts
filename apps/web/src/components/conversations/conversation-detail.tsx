@@ -1,21 +1,15 @@
 "use client";
 
-import { ArrowLeft, User, Briefcase, MessageCircle } from "lucide-react";
+import { ArrowLeft, Briefcase, MessageCircle, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { MessageInput } from "./message-input";
-import { MessageItem } from "./message-item";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
+import { MessageInput } from "./message-input";
+import { MessageItem } from "./message-item";
 
 interface ConversationDetailProps {
 	conversationId: number;
@@ -25,7 +19,7 @@ export function ConversationDetail({
 	conversationId,
 }: ConversationDetailProps) {
 	const messagesEndRef = useRef<HTMLDivElement>(null);
-	const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+	const [currentUserId, _setCurrentUserId] = useState<number | null>(null);
 	const utils = trpc.useUtils();
 
 	// Fetch conversation with polling every 5 seconds
@@ -78,7 +72,7 @@ export function ConversationDetail({
 				return () => clearTimeout(timer);
 			}
 		}
-	}, [conversation?.messages, currentUserId]);
+	}, [conversation?.messages, currentUserId, markAsReadMutation.mutate]);
 
 	const handleMessageSent = () => {
 		// Scroll to bottom after sending a message

@@ -105,11 +105,9 @@ export function ServiceRequestForm({
 				serviceId: serviceRequest.serviceId.toString(),
 				templateId: serviceRequest.templateId?.toString() || "",
 				status: serviceRequest.status,
-				priority: (serviceRequest.priority as
-					| "low"
-					| "medium"
-					| "high"
-					| "urgent") || "",
+				priority:
+					(serviceRequest.priority as "low" | "medium" | "high" | "urgent") ||
+					"",
 				currentStepOrder: serviceRequest.currentStepOrder?.toString() || "",
 			});
 		}
@@ -197,7 +195,9 @@ export function ServiceRequestForm({
 							>
 								<option value="">Select a business (optional)</option>
 								{clientBusinessesData?.businesses?.map(
-									(business: (typeof clientBusinessesData.businesses)[number]) => (
+									(
+										business: (typeof clientBusinessesData.businesses)[number],
+									) => (
 										<option key={business.id} value={business.id}>
 											{business.name}
 										</option>

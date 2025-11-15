@@ -85,7 +85,9 @@ export function UsersList() {
 		return (
 			<Card>
 				<CardContent className="pt-6">
-					<p className="text-destructive">Error loading users: {error.message}</p>
+					<p className="text-destructive">
+						Error loading users: {error.message}
+					</p>
 				</CardContent>
 			</Card>
 		);
@@ -190,8 +192,7 @@ export function UsersList() {
 											</p>
 										)}
 										<p className="text-muted-foreground text-xs">
-											Joined:{" "}
-											{new Date(user.createdAt).toLocaleDateString()}
+											Joined: {new Date(user.createdAt).toLocaleDateString()}
 										</p>
 									</div>
 								</CardContent>

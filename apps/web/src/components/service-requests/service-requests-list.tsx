@@ -119,7 +119,9 @@ export function ServiceRequestsList() {
 											{serviceRequest.service.name}
 										</CardTitle>
 									</div>
-									<CardDescription>{serviceRequest.client.name}</CardDescription>
+									<CardDescription>
+										{serviceRequest.client.name}
+									</CardDescription>
 								</CardHeader>
 								<CardContent>
 									<div className="space-y-2 text-sm">

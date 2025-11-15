@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { trpc } from "@/utils/trpc";
 
 interface RoleFormProps {
@@ -201,7 +201,7 @@ export function RoleForm({ roleId, onSuccess }: RoleFormProps) {
 				toast.success("Role created with permissions");
 				onSuccess?.();
 			}
-		} catch (error) {
+		} catch (_error) {
 			// Error handled by mutation callbacks
 		}
 	};
@@ -273,7 +273,10 @@ export function RoleForm({ roleId, onSuccess }: RoleFormProps) {
 							<tr className="border-b bg-muted/50">
 								<th className="p-3 text-left font-medium text-sm">Module</th>
 								{ACTIONS.map((action) => (
-									<th key={action} className="p-3 text-center font-medium text-sm">
+									<th
+										key={action}
+										className="p-3 text-center font-medium text-sm"
+									>
 										<div className="flex flex-col items-center gap-2">
 											<span className="capitalize">{action}</span>
 											<Checkbox

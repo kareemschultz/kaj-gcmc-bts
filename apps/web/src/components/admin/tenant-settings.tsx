@@ -1,7 +1,7 @@
 "use client";
 
-import { Building2, Save } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Save } from "lucide-react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -67,7 +67,7 @@ export function TenantSettings() {
 					contactInfo,
 				},
 			});
-		} catch (error) {
+		} catch (_error) {
 			// Error handled by mutation callback
 		}
 	};
@@ -114,7 +114,10 @@ export function TenantSettings() {
 				<CardContent>
 					<form onSubmit={handleSubmit} className="space-y-4">
 						<div>
-							<label htmlFor="tenant-name" className="mb-2 block font-medium text-sm">
+							<label
+								htmlFor="tenant-name"
+								className="mb-2 block font-medium text-sm"
+							>
 								Tenant Name
 							</label>
 							<Input
@@ -127,7 +130,10 @@ export function TenantSettings() {
 						</div>
 
 						<div>
-							<label htmlFor="tenant-code" className="mb-2 block font-medium text-sm">
+							<label
+								htmlFor="tenant-code"
+								className="mb-2 block font-medium text-sm"
+							>
 								Tenant Code
 							</label>
 							<Input
@@ -142,10 +148,7 @@ export function TenantSettings() {
 						</div>
 
 						<div className="flex justify-end">
-							<Button
-								type="submit"
-								disabled={updateTenantMutation.isPending}
-							>
+							<Button type="submit" disabled={updateTenantMutation.isPending}>
 								<Save className="mr-2 h-4 w-4" />
 								{updateTenantMutation.isPending ? "Saving..." : "Save Changes"}
 							</Button>
@@ -157,14 +160,15 @@ export function TenantSettings() {
 			<Card>
 				<CardHeader>
 					<CardTitle>Contact Information</CardTitle>
-					<CardDescription>
-						Manage your tenant contact details
-					</CardDescription>
+					<CardDescription>Manage your tenant contact details</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<form onSubmit={handleSubmit} className="space-y-4">
 						<div>
-							<label htmlFor="contact-email" className="mb-2 block font-medium text-sm">
+							<label
+								htmlFor="contact-email"
+								className="mb-2 block font-medium text-sm"
+							>
 								Email
 							</label>
 							<Input
@@ -179,7 +183,10 @@ export function TenantSettings() {
 						</div>
 
 						<div>
-							<label htmlFor="contact-phone" className="mb-2 block font-medium text-sm">
+							<label
+								htmlFor="contact-phone"
+								className="mb-2 block font-medium text-sm"
+							>
 								Phone
 							</label>
 							<Input
@@ -194,7 +201,10 @@ export function TenantSettings() {
 						</div>
 
 						<div>
-							<label htmlFor="contact-address" className="mb-2 block font-medium text-sm">
+							<label
+								htmlFor="contact-address"
+								className="mb-2 block font-medium text-sm"
+							>
 								Address
 							</label>
 							<Input
@@ -208,12 +218,11 @@ export function TenantSettings() {
 						</div>
 
 						<div className="flex justify-end">
-							<Button
-								type="submit"
-								disabled={updateTenantMutation.isPending}
-							>
+							<Button type="submit" disabled={updateTenantMutation.isPending}>
 								<Save className="mr-2 h-4 w-4" />
-								{updateTenantMutation.isPending ? "Saving..." : "Save Contact Info"}
+								{updateTenantMutation.isPending
+									? "Saving..."
+									: "Save Contact Info"}
 							</Button>
 						</div>
 					</form>
@@ -223,9 +232,7 @@ export function TenantSettings() {
 			<Card>
 				<CardHeader>
 					<CardTitle>Statistics</CardTitle>
-					<CardDescription>
-						Overview of your tenant activity
-					</CardDescription>
+					<CardDescription>Overview of your tenant activity</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

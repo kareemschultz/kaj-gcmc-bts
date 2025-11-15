@@ -2,10 +2,10 @@
 
 import { Building2, Shield, Users } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { UsersList } from "@/components/admin/users-list";
 import { RolesList } from "@/components/admin/roles-list";
 import { TenantSettings } from "@/components/admin/tenant-settings";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { UsersList } from "@/components/admin/users-list";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function AdminPage() {
 	const router = useRouter();
