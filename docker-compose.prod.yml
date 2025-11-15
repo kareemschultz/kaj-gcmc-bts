@@ -262,12 +262,31 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-gcmc_kaj}?schema=public&connection_limit=10
       REDIS_URL: redis://redis:6379
       HEALTH_PORT: 3002
+      # MinIO configuration for file processing jobs
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_USE_SSL: ${MINIO_USE_SSL:-false}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD}
+      MINIO_REGION: ${MINIO_REGION:-us-east-1}
+      # Email configuration
+      PORTAL_URL: ${PORTAL_URL:-}
+      SUPPORT_EMAIL: ${SUPPORT_EMAIL:-support@example.com}
+      EMAIL_PROVIDER: ${EMAIL_PROVIDER:-log}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-noreply@example.com}
     networks:
       - backend
     depends_on:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      minio:
         condition: service_healthy
     deploy:
       replicas: ${WORKER_REPLICAS:-1}
@@ -310,22 +329,12 @@ networks:
         - subnet: 172.21.0.0/24
 
 # Volumes
+# Using named volumes for easier deployment
+# For custom data paths, use bind mounts via docker-compose override file
 volumes:
   postgres_data:
     driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${DATA_PATH:-./data}/postgres
   redis_data:
     driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${DATA_PATH:-./data}/redis
   minio_data:
     driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ${DATA_PATH:-./data}/minio
