@@ -10,7 +10,7 @@ FROM base AS deps
 WORKDIR /app
 
 # Copy root package files
-COPY package.json bun.lockb ./
+COPY package.json bun.lock ./
 COPY turbo.json ./
 
 # Copy workspace package files
