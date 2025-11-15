@@ -439,11 +439,16 @@ export const usersRouter = router({
 			},
 		});
 
-		const byRoleWithNames = byRole.map((r: { roleId: number; _count: number }) => ({
-			roleId: r.roleId,
-			roleName: roles.find((role: { id: number; name: string }) => role.id === r.roleId)?.name || "Unknown",
-			count: r._count,
-		}));
+		const byRoleWithNames = byRole.map(
+			(r: { roleId: number; _count: number }) => ({
+				roleId: r.roleId,
+				roleName:
+					roles.find(
+						(role: { id: number; name: string }) => role.id === r.roleId,
+					)?.name || "Unknown",
+				count: r._count,
+			}),
+		);
 
 		return {
 			total,
