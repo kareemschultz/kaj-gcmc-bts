@@ -100,7 +100,8 @@ export default function DashboardPage() {
 					{isDocumentsLoading ? (
 						<div className="space-y-2">
 							{[...Array(3)].map((_, i) => (
-								<Skeleton key={i} className="h-12 w-full" />
+								// biome-ignore lint/suspicious/noArrayIndexKey: skeleton loaders are temporary UI elements that do not persist
+								<Skeleton key={`skeleton-${i}`} className="h-12 w-full" />
 							))}
 						</div>
 					) : documentsData?.documents.length === 0 ? (
@@ -153,7 +154,8 @@ export default function DashboardPage() {
 						{isFilingsLoading ? (
 							<div className="space-y-2">
 								{[...Array(3)].map((_, i) => (
-									<Skeleton key={i} className="h-12 w-full" />
+									// biome-ignore lint/suspicious/noArrayIndexKey: skeleton loaders are temporary UI elements that do not persist
+									<Skeleton key={`skeleton-${i}`} className="h-12 w-full" />
 								))}
 							</div>
 						) : filingsData?.filings.length === 0 ? (
@@ -198,7 +200,8 @@ export default function DashboardPage() {
 						{isTasksLoading ? (
 							<div className="space-y-2">
 								{[...Array(3)].map((_, i) => (
-									<Skeleton key={i} className="h-12 w-full" />
+									// biome-ignore lint/suspicious/noArrayIndexKey: skeleton loaders are temporary UI elements that do not persist
+									<Skeleton key={`skeleton-${i}`} className="h-12 w-full" />
 								))}
 							</div>
 						) : tasksData?.tasks.length === 0 ? (

@@ -406,15 +406,20 @@ export const usersRouter = router({
 	 * Requires: authentication only
 	 */
 	me: protectedProcedure.query(async ({ ctx }) => {
+		// Fetch full user details from database
+		const user = await prisma.user.findUnique({
+			where: { id: ctx.user.id },
+		});
+
 		return {
 			id: ctx.user.id,
 			name: ctx.user.name,
 			email: ctx.user.email,
-			phone: ctx.user.phone,
-			avatarUrl: ctx.user.avatarUrl,
-			emailVerified: ctx.user.emailVerified,
-			createdAt: ctx.user.createdAt,
-			updatedAt: ctx.user.updatedAt,
+			phone: user?.phone || null,
+			avatarUrl: user?.image || null,
+			emailVerified: user?.emailVerified || false,
+			createdAt: user?.createdAt || new Date(),
+			updatedAt: user?.updatedAt || new Date(),
 			tenantId: ctx.tenantId,
 			role: ctx.role,
 			tenant: ctx.tenant,
@@ -439,16 +444,21 @@ export const usersRouter = router({
 		const roles = await prisma.role.findMany({
 			where: {
 				id: {
-					in: byRole.map((r) => r.roleId),
+					in: byRole.map((r: { roleId: number; _count: number }) => r.roleId),
 				},
 			},
 		});
 
-		const byRoleWithNames = byRole.map((r) => ({
-			roleId: r.roleId,
-			roleName: roles.find((role) => role.id === r.roleId)?.name || "Unknown",
-			count: r._count,
-		}));
+		const byRoleWithNames = byRole.map(
+			(r: { roleId: number; _count: number }) => ({
+				roleId: r.roleId,
+				roleName:
+					roles.find(
+						(role: { id: number; name: string }) => role.id === r.roleId,
+					)?.name || "Unknown",
+				count: r._count,
+			}),
+		);
 
 		return {
 			total,

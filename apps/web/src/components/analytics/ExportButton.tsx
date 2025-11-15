@@ -6,7 +6,7 @@ import { Download, FileText, Image } from "lucide-react";
 import { useState } from "react";
 
 interface ExportButtonProps {
-	data?: any[];
+	data?: Array<Record<string, unknown>>;
 	chartRef?: React.RefObject<HTMLDivElement>;
 	filename?: string;
 	className?: string;
@@ -83,6 +83,7 @@ export function ExportButton({
 	return (
 		<div className={`relative ${className}`}>
 			<button
+				type="button"
 				onClick={() => setIsOpen(!isOpen)}
 				disabled={isExporting}
 				className="flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 font-medium text-sm shadow-sm hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
@@ -93,13 +94,23 @@ export function ExportButton({
 
 			{isOpen && (
 				<>
+					{/* biome-ignore lint/a11y/useSemanticElements: div is used as an invisible backdrop overlay, not an interactive button */}
 					<div
 						className="fixed inset-0 z-40"
+						role="button"
+						tabIndex={0}
 						onClick={() => setIsOpen(false)}
+						onKeyDown={(e) => {
+							if (e.key === "Enter" || e.key === " ") {
+								e.preventDefault();
+								setIsOpen(false);
+							}
+						}}
 					/>
 					<div className="absolute top-full right-0 z-50 mt-2 w-48 rounded-md border bg-popover p-2 shadow-lg">
 						{data && data.length > 0 && (
 							<button
+								type="button"
 								onClick={exportToCSV}
 								className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground"
 							>
@@ -110,6 +121,7 @@ export function ExportButton({
 						{chartRef && (
 							<>
 								<button
+									type="button"
 									onClick={exportToPNG}
 									className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground"
 								>
@@ -117,6 +129,7 @@ export function ExportButton({
 									<span>Export as PNG</span>
 								</button>
 								<button
+									type="button"
 									onClick={exportToPDF}
 									className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground"
 								>

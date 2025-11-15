@@ -73,7 +73,7 @@ export const VALIDATION_LIMITS = {
 /**
  * Allowed MIME types by category
  */
-export const MIME_TYPES = {
+const MIME_TYPES_BASE = {
 	DOCUMENT: [
 		"application/pdf",
 		"application/msword",
@@ -91,12 +91,13 @@ export const MIME_TYPES = {
 		"image/svg+xml",
 	],
 	TEXT: ["text/plain", "text/csv", "text/html"],
-	ALL: [] as string[], // Will be populated below
 } as const;
 
-// Populate ALL mime types
-MIME_TYPES.ALL = [
-	...MIME_TYPES.DOCUMENT,
-	...MIME_TYPES.IMAGE,
-	...MIME_TYPES.TEXT,
-];
+export const MIME_TYPES = {
+	...MIME_TYPES_BASE,
+	ALL: [
+		...MIME_TYPES_BASE.DOCUMENT,
+		...MIME_TYPES_BASE.IMAGE,
+		...MIME_TYPES_BASE.TEXT,
+	],
+} as const;

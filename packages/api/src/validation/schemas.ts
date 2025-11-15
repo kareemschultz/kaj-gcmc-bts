@@ -72,7 +72,7 @@ export const fileUploadSchema = z.object({
 			"Filename contains invalid characters",
 		),
 	fileType: z.enum(MIME_TYPES.ALL as unknown as [string, ...string[]], {
-		errorMap: () => ({ message: "Invalid file type" }),
+		message: "Invalid file type",
 	}),
 	fileSize: z
 		.number()
@@ -91,7 +91,7 @@ export const documentFileSchema = z.object({
 			"Filename contains invalid characters",
 		),
 	fileType: z.enum(MIME_TYPES.DOCUMENT as unknown as [string, ...string[]], {
-		errorMap: () => ({ message: "Invalid document type" }),
+		message: "Invalid document type",
 	}),
 	fileSize: z
 		.number()
