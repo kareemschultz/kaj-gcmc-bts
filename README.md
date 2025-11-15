@@ -37,7 +37,7 @@ GCMC-KAJ/
 ├── apps/
 │   ├── web/              # Next.js frontend (port 3001)
 │   ├── server/           # Hono API server (port 3000)
-│   └── worker/           # BullMQ background jobs (TODO)
+│   └── worker/           # BullMQ background jobs
 ├── packages/
 │   ├── api/              # tRPC routers and business logic
 │   ├── auth/             # Better-Auth configuration
@@ -48,7 +48,7 @@ GCMC-KAJ/
 │   ├── compliance/       # Compliance engine (TODO)
 │   ├── queue/            # BullMQ job definitions (TODO)
 │   └── config/           # Shared configuration
-├── docker-compose.yml    # Local development services
+├── docker-compose.yml    # Full stack orchestration
 └── .env.example          # Environment variables template
 ```
 
@@ -174,15 +174,35 @@ The platform uses **Better-Auth** for authentication with the following features
 
 ## Docker Services
 
-The `docker-compose.yml` provides:
+The `docker-compose.yml` provides a complete stack:
+
+**Infrastructure:**
 - **PostgreSQL** (port 5432): Main database
 - **Redis** (port 6379): Job queue backend
 - **MinIO** (ports 9000, 9001): Object storage for documents
 
-Start all services:
+**Applications:**
+- **API Server** (port 3000): Hono + tRPC backend
+- **Web App** (port 3001): Next.js frontend
+- **Worker**: BullMQ background jobs (compliance, notifications, filings)
+
+### Development with Docker
+
+Start infrastructure only:
 ```bash
-docker compose up -d
+docker compose up -d postgres redis minio
+bun dev  # Run apps locally
 ```
+
+Start full stack:
+```bash
+docker compose up --build
+```
+
+Visit:
+- Frontend: http://localhost:3001
+- API: http://localhost:3000
+- MinIO Console: http://localhost:9001
 
 ## Migration Status
 
@@ -190,21 +210,54 @@ docker compose up -d
 
 See [MIGRATION_STATUS.md](./MIGRATION_STATUS.md) for detailed progress and remaining tasks.
 
-### Completed
+### Phase 1: Infrastructure ✅ Complete
 - ✅ Prisma schema migration (all models)
 - ✅ Better-Auth integration with multi-tenant support
 - ✅ tRPC infrastructure with tenant isolation
 - ✅ RBAC system (roles, permissions, enforcement)
 - ✅ Storage utilities (MinIO)
-- ✅ Example router migration (clients)
-- ✅ Docker Compose configuration
 
-### In Progress
-- 🚧 Remaining 21 tRPC routers
-- 🚧 Frontend pages and components
-- 🚧 BullMQ worker jobs
-- 🚧 Compliance engine
-- 🚧 Tests migration
+### Phase 2: Backend API ✅ Complete
+- ✅ All 23 tRPC routers migrated
+  - users, tenants, roles, clients, clientBusinesses
+  - documents, documentTypes, documentUpload
+  - filings, filingTypes, recurringFilings
+  - services, serviceRequests
+  - tasks, conversations, notifications
+  - complianceRules, requirementBundles
+  - dashboard, analytics
+  - wizards, portal
+- ✅ RBAC enforcement on all endpoints
+- ✅ Tenant isolation
+- ✅ Audit logging
+
+### Phase 3: Frontend 🚧 In Progress
+- ✅ Clients pages (list, detail - reference implementation)
+- 🚧 Documents pages
+- 🚧 Filings pages
+- 🚧 Dashboard
+- 🚧 Services & Tasks pages
+- 🚧 Client Portal
+
+### Phase 4: Worker ✅ Complete
+- ✅ BullMQ worker app created
+- ✅ Compliance refresh job (daily scoring)
+- ✅ Expiry notification job (7-day window)
+- ✅ Filing reminder job (overdue filings)
+- ✅ Scheduled cron jobs
+
+### Phase 5: Docker ✅ Complete
+- ✅ Dockerfiles for web, server, worker
+- ✅ docker-compose.yml with full stack
+- ✅ Multi-stage builds
+- ✅ Health checks
+- ✅ Service dependencies
+
+### Phase 6: Testing & Remaining
+- 🚧 Vitest test migration
+- 🚧 PDF reporting system
+- 🚧 Production deployment guide
+- 🚧 CI/CD pipeline
 
 ## Development Guidelines
 
@@ -272,7 +325,38 @@ Outputs:
 
 ### Docker Production
 
-A production Dockerfile will be added in future updates.
+The Dockerfiles use multi-stage builds optimized for production:
+
+```bash
+# Build all images
+docker compose build
+
+# Start production stack
+docker compose up -d
+
+# View logs
+docker compose logs -f api
+docker compose logs -f web
+docker compose logs -f worker
+
+# Stop all services
+docker compose down
+```
+
+**Production Environment Variables:**
+
+Set these in your `.env` or docker-compose environment:
+- `BETTER_AUTH_SECRET` - Strong random key for session encryption
+- `DATABASE_URL` - Production PostgreSQL connection string
+- `MINIO_*` - Production S3/MinIO configuration
+- `REDIS_URL` - Production Redis connection string
+- `BETTER_AUTH_URL` - Your production domain URL
+
+**Security Notes:**
+- All app containers run as non-root users
+- Health checks ensure services are responding
+- Restart policies handle failures automatically
+- Volumes persist data across container restarts
 
 ## Testing
 
