@@ -1,228 +1,256 @@
-# GitHub Configuration
+# KAJ–GCMC Platform
 
-This directory contains all GitHub-specific configuration files for the GCMC-KAJ project.
+A modern compliance‑automation and client‑management platform built with a modular, service‑oriented architecture.  
+This repository contains the full source for the **KAJ–GCMC Platform**, including:
 
-## 📋 Contents
-
-### Workflows (`.github/workflows/`)
-
-| Workflow | File | Purpose | Triggers |
-|----------|------|---------|----------|
-| **CI** | `ci.yml` | Continuous Integration | Push, PR |
-| **Deploy** | `deploy.yml` | Production Deployment | Push to main, Tags |
-| **PR Checks** | `pr-checks.yml` | Pull Request Validation | PR events |
-| **Database Migration** | `migrate.yml` | Database Migrations | Manual only |
-
-### Configuration Files
-
-| File | Purpose |
-|------|---------|
-| `dependabot.yml` | Automated dependency updates |
-| `CODEOWNERS` | Code ownership and review assignments |
-| `PULL_REQUEST_TEMPLATE.md` | Standard PR template |
-| `SECRETS.md` | Required GitHub secrets documentation |
-| `CICD_SETUP_GUIDE.md` | Complete CI/CD setup instructions |
-
-## 🚀 Quick Start
-
-### For First-Time Setup
-
-1. Read [CICD_SETUP_GUIDE.md](./CICD_SETUP_GUIDE.md) for detailed instructions
-2. Configure required secrets from [SECRETS.md](./SECRETS.md)
-3. Enable GitHub Actions in repository settings
-4. Push code to trigger workflows
-
-### For Daily Development
-
-1. Create feature branch
-2. Make changes and commit
-3. Push branch and create PR
-4. Wait for CI checks to pass
-5. Request review from code owners
-6. Merge after approval
-
-## 📊 Workflow Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         Developer Workflow                       │
-└─────────────────────────────────────────────────────────────────┘
-                                  │
-                    ┌─────────────┴─────────────┐
-                    │                           │
-              ┌─────▼─────┐             ┌──────▼──────┐
-              │   Push    │             │  Pull Req   │
-              │  to main  │             │   Created   │
-              └─────┬─────┘             └──────┬──────┘
-                    │                          │
-         ┌──────────┴──────────┐      ┌────────┴────────┐
-         │                     │      │                 │
-    ┌────▼────┐          ┌────▼────┐ │   ┌──────────┐  │
-    │   CI    │          │ Deploy  │ │   │ PR Check │  │
-    │ Workflow│          │Workflow │ │   └────┬─────┘  │
-    └────┬────┘          └────┬────┘ │        │        │
-         │                    │      │   ┌────▼─────┐  │
-    ┌────▼────┐          ┌────▼────┐ │   │ CI Check │  │
-    │ Lint    │          │ Wait CI │ │   └──────────┘  │
-    │ Type    │          └────┬────┘ │                 │
-    │ Test    │               │      └─────────────────┘
-    │ Build   │          ┌────▼────┐
-    └─────────┘          │  Build  │
-                         │ Docker  │
-                         └────┬────┘
-                              │
-                         ┌────▼────┐
-                         │  Push   │
-                         │  GHCR   │
-                         └────┬────┘
-                              │
-                         ┌────▼────┐
-                         │ Deploy  │
-                         │Railway  │
-                         └─────────┘
-```
-
-## 🔒 Security
-
-### Secret Management
-
-- All secrets are stored in GitHub Secrets
-- Never commit secrets to repository
-- Use environment-specific secrets
-- Rotate secrets regularly (see SECRETS.md)
-
-### Branch Protection
-
-Recommended branch protection rules for `main`:
-
-- ✅ Require pull request reviews
-- ✅ Require status checks to pass
-- ✅ Require conversation resolution
-- ✅ Require linear history
-- ✅ Include administrators
-
-### Code Scanning
-
-- Dependabot alerts enabled
-- Security audit in CI
-- Dependency review on PRs
-
-## 📈 Monitoring
-
-### Build Status
-
-Add status badges to your README:
-
-```markdown
-![CI](https://github.com/kareemschultz/kaj-gcmc-bts/actions/workflows/ci.yml/badge.svg)
-![Deploy](https://github.com/kareemschultz/kaj-gcmc-bts/actions/workflows/deploy.yml/badge.svg)
-```
-
-### Workflow Runs
-
-Monitor workflow runs:
-- GitHub Actions tab
-- Email notifications
-- Slack/Discord webhooks (optional)
-
-## 🛠️ Maintenance
-
-### Weekly
-- Review Dependabot PRs
-- Check failed builds
-- Review security alerts
-
-### Monthly
-- Update dependencies
-- Review workflow performance
-- Update documentation
-
-### Quarterly
-- Rotate production secrets
-- Review access controls
-- Update workflows
-
-## 📚 Documentation
-
-- **[CICD_SETUP_GUIDE.md](./CICD_SETUP_GUIDE.md)** - Complete setup guide
-- **[SECRETS.md](./SECRETS.md)** - Secrets configuration
-- **[CODEOWNERS](./CODEOWNERS)** - Code ownership
-- **[PULL_REQUEST_TEMPLATE.md](./PULL_REQUEST_TEMPLATE.md)** - PR template
-
-## 🤝 Contributing
-
-When modifying workflows:
-
-1. Test changes in a feature branch first
-2. Use workflow_dispatch for testing
-3. Document changes in this README
-4. Update CICD_SETUP_GUIDE.md if needed
-5. Create PR for review
-
-## 💡 Tips
-
-### Testing Workflows Locally
-
-Use [act](https://github.com/nektos/act) to test workflows locally:
-
-```bash
-# Install act
-brew install act  # macOS
-# or
-curl https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
-
-# Run workflows locally
-act push          # Test push event
-act pull_request  # Test PR event
-```
-
-### Debugging Workflows
-
-Enable debug logging:
-
-1. Settings > Secrets > Actions
-2. Add secret: `ACTIONS_STEP_DEBUG` = `true`
-3. Add secret: `ACTIONS_RUNNER_DEBUG` = `true`
-
-### Skipping CI
-
-Add to commit message to skip CI (use sparingly):
-
-```bash
-git commit -m "docs: Update README [skip ci]"
-```
-
-## 🐛 Troubleshooting
-
-Common issues and solutions:
-
-### Workflow Not Triggering
-- Check workflow syntax
-- Verify branch protection rules
-- Check Actions permissions
-
-### Build Failing
-- Review workflow logs
-- Check for missing secrets
-- Verify dependencies are up to date
-
-### Deployment Failing
-- Verify all secrets are set
-- Check deployment platform status
-- Review deployment logs
-
-For more help, see [CICD_SETUP_GUIDE.md](./CICD_SETUP_GUIDE.md#troubleshooting)
-
-## 📞 Support
-
-For questions or issues:
-
-1. Check documentation in this directory
-2. Review GitHub Actions logs
-3. Open an issue in the repository
-4. Contact @kareemschultz
+- Multi‑tenant backend API
+- Secure authentication & RBAC
+- Document & filing management
+- Client management & workflow automation
+- Background job processing
+- Reporting & PDF generation
+- Web dashboard
+- Infrastructure & Docker deployment
 
 ---
 
-**Last Updated:** 2025-11-15
-**Maintained by:** @kareemschultz
+## 🚀 Tech Stack
+
+### **Frontend**
+- Next.js (App Router)
+- React / TypeScript
+- TailwindCSS + Radix UI components
+- tRPC client
+- Better-Auth client integration
+
+### **Backend API**
+- Hono (Bun runtime)
+- tRPC v11
+- Prisma ORM
+- PostgreSQL
+- Multi‑tenant architecture
+- RBAC enforcement layer
+
+### **Authentication**
+- **Better‑Auth**
+- Password login, sessions, secure cookies
+- Multi‑tenant session context injection
+- Permissions evaluated at procedure level
+
+### **Background Processing**
+- BullMQ + Redis
+- Scheduled jobs:
+  - Compliance score refresh
+  - Filing reminders
+  - Document expiry notifications
+  - Email dispatch queue
+
+### **Object Storage**
+- MinIO (S3-compatible)
+- Fully tenant‑isolated buckets
+- Presigned uploads & secure downloads
+
+### **Reporting System**
+- Full PDF generation pipeline
+- Templates included:
+  - Client File Report
+  - Compliance Summary
+  - Documents List
+  - Filings Summary
+  - Service History
+- Download endpoints via API
+- Frontend “Download Report” components
+
+### **Deployment & Infrastructure**
+- Docker & Docker Compose
+- Multi‑service build for:
+  - Web (Next.js)
+  - API (Hono)
+  - Worker (BullMQ)
+- Local development environment
+- Production-ready multistage Dockerfiles
+
+---
+
+## 🧩 Repository Structure
+
+```
+/
+├── apps/
+│   ├── web/               # Next.js dashboard
+│   ├── server/            # Hono + tRPC API
+│   └── worker/            # BullMQ worker processes
+│
+├── packages/
+│   ├── api/               # tRPC routers
+│   ├── auth/              # Better-Auth config + adapters
+│   ├── db/                # Prisma + database client
+│   ├── rbac/              # Roles, permissions, enforcement
+│   ├── reports/           # PDF report generator
+│   └── config/            # Shared tsconfigs and utilities
+│
+├── docker-compose.yml
+├── README.md
+└── MIGRATION_STATUS.md
+```
+
+---
+
+## ✨ Core Features
+
+### 🧑‍💼 **Client Management**
+- Create, edit, and manage client records  
+- Track businesses, contacts, and notes  
+- View documents, filings, and tasks related to each client  
+
+### 📄 **Document Management**
+- File upload + version control  
+- Document types & metadata  
+- Expiry tracking  
+- Export full document lists to PDF  
+
+### 🗂 **Filing Management**
+- Filing categories + jurisdictions  
+- Due dates, status tracking  
+- Recurring filings  
+- Filing reminders  
+- Export filing summaries  
+
+### 📊 **Dashboard**
+- Compliance scoring
+- Recent activity
+- Alerts & reminders
+- Key metrics cards
+
+### 🔐 **RBAC + Multi-Tenant Security**
+- Separate data per tenant  
+- 8 system roles  
+- Every router wrapped with permission enforcement  
+
+### 📨 **Notifications**
+- In-app notifications  
+- Automatic alerts for expiries and overdue filings  
+
+### 🧵 **Background Jobs**
+- Compliance score scheduler  
+- Filing deadlines & reminders  
+- Document expiry notifications  
+
+### 📑 **PDF Reporting**
+- Beautifully formatted PDF output  
+- API endpoints to download reports  
+- Used for client deliverables & audit packets  
+
+---
+
+## 🐳 Running Locally (Docker)
+
+### 1. Start infrastructure
+```sh
+docker compose up -d postgres redis minio
+```
+
+### 2. Install dependencies
+```sh
+bun install
+```
+
+### 3. Prepare database
+```sh
+bun db:generate
+bun db:push
+```
+
+### 4. Run the whole stack in Docker
+```sh
+docker compose up --build
+```
+
+Services:
+- **Web**: http://localhost:3001  
+- **API**: http://localhost:3000  
+- **MinIO Console**: http://localhost:9001  
+
+---
+
+## 🧪 Testing
+
+Unit + Integration Tests for:
+- RBAC
+- API routers
+- Test utilities
+- Reports rendering
+
+Run tests:
+```sh
+bun test
+```
+
+---
+
+## 📦 Production Deployment
+
+### CI/CD Workflow (Recommended)
+- GitHub Actions  
+- Automated tests  
+- Docker build + push  
+- Deploy to container platform  
+  - Render
+  - Fly.io
+  - AWS ECS
+  - DigitalOcean Apps
+
+### Environment Variables
+All variables are documented in `.env.example` for each app.
+
+---
+
+## 📜 Documentation
+
+Important files:
+
+- `MIGRATION_STATUS.md` — tracks migration progress
+- `REPORTS_SYSTEM_SUMMARY.md` — overview of the entire PDF system
+- `DOCKER.md` — instructions for running & deploying
+- `packages/reports/README.md` — report system documentation
+
+---
+
+## 📌 Roadmap / Enhancements
+
+### Completed Enhancements
+✔ Full migration to new architecture  
+✔ PDF report system  
+✔ Worker system + scheduled jobs  
+✔ Frontend dashboards  
+✔ Documents, Filings, Clients UI  
+✔ API test suite  
+✔ Infrastructure modernization  
+
+### Upcoming Enhancements
+- **Client Portal App**
+- **Email delivery service (SMTP or provider)**
+- **Advanced analytics dashboards**
+- **Audit logging visualization**
+- **Role-based UI hiding**
+- **Mobile UI improvements**
+- **Full CI/CD pipeline**
+
+---
+
+## 🤝 Contributing
+
+1. Create a new branch  
+2. Make changes using Claude Code automatic editing or Bun tooling  
+3. Run:
+```sh
+bun lint
+bun test
+```
+4. Open PR
+
+---
+
+## 📄 License
+Private — All rights reserved.
+
