@@ -212,6 +212,49 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  # Portal Application (Client Portal)
+  portal:
+    build:
+      context: .
+      dockerfile: apps/portal/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000}
+    container_name: gcmc-kaj-portal
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000}
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-localdev_only_insecure}@postgres:5432/gcmc_kaj
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-localdev_insecure_secret_do_not_use_in_production}
+    ports:
+      - "3002:3002"
+    depends_on:
+      api:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   # Worker (BullMQ Background Jobs)
   worker:
     build:
@@ -222,7 +265,7 @@ services:
       NODE_ENV: production
       DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-localdev_only_insecure}@postgres:5432/gcmc_kaj
       REDIS_URL: redis://redis:6379
-      HEALTH_PORT: 3002
+      HEALTH_PORT: 3004
       # MinIO configuration for file processing jobs
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
@@ -235,7 +278,7 @@ services:
       SUPPORT_EMAIL: support@example.com
       EMAIL_PROVIDER: log
     ports:
-      - "3002:3002"
+      - "3004:3004"
     depends_on:
       postgres:
         condition: service_healthy
@@ -253,7 +296,7 @@ services:
           cpus: '0.25'
           memory: 256M
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
       interval: 30s
       timeout: 10s
       retries: 3
