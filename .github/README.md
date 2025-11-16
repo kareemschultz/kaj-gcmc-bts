@@ -637,5 +637,3 @@ This project is licensed under the **MIT License** (or your chosen license). Add
 
 ---
 
-> 💬 **Need a tailored dev guide?**  
-> You can generate a shorter “Onboarding for New Developers” doc from this README that focuses only on setup, scripts, and contribution workflow.
