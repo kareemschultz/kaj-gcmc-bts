@@ -4,22 +4,29 @@ import type * as React from "react";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-	"inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+	"inline-flex items-center rounded-full border px-3 py-1 font-medium text-xs transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
 	{
 		variants: {
 			variant: {
 				default:
-					"border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+					"border-transparent bg-brand-600 text-white hover:bg-brand-700 shadow-sm",
 				secondary:
-					"border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+					"border-transparent bg-secondary text-secondary-foreground hover:bg-brand-200",
 				destructive:
-					"border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-				outline: "text-foreground",
+					"border-transparent bg-error text-white hover:bg-error/90 shadow-sm",
+				outline: "border-border text-foreground hover:bg-muted",
 				success:
-					"border-transparent bg-green-500 text-white hover:bg-green-600",
+					"border-transparent bg-accent-600 text-white hover:bg-accent-700 shadow-sm",
 				warning:
-					"border-transparent bg-yellow-500 text-white hover:bg-yellow-600",
-				info: "border-transparent bg-blue-500 text-white hover:bg-blue-600",
+					"border-transparent bg-warning text-white hover:bg-warning/90 shadow-sm",
+				info:
+					"border-transparent bg-info text-white hover:bg-info/90 shadow-sm",
+				compliant:
+					"border-transparent bg-accent-100 text-accent-900 dark:bg-accent-900/30 dark:text-accent-300",
+				pending:
+					"border-transparent bg-warning/10 text-warning dark:bg-warning/20",
+				nonCompliant:
+					"border-transparent bg-error/10 text-error dark:bg-error/20",
 			},
 		},
 		defaultVariants: {

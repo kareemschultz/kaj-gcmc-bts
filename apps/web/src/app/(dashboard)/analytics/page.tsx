@@ -10,12 +10,16 @@ import {
 	Users,
 } from "lucide-react";
 import { useRef, useState } from "react";
-import { BarChartComponent } from "@/components/analytics/BarChartComponent";
-import { DateRangePicker } from "@/components/analytics/DateRangePicker";
-import { ExportButton } from "@/components/analytics/ExportButton";
-import { KPICard } from "@/components/analytics/KPICard";
-import { PieChartComponent } from "@/components/analytics/PieChartComponent";
-import { TrendIndicator } from "@/components/analytics/TrendIndicator";
+// Use optimized chart components with dynamic imports
+import {
+	BarChartComponent,
+	DateRangePicker,
+	ExportButton,
+	KPICard,
+	LineChartComponent,
+	PieChartComponent,
+	TrendIndicator,
+} from "@/components/analytics/optimized";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trpc } from "@/utils/trpc";

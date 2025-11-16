@@ -27,6 +27,7 @@
 		"@GCMC-KAJ/email": "workspace:*",
 		"@GCMC-KAJ/rbac": "workspace:*",
 		"@GCMC-KAJ/reports": "workspace:*",
+		"@GCMC-KAJ/storage": "workspace:*",
 		"@GCMC-KAJ/types": "workspace:*",
 		"@trpc/client": "catalog:",
 		"@trpc/server": "catalog:",

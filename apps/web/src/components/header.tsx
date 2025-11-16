@@ -45,11 +45,14 @@ export default function Header() {
 			<div className="container mx-auto">
 				<div className="flex items-center justify-between px-4 py-3">
 					{/* Logo/Brand */}
-					<Link href="/dashboard" className="flex items-center gap-2">
-						<div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-							<span className="font-bold text-sm">KAJ</span>
+					<Link href="/dashboard" className="flex items-center gap-3 group">
+						<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-600 text-white shadow-sm group-hover:bg-brand-700 transition-colors">
+							<span className="font-bold text-base">KAJ</span>
 						</div>
-						<span className="font-semibold text-lg">GCMC Platform</span>
+						<div className="flex flex-col">
+							<span className="font-semibold text-lg text-foreground">GCMC Platform</span>
+							<span className="text-xs text-muted-foreground">Compliance Management</span>
+						</div>
 					</Link>
 
 					{/* Main Navigation */}
@@ -60,10 +63,10 @@ export default function Header() {
 								<Link
 									key={to}
 									href={to}
-									className={`flex items-center gap-2 rounded-md px-3 py-2 font-medium text-sm transition-colors${
+									className={`flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-sm transition-all${
 										active
-											? "bg-accent text-accent-foreground"
-											: "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
+											? "bg-brand-600 text-white shadow-sm"
+											: "text-muted-foreground hover:bg-brand-100 hover:text-brand-900 dark:hover:bg-brand-800 dark:hover:text-brand-100"
 									}
 									`}
 								>
@@ -91,10 +94,10 @@ export default function Header() {
 								<Link
 									key={to}
 									href={to}
-									className={`flex shrink-0 items-center gap-2 rounded-md px-3 py-2 font-medium text-sm transition-colors${
+									className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 font-medium text-sm transition-all${
 										active
-											? "bg-accent text-accent-foreground"
-											: "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
+											? "bg-brand-600 text-white shadow-sm"
+											: "text-muted-foreground hover:bg-brand-100 hover:text-brand-900 dark:hover:bg-brand-800 dark:hover:text-brand-100"
 									}
 									`}
 								>
