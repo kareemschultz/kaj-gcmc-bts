@@ -1,427 +1,639 @@
-# KAJ-GCMC Business Technology Solutions
 
-**Enterprise Compliance Management & Professional Services Platform**
+# KAJ‑GCMC Compliance Platform
 
-## What This Platform Is
+[![Status](https://img.shields.io/badge/status-active-success?style=for-the-badge)](#)
+[![Bun](https://img.shields.io/badge/runtime-bun-000?style=for-the-badge&logo=bun)](#)
+[![Next.js](https://img.shields.io/badge/frontend-next.js-000?style=for-the-badge&logo=nextdotjs)](#)
+[![Hono](https://img.shields.io/badge/backend-hono-ff6b6b?style=for-the-badge)](#)
+[![tRPC](https://img.shields.io/badge/api-tRPC-2596be?style=for-the-badge)](#)
+[![Prisma](https://img.shields.io/badge/orm-prisma-2d3748?style=for-the-badge&logo=prisma)](#)
+[![PostgreSQL](https://img.shields.io/badge/database-postgresql-336791?style=for-the-badge&logo=postgresql)](#)
+[![Redis](https://img.shields.io/badge/cache-redis-d82c20?style=for-the-badge&logo=redis)](#)
+[![MinIO](https://img.shields.io/badge/storage-minio-c72e49?style=for-the-badge)](#)
+[![Better‑Auth](https://img.shields.io/badge/auth-better--auth-4b9ce2?style=for-the-badge)](#)
+[![Biome](https://img.shields.io/badge/code%20quality-biome-1c1e26?style=for-the-badge)](#)
+[![Vitest](https://img.shields.io/badge/tests-vitest-729b1b?style=for-the-badge&logo=vitest)](#)
+[![License](https://img.shields.io/badge/license-MIT-3b82f6?style=for-the-badge)](#)
 
-KAJ-GCMC is a **comprehensive business technology solution** designed specifically for **professional service firms** (accounting, legal, consulting, financial advisory) who need to manage complex compliance requirements, client relationships, and regulatory obligations across multiple jurisdictions and industry sectors.
+End‑to‑end **regulatory compliance & client management** platform for KAJ/GCMC, built as a modern **Better‑T‑style monorepo** with full **multi‑tenant support**, **RBAC**, **document workflows**, **filings**, **analytics**, and **PDF reporting**.
 
-## Business Purpose & Scope
+---
 
-### **The Compliance Challenge**
-Modern professional service firms face increasingly complex regulatory landscapes:
-- **Multi-Jurisdictional Compliance**: Different rules across states, provinces, and countries
-- **Industry-Specific Requirements**: Each client sector has unique compliance obligations
-- **Deadline Management**: Critical filing dates with severe penalties for non-compliance
-- **Document Lifecycle**: Version control, retention periods, and audit trail requirements
-- **Risk Assessment**: Ongoing monitoring of client compliance status and risk exposure
+## 📚 Table of Contents
 
-### **What KAJ-GCMC Solves**
+- [KAJ‑GCMC Compliance Platform](#kaj-gcmc-compliance-platform)
+  - [📚 Table of Contents](#-table-of-contents)
+  - [🚀 Overview](#-overview)
+  - [✨ Core Features](#-core-features)
+  - [🏗 Architecture](#-architecture)
+    - [System Diagram](#system-diagram)
+    - [Request Flow](#request-flow)
+  - [🧱 Tech Stack](#-tech-stack)
+  - [📁 Monorepo Layout](#-monorepo-layout)
+  - [⚙️ Environment \& Configuration](#️-environment--configuration)
+  - [🧑‍💻 Running the Stack](#-running-the-stack)
+    - [1. Prerequisites](#1-prerequisites)
+    - [2. Local Development (Recommended)](#2-local-development-recommended)
+    - [3. Full Docker Stack](#3-full-docker-stack)
+    - [4. Helpful Scripts](#4-helpful-scripts)
+  - [🗄 Database \& Migrations](#-database--migrations)
+  - [🔐 Authentication \& RBAC](#-authentication--rbac)
+  - [📨 Background Workers](#-background-workers)
+  - [📂 Documents \& File Storage](#-documents--file-storage)
+  - [📑 PDF Reporting](#-pdf-reporting)
+  - [🧪 Testing](#-testing)
+  - [🧹 Linting, Formatting \& Code Quality](#-linting-formatting--code-quality)
+  - [📦 CI/CD \& Deployment (Planned)](#-cicd--deployment-planned)
+  - [📱 UX, Responsiveness \& Accessibility](#-ux-responsiveness--accessibility)
+  - [🧭 Roadmap \& Enhancements](#-roadmap--enhancements)
+  - [👩‍💻 Contributing \& Branch Workflow](#-contributing---branch-workflow)
+  - [📄 License](#-license)
 
-**🎯 Centralized Compliance Management**
-- **Automated Compliance Scoring**: Real-time assessment of client compliance status across all regulatory frameworks
-- **Risk-Based Client Classification**: Automatic categorization (Low/Medium/High risk) based on compliance history and sector
-- **Regulatory Deadline Tracking**: Comprehensive calendar management for all filing requirements
-- **Multi-Tenant Architecture**: Complete data isolation for different firms, departments, or client portfolios
+---
 
-**📋 Professional Service Delivery**
-- **Client Lifecycle Management**: From onboarding through ongoing service delivery and retention
-- **Service Request Workflow**: Structured processes for managing client engagements and deliverables
-- **Document Version Control**: Complete audit trail for all client documents with automated expiry tracking
-- **Collaborative Task Management**: Team coordination for complex, multi-step compliance processes
+## 🚀 Overview
 
-**⚖️ Regulatory & Legal Framework**
-- **Audit Trail Compliance**: Complete logging of all user actions for regulatory examination
-- **Data Retention Policies**: Automated enforcement of document retention requirements
-- **Client Confidentiality**: Role-based access controls ensuring proper information segregation
-- **Regulatory Reporting**: Standardized reports for compliance officers and regulatory bodies
+This repository contains the **KAJ‑GCMC SaaS platform** – a multi‑tenant system for:
 
-### **Target Industries & Use Cases**
+- Managing **clients & client businesses**
+- Tracking **documents**, **filings**, **services**, and **tasks**
+- Enforcing **compliance rules** and **requirement bundles** (e.g. GRA, NIS, Deeds, GO‑Invest)
+- Providing **dashboards, analytics, and PDF reports**
+- Running **background jobs** for compliance refresh, expiry notifications, and filing reminders
 
-**🏢 Accounting Firms**
-- Tax compliance management across multiple jurisdictions
-- Financial statement filing requirements
-- Client advisory services with compliance tracking
-- Audit documentation and working paper management
+The legacy implementation lived in a **Next.js monolith**. It has been fully migrated into a **modern monorepo** with:
 
-**⚖️ Legal Practices**
-- Corporate compliance for business clients
-- Regulatory filing management
-- Client matter tracking with deadline management
-- Document retention and discovery management
+- Clear separation of concerns (web / api / worker / shared packages)
+- Strong **type safety** via TypeScript, tRPC, and Prisma
+- Production‑ready **Docker** setup
+- Rich **PDF reporting** for client files, documents, filings, services, and compliance
 
-**💼 Financial Advisory**
-- Investment compliance monitoring
-- Client suitability assessments
-- Regulatory reporting requirements
-- Investment policy compliance tracking
+---
 
-**🏗️ Business Consulting**
-- Regulatory compliance assessments
-- Process improvement with compliance integration
-- Risk management consulting
-- Industry-specific compliance advisory
+## ✨ Core Features
 
-### **Real-World Business Impact**
+- **Multi‑tenant architecture**
+  - Isolated data per tenant (e.g. KAJ, GCMC, others)
+  - Tenant‑scoped queries at all layers
+- **RBAC (Role‑Based Access Control)**
+  - 8+ roles (SuperAdmin, FirmAdmin, ComplianceManager, etc.)
+  - Permission strings per module (`clients:view`, `documents:create`, …)
+- **Clients & Businesses**
+  - Clients with associated business entities
+  - Snapshot of filings, documents, services and tasks per client
+- **Documents**
+  - Document types, expiry tracking, version history
+  - MinIO‑backed storage with presigned URLs
+- **Filings**
+  - Filing types, recurring filings, due dates
+  - Overdue detection and reminders
+- **Compliance Engine**
+  - Rules and requirement bundles for agencies (e.g. GRA, NIS, Deeds, GO‑Invest)
+  - Score calculation and risk categories
+- **Tasks & Workflows**
+  - Internal tasks, service requests, and wizard flows
+- **Analytics & Dashboards**
+  - Compliance overview, risk distribution, activity feed
+  - Module‑level analytics
+- **PDF Reporting**
+  - Client file report, filings summary, documents inventory, compliance report, service history
+- **Background Jobs**
+  - Daily compliance refresh
+  - Document expiry notifications
+  - Filing reminders
 
-**For Firm Partners & Directors:**
-- **Risk Mitigation**: Proactive compliance monitoring reduces regulatory exposure
-- **Operational Efficiency**: Automated processes free up senior staff for client-facing work
-- **Business Intelligence**: Analytics dashboard provides insights into firm performance and client portfolio health
-- **Scalability**: Multi-tenant architecture supports firm growth without technology constraints
+---
 
-**For Compliance Officers:**
-- **Centralized Oversight**: Single dashboard for monitoring all client compliance status
-- **Exception Management**: Automated alerts for overdue filings and compliance breaches
-- **Regulatory Reporting**: One-click generation of compliance reports for regulatory bodies
-- **Audit Readiness**: Complete documentation trail for regulatory examinations
+## 🏗 Architecture
 
-**For Client Service Teams:**
-- **Proactive Client Management**: Early warning systems for upcoming deadlines and requirements
-- **Streamlined Communication**: Client portal enables self-service access to documents and status updates
-- **Workflow Automation**: Standardized processes ensure consistent service delivery
-- **Performance Tracking**: Analytics on service delivery times and client satisfaction
+### System Diagram
 
-**For Clients:**
-- **Transparency**: Real-time access to compliance status and upcoming requirements
-- **Self-Service**: Secure portal for document access and communication
-- **Peace of Mind**: Proactive management ensures no missed deadlines or compliance failures
-- **Professional Service**: Streamlined processes and modern technology enhance service experience
+```mermaid
+%%{init: {'theme': 'dark'}}%%
+flowchart LR
+  subgraph Browser[Browser / Devices]
+    WebApp[Next.js Web App]
+  end
 
-### **Business Model & Value Proposition**
+  subgraph Infra[Backend Layer]
+    API[Hono + tRPC API]
+    Worker[BullMQ Worker]
+  end
 
-**🏢 SaaS Platform for Professional Services**
-KAJ-GCMC operates as a **multi-tenant Software-as-a-Service (SaaS)** platform, enabling professional service firms to:
+  subgraph Shared[Shared Packages]
+    DB[(Prisma + PostgreSQL)]
+    Storage[MinIO Object Storage]
+    Auth[Better‑Auth]
+    RBAC[RBAC & Permissions]
+    Reports[PDF Reports]
+  end
 
-**📈 Revenue Impact:**
-- **Increased Billable Efficiency**: Automation reduces non-billable administrative time by 30-40%
-- **Client Retention**: Proactive compliance management improves client satisfaction and reduces churn
-- **Premium Service Delivery**: Technology-enabled service commands higher fees and client loyalty
-- **Scalable Operations**: Handle more clients without proportional increase in administrative overhead
+  WebApp <-->|tRPC| API
+  API --> DB
+  API --> Storage
+  API --> Auth
+  API --> RBAC
+  API --> Reports
 
-**💰 Cost Reduction:**
-- **Reduced Compliance Risk**: Automated tracking prevents costly regulatory penalties and fines
-- **Operational Efficiency**: Streamlined workflows reduce manual processing and error correction
-- **Technology ROI**: Single platform replaces multiple point solutions and manual processes
-- **Staff Productivity**: Professionals focus on high-value client work rather than administrative tasks
+  Worker --> DB
+  Worker --> Storage
+  Worker --> Auth
+  Worker --> RBAC
 
-**🎯 Competitive Advantage:**
-- **Modern Client Experience**: Client portal and automated communications enhance professional image
-- **Data-Driven Insights**: Analytics enable better business decisions and client advisory services
-- **Regulatory Readiness**: Complete audit trails and documentation support regulatory examinations
-- **Scalability**: Technology infrastructure supports firm growth without operational bottlenecks
+  subgraph InfraSvc[Infra Services]
+    Redis[(Redis)]
+    MinIO[(MinIO)]
+    Postgres[(PostgreSQL)]
+  end
 
-### **Compliance Framework Integration**
+  Worker <-->|Jobs| Redis
+  API <-->|Jobs| Redis
 
-**📋 Regulatory Standards Supported:**
-- **SOX Compliance**: Sarbanes-Oxley documentation and audit trail requirements
-- **GDPR/Data Protection**: Client data privacy and retention compliance
-- **Industry Regulations**: Sector-specific compliance frameworks (finance, healthcare, etc.)
-- **State/Provincial Requirements**: Multi-jurisdictional compliance tracking
-- **Federal Regulations**: Tax code compliance, securities regulations, corporate law
-
-**🔍 Audit & Examination Support:**
-- **Complete Documentation**: Every action logged with timestamp and user attribution
-- **Regulatory Reporting**: Standardized reports for compliance examinations
-- **Data Retention**: Automated enforcement of document retention policies
-- **Access Controls**: Role-based permissions ensure proper information segregation
-- **Change Management**: Version control and approval workflows for critical documents
-
-## Technical Architecture
-
-KAJ-GCMC is built on a modern, enterprise-grade technology stack designed for reliability, security, and scalability:
-
-### **Production-Ready Enterprise Platform**
-- **Multi-Tenant SaaS Architecture**: Complete data isolation with role-based access control
-- **High-Performance Database**: PostgreSQL with optimized schema for compliance data models
-- **Modern Web Technologies**: Next.js 16, tRPC v11, and Better-Auth for secure, type-safe operations
-- **Background Processing**: Automated compliance monitoring, deadline alerts, and reporting generation
-- **Enterprise Security**: Role-based access control, audit logging, and encrypted data storage
-- **Scalable Infrastructure**: Docker-containerized services with health monitoring and auto-scaling capabilities
-
-## Status: 🎯 **98% PRODUCTION READY**
-
-**Current Version**: 1.0.0 | **Last Updated**: November 15, 2025
-**Build Status**: ✅ All 10 packages building successfully
-**API Server**: ✅ Running (http://localhost:3000) - 23 tRPC routers
-**Web Dashboard**: ✅ Running (http://localhost:3001) - Full admin interface
-**Client Portal**: ✅ Running (http://localhost:3002) - Self-service portal
-**Email System**: ✅ Running (http://localhost:3003) - Template preview server
-**Database**: ✅ PostgreSQL with 30+ models, fully synced
-**Infrastructure**: ✅ All 8 services operational
-**Docker**: ✅ Containers building successfully
-**Testing**: ✅ 125+ tests passing
-
-## Tech Stack
-
-- **Framework**: Next.js 16 (App Router) + Hono API
-- **Runtime**: Bun (latest)
-- **API**: tRPC v11 (fully type-safe)
-- **Authentication**: Better-Auth (session-based)
-- **Database**: PostgreSQL + Prisma ORM
-- **Storage**: MinIO (S3-compatible object storage)
-- **Queue**: BullMQ + Redis (background jobs)
-- **Monorepo**: Turborepo (workspace management)
-- **UI**: shadcn/ui + Tailwind CSS
-- **Testing**: Vitest (125+ tests)
-- **Linting**: Biome (formatting & linting)
-- **Email**: React Email + Resend integration
-- **PDF**: pdfmake (report generation)
-- **Deployment**: Docker + Docker Compose
-
-## System Architecture
-
-```
-KAJ-GCMC/
-├── apps/
-│   ├── web/              # Admin dashboard (port 3001) - Analytics, clients, docs, filings
-│   ├── portal/           # Client self-service portal (port 3002) - Document access
-│   ├── server/           # API server (port 3000) - 23 tRPC routers
-│   └── worker/           # Background jobs - Compliance, notifications
-├── packages/
-│   ├── api/              # Business logic & 23 tRPC routers
-│   ├── db/               # Prisma schema (30+ models) & database client
-│   ├── auth/             # Better-Auth integration
-│   ├── rbac/             # Role-based access control (8 roles, 10 modules)
-│   ├── email/            # React Email templates (7 templates) + Resend
-│   ├── reports/          # PDF generation with pdfmake (5 report types)
-│   ├── storage/          # MinIO integration for file management
-│   └── types/            # Shared TypeScript types
-├── docker-compose.yml    # Production stack orchestration
-└── docs/                 # Comprehensive documentation
+  DB --- Postgres
+  Storage --- MinIO
 ```
 
-### Service Ports & URLs
+### Request Flow
 
-| Service | Port | URL | Purpose |
-|---------|------|-----|---------|
-| API Server | 3000 | http://localhost:3000 | tRPC backend APIs |
-| Web Dashboard | 3001 | http://localhost:3001 | Admin interface |
-| Client Portal | 3002 | http://localhost:3002 | Client self-service |
-| Email Preview | 3003 | http://localhost:3003 | Email template development |
-| MinIO Console | 9001 | http://localhost:9001 | Object storage admin |
-| PostgreSQL | 5432 | localhost:5432 | Database |
-| Redis | 6379 | localhost:6379 | Job queue & cache |
+```mermaid
+%%{init: {'theme': 'dark'}}%%
+sequenceDiagram
+    participant U as User (Browser)
+    participant W as Next.js App
+    participant A as Hono + tRPC API
+    participant R as RBAC Layer
+    participant D as Prisma/PostgreSQL
 
-## Quick Start
-
-### Prerequisites
-- [Bun](https://bun.sh) v1.0+
-- [Docker](https://www.docker.com/) & Docker Compose
-
-### Production Deployment
-
-1. **Clone and setup**
-   ```bash
-   git clone <repository-url>
-   cd GCMC-KAJ
-   bun install
-   ```
-
-2. **Configure environment**
-   ```bash
-   cp .env.example .env
-   # Update .env with production values
-   ```
-
-3. **Deploy full stack**
-   ```bash
-   docker compose up --build -d
-   ```
-
-   **Services:**
-   - Frontend: http://localhost:3001
-   - API: http://localhost:3000
-   - MinIO Console: http://localhost:9001
-
-### Development Mode
-
-```bash
-# Start infrastructure only
-docker compose up -d postgres redis minio
-
-# Generate Prisma client (if needed)
-cd packages/db && bunx prisma generate && cd ../..
-
-# Run all apps locally (recommended)
-bun dev
-
-# OR run individual apps (if needed)
-# API Server
-cd apps/server && bun run --hot src/index.ts
-
-# Web Frontend (with Bun runtime for Next.js 16 compatibility)
-cd apps/web && bunx --bun next dev --port=3001
-
-# Background Worker
-cd apps/worker && bun --watch src/index.ts
+    U->>W: Click "Create Filing"
+    W->>A: tRPC mutation filings.create(data)
+    A->>R: Check auth + permissions
+    R-->>A: OK (FirmAdmin, filings:create)
+    A->>D: prisma.filing.create({... tenantId })
+    D-->>A: Filing created
+    A-->>W: Success response
+    W-->>U: Show success toast + updated UI
 ```
 
-## Core Features
+---
 
-### 🎯 Business Management Platform
-- **Client Management**: Individual, company, and partnership client tracking with risk assessment
-- **Document Management**: Version-controlled document storage with automated expiry tracking
-- **Filing Management**: Tax and regulatory filing tracking with overdue alerts
-- **Compliance Engine**: Automated compliance scoring and risk monitoring
-- **Service Request Management**: End-to-end service delivery tracking
-- **Task Management**: Assignment, tracking, and completion workflows
+## 🧱 Tech Stack
 
-### 🔐 Security & Access Control
-- **Multi-Tenant Architecture**: Complete data isolation between organizations
-- **Role-Based Access Control**: 8 predefined roles across 10 functional modules
-- **Authentication**: Secure session-based auth with Better-Auth
-- **Audit Logging**: Complete operation trail for compliance and security
-- **Data Protection**: Encrypted storage and transmission
+**Core**
 
-### 📊 Advanced Analytics & Reporting
-- **Interactive Dashboards**: 6-tab analytics interface with real-time data
-- **Client Analytics**: Growth tracking, risk distribution, sector analysis
-- **Document Analytics**: Status tracking, expiry monitoring, version statistics
-- **Filing Analytics**: On-time rates, completion tracking, overdue management
-- **Compliance Metrics**: Score distributions, threshold monitoring
-- **User Activity**: Action tracking, usage analytics
-- **Export Capabilities**: PDF and CSV exports for all analytics
+- **Runtime:** [Bun](https://bun.sh/)
+- **Frontend:** Next.js (App Router) + React + TypeScript
+- **Backend:** Hono (Bun) + tRPC (end‑to‑end typesafe API)
+- **Database:** PostgreSQL + Prisma ORM
+- **Cache / Queues:** Redis + BullMQ
+- **Storage:** MinIO (S3‑compatible)
+- **Auth:** Better‑Auth (Prisma adapter, session‑based)
+- **Monorepo:** Turborepo
 
-### 🚀 Client Portal & Self-Service
-- **Client Portal**: Dedicated self-service interface at port 3002
-- **Document Access**: Secure client document viewing and downloading
-- **Filing Status**: Real-time filing status and deadline tracking
-- **Communication Hub**: Direct messaging with service providers
-- **Profile Management**: Client information and settings management
+**Tooling & Quality**
 
-### 📧 Email System & Notifications
-- **7 Email Templates**: Professional React Email templates
-- **SMTP Integration**: Resend integration for reliable delivery
-- **Automated Notifications**: Document expiry, filing reminders, task assignments
-- **Email Preview**: Development server for template testing
-- **Background Processing**: Queued email delivery with retry logic
+- **Package Manager:** bun
+- **Lint / Format:** Biome
+- **Testing:** Vitest
+- **PDF Generation:** @react‑pdf/renderer (via `packages/reports`)
+- **UI:** Tailwind CSS + shadcn/ui
 
-### 📄 PDF Reports & Generation
-- **5 Report Types**: Client reports, compliance summaries, filing reports, activity reports
-- **Dynamic PDF Generation**: Real-time data integration with pdfmake
-- **Professional Templates**: Branded document layouts
-- **Bulk Export**: Mass report generation capabilities
+---
 
-### 🔧 Technology Features
-- **Type-Safe APIs**: 23 tRPC routers with full TypeScript coverage
-- **Real-Time Updates**: Optimistic updates with React Query
-- **Background Jobs**: 3 scheduled jobs for compliance, expiry, and filing monitoring
-- **Object Storage**: MinIO S3-compatible storage with tenant isolation
-- **Database**: PostgreSQL with 30+ optimized models and relationships
-- **Testing**: 125+ comprehensive tests covering RBAC and core functionality
+## 📁 Monorepo Layout
 
-## Environment Configuration
+```text
+.
+├─ apps/
+│  ├─ web/              # Next.js app (admin console & dashboards)
+│  ├─ server/           # Hono + tRPC API server
+│  └─ worker/           # BullMQ background workers
+│
+├─ packages/
+│  ├─ api/              # tRPC routers, context, and API helpers
+│  ├─ auth/             # Better‑Auth configuration
+│  ├─ db/               # Prisma schema, db utilities, docker-compose for DB
+│  ├─ rbac/             # Roles, permissions, RBAC helpers, middleware
+│  ├─ storage/          # MinIO integration helpers (if present)
+│  ├─ reports/          # PDF report generators and templates
+│  ├─ config/           # Shared TS config
+│  └─ (types, etc.)     # Shared types (if present)
+│
+├─ docker-compose.yml   # Full stack (Postgres, Redis, MinIO, web, api, worker)
+├─ DOCKER.md            # Deployment & Docker documentation
+├─ MIGRATION_STATUS.md  # Migration notes & status
+├─ REPORTS_SYSTEM_SUMMARY.md # Detailed docs for the reports subsystem
+├─ turbo.json           # Turborepo pipelines
+├─ biome.json           # Biome config
+├─ vitest.config.ts     # Root Vitest config
+└─ package.json         # Root scripts and workspace configuration
+```
 
-Required environment variables:
+---
+
+## ⚙️ Environment & Configuration
+
+Key environment variables are documented in:
+
+- `apps/web/.env.example`
+- `apps/server/.env.example`
+- `packages/db/.env.example` (or via `packages/db/docker-compose.yml`)
+- Root `.env.example` (if present)
+
+Typical variables you will need:
 
 ```bash
 # Database
-DATABASE_URL="postgresql://user:pass@host:5432/gcmc_kaj"
+DATABASE_URL=postgresql://gcmc:gcmc@localhost:5432/gcmc
 
-# Authentication
-BETTER_AUTH_SECRET="your-secret-key"
-BETTER_AUTH_URL="https://your-domain.com"
+# Redis
+REDIS_URL=redis://localhost:6379
 
-# Storage
-MINIO_ENDPOINT="localhost"
-MINIO_ACCESS_KEY="your-access-key"
-MINIO_SECRET_KEY="your-secret-key"
+# MinIO
+MINIO_ENDPOINT=localhost
+MINIO_PORT=9000
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=minioadmin
+MINIO_USE_SSL=false
+MINIO_BUCKET_PREFIX=gcmc
 
-# Queue
-REDIS_URL="redis://localhost:6379"
+# Auth
+AUTH_SECRET=your-long-random-secret
+AUTH_URL=http://localhost:3001
+
+# App
+NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
-## Production Deployment
+> 💡 Always copy the `*.env.example` files to `.env` and adjust values before running the stack.
 
-### Docker Production Stack
+---
+
+## 🧑‍💻 Running the Stack
+
+### 1. Prerequisites
+
+- **Docker** & **Docker Compose**
+- **Bun** (runtime + package manager)
+- **Node.js** (optional, but Bun is primary)
+- Access to the repository code
+
+### 2. Local Development (Recommended)
+
+Run infra in Docker, apps with Bun:
 
 ```bash
-# Build and deploy
-docker compose up --build -d
+# 1. Start infrastructure only
+docker compose up -d postgres redis minio
 
-# View logs
-docker compose logs -f
+# 2. Install dependencies
+bun install
 
-# Stop services
-docker compose down
+# 3. Setup database (create schema)
+bun db:push        # or bun db:migrate if configured
+
+# 4. Start all apps in dev mode (web + server + worker via Turborepo)
+bun dev
 ```
 
-### Health Monitoring
+Then open:
 
-- **API Health**: http://localhost:3000/health
-- **Database**: Automatic connection pooling
-- **Redis**: Job queue health monitoring
-- **MinIO**: Object storage health checks
+- Web (dashboard): **http://localhost:3001**
+- API (Hono + tRPC): **http://localhost:3000**
+- MinIO console: **http://localhost:9001** (default `minioadmin/minioadmin`)
 
-## Production Readiness Status
+### 3. Full Docker Stack
 
-| Feature Category | Status | Completion | Details |
-|------------------|--------|------------|---------|
-| 🏗️ **Infrastructure** | ✅ Complete | 100% | PostgreSQL, Redis, MinIO, Docker |
-| 🔐 **Authentication** | ✅ Complete | 100% | Better-Auth with multi-tenant |
-| 🛡️ **Authorization (RBAC)** | ✅ Complete | 100% | 8 roles, 10 modules, 100+ tests |
-| 💾 **Database Schema** | ✅ Complete | 100% | 30+ models, all relations defined |
-| 🚀 **Backend API** | ✅ Complete | 100% | 23 tRPC routers, all CRUD operations |
-| 💻 **Web Frontend** | ✅ Complete | 100% | Dashboard, clients, docs, filings, analytics |
-| 🏃 **Background Jobs** | ✅ Complete | 100% | Compliance, expiry, filing reminders |
-| 📄 **PDF Reports** | ✅ Complete | 100% | 5 report types with download |
-| 🧪 **Testing** | ✅ Complete | 100% | 125+ tests (RBAC + routers) |
-| 🐳 **Docker** | ✅ Complete | 100% | All containers building successfully |
-| 🚪 **Client Portal** | ✅ Complete | 100% | Fully functional at port 3002 |
-| 📧 **Email System** | ✅ Complete | 100% | 7 templates, Resend integration |
-| 📊 **Advanced Analytics** | ✅ Complete | 100% | 6 tabs with interactive charts |
-| ⚙️ **CI/CD** | 🔄 Pending | 0% | GitHub Actions setup remaining |
-
-## Command Reference
+To build and run **everything** inside containers:
 
 ```bash
-# Quick Start (All Services)
-bun dev                 # Start all development servers
-bun build              # Build all packages for production
-bun run check-types     # Type check all packages
-bun run check           # Lint and format code
-bun test                # Run all tests
-
-# Database Operations
-bun db:generate         # Generate Prisma client
-bun db:push            # Push schema changes to database
-bun db:migrate         # Run database migrations
-bun db:studio          # Open Prisma Studio
-
-# Individual Services (Development)
-cd apps/web && bunx --bun next dev --port=3001      # Web Dashboard
-cd apps/portal && bunx --bun next dev --port=3002   # Client Portal
-cd apps/server && bun run --hot src/index.ts        # API Server
-cd apps/worker && bun --watch src/index.ts          # Background Worker
-
-# Production Deployment
-docker compose up --build -d    # Deploy full stack
-docker compose build --parallel # Build all containers
-docker compose logs -f api      # View API logs
-docker compose logs -f web      # View web logs
-docker compose down             # Stop all services
-
-# Development Infrastructure Only
-docker compose up -d postgres redis minio  # Start databases only
+# Build and start all services
+docker compose up --build
 ```
 
-## Security & Compliance
+This will start:
 
-- **Multi-Tenant Isolation**: Database-level tenant separation
-- **Authentication**: Session-based with secure cookies
-- **Authorization**: 8-role RBAC system
-- **Audit Trail**: Complete operation logging
-- **Data Protection**: Encrypted storage and transmission
-- **Container Security**: Non-root users, health checks
+- `gcmc-kaj-postgres` – PostgreSQL
+- `gcmc-kaj-redis` – Redis
+- `gcmc-kaj-minio` – MinIO
+- `gcmc-kaj-api` – Hono + tRPC API
+- `gcmc-kaj-web` – Next.js web app
+- `gcmc-kaj-worker` – BullMQ worker
 
-## Support & Documentation
+### 4. Helpful Scripts
 
-- **Production Issues**: Monitor logs via `docker compose logs`
-- **Health Checks**: Built-in endpoints for all services
-- **Backup**: PostgreSQL and MinIO data persistence
-- **Scaling**: Docker Compose replica configuration ready
+In `package.json` (root), you will typically find scripts like:
 
-## License
+```bash
+bun dev               # run web + api + worker in dev via Turborepo
+bun dev:web           # run only Next.js app
+bun dev:api           # run only Hono API
+bun dev:worker        # run only worker
 
-Proprietary - All rights reserved
+bun db:push           # sync Prisma schema to DB
+bun db:generate       # generate Prisma client
+
+bun lint              # run Biome
+bun format            # format code with Biome
+
+bun test              # run all Vitest tests
+bun test:watch        # watch mode
+bun test:coverage     # coverage report
+```
+
+Check the actual `package.json` for the up‑to‑date script list.
+
+---
+
+## 🗄 Database & Migrations
+
+- Prisma schema lives in `packages/db/prisma/schema/*.prisma`
+- The DB package also contains `docker-compose.yml` for a standalone DB if needed
+- We use standard Prisma workflows:
+
+```bash
+# After changing schema
+bun db:generate
+bun db:push         # or bun db:migrate dev --name <description>
+```
+
+**Models** include (high level):
+
+- Tenants, Users, Roles, Permissions
+- Clients, ClientBusinesses
+- Documents, DocumentTypes, DocumentVersions
+- Filings, FilingTypes, RecurringFilings
+- ComplianceRules, RequirementBundles
+- Tasks, Conversations, Notifications
+- Audit logs and related entities
+
+---
+
+## 🔐 Authentication & RBAC
+
+- **Auth** is implemented using **Better‑Auth** with a **Prisma adapter** in `packages/auth`
+- Sessions are **tenant‑aware** and include:
+  - `userId`
+  - `tenantId`
+  - `role`
+  - Derived permission set
+
+The tRPC context (in `packages/api/src/context.ts`) exposes:
+
+```ts
+type Context = {
+  session: Session | null;
+  user: User | null;
+  tenantId: string | null;
+  role: UserRole | null;
+  // other helpers...
+};
+```
+
+RBAC middleware (in `packages/rbac`) provides helpers like:
+
+- `protectedProcedure` – requires authenticated user
+- `rbacProcedure(module, action)` – enforces permissions for a module/action pair
+- Tenant isolation is enforced by **always using `ctx.tenantId`** in Prisma queries.
+
+> ⚠️ Never trust tenant IDs from the client – always use `ctx.tenantId` from the session.
+
+---
+
+## 📨 Background Workers
+
+The worker app (`apps/worker`) uses **BullMQ + Redis** to run scheduled jobs:
+
+- **Compliance Refresh Worker**
+  - Recalculates compliance scores for all clients
+  - Score = `max(0, 100 - totalIssues * 5)`
+  - Issues include missing docs, expiring docs, overdue filings
+
+- **Notification Worker**
+  - Finds documents expiring soon (e.g. 7 days)
+  - Creates in‑app notifications for tenant users
+
+- **Filing Reminders Worker**
+  - Finds overdue or upcoming filings
+  - Sends notifications / reminders
+
+Workers run automatically when `apps/worker` is running (either via `bun dev` or Docker).
+
+---
+
+## 📂 Documents & File Storage
+
+- Storage is backed by **MinIO** (S3‑compatible)
+- A dedicated package (e.g. `packages/storage`) provides:
+  - MinIO client initialization
+  - Helpers for presigned upload/download URLs
+  - Tenant‑scoped bucket or key namespaces
+
+The `documentUpload` tRPC router handles:
+
+- Generating presigned URLs
+- Validating file metadata
+- Linking uploads to specific documents/clients
+- Managing deletions and versioning
+
+Document UI components (in `apps/web/src/components/documents`) support:
+
+- Listing documents with filters (client, type, expiry)
+- Upload dialog with progress
+- Version history view
+- Expiry badges and warnings
+
+---
+
+## 📑 PDF Reporting
+
+The **reports system** is implemented in `packages/reports`:
+
+- Uses `@react-pdf/renderer` under the hood
+- Exposes helpers to generate various PDFs:
+
+**Report Types** (examples):
+
+1. **Client File Report**
+   - Client details, businesses, overall compliance snapshot
+   - Document summary by type
+   - Filing summary by status
+   - Service history overview
+
+2. **Documents List Report**
+   - Full inventory of documents
+   - Grouped by type
+   - Expiry warnings and status
+
+3. **Filings Summary Report**
+   - Filed / pending / overdue breakdown
+   - Periods, amounts, authorities
+
+4. **Compliance Report**
+   - Scores and risk levels
+   - Missing required docs
+   - Upcoming expiries
+   - Recommended actions
+
+5. **Service History Report**
+   - Services provided per client
+   - Revenue summary
+   - Status and progress
+
+Integration:
+
+- A `reports` tRPC router (`packages/api/src/routers/reports.ts`)
+- Server‑side download route in `apps/server/src/routes/downloads.ts`
+- Frontend **ReportDownloadButton** component
+
+Example usage (frontend):
+
+```tsx
+<ReportDownloadButton
+  clientId={client.id}
+  reportType="client_file"
+  label="Download Client File PDF"
+/>
+```
+
+Full details live in `REPORTS_SYSTEM_SUMMARY.md` & `packages/reports/README.md`.
+
+---
+
+## 🧪 Testing
+
+Testing is powered by **Vitest** with a shared setup:
+
+- Root config: `vitest.config.ts`
+- API tests: `packages/api/vitest.config.ts`
+- RBAC tests: `packages/rbac/vitest.config.ts`
+- Server tests: `apps/server/vitest.config.ts`
+- Global test utilities: `test-setup.ts`
+
+Key areas covered:
+
+- **RBAC** (`packages/rbac/src/__tests__`)
+  - Permissions matrix for all roles & modules
+  - Middleware behavior and error handling
+- **tRPC Routers** (`packages/api/src/routers/__tests__`)
+  - `clients`, `documents`, `users`, etc.
+  - CRUD, tenant isolation, pagination, validation
+- **Context & DB Test Helpers**
+  - `test-db.ts` – spin up and tear down test DB state
+  - `test-context.ts` – mock tRPC context with roles/tenants
+
+Commands:
+
+```bash
+bun test          # run all tests
+bun test:watch    # watch mode
+bun test:coverage # coverage report
+```
+
+---
+
+## 🧹 Linting, Formatting & Code Quality
+
+**Biome** is used for linting and formatting across the monorepo:
+
+- Config in `biome.json`
+- Pre‑commit hooks via Husky (if configured)
+
+Typical commands:
+
+```bash
+bun lint      # biome lint
+bun format    # biome format
+```
+
+> ✅ The goal is to keep **zero lint errors**, consistent formatting, and a clean, modern TypeScript codebase.
+
+---
+
+## 📦 CI/CD & Deployment (Planned)
+
+While the repo already includes **Dockerfiles** and **docker-compose.yml**, you can further extend it with:
+
+- **GitHub Actions** for:
+  - `bun test`
+  - `bun lint`
+  - `docker build`
+- **Registry publishing** for images (GHCR, Docker Hub)
+- **Production environment**:
+  - Managed Postgres (e.g. RDS, Supabase)
+  - Managed Redis (e.g. Upstash, Redis Cloud)
+  - Object storage (MinIO, S3, etc.)
+
+> Once your CI/CD pipeline is in place, building and shipping new versions becomes a single `git push`.
+
+---
+
+## 📱 UX, Responsiveness & Accessibility
+
+The Next.js app is designed with:
+
+- **Responsive layouts** using Tailwind CSS
+  - Dashboards adapt down to tablet/mobile
+  - Tables scroll gracefully on small screens
+- **Reusable components** via shadcn/ui
+- **Focus states** and **keyboard navigation** where appropriate
+- **Accessible color palette** for key statuses (success, warning, error)
+
+When adding or updating UI, follow:
+
+- Mobile‑first layout thinking
+- Check major pages at **320px**, **768px**, **1024px+**
+- Ensure text contrasts meet WCAG where possible
+
+---
+
+## 🧭 Roadmap & Enhancements
+
+The base platform is feature‑complete for core compliance operations. Additional enhancements you can pursue:
+
+- **Client Portal**
+  - Separate client‑facing app (could be `apps/portal`)
+  - Limited views for documents, filings, and tasks related to that client
+- **CI/CD Pipeline**
+  - GitHub Actions workflow for tests, lint, build, and Docker image publishing
+- **Email Integration**
+  - SMTP or a provider (e.g. Resend, SendGrid)
+  - Wire background jobs to send email notifications
+- **Advanced Analytics**
+  - More dashboards & drill‑downs
+  - Time‑series metrics and charts
+- **Monitoring & Observability**
+  - Health endpoints, logs aggregation
+  - Metrics via Prometheus/Grafana or a SaaS solution
+
+> If you’d like, you can ask your AI assistant (or future scripts) to implement these enhancements one by one, using the existing architecture patterns.
+
+---
+
+## 👩‍💻 Contributing & Branch Workflow
+
+Suggested workflow:
+
+1. **Create a feature branch** from `main`  
+   `git checkout -b feature/my-change`
+2. **Make changes** in the appropriate app/package
+3. **Run tests & lint**  
+   `bun test && bun lint`
+4. **Commit with a clear message**  
+   `git commit -m "feat: add new documents dashboard widgets"`
+5. **Open a PR** against `main`
+
+Keep code:
+
+- Typed (no `any` unless absolutely necessary)
+- Tenant‑safe (always use `ctx.tenantId`)
+- RBAC‑aware (use `rbacProcedure` where appropriate)
+- Well‑documented (docstrings / comments on tricky logic)
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** (or your chosen license). Add the full text in a `LICENSE` file at the root of the repo if not already present.
+
+---
+
