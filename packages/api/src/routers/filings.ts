@@ -203,39 +203,42 @@ export const filingsRouter = router({
 				});
 			}
 
-			const filing = await prisma.filing.create({
-				data: {
-					...input,
-					periodStart: input.periodStart ? new Date(input.periodStart) : null,
-					periodEnd: input.periodEnd ? new Date(input.periodEnd) : null,
-					submissionDate: input.submissionDate
-						? new Date(input.submissionDate)
-						: null,
-					approvalDate: input.approvalDate
-						? new Date(input.approvalDate)
-						: null,
-					tenantId: ctx.tenantId,
-				},
-				include: {
-					client: true,
-					filingType: true,
-				},
-			});
+			// Wrap in transaction to ensure data consistency
+			return await prisma.$transaction(async (tx) => {
+				const filing = await tx.filing.create({
+					data: {
+						...input,
+						periodStart: input.periodStart ? new Date(input.periodStart) : null,
+						periodEnd: input.periodEnd ? new Date(input.periodEnd) : null,
+						submissionDate: input.submissionDate
+							? new Date(input.submissionDate)
+							: null,
+						approvalDate: input.approvalDate
+							? new Date(input.approvalDate)
+							: null,
+						tenantId: ctx.tenantId,
+					},
+					include: {
+						client: true,
+						filingType: true,
+					},
+				});
 
-			// Audit log
-			await prisma.auditLog.create({
-				data: {
-					tenantId: ctx.tenantId,
-					actorUserId: ctx.user.id,
-					clientId: input.clientId,
-					entityType: "filing",
-					entityId: filing.id,
-					action: "create",
-					changes: { created: input },
-				},
-			});
+				// Audit log
+				await tx.auditLog.create({
+					data: {
+						tenantId: ctx.tenantId,
+						actorUserId: ctx.user.id,
+						clientId: input.clientId,
+						entityType: "filing",
+						entityId: filing.id,
+						action: "create",
+						changes: { created: input },
+					},
+				});
 
-			return filing;
+				return filing;
+			});
 		}),
 
 	/**
@@ -262,7 +265,10 @@ export const filingsRouter = router({
 			}
 
 			const updated = await prisma.filing.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: {
 					...input.data,
 					periodStart: input.data.periodStart
@@ -319,7 +325,10 @@ export const filingsRouter = router({
 			}
 
 			await prisma.filing.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log
@@ -448,27 +457,30 @@ export const filingsRouter = router({
 				});
 			}
 
-			const filingDocument = await prisma.filingDocument.create({
-				data: {
-					filingId: input.filingId,
-					documentId: input.documentId,
-				},
-			});
+			// Wrap in transaction to ensure data consistency
+			return await prisma.$transaction(async (tx) => {
+				const filingDocument = await tx.filingDocument.create({
+					data: {
+						filingId: input.filingId,
+						documentId: input.documentId,
+					},
+				});
 
-			// Audit log
-			await prisma.auditLog.create({
-				data: {
-					tenantId: ctx.tenantId,
-					actorUserId: ctx.user.id,
-					clientId: filing.clientId,
-					entityType: "filing_document",
-					entityId: filingDocument.id,
-					action: "create",
-					changes: { created: input },
-				},
-			});
+				// Audit log
+				await tx.auditLog.create({
+					data: {
+						tenantId: ctx.tenantId,
+						actorUserId: ctx.user.id,
+						clientId: filing.clientId,
+						entityType: "filing_document",
+						entityId: filingDocument.id,
+						action: "create",
+						changes: { created: input },
+					},
+				});
 
-			return filingDocument;
+				return filingDocument;
+			});
 		}),
 
 	/**

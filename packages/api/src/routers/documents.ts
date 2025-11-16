@@ -265,7 +265,10 @@ export const documentsRouter = router({
 			}
 
 			const updated = await prisma.document.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: input.data,
 				include: {
 					client: true,
@@ -310,7 +313,10 @@ export const documentsRouter = router({
 
 			// Delete document (cascades to versions)
 			await prisma.document.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log

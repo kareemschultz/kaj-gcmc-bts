@@ -230,7 +230,10 @@ export const clientsRouter = router({
 			}
 
 			const updated = await prisma.client.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: input.data,
 			});
 
@@ -270,7 +273,10 @@ export const clientsRouter = router({
 			}
 
 			await prisma.client.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log

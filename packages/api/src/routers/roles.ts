@@ -172,7 +172,10 @@ export const rolesRouter = router({
 			}
 
 			const updated = await prisma.role.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: input.data,
 			});
 
@@ -225,7 +228,10 @@ export const rolesRouter = router({
 			}
 
 			await prisma.role.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log

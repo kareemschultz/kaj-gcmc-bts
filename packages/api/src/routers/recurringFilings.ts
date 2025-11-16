@@ -226,7 +226,10 @@ export const recurringFilingsRouter = router({
 			}
 
 			const updated = await prisma.recurringFiling.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: {
 					...input.data,
 					lastRunAt: input.data.lastRunAt
@@ -277,7 +280,10 @@ export const recurringFilingsRouter = router({
 			}
 
 			await prisma.recurringFiling.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log
@@ -320,7 +326,10 @@ export const recurringFilingsRouter = router({
 			}
 
 			const updated = await prisma.recurringFiling.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: { active: input.active },
 			});
 

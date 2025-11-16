@@ -195,7 +195,10 @@ export const filingTypesRouter = router({
 			}
 
 			const updated = await prisma.filingType.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: input.data,
 			});
 
@@ -246,7 +249,10 @@ export const filingTypesRouter = router({
 			}
 
 			await prisma.filingType.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log

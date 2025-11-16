@@ -266,7 +266,10 @@ export const tasksRouter = router({
 			}
 
 			const updated = await prisma.task.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: {
 					...input.data,
 					dueDate: input.data.dueDate
@@ -316,7 +319,10 @@ export const tasksRouter = router({
 			}
 
 			await prisma.task.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log
