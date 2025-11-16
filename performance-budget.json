@@ -1,0 +1,90 @@
+{
+  "description": "Performance budget for GCMC Platform - Enterprise Compliance Management System",
+  "lighthouse": {
+    "performance": 95,
+    "accessibility": 95,
+    "best-practices": 95,
+    "seo": 95,
+    "pwa": 80
+  },
+  "bundle": {
+    "maxInitialBundleSize": "500kb",
+    "maxTotalBundleSize": "2mb",
+    "maxChunkSize": "200kb",
+    "maxChunks": 20
+  },
+  "metrics": {
+    "FCP": {
+      "target": 1800,
+      "description": "First Contentful Paint - Time until first text/image is painted (ms)"
+    },
+    "LCP": {
+      "target": 2500,
+      "description": "Largest Contentful Paint - Time until largest element is visible (ms)"
+    },
+    "TTI": {
+      "target": 3800,
+      "description": "Time to Interactive - Time until page is fully interactive (ms)"
+    },
+    "TBT": {
+      "target": 200,
+      "description": "Total Blocking Time - Sum of blocking time for long tasks (ms)"
+    },
+    "CLS": {
+      "target": 0.1,
+      "description": "Cumulative Layout Shift - Visual stability score (lower is better)"
+    },
+    "SI": {
+      "target": 3400,
+      "description": "Speed Index - How quickly content is visually displayed (ms)"
+    }
+  },
+  "resources": {
+    "javascript": {
+      "budget": "300kb",
+      "description": "Total JavaScript size (gzipped)"
+    },
+    "css": {
+      "budget": "50kb",
+      "description": "Total CSS size (gzipped)"
+    },
+    "images": {
+      "budget": "500kb",
+      "description": "Total images size per page"
+    },
+    "fonts": {
+      "budget": "100kb",
+      "description": "Total web fonts size"
+    },
+    "total": {
+      "budget": "1mb",
+      "description": "Total page weight (gzipped)"
+    }
+  },
+  "requests": {
+    "maxRequests": 50,
+    "description": "Maximum HTTP requests per page load"
+  },
+  "thirdParty": {
+    "budget": "100kb",
+    "description": "Total third-party script size"
+  },
+  "monitoring": {
+    "frequency": "weekly",
+    "tools": [
+      "Lighthouse CI",
+      "Next.js Bundle Analyzer",
+      "Chrome DevTools Performance Panel"
+    ],
+    "alerts": {
+      "performance": "Email team if score drops below 90",
+      "bundle": "Fail CI build if bundle exceeds budget by 10%"
+    }
+  },
+  "notes": [
+    "Run 'bun run build:analyze' to analyze bundle size",
+    "Run 'lighthouse http://localhost:3001 --view' for local testing",
+    "Performance budgets should be reviewed quarterly",
+    "Budgets are based on average 4G mobile network (4Mbps)"
+  ]
+}

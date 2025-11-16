@@ -1,4 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
+import type { Result, NodeResult } from "axe-core";
 import type { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
 
@@ -196,7 +197,7 @@ export class AccessibilityHelper {
 	/**
 	 * Format violations for better error messages
 	 */
-	private formatViolations(violations: any[]): string {
+	private formatViolations(violations: Result[]): string {
 		if (violations.length === 0) return "";
 
 		return violations
@@ -206,7 +207,7 @@ export class AccessibilityHelper {
   Impact: ${violation.impact}
   Description: ${violation.description}
   Affected elements: ${violation.nodes.length}
-  ${violation.nodes.map((node: any) => `    - ${node.target}`).join("\n")}
+  ${violation.nodes.map((node: NodeResult) => `    - ${node.target}`).join("\n")}
 `;
 			})
 			.join("\n");

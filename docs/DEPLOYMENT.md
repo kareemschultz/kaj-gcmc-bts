@@ -8,6 +8,7 @@
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Environment Setup](#environment-setup)
+- [Security Configuration](#security-configuration)
 - [Development Deployment](#development-deployment)
 - [Production Deployment](#production-deployment)
 - [Docker Services](#docker-services)
@@ -151,6 +152,330 @@ openssl rand -base64 32
 # Generate strong password
 openssl rand -base64 24
 ```
+
+## Security Configuration
+
+### Overview
+
+**CRITICAL SECURITY NOTICE:** The GCMC-KAJ platform enforces strict security practices for all deployments. Default credentials have been removed from all configuration files to prevent security vulnerabilities.
+
+**Key Security Principles:**
+1. **No Default Passwords:** All production deployments require strong, unique credentials
+2. **Secrets Separation:** Development and production use different credential sets
+3. **Environment Isolation:** Credentials are never hardcoded in code or configuration files
+4. **Secret Rotation:** Regular rotation of credentials (every 90 days recommended)
+5. **Least Privilege:** Each service uses minimal necessary permissions
+
+### Security Requirements Checklist
+
+Before deploying to **ANY** environment, complete this checklist:
+
+- [ ] **Secrets Generated:** All credentials generated using cryptographically secure methods
+- [ ] **Unique Passwords:** Different passwords for each service and environment
+- [ ] **Strong Passwords:** Minimum 32 characters for sensitive credentials
+- [ ] **Secrets Stored Securely:** Using password manager or secrets vault
+- [ ] **.env Files Excluded:** Verify `.env*` files are in `.gitignore`
+- [ ] **No Hardcoded Secrets:** Code reviewed for any hardcoded credentials
+- [ ] **HTTPS Enabled:** Production uses SSL/TLS for all connections
+- [ ] **Firewall Configured:** Only necessary ports exposed
+- [ ] **Access Logs Enabled:** All authentication attempts logged
+- [ ] **Backup Encryption:** Backups encrypted at rest
+
+### Generating Secure Secrets
+
+#### Automated Secret Generation (Recommended)
+
+The platform includes a comprehensive secret generator script:
+
+```bash
+# Generate all secrets with human-readable output
+./scripts/generate-secrets.sh
+
+# Generate secrets in .env format
+./scripts/generate-secrets.sh --env-file
+
+# Generate and save to production environment file
+./scripts/generate-secrets.sh --env-file > .env.production
+
+# Generate in JSON format
+./scripts/generate-secrets.sh --json
+```
+
+**Script Features:**
+- Generates cryptographically secure random secrets
+- Creates unique credentials for all services
+- Outputs in multiple formats (.env, JSON, human-readable)
+- Includes security checklist and next steps
+- Compatible with all major operating systems
+
+#### Manual Secret Generation
+
+If you prefer to generate secrets manually:
+
+**1. PostgreSQL Password**
+```bash
+# Generate 32-character password
+openssl rand -base64 32 | tr -d '/+=' | cut -c1-32
+```
+
+**2. Better-Auth Secret**
+```bash
+# Generate base64 secret (44 characters)
+openssl rand -base64 32
+```
+
+**3. MinIO Credentials**
+```bash
+# Generate MinIO root password (32 characters minimum 8)
+openssl rand -base64 32 | tr -d '/+=' | cut -c1-32
+
+# Generate unique username (append random suffix)
+echo "gcmc_kaj_admin_$(openssl rand -hex 4)"
+```
+
+**4. Additional Secrets**
+```bash
+# JWT Secret (hex format)
+openssl rand -hex 32
+
+# Encryption Key (hex format)
+openssl rand -hex 32
+
+# Session Secret (base64)
+openssl rand -base64 32
+```
+
+### Secret Storage Best Practices
+
+#### Development Environment
+
+For local development, store secrets in `.env` file:
+
+```bash
+# Copy example and fill with generated secrets
+cp .env.example .env
+
+# Edit with your preferred editor
+nano .env  # or vim, code, etc.
+
+# Verify .env is in .gitignore
+grep "^\.env$" .gitignore
+```
+
+#### Production Environment
+
+For production, use **ONE** of these secure storage methods:
+
+**Option 1: Environment Variables (Docker/Cloud)**
+```bash
+# Export variables in shell
+export POSTGRES_PASSWORD="$(openssl rand -base64 32 | tr -d '/+=' | cut -c1-32)"
+export BETTER_AUTH_SECRET="$(openssl rand -base64 32)"
+
+# Or use .env.production file (not committed to git)
+./scripts/generate-secrets.sh --env-file > .env.production
+docker-compose --env-file .env.production -f docker-compose.prod.yml up -d
+```
+
+**Option 2: Secrets Management Service**
+```bash
+# AWS Secrets Manager
+aws secretsmanager create-secret \
+  --name gcmc-kaj/postgres-password \
+  --secret-string "$(openssl rand -base64 32)"
+
+# HashiCorp Vault
+vault kv put secret/gcmc-kaj \
+  postgres_password="$(openssl rand -base64 32)" \
+  better_auth_secret="$(openssl rand -base64 32)"
+
+# Azure Key Vault
+az keyvault secret set \
+  --vault-name gcmc-kaj-vault \
+  --name postgres-password \
+  --value "$(openssl rand -base64 32)"
+```
+
+**Option 3: Docker Secrets (Swarm Mode)**
+```bash
+# Create Docker secrets
+echo "$(openssl rand -base64 32)" | docker secret create postgres_password -
+echo "$(openssl rand -base64 32)" | docker secret create better_auth_secret -
+
+# Reference in docker-compose.yml
+services:
+  api:
+    secrets:
+      - postgres_password
+      - better_auth_secret
+```
+
+### Credential Rotation
+
+**Rotation Schedule:**
+- **Critical Services** (Database, Auth): Every 90 days
+- **API Keys**: Every 180 days
+- **Development Credentials**: Every release cycle
+
+**Rotation Procedure:**
+
+```bash
+# 1. Generate new credentials
+./scripts/generate-secrets.sh --env-file > .env.new
+
+# 2. Update running services one by one
+# For database (requires brief downtime)
+docker-compose -f docker-compose.prod.yml exec postgres \
+  psql -U postgres -c "ALTER USER postgres PASSWORD 'NEW_PASSWORD';"
+
+# 3. Update environment variables
+mv .env.production .env.production.backup
+mv .env.new .env.production
+
+# 4. Restart services with new credentials
+docker-compose --env-file .env.production -f docker-compose.prod.yml restart
+
+# 5. Verify all services are healthy
+docker-compose -f docker-compose.prod.yml ps
+curl http://localhost:3000/health
+curl http://localhost:3001/api/health
+
+# 6. Securely delete old credentials
+shred -vfz -n 10 .env.production.backup
+```
+
+### Common Security Mistakes to Avoid
+
+1. **Using Default Credentials**
+   - ❌ `POSTGRES_PASSWORD=postgres`
+   - ✅ `POSTGRES_PASSWORD=$(openssl rand -base64 32)`
+
+2. **Committing Secrets to Git**
+   - ❌ Committing `.env` or `.env.production`
+   - ✅ Only commit `.env.example` with placeholders
+
+3. **Reusing Passwords**
+   - ❌ Same password for database and MinIO
+   - ✅ Unique password for each service
+
+4. **Weak Passwords**
+   - ❌ `POSTGRES_PASSWORD=MyPassword123!`
+   - ✅ `POSTGRES_PASSWORD=$(openssl rand -base64 32)`
+
+5. **Hardcoding Secrets**
+   - ❌ `const dbPassword = "hardcoded_password";`
+   - ✅ `const dbPassword = process.env.POSTGRES_PASSWORD;`
+
+6. **Sharing Production Credentials**
+   - ❌ Sending credentials via email or Slack
+   - ✅ Using secure secrets sharing service (1Password, Vault)
+
+7. **No Secret Rotation**
+   - ❌ Using same credentials for years
+   - ✅ Rotating every 90 days
+
+8. **Same Credentials Across Environments**
+   - ❌ Dev, staging, and prod use same passwords
+   - ✅ Each environment has unique credentials
+
+### Security Validation
+
+**Pre-Deployment Validation:**
+
+```bash
+# 1. Check for hardcoded secrets in code
+grep -r "password.*=" apps/ packages/ --include="*.ts" --include="*.js" | \
+  grep -v "process.env" | grep -v "example" | grep -v "//" | grep -v "/\*"
+
+# 2. Verify .env files are gitignored
+git check-ignore .env .env.production .env.local
+
+# 3. Check for weak passwords in docker-compose
+grep -i "password.*minioadmin\|password.*postgres\|password.*admin" docker-compose.prod.yml
+
+# 4. Validate secret strength (minimum 32 characters for critical secrets)
+# Add to your deployment script:
+validate_secret_strength() {
+    local secret=$1
+    local min_length=${2:-32}
+    if [ ${#secret} -lt $min_length ]; then
+        echo "ERROR: Secret too short (${#secret} chars, minimum $min_length)"
+        return 1
+    fi
+}
+```
+
+**Post-Deployment Validation:**
+
+```bash
+# 1. Verify services are using strong credentials
+docker-compose -f docker-compose.prod.yml exec postgres \
+  psql -U postgres -c "SELECT setting FROM pg_settings WHERE name='password_encryption';"
+
+# 2. Check for exposed secrets in logs
+docker-compose -f docker-compose.prod.yml logs | grep -i "password\|secret\|key" | \
+  grep -v "****" | grep -v "REDACTED"
+
+# 3. Verify HTTPS is enforced
+curl -I https://your-domain.com | grep "Strict-Transport-Security"
+
+# 4. Test authentication
+curl -X POST https://api.your-domain.com/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"wrong"}' | \
+  jq '.error'  # Should return authentication error
+```
+
+### Emergency Security Response
+
+**If Credentials Are Compromised:**
+
+```bash
+# IMMEDIATE ACTIONS (within 15 minutes)
+
+# 1. Rotate ALL credentials immediately
+./scripts/generate-secrets.sh --env-file > .env.emergency
+
+# 2. Update database password
+docker-compose exec postgres psql -U postgres -c \
+  "ALTER USER postgres PASSWORD 'NEW_EMERGENCY_PASSWORD';"
+
+# 3. Restart all services with new credentials
+docker-compose --env-file .env.emergency -f docker-compose.prod.yml down
+docker-compose --env-file .env.emergency -f docker-compose.prod.yml up -d
+
+# 4. Revoke all active sessions
+docker-compose exec redis redis-cli FLUSHDB
+
+# 5. Review access logs
+docker-compose logs --since 24h | grep -i "auth\|login\|password"
+
+# 6. Notify team and users if necessary
+```
+
+**Follow-Up Actions:**
+
+1. Conduct security audit to identify breach source
+2. Update incident response documentation
+3. Review and update access controls
+4. Implement additional monitoring
+5. Consider enabling 2FA for all admin accounts
+
+### Security Resources
+
+**Documentation:**
+- [SECURITY_CHECKLIST.md](./SECURITY_CHECKLIST.md) - Pre-deployment security checklist
+- [SECURITY_AUDIT_REPORT.md](../audit/SECURITY_AUDIT_REPORT.md) - Latest security audit
+- [CREDENTIALS_HARDENING.md](../audit/CREDENTIALS_HARDENING.md) - Hardening summary
+
+**Tools:**
+- `/scripts/generate-secrets.sh` - Automated secret generation
+- [OWASP Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+- [CIS Docker Benchmark](https://www.cisecurity.org/benchmark/docker)
+
+**Support:**
+- Security Issues: Report to security@your-domain.com
+- Security Questions: Contact DevOps team
 
 ## Development Deployment
 
@@ -333,6 +658,11 @@ WEB_REPLICAS=2      # Web app instances
 WORKER_REPLICAS=1   # Worker instances
 ```
 
+**Critical Infrastructure Dependencies:**
+- **Redis:** Required for distributed rate limiting across API replicas
+- **PostgreSQL:** Required for all data persistence
+- **MinIO:** Required for document storage
+
 ## Docker Services
 
 ### PostgreSQL
@@ -367,6 +697,13 @@ pg_isready -U postgres -d gcmc_kaj
 - Eviction policy: allkeys-lru
 - Persistence: AOF enabled
 
+**Uses:**
+- **Rate Limiting:** Redis-backed distributed rate limiting across all API instances
+- **Job Queues:** BullMQ job processing for background tasks
+- **Caching:** Session data and frequently accessed data
+
+**IMPORTANT:** Redis is **REQUIRED** for production deployments with multiple API server instances. The platform uses Redis for distributed rate limiting to ensure consistent rate limiting across all API replicas.
+
 **Resource Limits (Production):**
 - CPU: 1 core max, 0.5 cores reserved
 - Memory: 512MB max, 256MB reserved
@@ -378,6 +715,15 @@ pg_isready -U postgres -d gcmc_kaj
 ```bash
 redis-cli ping
 ```
+
+**Rate Limiting Configuration:**
+The API server uses `@upstash/ratelimit` with Redis backend for production-ready rate limiting:
+- Normal operations: 100 requests per minute per user
+- Expensive operations: 10 requests per minute per user
+- File uploads: 20 requests per minute per user
+- Authentication: 5 requests per minute per user
+
+See [RATE_LIMITING_MIGRATION.md](./RATE_LIMITING_MIGRATION.md) for implementation details.
 
 ### MinIO
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { format } from "date-fns";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface MessageItemProps {
@@ -32,10 +33,12 @@ export function MessageItem({ message, isCurrentUser }: MessageItemProps) {
 			{/* Avatar */}
 			<div className="flex-shrink-0">
 				{message.author.avatarUrl ? (
-					<img
+					<Image
 						src={message.author.avatarUrl}
 						alt={message.author.name || message.author.email}
-						className="h-8 w-8 rounded-full"
+						width={32}
+						height={32}
+						className="rounded-full"
 					/>
 				) : (
 					<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">

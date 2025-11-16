@@ -92,8 +92,10 @@ export function ConversationDetail({
 				</Card>
 				<Card>
 					<CardContent className="space-y-4 pt-6">
-						{Array.from({ length: 5 }).map((_, i) => (
-							<div key={`skeleton-${i}`} className="flex gap-3">
+						{Array.from({ length: 5 }, (_, i) => ({
+							id: `skeleton-loader-${i}`,
+						})).map((item) => (
+							<div key={item.id} className="flex gap-3">
 								<Skeleton className="h-8 w-8 rounded-full" />
 								<div className="flex-1 space-y-2">
 									<Skeleton className="h-16 w-3/4" />

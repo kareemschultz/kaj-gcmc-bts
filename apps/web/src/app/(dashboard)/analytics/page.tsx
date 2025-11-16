@@ -2,7 +2,6 @@
 
 import {
 	Activity,
-	BarChart3,
 	ClipboardList,
 	DollarSign,
 	FileText,
@@ -11,13 +10,16 @@ import {
 	Users,
 } from "lucide-react";
 import { useRef, useState } from "react";
-import { BarChartComponent } from "@/components/analytics/BarChartComponent";
-import { DateRangePicker } from "@/components/analytics/DateRangePicker";
-import { ExportButton } from "@/components/analytics/ExportButton";
-import { KPICard } from "@/components/analytics/KPICard";
-import { LineChartComponent } from "@/components/analytics/LineChartComponent";
-import { PieChartComponent } from "@/components/analytics/PieChartComponent";
-import { TrendIndicator } from "@/components/analytics/TrendIndicator";
+// Use optimized chart components with dynamic imports
+import {
+	BarChartComponent,
+	DateRangePicker,
+	ExportButton,
+	KPICard,
+	LineChartComponent,
+	PieChartComponent,
+	TrendIndicator,
+} from "@/components/analytics/optimized";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trpc } from "@/utils/trpc";
@@ -35,8 +37,6 @@ export default function AnalyticsPage() {
 	const { data: documentAnalytics } =
 		trpc.analytics.documents.useQuery(dateRange);
 	const { data: filingAnalytics } = trpc.analytics.filings.useQuery(dateRange);
-	const { data: serviceAnalytics } =
-		trpc.analytics.serviceRequests.useQuery(dateRange);
 	const { data: complianceAnalytics } = trpc.analytics.compliance.useQuery();
 	const { data: revenueAnalytics } = trpc.analytics.revenue.useQuery(dateRange);
 	const { data: activityAnalytics } =

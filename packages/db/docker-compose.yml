@@ -1,5 +1,12 @@
 name: GCMC-KAJ
 
+# ==============================================================================
+# Database-only Docker Compose for Development
+# ==============================================================================
+# SECURITY WARNING: This is for LOCAL DEVELOPMENT ONLY
+# For production, use the main docker-compose.prod.yml
+# ==============================================================================
+
 services:
   postgres:
     image: postgres
@@ -7,7 +14,9 @@ services:
     environment:
       POSTGRES_DB: gcmc_kaj
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      # SECURITY WARNING: Default password for LOCAL DEVELOPMENT ONLY
+      # Generate production password: openssl rand -base64 32 | tr -d '/+=' | cut -c1-32
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-localdev_only_insecure}
     ports:
       - "5432:5432"
     volumes:

@@ -1,7 +1,16 @@
 version: "3.9"
 
+# ==============================================================================
 # Production Docker Compose Configuration
-# Usage: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# ==============================================================================
+# SECURITY: This file enforces strong security practices for production
+# - All sensitive credentials MUST be provided via environment variables
+# - No default passwords are allowed for critical services
+# - Uses :? syntax to enforce required environment variables
+#
+# Usage: docker-compose -f docker-compose.prod.yml up -d
+# Required: Create .env.production with all required secrets
+# ==============================================================================
 
 services:
   # PostgreSQL Database - Production Optimized

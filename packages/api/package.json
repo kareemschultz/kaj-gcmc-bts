@@ -22,18 +22,20 @@
 		"typescript": "^5"
 	},
 	"dependencies": {
-		"@trpc/server": "catalog:",
-		"@trpc/client": "catalog:",
-		"hono": "catalog:",
-		"dotenv": "catalog:",
-		"zod": "catalog:",
 		"@GCMC-KAJ/auth": "workspace:*",
 		"@GCMC-KAJ/db": "workspace:*",
 		"@GCMC-KAJ/email": "workspace:*",
-		"@GCMC-KAJ/types": "workspace:*",
 		"@GCMC-KAJ/rbac": "workspace:*",
 		"@GCMC-KAJ/reports": "workspace:*",
+		"@GCMC-KAJ/storage": "workspace:*",
+		"@GCMC-KAJ/types": "workspace:*",
+		"@trpc/client": "catalog:",
+		"@trpc/server": "catalog:",
+		"@upstash/ratelimit": "^2.0.7",
 		"bullmq": "^5.34.2",
-		"ioredis": "^5.4.1"
+		"dotenv": "catalog:",
+		"hono": "catalog:",
+		"ioredis": "^5.4.1",
+		"zod": "catalog:"
 	}
 }

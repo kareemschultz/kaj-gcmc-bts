@@ -159,7 +159,10 @@ test.describe("Component Visual Regression", () => {
 		await screenshotHelper.compareElement('input[name="name"]', "input-text");
 	});
 
-	test("cards should match baseline", async ({ page, screenshotHelper }) => {
+	test("cards should match baseline", async ({
+		page,
+		screenshotHelper: _screenshotHelper,
+	}) => {
 		await page.goto("/dashboard");
 		await page.waitForLoadState("networkidle");
 

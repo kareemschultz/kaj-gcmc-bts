@@ -1,167 +1,29 @@
 /**
  * Rate Limiting Middleware
  *
- * Protects against abuse and DoS attacks by limiting request rates
- * per user and per operation type
+ * Production-ready rate limiting using Redis for distributed rate limiting
+ * across multiple server instances.
  *
- * IMPORTANT: This uses in-memory storage for simplicity.
- * For production with multiple servers, use Redis-backed storage.
+ * This implementation uses @upstash/ratelimit with Redis backend to ensure
+ * consistent rate limiting across all API server instances.
  */
 
 import { TRPCError } from "@trpc/server";
 import type { Context } from "../context";
+import type { RateLimiterType } from "../lib/rate-limiter";
+import {
+	authRateLimiter,
+	expensiveRateLimiter,
+	normalRateLimiter,
+	uploadRateLimiter,
+} from "../lib/rate-limiter";
 
 /**
- * Rate limit configuration
- */
-interface RateLimitConfig {
-	windowMs: number; // Time window in milliseconds
-	maxRequests: number; // Maximum requests per window
-}
-
-/**
- * Rate limit presets
- */
-export const RATE_LIMITS = {
-	// Normal operations: 100 requests per minute
-	NORMAL: {
-		windowMs: 60 * 1000, // 1 minute
-		maxRequests: 100,
-	},
-	// Expensive operations (reports, bulk operations): 10 requests per minute
-	EXPENSIVE: {
-		windowMs: 60 * 1000, // 1 minute
-		maxRequests: 10,
-	},
-	// File uploads: 20 requests per minute
-	UPLOAD: {
-		windowMs: 60 * 1000, // 1 minute
-		maxRequests: 20,
-	},
-	// Authentication: 5 requests per minute
-	AUTH: {
-		windowMs: 60 * 1000, // 1 minute
-		maxRequests: 5,
-	},
-} as const;
-
-/**
- * Rate limit entry
- */
-interface RateLimitEntry {
-	count: number;
-	resetTime: number;
-}
-
-/**
- * In-memory rate limit store
- * Key format: "{userId}:{operation}"
- *
- * NOTE: For production, replace with Redis:
- * - Use ioredis or node-redis
- * - Set TTL on keys automatically
- * - Share state across multiple server instances
- */
-class RateLimitStore {
-	private store = new Map<string, RateLimitEntry>();
-	private cleanupInterval: NodeJS.Timeout;
-
-	constructor() {
-		// Clean up expired entries every minute
-		this.cleanupInterval = setInterval(() => {
-			this.cleanup();
-		}, 60 * 1000);
-	}
-
-	/**
-	 * Check if user has exceeded rate limit
-	 */
-	check(key: string, config: RateLimitConfig): boolean {
-		const now = Date.now();
-		const entry = this.store.get(key);
-
-		// No entry or expired - allow and create new entry
-		if (!entry || now >= entry.resetTime) {
-			this.store.set(key, {
-				count: 1,
-				resetTime: now + config.windowMs,
-			});
-			return true;
-		}
-
-		// Entry exists and not expired - check count
-		if (entry.count < config.maxRequests) {
-			entry.count++;
-			return true;
-		}
-
-		// Rate limit exceeded
-		return false;
-	}
-
-	/**
-	 * Get remaining requests for a key
-	 */
-	getRemaining(
-		key: string,
-		config: RateLimitConfig,
-	): {
-		remaining: number;
-		resetTime: number;
-	} {
-		const entry = this.store.get(key);
-		const now = Date.now();
-
-		if (!entry || now >= entry.resetTime) {
-			return {
-				remaining: config.maxRequests,
-				resetTime: now + config.windowMs,
-			};
-		}
-
-		return {
-			remaining: Math.max(0, config.maxRequests - entry.count),
-			resetTime: entry.resetTime,
-		};
-	}
-
-	/**
-	 * Clean up expired entries
-	 */
-	private cleanup(): void {
-		const now = Date.now();
-		for (const [key, entry] of this.store.entries()) {
-			if (now >= entry.resetTime) {
-				this.store.delete(key);
-			}
-		}
-	}
-
-	/**
-	 * Clear all entries (for testing)
-	 */
-	clear(): void {
-		this.store.clear();
-	}
-
-	/**
-	 * Cleanup on shutdown
-	 */
-	destroy(): void {
-		clearInterval(this.cleanupInterval);
-		this.store.clear();
-	}
-}
-
-// Global rate limit store instance
-const rateLimitStore = new RateLimitStore();
-
-/**
- * Create a rate limiting middleware for tRPC
+ * Create a rate limiting middleware for tRPC using Redis
  */
 export function createRateLimitMiddleware(
 	operation: string,
-	config: RateLimitConfig,
+	limiter: RateLimiterType,
 ) {
 	return async ({
 		ctx,
@@ -175,38 +37,81 @@ export function createRateLimitMiddleware(
 			return next();
 		}
 
-		const key = `${ctx.user.id}:${operation}`;
-		const allowed = rateLimitStore.check(key, config);
+		// Create unique identifier combining user ID and operation
+		const identifier = `${ctx.user.id}:${operation}`;
 
-		if (!allowed) {
-			const { resetTime } = rateLimitStore.getRemaining(key, config);
-			const resetSeconds = Math.ceil((resetTime - Date.now()) / 1000);
+		try {
+			// Check rate limit
+			const { success, limit, remaining, reset } =
+				await limiter.limit(identifier);
 
-			throw new TRPCError({
-				code: "TOO_MANY_REQUESTS",
-				message: `Rate limit exceeded. Try again in ${resetSeconds} seconds.`,
-			});
+			if (!success) {
+				const resetSeconds = Math.ceil((reset - Date.now()) / 1000);
+
+				throw new TRPCError({
+					code: "TOO_MANY_REQUESTS",
+					message: `Rate limit exceeded. Try again in ${resetSeconds} seconds.`,
+					cause: {
+						limit,
+						remaining,
+						reset,
+						retryAfter: resetSeconds,
+					},
+				});
+			}
+
+			// Add rate limit info to context for potential response headers
+			// This can be used by the response handler to add X-RateLimit-* headers
+			if (ctx) {
+				Object.assign(ctx, {
+					rateLimit: {
+						limit,
+						remaining,
+						reset,
+					},
+				});
+			}
+
+			return next();
+		} catch (error) {
+			// If it's already a TRPCError, rethrow it
+			if (error instanceof TRPCError) {
+				throw error;
+			}
+
+			// If Redis is down or there's a connection error, log it and allow the request
+			// This prevents Redis issues from bringing down the entire API
+			console.error("Rate limiting error (allowing request):", error);
+			return next();
 		}
-
-		return next();
 	};
 }
 
 /**
- * Pre-configured rate limiters
+ * Pre-configured rate limiters for different operation types
  */
 export const rateLimiters = {
+	/**
+	 * Normal operations: 100 requests per minute
+	 */
 	normal: (operation: string) =>
-		createRateLimitMiddleware(operation, RATE_LIMITS.NORMAL),
-	expensive: (operation: string) =>
-		createRateLimitMiddleware(operation, RATE_LIMITS.EXPENSIVE),
-	upload: (operation: string) =>
-		createRateLimitMiddleware(operation, RATE_LIMITS.UPLOAD),
-	auth: (operation: string) =>
-		createRateLimitMiddleware(operation, RATE_LIMITS.AUTH),
-};
+		createRateLimitMiddleware(operation, normalRateLimiter),
 
-/**
- * Export store for testing
- */
-export { rateLimitStore };
+	/**
+	 * Expensive operations (reports, bulk operations): 10 requests per minute
+	 */
+	expensive: (operation: string) =>
+		createRateLimitMiddleware(operation, expensiveRateLimiter),
+
+	/**
+	 * File upload operations: 20 requests per minute
+	 */
+	upload: (operation: string) =>
+		createRateLimitMiddleware(operation, uploadRateLimiter),
+
+	/**
+	 * Authentication operations: 5 requests per minute
+	 */
+	auth: (operation: string) =>
+		createRateLimitMiddleware(operation, authRateLimiter),
+};

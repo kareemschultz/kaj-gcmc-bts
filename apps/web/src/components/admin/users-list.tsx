@@ -169,10 +169,14 @@ export function UsersList() {
 								<CardContent>
 									<div className="space-y-3">
 										<div className="flex items-center gap-2">
-											<label className="text-muted-foreground text-sm">
+											<label
+												htmlFor={`user-role-${user.id}`}
+												className="text-muted-foreground text-sm"
+											>
 												Role:
 											</label>
 											<Select
+												id={`user-role-${user.id}`}
 												value={user.roleId.toString()}
 												onChange={(e) =>
 													handleRoleChange(user.id, Number(e.target.value))

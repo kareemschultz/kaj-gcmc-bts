@@ -1,4 +1,13 @@
-import { PrismaClient } from "@GCMC-KAJ/db/generated";
+import { PrismaClient } from "@prisma/client";
+import type {
+	Client,
+	Document,
+	Filing,
+	Service,
+	ServiceRequest,
+	Tenant,
+	User,
+} from "@prisma/client";
 
 /**
  * Data Seeder for E2E Tests
@@ -32,7 +41,9 @@ export class DataSeeder {
 	/**
 	 * Create a test tenant
 	 */
-	async createTenant(data?: Partial<any>) {
+	async createTenant(
+		data?: Partial<Omit<Tenant, "id" | "createdAt" | "updatedAt">>,
+	) {
 		const tenant = await this.prisma.tenant.create({
 			data: {
 				name: data?.name || "Test Tenant",
@@ -49,7 +60,9 @@ export class DataSeeder {
 	/**
 	 * Create a test user
 	 */
-	async createUser(data?: Partial<any>) {
+	async createUser(
+		data?: Partial<Omit<User, "id" | "createdAt" | "updatedAt">>,
+	) {
 		const user = await this.prisma.user.create({
 			data: {
 				name: data?.name || "Test User",
@@ -65,7 +78,10 @@ export class DataSeeder {
 	/**
 	 * Create a test client
 	 */
-	async createClient(tenantId: string, data?: Partial<any>) {
+	async createClient(
+		tenantId: string,
+		data?: Partial<Omit<Client, "id" | "tenantId" | "createdAt">>,
+	) {
 		const client = await this.prisma.client.create({
 			data: {
 				tenantId,
@@ -83,7 +99,10 @@ export class DataSeeder {
 	/**
 	 * Create a test service
 	 */
-	async createService(tenantId: string, data?: Partial<any>) {
+	async createService(
+		tenantId: string,
+		data?: Partial<Omit<Service, "id" | "tenantId" | "createdAt">>,
+	) {
 		const service = await this.prisma.service.create({
 			data: {
 				tenantId,
@@ -107,7 +126,9 @@ export class DataSeeder {
 		tenantId: string,
 		clientId: string,
 		serviceId: string,
-		data?: Partial<any>,
+		data?: Partial<
+			Omit<ServiceRequest, "id" | "clientId" | "serviceId" | "createdAt">
+		>,
 	) {
 		const serviceRequest = await this.prisma.serviceRequest.create({
 			data: {
@@ -126,7 +147,10 @@ export class DataSeeder {
 	/**
 	 * Create a test document
 	 */
-	async createDocument(tenantId: string, data?: Partial<any>) {
+	async createDocument(
+		tenantId: string,
+		data?: Partial<Omit<Document, "id" | "tenantId" | "createdAt">>,
+	) {
 		const document = await this.prisma.document.create({
 			data: {
 				tenantId,
@@ -146,7 +170,11 @@ export class DataSeeder {
 	/**
 	 * Create a test filing
 	 */
-	async createFiling(tenantId: string, clientId: string, data?: Partial<any>) {
+	async createFiling(
+		tenantId: string,
+		clientId: string,
+		data?: Partial<Omit<Filing, "id" | "tenantId" | "clientId" | "createdAt">>,
+	) {
 		const filing = await this.prisma.filing.create({
 			data: {
 				tenantId,

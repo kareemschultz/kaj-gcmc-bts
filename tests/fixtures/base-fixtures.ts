@@ -75,7 +75,7 @@ export const test = base.extend<CustomFixtures>({
 	},
 
 	// Data seeder fixture
-	dataSeeder: async ({}, use) => {
+	dataSeeder: async (_fixtures, use) => {
 		const seeder = new DataSeeder();
 		await use(seeder);
 		await seeder.cleanup();
@@ -106,7 +106,7 @@ export const test = base.extend<CustomFixtures>({
 	},
 
 	// Test tenant fixture - provides a consistent test tenant
-	testTenant: async ({}, use) => {
+	testTenant: async (_fixtures, use) => {
 		await use({
 			id: "test-tenant-id",
 			name: "Test Tenant",

@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "next dev --port=3001",
 		"build": "next build",
+		"build:analyze": "ANALYZE=true next build",
 		"start": "next start"
 	},
 	"dependencies": {
@@ -21,9 +22,9 @@
 		"clsx": "^2.1.1",
 		"date-fns": "^4.1.0",
 		"html2canvas": "^1.4.1",
-		"jspdf": "^2.5.2",
+		"jspdf": "^3.0.3",
 		"lucide-react": "^0.553.0",
-		"next": "16.0.3",
+		"next": "15.5.6",
 		"next-themes": "^0.4.6",
 		"radix-ui": "^1.4.2",
 		"react": "19.2.0",
@@ -38,6 +39,7 @@
 		"@GCMC-KAJ/config": "workspace:*",
 		"@GCMC-KAJ/storage": "workspace:*",
 		"@GCMC-KAJ/reports": "workspace:*",
+		"@next/bundle-analyzer": "^15.5.6",
 		"@tailwindcss/postcss": "^4.1.10",
 		"@tanstack/react-query-devtools": "^5.85.5",
 		"@types/node": "^20",
