@@ -40,6 +40,7 @@ End‑to‑end **regulatory compliance & client management** platform for KAJ/GC
     - [4. Helpful Scripts](#4-helpful-scripts)
   - [🗄 Database \& Migrations](#-database--migrations)
   - [🔐 Authentication \& RBAC](#-authentication--rbac)
+  - [👤 Admin Setup \& User Management](#-admin-setup--user-management)
   - [📨 Background Workers](#-background-workers)
   - [📂 Documents \& File Storage](#-documents--file-storage)
   - [📑 PDF Reporting](#-pdf-reporting)
@@ -398,6 +399,99 @@ RBAC middleware (in `packages/rbac`) provides helpers like:
 - Tenant isolation is enforced by **always using `ctx.tenantId`** in Prisma queries.
 
 > ⚠️ Never trust tenant IDs from the client – always use `ctx.tenantId` from the session.
+
+---
+
+## 👤 Admin Setup & User Management
+
+### Default Admin Account
+
+After setting up the platform, create your admin account using the provided script:
+
+```bash
+# Create production-ready admin account
+bun scripts/setup-production-admin.ts
+```
+
+This creates a default admin account with:
+
+```
+🌐 Platform URL: http://localhost:3001
+📧 Admin Email: admin@gcmc-kaj.com
+🔒 Password: GCMCAdmin2024!
+👤 Full Name: GCMC-KAJ System Administrator
+🛡️  Access Level: FirmAdmin (Full Platform Access)
+```
+
+> ⚠️ **Security**: Change the default password after first login and store credentials securely.
+
+### User Management System
+
+The platform implements a **secure-by-default user management system**:
+
+#### **Smart Signup Flow**
+- **New users** → Automatic "Viewer" role (safe default)
+- **NO role selection** at signup (prevents privilege escalation)
+- **Admin approval required** for elevated roles
+- **Audit logging** for all role changes
+
+#### **Admin Interface**
+Access the user management interface at `/admin/users` to:
+
+- **View all users** in your organization
+- **Search and filter** by name, email, or role
+- **Assign roles** using dropdown interface
+- **Remove users** from tenant
+- **Track permissions** and access levels
+
+#### **Available Roles**
+
+| Role | Description | Use Case |
+|------|-------------|----------|
+| `SuperAdmin` | Cross-tenant platform access | System administration |
+| `FirmAdmin` | Full organizational access + user management | Organization leaders |
+| `ComplianceManager` | Compliance oversight and operations | Compliance team leads |
+| `ComplianceOfficer` | Daily compliance tasks and filings | Compliance staff |
+| `DocumentOfficer` | Document management and uploads | Document specialists |
+| `FilingClerk` | Filing preparation and submission | Filing specialists |
+| `Viewer` | Read-only access (default for new users) | Safe default role |
+| `ClientPortalUser` | External client access | Client-facing portal |
+
+#### **Onboarding Wizard**
+
+New administrators can access the onboarding wizard at `/admin/onboarding` to:
+
+- **Set up organization** details and compliance needs
+- **Invite team members** with appropriate roles
+- **Configure initial workflows** and permissions
+- **Review security best practices** for compliance
+
+#### **Email Notifications**
+
+The system automatically notifies administrators when:
+
+- **New users sign up** (requires role assignment)
+- **Role changes occur** (audit trail)
+- **Permission issues arise** (security alerts)
+
+#### **Best Practices**
+
+1. **Default Security**: All new users start with minimal "Viewer" permissions
+2. **Admin Approval**: Elevated roles require explicit admin assignment
+3. **Audit Trail**: All role changes are logged for compliance
+4. **Regular Reviews**: Periodically review user permissions and access levels
+
+#### **Testing Admin Functionality**
+
+Verify your admin setup works correctly:
+
+```bash
+# Test admin login and permissions
+bun test-admin-flow.js
+
+# Test complete user signup flow
+bun test-api-flow.js
+```
 
 ---
 

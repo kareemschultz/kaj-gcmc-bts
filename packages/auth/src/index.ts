@@ -34,60 +34,115 @@ async function ensureUserHasTenantAndRole(userId: string) {
 			});
 		}
 
-		// 2. Find or create MEMBER role
-		let memberRole = await prisma.role.findFirst({
+		// 2. Find or create Viewer role (from RBAC definitions)
+		let viewerRole = await prisma.role.findFirst({
 			where: {
 				tenantId: defaultTenant.id,
-				name: "MEMBER",
+				name: "Viewer",
 			},
 		});
 
-		if (!memberRole) {
-			console.log("📝 Creating MEMBER role...");
-			memberRole = await prisma.role.create({
+		if (!viewerRole) {
+			console.log("📝 Creating Viewer role...");
+			viewerRole = await prisma.role.create({
 				data: {
 					tenantId: defaultTenant.id,
-					name: "MEMBER",
-					description: "Standard platform member with basic access",
+					name: "Viewer",
+					description: "Read-only access to client information",
 				},
 			});
 
-			// Create basic permissions for MEMBER role
+			// Create comprehensive permissions for Viewer role based on RBAC definitions
 			await prisma.permission.createMany({
 				data: [
+					// Core viewing permissions
 					{
-						roleId: memberRole.id,
-						module: "dashboard",
+						roleId: viewerRole.id,
+						module: "clients",
 						action: "view",
 						allowed: true,
 					},
 					{
-						roleId: memberRole.id,
+						roleId: viewerRole.id,
+						module: "documents",
+						action: "view",
+						allowed: true,
+					},
+					{
+						roleId: viewerRole.id,
+						module: "filings",
+						action: "view",
+						allowed: true,
+					},
+					{
+						roleId: viewerRole.id,
+						module: "services",
+						action: "view",
+						allowed: true,
+					},
+
+					// Dashboard and analytics
+					{
+						roleId: viewerRole.id,
+						module: "analytics",
+						action: "view",
+						allowed: true,
+					},
+					{
+						roleId: viewerRole.id,
+						module: "compliance",
+						action: "view",
+						allowed: true,
+					},
+					{
+						roleId: viewerRole.id,
+						module: "tasks",
+						action: "view",
+						allowed: true,
+					},
+
+					// Notifications and profile
+					{
+						roleId: viewerRole.id,
+						module: "notifications",
+						action: "view",
+						allowed: true,
+					},
+					{
+						roleId: viewerRole.id,
 						module: "profile",
 						action: "view",
 						allowed: true,
 					},
 					{
-						roleId: memberRole.id,
+						roleId: viewerRole.id,
 						module: "profile",
 						action: "edit",
+						allowed: true,
+					},
+
+					// Dashboard access
+					{
+						roleId: viewerRole.id,
+						module: "dashboard",
+						action: "view",
 						allowed: true,
 					},
 				],
 			});
 		}
 
-		// 3. Assign user to tenant with MEMBER role
+		// 3. Assign user to tenant with Viewer role
 		await prisma.tenantUser.create({
 			data: {
 				userId: userId,
 				tenantId: defaultTenant.id,
-				roleId: memberRole.id,
+				roleId: viewerRole.id,
 			},
 		});
 
 		console.log(
-			`✅ Assigned user ${userId} to tenant "${defaultTenant.code}" with MEMBER role`,
+			`✅ Assigned user ${userId} to tenant "${defaultTenant.code}" with Viewer role`,
 		);
 	} catch (error) {
 		console.error(`❌ Failed to assign tenant/role to user ${userId}:`, error);

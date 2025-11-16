@@ -30,7 +30,14 @@ export const ROLE_DEFINITIONS: RoleDefinition[] = [
 			{ module: "services", actions: ["view", "create", "edit", "delete"] },
 			{ module: "users", actions: ["view", "create", "edit", "delete"] },
 			{ module: "settings", actions: ["view", "edit"] },
-			{ module: "compliance", actions: ["view"] },
+			{ module: "compliance", actions: ["view", "edit"] },
+			{ module: "analytics", actions: ["view"] },
+			{ module: "notifications", actions: ["view", "send"] },
+			{
+				module: "tasks",
+				actions: ["view", "create", "edit", "delete", "assign"],
+			},
+			{ module: "dashboard", actions: ["view"] },
 		],
 	},
 	{
@@ -76,6 +83,12 @@ export const ROLE_DEFINITIONS: RoleDefinition[] = [
 			{ module: "clients", actions: ["view"] },
 			{ module: "documents", actions: ["view"] },
 			{ module: "filings", actions: ["view"] },
+			{ module: "services", actions: ["view"] },
+			{ module: "analytics", actions: ["view"] },
+			{ module: "compliance", actions: ["view"] },
+			{ module: "tasks", actions: ["view"] },
+			{ module: "notifications", actions: ["view"] },
+			{ module: "dashboard", actions: ["view"] },
 		],
 	},
 	{
