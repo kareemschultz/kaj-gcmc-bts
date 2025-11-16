@@ -1,26 +1,26 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChartComponent } from "@/components/analytics/BarChartComponent";
-import { LineChartComponent } from "@/components/analytics/LineChartComponent";
-import { PieChartComponent } from "@/components/analytics/PieChartComponent";
-import { KPICard } from "@/components/analytics/KPICard";
-import { DateRangePicker } from "@/components/analytics/DateRangePicker";
-import { ExportButton } from "@/components/analytics/ExportButton";
-import { TrendIndicator } from "@/components/analytics/TrendIndicator";
-import { trpc } from "@/utils/trpc";
 import {
+	Activity,
 	BarChart3,
-	Users,
-	FileText,
 	ClipboardList,
 	DollarSign,
+	FileText,
 	Shield,
-	Activity,
-	TrendingUp
+	TrendingUp,
+	Users,
 } from "lucide-react";
+import { useRef, useState } from "react";
+import { BarChartComponent } from "@/components/analytics/BarChartComponent";
+import { DateRangePicker } from "@/components/analytics/DateRangePicker";
+import { ExportButton } from "@/components/analytics/ExportButton";
+import { KPICard } from "@/components/analytics/KPICard";
+import { LineChartComponent } from "@/components/analytics/LineChartComponent";
+import { PieChartComponent } from "@/components/analytics/PieChartComponent";
+import { TrendIndicator } from "@/components/analytics/TrendIndicator";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { trpc } from "@/utils/trpc";
 
 export default function AnalyticsPage() {
 	const [dateRange, setDateRange] = useState<{
@@ -32,20 +32,23 @@ export default function AnalyticsPage() {
 
 	// Fetch analytics data
 	const { data: clientAnalytics } = trpc.analytics.clients.useQuery(dateRange);
-	const { data: documentAnalytics } = trpc.analytics.documents.useQuery(dateRange);
+	const { data: documentAnalytics } =
+		trpc.analytics.documents.useQuery(dateRange);
 	const { data: filingAnalytics } = trpc.analytics.filings.useQuery(dateRange);
-	const { data: serviceAnalytics } = trpc.analytics.serviceRequests.useQuery(dateRange);
+	const { data: serviceAnalytics } =
+		trpc.analytics.serviceRequests.useQuery(dateRange);
 	const { data: complianceAnalytics } = trpc.analytics.compliance.useQuery();
 	const { data: revenueAnalytics } = trpc.analytics.revenue.useQuery(dateRange);
-	const { data: activityAnalytics } = trpc.analytics.userActivity.useQuery(dateRange);
+	const { data: activityAnalytics } =
+		trpc.analytics.userActivity.useQuery(dateRange);
 
 	const isLoading = !clientAnalytics || !documentAnalytics || !filingAnalytics;
 
 	if (isLoading) {
 		return (
 			<div className="container mx-auto py-8">
-				<div className="flex items-center justify-center h-64">
-					<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900" />
+				<div className="flex h-64 items-center justify-center">
+					<div className="h-8 w-8 animate-spin rounded-full border-gray-900 border-b-2" />
 				</div>
 			</div>
 		);
@@ -57,22 +60,27 @@ export default function AnalyticsPage() {
 				{/* Header */}
 				<div className="flex items-center justify-between">
 					<div>
-						<h1 className="text-3xl font-bold tracking-tight">Analytics Dashboard</h1>
+						<h1 className="font-bold text-3xl tracking-tight">
+							Analytics Dashboard
+						</h1>
 						<p className="text-muted-foreground">
 							Comprehensive insights and performance metrics
 						</p>
 					</div>
 					<div className="flex items-center gap-4">
-						<DateRangePicker
-							value={dateRange}
-							onChange={setDateRange}
-						/>
+						<DateRangePicker value={dateRange} onChange={setDateRange} />
 						<ExportButton
 							data={[
 								{ metric: "Total Clients", value: clientAnalytics?.total || 0 },
-								{ metric: "Total Documents", value: documentAnalytics?.total || 0 },
+								{
+									metric: "Total Documents",
+									value: documentAnalytics?.total || 0,
+								},
 								{ metric: "Total Filings", value: filingAnalytics?.total || 0 },
-								{ metric: "Total Revenue", value: revenueAnalytics?.totalRevenue || 0 },
+								{
+									metric: "Total Revenue",
+									value: revenueAnalytics?.totalRevenue || 0,
+								},
 							]}
 							chartRef={chartRef}
 							filename="analytics-report"
@@ -131,10 +139,12 @@ export default function AnalyticsPage() {
 									</CardHeader>
 									<CardContent>
 										<BarChartComponent
-											data={revenueAnalytics?.byService?.map(service => ({
-												name: `Service ${service.serviceId}`,
-												value: service.revenue,
-											})) || []}
+											data={
+												revenueAnalytics?.byService?.map((service) => ({
+													name: `Service ${service.serviceId}`,
+													value: service.revenue,
+												})) || []
+											}
 											xAxisKey="name"
 											yAxisKey="value"
 										/>
@@ -151,16 +161,20 @@ export default function AnalyticsPage() {
 									<CardContent>
 										<div className="space-y-4">
 											<div className="flex items-center justify-between">
-												<span className="text-sm font-medium">Average Score</span>
-												<span className="text-2xl font-bold">
+												<span className="font-medium text-sm">
+													Average Score
+												</span>
+												<span className="font-bold text-2xl">
 													{complianceAnalytics?.averageScore?.toFixed(1) || 0}%
 												</span>
 											</div>
 											<PieChartComponent
-												data={complianceAnalytics?.byLevel?.map(level => ({
-													name: level.level,
-													value: level._count,
-												})) || []}
+												data={
+													complianceAnalytics?.byLevel?.map((level) => ({
+														name: level.level,
+														value: level._count,
+													})) || []
+												}
 											/>
 										</div>
 									</CardContent>
@@ -176,10 +190,12 @@ export default function AnalyticsPage() {
 									</CardHeader>
 									<CardContent>
 										<PieChartComponent
-											data={clientAnalytics?.byType?.map(type => ({
-												name: type.type,
-												value: type._count,
-											})) || []}
+											data={
+												clientAnalytics?.byType?.map((type) => ({
+													name: type.type,
+													value: type._count,
+												})) || []
+											}
 										/>
 									</CardContent>
 								</Card>
@@ -190,10 +206,12 @@ export default function AnalyticsPage() {
 									</CardHeader>
 									<CardContent>
 										<BarChartComponent
-											data={clientAnalytics?.bySector?.map(sector => ({
-												name: sector.sector || 'Other',
-												value: sector._count,
-											})) || []}
+											data={
+												clientAnalytics?.bySector?.map((sector) => ({
+													name: sector.sector || "Other",
+													value: sector._count,
+												})) || []
+											}
 											xAxisKey="name"
 											yAxisKey="value"
 										/>
@@ -207,10 +225,12 @@ export default function AnalyticsPage() {
 								</CardHeader>
 								<CardContent>
 									<BarChartComponent
-										data={clientAnalytics?.byRiskLevel?.map(risk => ({
-											name: risk.riskLevel || 'Unassigned',
-											value: risk._count,
-										})) || []}
+										data={
+											clientAnalytics?.byRiskLevel?.map((risk) => ({
+												name: risk.riskLevel || "Unassigned",
+												value: risk._count,
+											})) || []
+										}
 										xAxisKey="name"
 										yAxisKey="value"
 									/>
@@ -226,10 +246,12 @@ export default function AnalyticsPage() {
 									</CardHeader>
 									<CardContent>
 										<PieChartComponent
-											data={documentAnalytics?.byStatus?.map(status => ({
-												name: status.status,
-												value: status._count,
-											})) || []}
+											data={
+												documentAnalytics?.byStatus?.map((status) => ({
+													name: status.status,
+													value: status._count,
+												})) || []
+											}
 										/>
 									</CardContent>
 								</Card>
@@ -240,10 +262,12 @@ export default function AnalyticsPage() {
 									</CardHeader>
 									<CardContent>
 										<BarChartComponent
-											data={documentAnalytics?.byType?.map(type => ({
-												name: `Type ${type.documentTypeId}`,
-												value: type._count,
-											})) || []}
+											data={
+												documentAnalytics?.byType?.map((type) => ({
+													name: `Type ${type.documentTypeId}`,
+													value: type._count,
+												})) || []
+											}
 											xAxisKey="name"
 											yAxisKey="value"
 										/>
@@ -257,10 +281,10 @@ export default function AnalyticsPage() {
 										<CardTitle>Expiring Documents</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<div className="text-2xl font-bold text-amber-600">
+										<div className="font-bold text-2xl text-amber-600">
 											{documentAnalytics?.expiringCount || 0}
 										</div>
-										<p className="text-xs text-muted-foreground">
+										<p className="text-muted-foreground text-xs">
 											Within 30 days
 										</p>
 									</CardContent>
@@ -271,7 +295,7 @@ export default function AnalyticsPage() {
 										<CardTitle>Total Versions</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<div className="text-2xl font-bold">
+										<div className="font-bold text-2xl">
 											{documentAnalytics?.totalVersions || 0}
 										</div>
 									</CardContent>
@@ -282,8 +306,10 @@ export default function AnalyticsPage() {
 										<CardTitle>Avg Versions/Doc</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<div className="text-2xl font-bold">
-											{documentAnalytics?.averageVersionsPerDocument?.toFixed(1) || 0}
+										<div className="font-bold text-2xl">
+											{documentAnalytics?.averageVersionsPerDocument?.toFixed(
+												1,
+											) || 0}
 										</div>
 									</CardContent>
 								</Card>
@@ -298,10 +324,12 @@ export default function AnalyticsPage() {
 									</CardHeader>
 									<CardContent>
 										<PieChartComponent
-											data={filingAnalytics?.byStatus?.map(status => ({
-												name: status.status,
-												value: status._count,
-											})) || []}
+											data={
+												filingAnalytics?.byStatus?.map((status) => ({
+													name: status.status,
+													value: status._count,
+												})) || []
+											}
 										/>
 									</CardContent>
 								</Card>
@@ -312,10 +340,12 @@ export default function AnalyticsPage() {
 									</CardHeader>
 									<CardContent>
 										<BarChartComponent
-											data={filingAnalytics?.byType?.map(type => ({
-												name: `Type ${type.filingTypeId}`,
-												value: type._count,
-											})) || []}
+											data={
+												filingAnalytics?.byType?.map((type) => ({
+													name: `Type ${type.filingTypeId}`,
+													value: type._count,
+												})) || []
+											}
 											xAxisKey="name"
 											yAxisKey="value"
 										/>
@@ -329,7 +359,7 @@ export default function AnalyticsPage() {
 										<CardTitle>On-Time Rate</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<div className="text-2xl font-bold text-green-600">
+										<div className="font-bold text-2xl text-green-600">
 											{filingAnalytics?.onTimeRate?.toFixed(1) || 0}%
 										</div>
 										<TrendIndicator value={filingAnalytics?.onTimeRate || 0} />
@@ -341,7 +371,7 @@ export default function AnalyticsPage() {
 										<CardTitle>Overdue Filings</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<div className="text-2xl font-bold text-red-600">
+										<div className="font-bold text-2xl text-red-600">
 											{filingAnalytics?.overdueCount || 0}
 										</div>
 									</CardContent>
@@ -352,7 +382,7 @@ export default function AnalyticsPage() {
 										<CardTitle>Completed Filings</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<div className="text-2xl font-bold">
+										<div className="font-bold text-2xl">
 											{filingAnalytics?.submittedCount || 0}
 										</div>
 									</CardContent>
@@ -368,10 +398,12 @@ export default function AnalyticsPage() {
 									</CardHeader>
 									<CardContent>
 										<PieChartComponent
-											data={complianceAnalytics?.byLevel?.map(level => ({
-												name: level.level,
-												value: level._count,
-											})) || []}
+											data={
+												complianceAnalytics?.byLevel?.map((level) => ({
+													name: level.level,
+													value: level._count,
+												})) || []
+											}
 										/>
 									</CardContent>
 								</Card>
@@ -384,16 +416,19 @@ export default function AnalyticsPage() {
 										<div className="space-y-4">
 											<div>
 												<div className="flex items-center justify-between">
-													<span className="text-sm font-medium">Average Score</span>
-													<span className="text-lg font-bold">
-														{complianceAnalytics?.averageScore?.toFixed(1) || 0}%
+													<span className="font-medium text-sm">
+														Average Score
+													</span>
+													<span className="font-bold text-lg">
+														{complianceAnalytics?.averageScore?.toFixed(1) || 0}
+														%
 													</span>
 												</div>
-												<div className="w-full bg-gray-200 rounded-full h-2.5">
+												<div className="h-2.5 w-full rounded-full bg-gray-200">
 													<div
-														className="bg-blue-600 h-2.5 rounded-full"
+														className="h-2.5 rounded-full bg-blue-600"
 														style={{
-															width: `${complianceAnalytics?.averageScore || 0}%`
+															width: `${complianceAnalytics?.averageScore || 0}%`,
 														}}
 													/>
 												</div>
@@ -401,16 +436,20 @@ export default function AnalyticsPage() {
 
 											<div className="grid grid-cols-2 gap-4 text-center">
 												<div>
-													<div className="text-lg font-bold text-green-600">
+													<div className="font-bold text-green-600 text-lg">
 														{complianceAnalytics?.clientsAboveThreshold || 0}
 													</div>
-													<div className="text-xs text-muted-foreground">Above 70%</div>
+													<div className="text-muted-foreground text-xs">
+														Above 70%
+													</div>
 												</div>
 												<div>
-													<div className="text-lg font-bold text-red-600">
+													<div className="font-bold text-lg text-red-600">
 														{complianceAnalytics?.clientsBelowThreshold || 0}
 													</div>
-													<div className="text-xs text-muted-foreground">Below 50%</div>
+													<div className="text-muted-foreground text-xs">
+														Below 50%
+													</div>
 												</div>
 											</div>
 										</div>
@@ -427,10 +466,14 @@ export default function AnalyticsPage() {
 									</CardHeader>
 									<CardContent>
 										<BarChartComponent
-											data={activityAnalytics?.byUser?.slice(0, 10)?.map(user => ({
-												name: `User ${user.userId.slice(-8)}`,
-												value: user.count,
-											})) || []}
+											data={
+												activityAnalytics?.byUser
+													?.slice(0, 10)
+													?.map((user) => ({
+														name: `User ${user.userId.slice(-8)}`,
+														value: user.count,
+													})) || []
+											}
 											xAxisKey="name"
 											yAxisKey="value"
 										/>
@@ -443,10 +486,12 @@ export default function AnalyticsPage() {
 									</CardHeader>
 									<CardContent>
 										<PieChartComponent
-											data={activityAnalytics?.byAction?.map(action => ({
-												name: action.action,
-												value: action.count,
-											})) || []}
+											data={
+												activityAnalytics?.byAction?.map((action) => ({
+													name: action.action,
+													value: action.count,
+												})) || []
+											}
 										/>
 									</CardContent>
 								</Card>
@@ -460,10 +505,10 @@ export default function AnalyticsPage() {
 									</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<div className="text-3xl font-bold">
+									<div className="font-bold text-3xl">
 										{activityAnalytics?.totalActions?.toLocaleString() || 0}
 									</div>
-									<p className="text-sm text-muted-foreground">
+									<p className="text-muted-foreground text-sm">
 										Total system actions recorded
 									</p>
 								</CardContent>
