@@ -1,0 +1,20 @@
+{
+	"name": "@GCMC-KAJ/ui",
+	"version": "1.0.0",
+	"type": "module",
+	"exports": {
+		".": "./src/index.tsx"
+	},
+	"dependencies": {
+		"react": "catalog:",
+		"react-dom": "catalog:"
+	},
+	"devDependencies": {
+		"@GCMC-KAJ/config": "workspace:*",
+		"typescript": "catalog:"
+	},
+	"peerDependencies": {
+		"react": "^18 || ^19",
+		"react-dom": "^18 || ^19"
+	}
+}

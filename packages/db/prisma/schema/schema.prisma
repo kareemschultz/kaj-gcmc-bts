@@ -28,14 +28,14 @@ model User {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  sessions      Session[]
-  accounts      Account[]
-  tenantUsers   TenantUser[]
+  sessions             Session[]
+  accounts             Account[]
+  tenantUsers          TenantUser[]
   portalClientAccesses ClientPortalAccess[]
-  messages      Message[]      @relation("MessageAuthor")
-  tasks         Task[]         @relation("TaskAssignee")
-  notifications Notification[] @relation("NotificationRecipient")
-  auditLogs     AuditLog[]     @relation("AuditActor")
+  messages             Message[]            @relation("MessageAuthor")
+  tasks                Task[]               @relation("TaskAssignee")
+  notifications        Notification[]       @relation("NotificationRecipient")
+  auditLogs            AuditLog[]           @relation("AuditActor")
 
   @@index([email])
   @@index([createdAt])
@@ -205,7 +205,7 @@ model Client {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tenant           Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant           Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   businesses       ClientBusiness[]
   documents        Document[]
   filings          Filing[]
@@ -223,6 +223,7 @@ model Client {
   @@index([tenantId, riskLevel])
   @@index([tenantId, sector])
   @@index([createdAt])
+  @@index([tenantId, createdAt])
   @@map("clients")
 }
 
@@ -329,6 +330,7 @@ model Document {
   @@index([tenantId, clientId])
   @@index([clientId, status])
   @@index([createdAt])
+  @@index([tenantId, documentTypeId, status])
   @@map("documents")
 }
 
@@ -429,6 +431,8 @@ model Filing {
   @@index([periodEnd])
   @@index([submissionDate])
   @@index([createdAt])
+  @@index([clientId, filingTypeId, status])
+  @@index([status, periodEnd])
   @@map("filings")
 }
 
@@ -526,11 +530,14 @@ model ServiceRequest {
   @@index([tenantId, clientId])
   @@index([createdAt])
   @@index([updatedAt])
+  @@index([tenantId, clientId, status])
+  @@index([tenantId, status, createdAt])
+  @@index([serviceId, status])
   @@map("service_requests")
 }
 
 model ServiceStep {
-  id                 Int           @id @default(autoincrement())
+  id                 Int       @id @default(autoincrement())
   serviceRequestId   Int
   filingId           Int?
   title              String
@@ -540,13 +547,13 @@ model ServiceStep {
   dueDate            DateTime?
   requiredDocTypeIds Int[]
   dependsOnStepId    Int?
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
 
-  serviceRequest ServiceRequest  @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
-  filing         Filing?         @relation(fields: [filingId], references: [id], onDelete: SetNull)
-  dependsOnStep  ServiceStep?    @relation("StepDependency", fields: [dependsOnStepId], references: [id], onDelete: SetNull)
-  dependentSteps ServiceStep[]   @relation("StepDependency")
+  serviceRequest ServiceRequest @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
+  filing         Filing?        @relation(fields: [filingId], references: [id], onDelete: SetNull)
+  dependsOnStep  ServiceStep?   @relation("StepDependency", fields: [dependsOnStepId], references: [id], onDelete: SetNull)
+  dependentSteps ServiceStep[]  @relation("StepDependency")
 
   @@index([serviceRequestId])
   @@index([filingId])
@@ -625,6 +632,8 @@ model Task {
   @@index([assignedToId, status, dueDate])
   @@index([tenantId, status, dueDate])
   @@index([updatedAt])
+  @@index([tenantId, clientId, status])
+  @@index([dueDate, status])
   @@map("tasks")
 }
 
@@ -824,6 +833,9 @@ model AuditLog {
   @@index([tenantId, createdAt])
   @@index([tenantId, actorUserId])
   @@index([tenantId, entityType])
+  @@index([tenantId, action, createdAt])
+  @@index([actorUserId, createdAt])
+  @@index([entityType, entityId])
   @@map("audit_logs")
 }
 

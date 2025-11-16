@@ -10,6 +10,7 @@ import type { UserRole } from "@GCMC-KAJ/types";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, router } from "../index";
+import { checkRateLimit, messageRateLimiter } from "../middleware/rate-limit";
 
 /**
  * Helper to get client IDs accessible by portal user
@@ -475,6 +476,7 @@ export const portalRouter = router({
 
 	/**
 	 * Send a message in a conversation
+	 * Rate limit: 20 requests per hour
 	 */
 	sendMessage: protectedProcedure
 		.input(
@@ -484,6 +486,9 @@ export const portalRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
+			// Apply rate limiting
+			await checkRateLimit(ctx.user.id, messageRateLimiter, "messaging");
+
 			const clientIds = await getPortalUserClientIds(
 				ctx.user.id,
 				ctx.tenantId,

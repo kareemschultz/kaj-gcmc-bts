@@ -211,31 +211,34 @@ export const serviceRequestsRouter = router({
 				});
 			}
 
-			const serviceRequest = await prisma.serviceRequest.create({
-				data: {
-					...input,
-					tenantId: ctx.tenantId,
-				},
-				include: {
-					client: true,
-					service: true,
-				},
-			});
+			// Wrap in transaction to ensure data consistency
+			return await prisma.$transaction(async (tx) => {
+				const serviceRequest = await tx.serviceRequest.create({
+					data: {
+						...input,
+						tenantId: ctx.tenantId,
+					},
+					include: {
+						client: true,
+						service: true,
+					},
+				});
 
-			// Audit log
-			await prisma.auditLog.create({
-				data: {
-					tenantId: ctx.tenantId,
-					actorUserId: ctx.user.id,
-					clientId: input.clientId,
-					entityType: "service_request",
-					entityId: serviceRequest.id,
-					action: "create",
-					changes: { created: input },
-				},
-			});
+				// Audit log
+				await tx.auditLog.create({
+					data: {
+						tenantId: ctx.tenantId,
+						actorUserId: ctx.user.id,
+						clientId: input.clientId,
+						entityType: "service_request",
+						entityId: serviceRequest.id,
+						action: "create",
+						changes: { created: input },
+					},
+				});
 
-			return serviceRequest;
+				return serviceRequest;
+			});
 		}),
 
 	/**
@@ -271,7 +274,10 @@ export const serviceRequestsRouter = router({
 			}
 
 			const updated = await prisma.serviceRequest.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: input.data,
 				include: {
 					client: true,
@@ -341,7 +347,10 @@ export const serviceRequestsRouter = router({
 			}
 
 			await prisma.serviceRequest.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log
@@ -379,27 +388,30 @@ export const serviceRequestsRouter = router({
 				});
 			}
 
-			const step = await prisma.serviceStep.create({
-				data: {
-					...input,
-					dueDate: input.dueDate ? new Date(input.dueDate) : null,
-				},
-			});
+			// Wrap in transaction to ensure data consistency
+			return await prisma.$transaction(async (tx) => {
+				const step = await tx.serviceStep.create({
+					data: {
+						...input,
+						dueDate: input.dueDate ? new Date(input.dueDate) : null,
+					},
+				});
 
-			// Audit log
-			await prisma.auditLog.create({
-				data: {
-					tenantId: ctx.tenantId,
-					actorUserId: ctx.user.id,
-					clientId: serviceRequest.clientId,
-					entityType: "service_step",
-					entityId: step.id,
-					action: "create",
-					changes: { created: input },
-				},
-			});
+				// Audit log
+				await tx.auditLog.create({
+					data: {
+						tenantId: ctx.tenantId,
+						actorUserId: ctx.user.id,
+						clientId: serviceRequest.clientId,
+						entityType: "service_step",
+						entityId: step.id,
+						action: "create",
+						changes: { created: input },
+					},
+				});
 
-			return step;
+				return step;
+			});
 		}),
 
 	/**

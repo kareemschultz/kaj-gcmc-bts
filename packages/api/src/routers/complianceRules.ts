@@ -151,7 +151,10 @@ export const complianceRulesRouter = router({
 			}
 
 			const updated = await prisma.complianceRuleSet.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: input.data,
 			});
 
@@ -189,7 +192,10 @@ export const complianceRulesRouter = router({
 			}
 
 			await prisma.complianceRuleSet.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log

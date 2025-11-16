@@ -210,7 +210,10 @@ export const clientBusinessesRouter = router({
 			}
 
 			const updated = await prisma.clientBusiness.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: {
 					...input.data,
 					incorporationDate: input.data.incorporationDate
@@ -275,7 +278,10 @@ export const clientBusinessesRouter = router({
 			}
 
 			await prisma.clientBusiness.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log

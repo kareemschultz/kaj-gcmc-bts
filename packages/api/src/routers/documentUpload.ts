@@ -124,64 +124,67 @@ export const documentUploadRouter = router({
 				});
 			}
 
-			// Mark all existing versions as not latest
-			await prisma.documentVersion.updateMany({
-				where: {
-					documentId: input.documentId,
-					isLatest: true,
-				},
-				data: {
-					isLatest: false,
-				},
-			});
+			// Wrap in transaction to ensure data consistency
+			return await prisma.$transaction(async (tx) => {
+				// Mark all existing versions as not latest
+				await tx.documentVersion.updateMany({
+					where: {
+						documentId: input.documentId,
+						isLatest: true,
+					},
+					data: {
+						isLatest: false,
+					},
+				});
 
-			// Create new document version
-			const version = await prisma.documentVersion.create({
-				data: {
-					documentId: input.documentId,
-					fileUrl: input.fileKey,
-					storageProvider: "minio",
-					fileSize: input.fileSize,
-					mimeType: input.mimeType,
-					issueDate: input.issueDate ? new Date(input.issueDate) : null,
-					expiryDate: input.expiryDate ? new Date(input.expiryDate) : null,
-					issuingAuthority: input.issuingAuthority,
-					ocrText: input.ocrText,
-					aiSummary: input.aiSummary,
-					metadata: input.metadata,
-					uploadedById: ctx.user.id,
-					isLatest: true,
-				},
-			});
+				// Create new document version
+				const version = await tx.documentVersion.create({
+					data: {
+						documentId: input.documentId,
+						fileUrl: input.fileKey,
+						storageProvider: "minio",
+						fileSize: input.fileSize,
+						mimeType: input.mimeType,
+						issueDate: input.issueDate ? new Date(input.issueDate) : null,
+						expiryDate: input.expiryDate ? new Date(input.expiryDate) : null,
+						issuingAuthority: input.issuingAuthority,
+						ocrText: input.ocrText,
+						aiSummary: input.aiSummary,
+						metadata: input.metadata,
+						uploadedById: ctx.user.id,
+						isLatest: true,
+					},
+				});
 
-			// Update document's latestVersionId
-			await prisma.document.update({
-				where: { id: input.documentId },
-				data: {
-					latestVersionId: version.id,
-					// Update status based on expiry
-					status: input.expiryDate
-						? new Date(input.expiryDate) < new Date()
-							? "expired"
-							: "valid"
-						: "valid",
-				},
-			});
+				// Update document's latestVersionId
+				await tx.document.update({
+					where: { id: input.documentId },
+					data: {
+						latestVersionId: version.id,
+						// Update status based on expiry
+						status: input.expiryDate
+							? new Date(input.expiryDate) < new Date()
+								? "expired"
+								: "valid"
+							: "valid",
+					},
+				});
 
-			// Audit log
-			await prisma.auditLog.create({
-				data: {
-					tenantId: ctx.tenantId,
-					actorUserId: ctx.user.id,
-					clientId: document.clientId,
-					entityType: "document_version",
-					entityId: version.id,
-					action: "create",
-					changes: { created: { ...input, versionId: version.id } },
-				},
-			});
+				// Audit log
+				await tx.auditLog.create({
+					data: {
+						tenantId: ctx.tenantId,
+						actorUserId: ctx.user.id,
+						clientId: document.clientId,
+						entityType: "document_version",
+						entityId: version.id,
+						action: "create",
+						changes: { created: { ...input, versionId: version.id } },
+					},
+				});
 
-			return version;
+				return version;
+			});
 		}),
 
 	/**
@@ -293,47 +296,50 @@ export const documentUploadRouter = router({
 				console.error("Failed to delete file from storage:", error);
 			}
 
-			// If this was the latest version, mark the next most recent as latest
-			if (version.isLatest) {
-				const nextLatest = await prisma.documentVersion.findFirst({
-					where: {
-						documentId: version.documentId,
-						id: { not: version.id },
-					},
-					orderBy: { uploadedAt: "desc" },
+			// Wrap in transaction to ensure data consistency
+			return await prisma.$transaction(async (tx) => {
+				// If this was the latest version, mark the next most recent as latest
+				if (version.isLatest) {
+					const nextLatest = await tx.documentVersion.findFirst({
+						where: {
+							documentId: version.documentId,
+							id: { not: version.id },
+						},
+						orderBy: { uploadedAt: "desc" },
+					});
+
+					if (nextLatest) {
+						await tx.documentVersion.update({
+							where: { id: nextLatest.id },
+							data: { isLatest: true },
+						});
+
+						await tx.document.update({
+							where: { id: version.documentId },
+							data: { latestVersionId: nextLatest.id },
+						});
+					}
+				}
+
+				// Delete version from database
+				await tx.documentVersion.delete({
+					where: { id: input.versionId },
 				});
 
-				if (nextLatest) {
-					await prisma.documentVersion.update({
-						where: { id: nextLatest.id },
-						data: { isLatest: true },
-					});
+				// Audit log
+				await tx.auditLog.create({
+					data: {
+						tenantId: ctx.tenantId,
+						actorUserId: ctx.user.id,
+						clientId: version.document.clientId,
+						entityType: "document_version",
+						entityId: input.versionId,
+						action: "delete",
+						changes: { deleted: version },
+					},
+				});
 
-					await prisma.document.update({
-						where: { id: version.documentId },
-						data: { latestVersionId: nextLatest.id },
-					});
-				}
-			}
-
-			// Delete version from database
-			await prisma.documentVersion.delete({
-				where: { id: input.versionId },
+				return { success: true };
 			});
-
-			// Audit log
-			await prisma.auditLog.create({
-				data: {
-					tenantId: ctx.tenantId,
-					actorUserId: ctx.user.id,
-					clientId: version.document.clientId,
-					entityType: "document_version",
-					entityId: input.versionId,
-					action: "delete",
-					changes: { deleted: version },
-				},
-			});
-
-			return { success: true };
 		}),
 });

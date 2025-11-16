@@ -96,12 +96,37 @@ async function ensureUserHasTenantAndRole(userId: string) {
 	}
 }
 
+// Helper function to get CORS origins for BetterAuth
+function getCorsOrigins(): string[] {
+	// Option 1: Comma-separated list in CORS_ORIGIN
+	const corsOrigin = process.env.CORS_ORIGIN;
+	if (corsOrigin) {
+		const origins = corsOrigin
+			.split(",")
+			.map((o) => o.trim())
+			.filter(Boolean);
+		if (origins.length > 0) return origins;
+	}
+
+	// Option 2: Individual environment variables (fallback)
+	const origins: string[] = [];
+	if (process.env.WEB_URL) origins.push(process.env.WEB_URL);
+	if (process.env.PORTAL_URL) origins.push(process.env.PORTAL_URL);
+
+	// Option 3: Development defaults
+	if (origins.length === 0) {
+		return ["http://localhost:3001", "http://localhost:3002"];
+	}
+
+	return origins;
+}
+
 // Extend Better-Auth session to include tenant and role information
 export const auth = betterAuth<BetterAuthOptions>({
 	database: prismaAdapter(prisma, {
 		provider: "postgresql",
 	}),
-	trustedOrigins: [process.env.CORS_ORIGIN || ""],
+	trustedOrigins: getCorsOrigins(),
 	emailAndPassword: {
 		enabled: true,
 	},

@@ -199,7 +199,10 @@ export const documentTypesRouter = router({
 			}
 
 			const updated = await prisma.documentType.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: input.data,
 			});
 
@@ -250,7 +253,10 @@ export const documentTypesRouter = router({
 			}
 
 			await prisma.documentType.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log

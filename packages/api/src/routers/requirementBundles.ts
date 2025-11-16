@@ -173,7 +173,10 @@ export const requirementBundlesRouter = router({
 			}
 
 			const updated = await prisma.requirementBundle.update({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 				data: input.data,
 			});
 
@@ -211,7 +214,10 @@ export const requirementBundlesRouter = router({
 			}
 
 			await prisma.requirementBundle.delete({
-				where: { id: input.id },
+				where: {
+					id: input.id,
+					tenantId: ctx.tenantId,
+				},
 			});
 
 			// Audit log

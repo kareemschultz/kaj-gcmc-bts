@@ -15,6 +15,7 @@ import {
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { rbacProcedure, router } from "../index";
+import { checkRateLimit, reportRateLimiter } from "../middleware/rate-limit";
 
 /**
  * Report type enum for validation
@@ -34,6 +35,7 @@ export const reportsRouter = router({
 	/**
 	 * Generate Client File Report
 	 * Requires: clients:view permission
+	 * Rate limit: 10 requests per hour
 	 */
 	generateClientFile: rbacProcedure("clients", "view")
 		.input(
@@ -42,6 +44,9 @@ export const reportsRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
+			// Apply rate limiting
+			await checkRateLimit(ctx.user.id, reportRateLimiter, "report generation");
+
 			try {
 				const pdfBuffer = await generateClientFileReport(
 					input.clientId,
@@ -68,6 +73,7 @@ export const reportsRouter = router({
 	/**
 	 * Generate Documents List Report
 	 * Requires: documents:view permission
+	 * Rate limit: 10 requests per hour
 	 */
 	generateDocumentsList: rbacProcedure("documents", "view")
 		.input(
@@ -76,6 +82,9 @@ export const reportsRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
+			// Apply rate limiting
+			await checkRateLimit(ctx.user.id, reportRateLimiter, "report generation");
+
 			try {
 				const pdfBuffer = await generateDocumentsListReport(
 					input.clientId,
@@ -101,6 +110,7 @@ export const reportsRouter = router({
 	/**
 	 * Generate Filings Summary Report
 	 * Requires: filings:view permission
+	 * Rate limit: 10 requests per hour
 	 */
 	generateFilingsSummary: rbacProcedure("filings", "view")
 		.input(
@@ -109,6 +119,9 @@ export const reportsRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
+			// Apply rate limiting
+			await checkRateLimit(ctx.user.id, reportRateLimiter, "report generation");
+
 			try {
 				const pdfBuffer = await generateFilingsSummaryReport(
 					input.clientId,
@@ -134,6 +147,7 @@ export const reportsRouter = router({
 	/**
 	 * Generate Compliance Report
 	 * Requires: clients:view permission
+	 * Rate limit: 10 requests per hour
 	 */
 	generateComplianceReport: rbacProcedure("clients", "view")
 		.input(
@@ -142,6 +156,9 @@ export const reportsRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
+			// Apply rate limiting
+			await checkRateLimit(ctx.user.id, reportRateLimiter, "report generation");
+
 			try {
 				const pdfBuffer = await generateComplianceReport(
 					input.clientId,
@@ -167,6 +184,7 @@ export const reportsRouter = router({
 	/**
 	 * Generate Service History Report
 	 * Requires: services:view permission
+	 * Rate limit: 10 requests per hour
 	 */
 	generateServiceHistory: rbacProcedure("services", "view")
 		.input(
@@ -175,6 +193,9 @@ export const reportsRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
+			// Apply rate limiting
+			await checkRateLimit(ctx.user.id, reportRateLimiter, "report generation");
+
 			try {
 				const pdfBuffer = await generateServiceHistoryReport(
 					input.clientId,
@@ -200,6 +221,7 @@ export const reportsRouter = router({
 	/**
 	 * Generate report (generic endpoint)
 	 * Requires appropriate permission based on report type
+	 * Rate limit: 10 requests per hour
 	 */
 	generate: rbacProcedure("clients", "view")
 		.input(
@@ -209,6 +231,9 @@ export const reportsRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
+			// Apply rate limiting
+			await checkRateLimit(ctx.user.id, reportRateLimiter, "report generation");
+
 			try {
 				let pdfBuffer: Buffer;
 
