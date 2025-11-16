@@ -52,77 +52,80 @@ export const wizardsRouter = router({
 			}),
 		)
 		.mutation(async ({ ctx, input }) => {
-			// Create client
-			const client = await prisma.client.create({
-				data: {
-					...input.client,
-					tenantId: ctx.tenantId,
-				},
-			});
+			// Wrap in transaction to ensure data consistency
+			return await prisma.$transaction(async (tx) => {
+				// Create client
+				const client = await tx.client.create({
+					data: {
+						...input.client,
+						tenantId: ctx.tenantId,
+					},
+				});
 
-			// Create businesses if provided
-			const businesses = [];
-			if (input.businesses && input.businesses.length > 0) {
-				for (const business of input.businesses) {
-					const created = await prisma.clientBusiness.create({
-						data: {
-							...business,
-							incorporationDate: business.incorporationDate
-								? new Date(business.incorporationDate)
-								: null,
-							clientId: client.id,
-							tenantId: ctx.tenantId,
-						},
-					});
-					businesses.push(created);
-				}
-			}
-
-			// Create initial service requests if provided
-			const serviceRequests = [];
-			if (input.serviceRequestIds && input.serviceRequestIds.length > 0) {
-				for (const serviceId of input.serviceRequestIds) {
-					const service = await prisma.service.findUnique({
-						where: { id: serviceId, tenantId: ctx.tenantId },
-					});
-
-					if (service) {
-						const sr = await prisma.serviceRequest.create({
+				// Create businesses if provided
+				const businesses = [];
+				if (input.businesses && input.businesses.length > 0) {
+					for (const business of input.businesses) {
+						const created = await tx.clientBusiness.create({
 							data: {
+								...business,
+								incorporationDate: business.incorporationDate
+									? new Date(business.incorporationDate)
+									: null,
 								clientId: client.id,
-								serviceId: serviceId,
-								status: "new",
 								tenantId: ctx.tenantId,
 							},
 						});
-						serviceRequests.push(sr);
+						businesses.push(created);
 					}
 				}
-			}
 
-			// Audit log
-			await prisma.auditLog.create({
-				data: {
-					tenantId: ctx.tenantId,
-					actorUserId: ctx.user.id,
-					clientId: client.id,
-					entityType: "client",
-					entityId: client.id,
-					action: "create",
-					changes: {
-						wizard: "newClient",
-						client: input.client,
-						businessesCount: businesses.length,
-						serviceRequestsCount: serviceRequests.length,
+				// Create initial service requests if provided
+				const serviceRequests = [];
+				if (input.serviceRequestIds && input.serviceRequestIds.length > 0) {
+					for (const serviceId of input.serviceRequestIds) {
+						const service = await tx.service.findUnique({
+							where: { id: serviceId, tenantId: ctx.tenantId },
+						});
+
+						if (service) {
+							const sr = await tx.serviceRequest.create({
+								data: {
+									clientId: client.id,
+									serviceId: serviceId,
+									status: "new",
+									tenantId: ctx.tenantId,
+								},
+							});
+							serviceRequests.push(sr);
+						}
+					}
+				}
+
+				// Audit log
+				await tx.auditLog.create({
+					data: {
+						tenantId: ctx.tenantId,
+						actorUserId: ctx.user.id,
+						clientId: client.id,
+						entityType: "client",
+						entityId: client.id,
+						action: "create",
+						changes: {
+							wizard: "newClient",
+							client: input.client,
+							businessesCount: businesses.length,
+							serviceRequestsCount: serviceRequests.length,
+						},
 					},
-				},
-			});
+				});
 
-			return {
-				client,
-				businesses,
-				serviceRequests,
-			};
+				return {
+					client,
+					businesses,
+					serviceRequests,
+				};
+			});
 		}),
 
 	/**
@@ -173,84 +176,87 @@ export const wizardsRouter = router({
 				});
 			}
 
-			// Calculate initial compliance score if requested
-			let complianceScore = null;
-			if (input.calculateInitialScore) {
-				// Placeholder: Would calculate based on bundle requirements
-				complianceScore = await prisma.complianceScore.upsert({
-					where: {
-						tenantId_clientId: {
+			// Wrap in transaction to ensure data consistency
+			return await prisma.$transaction(async (tx) => {
+				// Calculate initial compliance score if requested
+				let complianceScore = null;
+				if (input.calculateInitialScore) {
+					// Placeholder: Would calculate based on bundle requirements
+					complianceScore = await tx.complianceScore.upsert({
+						where: {
+							tenantId_clientId: {
+								tenantId: ctx.tenantId,
+								clientId: input.clientId,
+							},
+						},
+						update: {
+							scoreValue: 0,
+							level: "high",
+							missingCount: bundles.reduce(
+								(sum: number, b: (typeof bundles)[number]) =>
+									sum + b.items.length,
+								0,
+							),
+							expiringCount: 0,
+							overdueFilingsCount: 0,
+							lastCalculatedAt: new Date(),
+							breakdown: {
+								bundles: bundles.map((b: (typeof bundles)[number]) => ({
+									id: b.id,
+									name: b.name,
+									authority: b.authority,
+									requiredItems: b.items.length,
+									completedItems: 0,
+								})),
+							},
+						},
+						create: {
 							tenantId: ctx.tenantId,
 							clientId: input.clientId,
+							scoreValue: 0,
+							level: "high",
+							missingCount: bundles.reduce(
+								(sum: number, b: (typeof bundles)[number]) =>
+									sum + b.items.length,
+								0,
+							),
+							expiringCount: 0,
+							overdueFilingsCount: 0,
+							lastCalculatedAt: new Date(),
+							breakdown: {
+								bundles: bundles.map((b: (typeof bundles)[number]) => ({
+									id: b.id,
+									name: b.name,
+									authority: b.authority,
+									requiredItems: b.items.length,
+									completedItems: 0,
+								})),
+							},
 						},
-					},
-					update: {
-						scoreValue: 0,
-						level: "high",
-						missingCount: bundles.reduce(
-							(sum: number, b: (typeof bundles)[number]) =>
-								sum + b.items.length,
-							0,
-						),
-						expiringCount: 0,
-						overdueFilingsCount: 0,
-						lastCalculatedAt: new Date(),
-						breakdown: {
-							bundles: bundles.map((b: (typeof bundles)[number]) => ({
-								id: b.id,
-								name: b.name,
-								authority: b.authority,
-								requiredItems: b.items.length,
-								completedItems: 0,
-							})),
-						},
-					},
-					create: {
+					});
+				}
+
+				// Audit log
+				await tx.auditLog.create({
+					data: {
 						tenantId: ctx.tenantId,
+						actorUserId: ctx.user.id,
 						clientId: input.clientId,
-						scoreValue: 0,
-						level: "high",
-						missingCount: bundles.reduce(
-							(sum: number, b: (typeof bundles)[number]) =>
-								sum + b.items.length,
-							0,
-						),
-						expiringCount: 0,
-						overdueFilingsCount: 0,
-						lastCalculatedAt: new Date(),
-						breakdown: {
-							bundles: bundles.map((b: (typeof bundles)[number]) => ({
-								id: b.id,
-								name: b.name,
-								authority: b.authority,
-								requiredItems: b.items.length,
-								completedItems: 0,
-							})),
+						entityType: "compliance_score",
+						entityId: complianceScore?.id || 0,
+						action: "create",
+						changes: {
+							wizard: "complianceSetup",
+							bundleIds: input.bundleIds,
 						},
 					},
 				});
-			}
 
-			// Audit log
-			await prisma.auditLog.create({
-				data: {
-					tenantId: ctx.tenantId,
-					actorUserId: ctx.user.id,
-					clientId: input.clientId,
-					entityType: "compliance_score",
-					entityId: complianceScore?.id || 0,
-					action: "create",
-					changes: {
-						wizard: "complianceSetup",
-						bundleIds: input.bundleIds,
-					},
-				},
+				return {
+					bundles,
+					complianceScore,
+				};
 			});
-
-			return {
-				bundles,
-				complianceScore,
-			};
 		}),
 
 	/**
@@ -303,63 +309,66 @@ export const wizardsRouter = router({
 				});
 			}
 
-			// Create service request
-			const serviceRequest = await prisma.serviceRequest.create({
-				data: {
-					clientId: input.clientId,
-					clientBusinessId: input.clientBusinessId,
-					serviceId: input.serviceId,
-					templateId: input.templateId,
-					priority: input.priority,
-					status: "new",
-					tenantId: ctx.tenantId,
-				},
-			});
+			// Wrap in transaction to ensure data consistency
+			return await prisma.$transaction(async (tx) => {
+				// Create service request
+				const serviceRequest = await tx.serviceRequest.create({
+					data: {
+						clientId: input.clientId,
+						clientBusinessId: input.clientBusinessId,
+						serviceId: input.serviceId,
+						templateId: input.templateId,
+						priority: input.priority,
+						status: "new",
+						tenantId: ctx.tenantId,
+					},
+				});
 
-			// Create steps if provided
-			const steps = [];
-			if (input.steps && input.steps.length > 0) {
-				for (const step of input.steps) {
-					const created = await prisma.serviceStep.create({
-						data: {
-							serviceRequestId: serviceRequest.id,
-							title: step.title,
-							description: step.description,
-							order: step.order,
-							status: "not_started",
-							requiredDocTypeIds: step.requiredDocTypeIds,
-							dueDate: step.dueDate ? new Date(step.dueDate) : null,
-						},
+				// Create steps if provided
+				const steps = [];
+				if (input.steps && input.steps.length > 0) {
+					for (const step of input.steps) {
+						const created = await tx.serviceStep.create({
+							data: {
+								serviceRequestId: serviceRequest.id,
+								title: step.title,
+								description: step.description,
+								order: step.order,
+								status: "not_started",
+								requiredDocTypeIds: step.requiredDocTypeIds,
+								dueDate: step.dueDate ? new Date(step.dueDate) : null,
+							},
+						});
+						steps.push(created);
+					}
+
+					// Update current step order
+					await tx.serviceRequest.update({
+						where: { id: serviceRequest.id },
+						data: { currentStepOrder: steps[0]?.order || 1 },
 					});
-					steps.push(created);
 				}
 
-				// Update current step order
-				await prisma.serviceRequest.update({
-					where: { id: serviceRequest.id },
-					data: { currentStepOrder: steps[0]?.order || 1 },
-				});
-			}
-
-			// Audit log
-			await prisma.auditLog.create({
-				data: {
-					tenantId: ctx.tenantId,
-					actorUserId: ctx.user.id,
-					clientId: input.clientId,
-					entityType: "service_request",
-					entityId: serviceRequest.id,
-					action: "create",
-					changes: {
-						wizard: "serviceRequest",
-						stepsCount: steps.length,
+				// Audit log
+				await tx.auditLog.create({
+					data: {
+						tenantId: ctx.tenantId,
+						actorUserId: ctx.user.id,
+						clientId: input.clientId,
+						entityType: "service_request",
+						entityId: serviceRequest.id,
+						action: "create",
+						changes: {
+							wizard: "serviceRequest",
+							stepsCount: steps.length,
+						},
 					},
-				},
-			});
+				});
 
-			return {
-				serviceRequest,
-				steps,
-			};
+				return {
+					serviceRequest,
+					steps,
+				};
+			});
 		}),
 });
