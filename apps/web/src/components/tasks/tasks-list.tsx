@@ -89,26 +89,26 @@ export function TasksList() {
 	const getStatusIcon = (status: string) => {
 		switch (status) {
 			case "completed":
-				return <CheckCircle className="h-5 w-5 text-green-500" />;
+				return <CheckCircle className="h-5 w-5 text-emerald-600" />;
 			case "blocked":
-				return <AlertTriangle className="h-5 w-5 text-red-500" />;
+				return <AlertTriangle className="h-5 w-5 text-rose-600" />;
 			case "in_progress":
-				return <Clock className="h-5 w-5 text-blue-500" />;
+				return <Clock className="h-5 w-5 text-blue-600" />;
 			default:
-				return <Clock className="h-5 w-5 text-gray-500" />;
+				return <Clock className="h-5 w-5 text-slate-600" />;
 		}
 	};
 
 	return (
 		<div className="space-y-4">
 			{overdueTasks && overdueTasks.length > 0 && (
-				<Card className="border-red-500 bg-red-50">
+				<Card className="border-rose-600 bg-rose-50">
 					<CardHeader>
-						<CardTitle className="flex items-center gap-2 text-red-900">
+						<CardTitle className="flex items-center gap-2 text-rose-900">
 							<AlertTriangle className="h-5 w-5" />
 							Overdue Tasks
 						</CardTitle>
-						<CardDescription className="text-red-800">
+						<CardDescription className="text-rose-800">
 							{overdueTasks.length} task(s) past their due date
 						</CardDescription>
 					</CardHeader>
@@ -154,7 +154,7 @@ export function TasksList() {
 								key={task.id}
 								className={`transition-shadow hover:shadow-md ${
 									isOverdue(task.dueDate) && task.status !== "completed"
-										? "border-red-500"
+										? "border-rose-600"
 										: ""
 								}`}
 							>
@@ -193,7 +193,7 @@ export function TasksList() {
 															className={
 																isOverdue(task.dueDate) &&
 																task.status !== "completed"
-																	? "font-medium text-red-600"
+																	? "font-medium text-rose-600"
 																	: ""
 															}
 														>

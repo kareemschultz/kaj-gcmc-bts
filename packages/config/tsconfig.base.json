@@ -20,6 +20,8 @@
 		"noImplicitReturns": true,
 		"noImplicitOverride": true,
 		"noPropertyAccessFromIndexSignature": false,
+		"exactOptionalPropertyTypes": true,
+		"noUncheckedSideEffectImports": true,
 		"types": ["bun"]
 	}
 }

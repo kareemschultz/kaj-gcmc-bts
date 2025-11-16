@@ -21,8 +21,8 @@ export function TrendIndicator({
 	const colorClass = isNeutral
 		? "text-muted-foreground"
 		: isPositive
-			? "text-green-600 dark:text-green-500"
-			: "text-red-600 dark:text-red-500";
+			? "text-emerald-600 dark:text-emerald-500"
+			: "text-rose-600 dark:text-rose-500";
 
 	const Icon = isNeutral ? Minus : isPositive ? ArrowUp : ArrowDown;
 

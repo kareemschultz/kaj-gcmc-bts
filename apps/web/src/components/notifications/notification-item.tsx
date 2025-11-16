@@ -32,13 +32,13 @@ export function NotificationItem({
 	const getTypeIcon = () => {
 		switch (type) {
 			case "email":
-				return <Mail className="h-5 w-5 text-blue-500" />;
+				return <Mail className="h-5 w-5 text-blue-600" />;
 			case "in_app":
-				return <MessageSquare className="h-5 w-5 text-purple-500" />;
+				return <MessageSquare className="h-5 w-5 text-violet-600" />;
 			case "sms":
-				return <Smartphone className="h-5 w-5 text-green-500" />;
+				return <Smartphone className="h-5 w-5 text-emerald-600" />;
 			default:
-				return <MessageSquare className="h-5 w-5 text-gray-500" />;
+				return <MessageSquare className="h-5 w-5 text-gray-600" />;
 		}
 	};
 
@@ -61,11 +61,11 @@ export function NotificationItem({
 	const getStatusIcon = () => {
 		switch (channelStatus) {
 			case "sent":
-				return <CheckCircle className="h-4 w-4 text-green-500" />;
+				return <CheckCircle className="h-4 w-4 text-emerald-600" />;
 			case "failed":
-				return <AlertCircle className="h-4 w-4 text-red-500" />;
+				return <AlertCircle className="h-4 w-4 text-rose-600" />;
 			case "pending":
-				return <Clock className="h-4 w-4 text-yellow-500" />;
+				return <Clock className="h-4 w-4 text-amber-500" />;
 			default:
 				return null;
 		}
@@ -84,7 +84,7 @@ export function NotificationItem({
 		<Card
 			className={cn(
 				"cursor-pointer transition-shadow hover:shadow-md",
-				channelStatus === "failed" && "border-red-200 bg-red-50/50",
+				channelStatus === "failed" && "border-rose-200 bg-rose-50/50",
 			)}
 			onClick={onClick}
 		>

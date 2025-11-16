@@ -4,14 +4,16 @@ import { ServiceRequestDetail } from "@/components/service-requests/service-requ
 import { authClient } from "@/lib/auth-client";
 
 interface ServiceRequestDetailPageProps {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
 export default async function ServiceRequestDetailPage({
 	params,
 }: ServiceRequestDetailPageProps) {
+	const { id } = await params;
+
 	const session = await authClient.getSession({
 		fetchOptions: {
 			headers: await headers(),
@@ -25,7 +27,7 @@ export default async function ServiceRequestDetailPage({
 
 	return (
 		<div className="container mx-auto py-8">
-			<ServiceRequestDetail serviceRequestId={Number.parseInt(params.id, 10)} />
+			<ServiceRequestDetail serviceRequestId={Number.parseInt(id, 10)} />
 		</div>
 	);
 }

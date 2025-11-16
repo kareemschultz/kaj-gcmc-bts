@@ -51,21 +51,21 @@ export function ComplianceOverview() {
 			count: data.byLevel.high,
 			percentage: total > 0 ? (data.byLevel.high / total) * 100 : 0,
 			variant: "success" as const,
-			color: "bg-green-500",
+			color: "bg-emerald-600",
 		},
 		{
 			label: "Medium Compliance",
 			count: data.byLevel.medium,
 			percentage: total > 0 ? (data.byLevel.medium / total) * 100 : 0,
 			variant: "warning" as const,
-			color: "bg-yellow-500",
+			color: "bg-amber-500",
 		},
 		{
 			label: "Low Compliance",
 			count: data.byLevel.low,
 			percentage: total > 0 ? (data.byLevel.low / total) * 100 : 0,
 			variant: "destructive" as const,
-			color: "bg-red-500",
+			color: "bg-rose-600",
 		},
 	];
 
@@ -95,7 +95,7 @@ export function ComplianceOverview() {
 										{level.percentage.toFixed(1)}%
 									</span>
 								</div>
-								<div className="h-2 w-full rounded-full bg-gray-200">
+								<div className="h-2 w-full rounded-full bg-gray-100">
 									<div
 										className={`${level.color} h-2 rounded-full transition-all duration-300`}
 										style={{ width: `${level.percentage}%` }}

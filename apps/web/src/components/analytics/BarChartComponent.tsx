@@ -31,12 +31,12 @@ interface BarChartComponentProps {
 }
 
 const COLORS = [
-	"#3b82f6",
-	"#10b981",
-	"#f59e0b",
-	"#ef4444",
-	"#8b5cf6",
-	"#ec4899",
+	"#2563eb", // blue-600
+	"#059669", // emerald-600
+	"#f59e0b", // amber-500
+	"#e11d48", // rose-600
+	"#7c3aed", // violet-600
+	"#0891b2", // cyan-600
 ];
 
 export function BarChartComponent({

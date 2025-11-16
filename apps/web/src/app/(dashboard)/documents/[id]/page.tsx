@@ -4,14 +4,16 @@ import { DocumentDetail } from "@/components/documents/document-detail";
 import { authClient } from "@/lib/auth-client";
 
 interface DocumentDetailPageProps {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
 export default async function DocumentDetailPage({
 	params,
 }: DocumentDetailPageProps) {
+	const { id } = await params;
+
 	const session = await authClient.getSession({
 		fetchOptions: {
 			headers: await headers(),
@@ -25,7 +27,7 @@ export default async function DocumentDetailPage({
 
 	return (
 		<div className="container mx-auto py-8">
-			<DocumentDetail documentId={Number.parseInt(params.id, 10)} />
+			<DocumentDetail documentId={Number.parseInt(id, 10)} />
 		</div>
 	);
 }

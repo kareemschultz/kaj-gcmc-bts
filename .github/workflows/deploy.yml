@@ -45,7 +45,7 @@ jobs:
       packages: write
     strategy:
       matrix:
-        app: [web, server, worker]
+        app: [web, server, worker, portal]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -107,7 +107,7 @@ jobs:
         continue-on-error: true
     strategy:
       matrix:
-        service: [web, server, worker]
+        service: [web, server, worker, portal]
 
   deploy-notification:
     name: Send Deployment Notification

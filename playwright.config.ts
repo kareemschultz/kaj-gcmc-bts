@@ -144,8 +144,11 @@ export default defineConfig({
 		stderr: "pipe",
 	},
 
-	// Global setup and teardown (temporarily disabled for screenshot testing)
-	// globalSetup: "./tests/fixtures/global-setup.ts",
+	// Global setup and teardown
+	// Note: globalSetup runs BEFORE webServer starts
+	// Database migrations and seeding happen here
+	// Auth state creation only works if server is manually started first
+	globalSetup: "./tests/fixtures/global-setup.ts",
 	// globalTeardown: "./tests/fixtures/global-teardown.ts",
 
 	// Output folder for test artifacts

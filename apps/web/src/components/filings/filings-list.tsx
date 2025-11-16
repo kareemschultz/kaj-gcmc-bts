@@ -78,13 +78,13 @@ export function FilingsList() {
 	return (
 		<div className="space-y-4">
 			{overdueFiling && overdueFiling.length > 0 && (
-				<Card className="border-red-500 bg-red-50">
+				<Card className="border-rose-600 bg-rose-50">
 					<CardHeader>
-						<CardTitle className="flex items-center gap-2 text-red-900">
+						<CardTitle className="flex items-center gap-2 text-rose-900">
 							<AlertTriangle className="h-5 w-5" />
 							Overdue Filings
 						</CardTitle>
-						<CardDescription className="text-red-800">
+						<CardDescription className="text-rose-800">
 							{overdueFiling.length} overdue filing(s) require immediate
 							attention
 						</CardDescription>
@@ -151,7 +151,7 @@ export function FilingsList() {
 							<Link key={filing.id} href={`/filings/${filing.id}`}>
 								<Card
 									className={`cursor-pointer transition-shadow hover:shadow-lg ${
-										isOverdue(filing.id) ? "border-red-500" : ""
+										isOverdue(filing.id) ? "border-rose-600" : ""
 									}`}
 								>
 									<CardHeader>
@@ -160,7 +160,7 @@ export function FilingsList() {
 												{filing.filingType.name}
 											</CardTitle>
 											{isOverdue(filing.id) && (
-												<AlertTriangle className="h-4 w-4 text-red-500" />
+												<AlertTriangle className="h-4 w-4 text-rose-600" />
 											)}
 										</div>
 										<CardDescription>

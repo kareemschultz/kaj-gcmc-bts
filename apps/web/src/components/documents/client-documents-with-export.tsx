@@ -90,13 +90,13 @@ export function ClientDocumentsWithExport({
 	return (
 		<div className="space-y-4">
 			{expiringDocs && expiringDocs.length > 0 && (
-				<Card className="border-yellow-500 bg-yellow-50">
+				<Card className="border-amber-600 bg-amber-50">
 					<CardHeader>
-						<CardTitle className="flex items-center gap-2 text-yellow-900">
+						<CardTitle className="flex items-center gap-2 text-amber-900">
 							<AlertTriangle className="h-5 w-5" />
 							Expiring Documents
 						</CardTitle>
-						<CardDescription className="text-yellow-800">
+						<CardDescription className="text-amber-800">
 							{expiringDocs.length} document(s) expiring in the next 30 days
 						</CardDescription>
 					</CardHeader>
@@ -152,7 +152,7 @@ export function ClientDocumentsWithExport({
 								<Link key={document.id} href={`/documents/${document.id}`}>
 									<Card
 										className={`cursor-pointer transition-shadow hover:shadow-lg ${
-											isExpiringSoon(document.id) ? "border-yellow-500" : ""
+											isExpiringSoon(document.id) ? "border-amber-600" : ""
 										}`}
 									>
 										<CardHeader>
@@ -161,7 +161,7 @@ export function ClientDocumentsWithExport({
 													{document.title}
 												</CardTitle>
 												{isExpiringSoon(document.id) && (
-													<AlertTriangle className="h-4 w-4 text-yellow-500" />
+													<AlertTriangle className="h-4 w-4 text-amber-600" />
 												)}
 											</div>
 											<CardDescription>

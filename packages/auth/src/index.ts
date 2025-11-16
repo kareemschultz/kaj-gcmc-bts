@@ -2,6 +2,7 @@ import prisma from "@GCMC-KAJ/db";
 import type { UserRole } from "@GCMC-KAJ/types";
 import { type BetterAuthOptions, betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { createAuthMiddleware } from "better-auth/api";
 
 // Helper function to assign user to default tenant with role
 async function ensureUserHasTenantAndRole(userId: string) {
@@ -113,23 +114,16 @@ export const auth = betterAuth<BetterAuthOptions>({
 	},
 	// Add lifecycle hooks for automatic tenant/role assignment
 	hooks: {
-		after: [
-			{
-				matcher: () => true,
-				handler: async (context) => {
-					// Run on user creation (sign-up)
-					if (
-						context.request?.url?.includes("/sign-up") ||
-						context.request?.url?.includes("/signup")
-					) {
-						const userId = context.user?.id;
-						if (userId) {
-							await ensureUserHasTenantAndRole(userId);
-						}
-					}
-				},
-			},
-		],
+		after: createAuthMiddleware(async (ctx) => {
+			// Run on user creation (sign-up)
+			if (ctx.path.startsWith("/sign-up") || ctx.path.startsWith("/signup")) {
+				// Access the newly created session from context
+				const newSession = ctx.context.newSession;
+				if (newSession?.session) {
+					await ensureUserHasTenantAndRole(newSession.session.userId);
+				}
+			}
+		}),
 	},
 	// Add session callback to include tenant and role
 	session: {

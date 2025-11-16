@@ -5,7 +5,7 @@
  * Enforces tenant isolation and client-specific access control
  */
 
-import prisma from "@GCMC-KAJ/db";
+import prisma, { type Prisma } from "@GCMC-KAJ/db";
 import type { UserRole } from "@GCMC-KAJ/types";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";

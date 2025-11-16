@@ -47,7 +47,7 @@ export default function AnalyticsPage() {
 		return (
 			<div className="container mx-auto py-8">
 				<div className="flex h-64 items-center justify-center">
-					<div className="h-8 w-8 animate-spin rounded-full border-gray-900 border-b-2" />
+					<div className="h-8 w-8 animate-spin rounded-full border-gray-300 border-b-2" />
 				</div>
 			</div>
 		);
@@ -280,7 +280,7 @@ export default function AnalyticsPage() {
 										<CardTitle>Expiring Documents</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<div className="font-bold text-2xl text-amber-600">
+										<div className="font-bold text-2xl text-amber-500">
 											{documentAnalytics?.expiringCount || 0}
 										</div>
 										<p className="text-muted-foreground text-xs">
@@ -358,7 +358,7 @@ export default function AnalyticsPage() {
 										<CardTitle>On-Time Rate</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<div className="font-bold text-2xl text-green-600">
+										<div className="font-bold text-2xl text-emerald-600">
 											{filingAnalytics?.onTimeRate?.toFixed(1) || 0}%
 										</div>
 										<TrendIndicator value={filingAnalytics?.onTimeRate || 0} />
@@ -370,7 +370,7 @@ export default function AnalyticsPage() {
 										<CardTitle>Overdue Filings</CardTitle>
 									</CardHeader>
 									<CardContent>
-										<div className="font-bold text-2xl text-red-600">
+										<div className="font-bold text-2xl text-rose-600">
 											{filingAnalytics?.overdueCount || 0}
 										</div>
 									</CardContent>
@@ -423,7 +423,7 @@ export default function AnalyticsPage() {
 														%
 													</span>
 												</div>
-												<div className="h-2.5 w-full rounded-full bg-gray-200">
+												<div className="h-2.5 w-full rounded-full bg-gray-100">
 													<div
 														className="h-2.5 rounded-full bg-blue-600"
 														style={{
@@ -435,7 +435,7 @@ export default function AnalyticsPage() {
 
 											<div className="grid grid-cols-2 gap-4 text-center">
 												<div>
-													<div className="font-bold text-green-600 text-lg">
+													<div className="font-bold text-emerald-600 text-lg">
 														{complianceAnalytics?.clientsAboveThreshold || 0}
 													</div>
 													<div className="text-muted-foreground text-xs">
@@ -443,7 +443,7 @@ export default function AnalyticsPage() {
 													</div>
 												</div>
 												<div>
-													<div className="font-bold text-lg text-red-600">
+													<div className="font-bold text-lg text-rose-600">
 														{complianceAnalytics?.clientsBelowThreshold || 0}
 													</div>
 													<div className="text-muted-foreground text-xs">

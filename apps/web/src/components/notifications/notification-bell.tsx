@@ -40,13 +40,13 @@ export function NotificationBell() {
 	const getTypeIcon = (type: string) => {
 		switch (type) {
 			case "email":
-				return <Mail className="h-4 w-4 text-blue-500" />;
+				return <Mail className="h-4 w-4 text-blue-600" />;
 			case "in_app":
-				return <MessageSquare className="h-4 w-4 text-purple-500" />;
+				return <MessageSquare className="h-4 w-4 text-violet-600" />;
 			case "sms":
-				return <Smartphone className="h-4 w-4 text-green-500" />;
+				return <Smartphone className="h-4 w-4 text-emerald-600" />;
 			default:
-				return <MessageSquare className="h-4 w-4 text-gray-500" />;
+				return <MessageSquare className="h-4 w-4 text-gray-600" />;
 		}
 	};
 

@@ -14,8 +14,10 @@ import { authClient } from "@/lib/auth-client";
 export default async function ClientDetailPage({
 	params,
 }: {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }) {
+	const { id } = await params;
+
 	const session = await authClient.getSession({
 		fetchOptions: {
 			headers: await headers(),
@@ -27,7 +29,7 @@ export default async function ClientDetailPage({
 		redirect("/login");
 	}
 
-	const clientId = Number.parseInt(params.id, 10);
+	const clientId = Number.parseInt(id, 10);
 
 	if (Number.isNaN(clientId)) {
 		redirect("/clients");
