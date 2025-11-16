@@ -12,7 +12,7 @@ import type { FullConfig } from "@playwright/test";
  * - Removing temporary files
  * - Generating final reports
  */
-async function globalTeardown(config: FullConfig) {
+async function globalTeardown(_config: FullConfig) {
 	console.log("\n🧹 Starting Playwright E2E Test Suite Global Teardown...\n");
 
 	// Clean up auth state file

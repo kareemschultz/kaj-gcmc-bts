@@ -13,7 +13,7 @@ import * as dotenv from "dotenv";
  * - Authentication state preparation
  * - Environment validation
  */
-async function globalSetup(config: FullConfig) {
+async function globalSetup(_config: FullConfig) {
 	console.log("\n🚀 Starting Playwright E2E Test Suite Global Setup...\n");
 
 	// Load environment variables
