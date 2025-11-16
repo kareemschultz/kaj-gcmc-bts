@@ -1,4 +1,11 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
+
+const packageDir = path.dirname(fileURLToPath(import.meta.url));
+const monorepoRoot = path.resolve(packageDir, "../..");
+const fromRoot = (relativePath: string) =>
+	path.resolve(monorepoRoot, relativePath);
 
 /**
  * Vitest Configuration for RBAC Package
@@ -19,8 +26,8 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			"@GCMC-KAJ/types": "/home/user/kaj-gcmc-bts/packages/types/src",
-			"@GCMC-KAJ/rbac": "/home/user/kaj-gcmc-bts/packages/rbac/src",
+			"@GCMC-KAJ/types": fromRoot("packages/types/src"),
+			"@GCMC-KAJ/rbac": fromRoot("packages/rbac/src"),
 		},
 	},
 });

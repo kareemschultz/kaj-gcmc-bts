@@ -9,28 +9,20 @@
  */
 
 import { Ratelimit } from "@upstash/ratelimit";
-import Redis from "ioredis";
+import { Redis } from "@upstash/redis";
 
 /**
  * Redis client configuration
- * Uses REDIS_URL from environment or defaults to localhost for development
+ * Uses UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN from environment
+ * Falls back to local Redis URL for development if Upstash credentials not available
  */
-const redis = new Redis(process.env.REDIS_URL || "redis://localhost:6379", {
-	maxRetriesPerRequest: 3,
-	enableReadyCheck: true,
-	lazyConnect: false,
-});
-
-/**
- * Handle Redis connection errors
- */
-redis.on("error", (error) => {
-	console.error("Redis connection error:", error);
-});
-
-redis.on("connect", () => {
-	console.log("Redis connected successfully");
-});
+const redis =
+	process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+		? new Redis({
+				url: process.env.UPSTASH_REDIS_REST_URL,
+				token: process.env.UPSTASH_REDIS_REST_TOKEN,
+			})
+		: Redis.fromEnv();
 
 /**
  * Normal operations rate limiter
@@ -88,12 +80,9 @@ export { redis };
 
 /**
  * Cleanup function for graceful shutdown
+ * Note: @upstash/redis uses HTTP requests, so no persistent connection to close
  */
 export async function closeRedis(): Promise<void> {
-	try {
-		await redis.quit();
-		console.log("Redis connection closed");
-	} catch (error) {
-		console.error("Error closing Redis connection:", error);
-	}
+	// @upstash/redis uses HTTP/REST, no persistent connection to close
+	console.log("Redis cleanup completed (using Upstash REST API)");
 }

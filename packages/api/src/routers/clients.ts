@@ -17,7 +17,7 @@ import { queueWelcomeEmail } from "../utils/emailQueue";
 export const clientSchema = z.object({
 	name: z.string().min(1, "Name is required").max(255),
 	type: z.enum(["individual", "company", "partnership"]),
-	email: z.string().email("Invalid email").optional().or(z.literal("")),
+	email: z.union([z.string().email("Invalid email"), z.literal("")]).optional(),
 	phone: z.string().optional(),
 	address: z.string().optional(),
 	tin: z.string().optional(),

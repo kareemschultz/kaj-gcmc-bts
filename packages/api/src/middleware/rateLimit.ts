@@ -31,7 +31,7 @@ export function createRateLimitMiddleware(
 	}: {
 		ctx: Context;
 		next: () => Promise<unknown>;
-	}) => {
+	}): Promise<unknown> => {
 		// Skip rate limiting for unauthenticated requests (they should fail auth first)
 		if (!ctx.user?.id) {
 			return next();

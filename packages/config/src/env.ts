@@ -36,9 +36,7 @@ const envSchema = z.object({
 
 	// CORS Configuration
 	CORS_ORIGIN: z
-		.string()
-		.url("CORS_ORIGIN must be a valid URL")
-		.or(z.literal("*").transform(() => "*"))
+		.union([z.string().url("CORS_ORIGIN must be a valid URL"), z.literal("*")])
 		.default("http://localhost:3001"),
 
 	// Redis Configuration (for BullMQ job queues)

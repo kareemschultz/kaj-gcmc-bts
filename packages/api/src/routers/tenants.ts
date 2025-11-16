@@ -33,7 +33,7 @@ export const tenantSchema = z.object({
 function assertSuperAdmin(ctx: {
 	role: string;
 	tenantId: number;
-	user: { email: string };
+	user: { id: string; email: string };
 }) {
 	if (
 		!isSuperAdmin({

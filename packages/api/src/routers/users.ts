@@ -17,7 +17,7 @@ export const userUpdateSchema = z.object({
 	name: z.string().min(1).max(255).optional(),
 	email: z.string().email().optional(),
 	phone: z.string().optional(),
-	avatarUrl: z.string().url().optional().or(z.literal("")),
+	avatarUrl: z.union([z.string().url(), z.literal("")]).optional(),
 });
 
 /**

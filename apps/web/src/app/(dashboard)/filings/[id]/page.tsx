@@ -4,14 +4,16 @@ import { FilingDetail } from "@/components/filings/filing-detail";
 import { authClient } from "@/lib/auth-client";
 
 interface FilingDetailPageProps {
-	params: {
+	params: Promise<{
 		id: string;
-	};
+	}>;
 }
 
 export default async function FilingDetailPage({
 	params,
 }: FilingDetailPageProps) {
+	const { id } = await params;
+
 	const session = await authClient.getSession({
 		fetchOptions: {
 			headers: await headers(),
@@ -25,7 +27,7 @@ export default async function FilingDetailPage({
 
 	return (
 		<div className="container mx-auto py-8">
-			<FilingDetail filingId={Number.parseInt(params.id, 10)} />
+			<FilingDetail filingId={Number.parseInt(id, 10)} />
 		</div>
 	);
 }

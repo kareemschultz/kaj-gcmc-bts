@@ -334,7 +334,7 @@ export function FilingDetail({ filingId }: FilingDetailProps) {
 										<CheckCircle
 											className={`h-5 w-5 ${
 												task.status === "completed"
-													? "text-green-500"
+													? "text-emerald-600"
 													: "text-muted-foreground"
 											}`}
 										/>

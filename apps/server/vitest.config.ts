@@ -1,4 +1,11 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vitest/config";
+
+const appDir = path.dirname(fileURLToPath(import.meta.url));
+const monorepoRoot = path.resolve(appDir, "../..");
+const fromRoot = (relativePath: string) =>
+	path.resolve(monorepoRoot, relativePath);
 
 /**
  * Vitest Configuration for Server App
@@ -21,11 +28,11 @@ export default defineConfig({
 	},
 	resolve: {
 		alias: {
-			"@GCMC-KAJ/api": "/home/user/kaj-gcmc-bts/packages/api/src",
-			"@GCMC-KAJ/auth": "/home/user/kaj-gcmc-bts/packages/auth/src",
-			"@GCMC-KAJ/db": "/home/user/kaj-gcmc-bts/packages/db/src",
-			"@GCMC-KAJ/rbac": "/home/user/kaj-gcmc-bts/packages/rbac/src",
-			"@GCMC-KAJ/types": "/home/user/kaj-gcmc-bts/packages/types/src",
+			"@GCMC-KAJ/api": fromRoot("packages/api/src"),
+			"@GCMC-KAJ/auth": fromRoot("packages/auth/src"),
+			"@GCMC-KAJ/db": fromRoot("packages/db/src"),
+			"@GCMC-KAJ/rbac": fromRoot("packages/rbac/src"),
+			"@GCMC-KAJ/types": fromRoot("packages/types/src"),
 		},
 	},
 });

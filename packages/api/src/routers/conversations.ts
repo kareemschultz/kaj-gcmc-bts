@@ -238,6 +238,7 @@ export const conversationsRouter = router({
 
 			const message = await prisma.message.create({
 				data: {
+					tenantId: ctx.tenantId,
 					conversationId: input.conversationId,
 					authorId: ctx.user.id,
 					body: input.body,
