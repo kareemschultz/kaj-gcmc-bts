@@ -1,6 +1,7 @@
 import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { chromium, type FullConfig } from "@playwright/test";
 import * as dotenv from "dotenv";
 
