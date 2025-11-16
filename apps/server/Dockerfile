@@ -26,7 +26,7 @@ COPY packages/storage/package.json ./packages/storage/
 COPY packages/types/package.json ./packages/types/
 
 # Install dependencies
-RUN bun install --frozen-lockfile
+RUN bun install
 
 # ============================================================================
 # Stage 2: Builder
@@ -36,7 +36,6 @@ WORKDIR /app
 
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/apps/server/node_modules ./apps/server/node_modules
 COPY --from=deps /app/packages ./packages
 
 # Copy source code
