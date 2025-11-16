@@ -21,10 +21,10 @@
 	"dependencies": {
 		"@GCMC-KAJ/db": "workspace:*",
 		"@GCMC-KAJ/types": "workspace:*",
-		"@react-email/components": "^0.0.31",
-		"@react-email/render": "^1.0.1",
+		"@react-email/components": "^1.0.1",
+		"@react-email/render": "^2.0.0",
 		"react": "catalog:",
-		"react-email": "^3.0.3",
+		"react-email": "^5.0.4",
 		"resend": "^4.0.1"
 	},
 	"devDependencies": {

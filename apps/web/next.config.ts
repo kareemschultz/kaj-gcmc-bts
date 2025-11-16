@@ -118,6 +118,13 @@ const nextConfig: NextConfig = {
 		// Enable optimizeCss for production builds
 		optimizeCss: true,
 	},
+
+	// Turbopack configuration (Next.js 16+ requires this when webpack config is present)
+	turbopack: {
+		resolveAlias: {
+			// Keep the webpack chunk splitting configuration but let Turbopack handle it
+		},
+	},
 };
 
 export default withBundleAnalyzer(nextConfig);
