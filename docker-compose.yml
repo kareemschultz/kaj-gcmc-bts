@@ -8,7 +8,9 @@ services:
     environment:
       POSTGRES_DB: gcmc_kaj
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      # SECURITY WARNING: Default password for LOCAL DEVELOPMENT ONLY
+      # For production use docker-compose.prod.yml with strong password
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-localdev_only_insecure}
     ports:
       - "5432:5432"
     volumes:
@@ -66,8 +68,11 @@ services:
     image: minio/minio:latest
     container_name: gcmc-kaj-minio
     environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      # SECURITY WARNING: Default credentials for LOCAL DEVELOPMENT ONLY
+      # For production use docker-compose.prod.yml with strong credentials
+      # Generate strong password: openssl rand -base64 32 | tr -d '/+=' | cut -c1-32
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-localdev_minio_admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-localdev_only_insecure}
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -102,8 +107,8 @@ services:
       minio:
         condition: service_healthy
     environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-localdev_minio_admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-localdev_only_insecure}
     entrypoint: >
       /bin/sh -c "
       mc alias set myminio http://minio:9000 $${MINIO_ROOT_USER} $${MINIO_ROOT_PASSWORD};
@@ -122,15 +127,17 @@ services:
       NODE_ENV: production
       PORT: 3000
       HOST: 0.0.0.0
-      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/gcmc_kaj
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-localdev_only_insecure}@postgres:5432/gcmc_kaj
       REDIS_URL: redis://redis:6379
-      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-your-secret-key-change-in-production}
+      # SECURITY WARNING: Default secret for LOCAL DEVELOPMENT ONLY
+      # Generate production secret: openssl rand -base64 32
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-localdev_insecure_secret_do_not_use_in_production}
       BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
       MINIO_USE_SSL: false
-      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-localdev_minio_admin}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-localdev_only_insecure}
       MINIO_REGION: us-east-1
     ports:
       - "3000:3000"
@@ -174,9 +181,9 @@ services:
       NODE_ENV: production
       PORT: 3001
       NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000}
-      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/gcmc_kaj
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-localdev_only_insecure}@postgres:5432/gcmc_kaj
       BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
-      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-your-secret-key-change-in-production}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-localdev_insecure_secret_do_not_use_in_production}
     ports:
       - "3001:3001"
     depends_on:
@@ -213,15 +220,15 @@ services:
     container_name: gcmc-kaj-worker
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/gcmc_kaj
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-localdev_only_insecure}@postgres:5432/gcmc_kaj
       REDIS_URL: redis://redis:6379
       HEALTH_PORT: 3002
       # MinIO configuration for file processing jobs
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
       MINIO_USE_SSL: false
-      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
-      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-localdev_minio_admin}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-localdev_only_insecure}
       MINIO_REGION: us-east-1
       # Email configuration
       PORTAL_URL: http://localhost:3002
