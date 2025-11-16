@@ -33,6 +33,10 @@ const envSchema = z.object({
 	BETTER_AUTH_SECRET: z
 		.string()
 		.min(32, "BETTER_AUTH_SECRET must be at least 32 characters for security"),
+	BETTER_AUTH_URL: z
+		.string()
+		.url("BETTER_AUTH_URL must be a valid URL")
+		.default("http://localhost:3000"),
 
 	// CORS Configuration
 	CORS_ORIGIN: z
@@ -96,6 +100,15 @@ const envSchema = z.object({
 		.default("support@example.com"),
 
 	// Optional: Email Configuration
+	EMAIL_PROVIDER: z.enum(["log", "resend", "smtp"]).default("log"),
+	EMAIL_FROM: z.string().email("EMAIL_FROM must be a valid email").optional(),
+	EMAIL_FROM_NAME: z.string().optional(),
+	EMAIL_REPLY_TO: z.string().email("EMAIL_REPLY_TO must be a valid email").optional(),
+
+	// Resend Configuration
+	RESEND_API_KEY: z.string().optional(),
+
+	// SMTP Configuration
 	SMTP_HOST: z.string().optional(),
 	SMTP_PORT: z
 		.string()
@@ -104,7 +117,12 @@ const envSchema = z.object({
 		.optional(),
 	SMTP_USER: z.string().email("SMTP_USER must be a valid email").optional(),
 	SMTP_PASS: z.string().optional(),
+	SMTP_PASSWORD: z.string().optional(), // Alternative to SMTP_PASS
 	SMTP_FROM: z.string().email("SMTP_FROM must be a valid email").optional(),
+
+	// Optional: Upstash Redis (for rate limiting)
+	UPSTASH_REDIS_REST_URL: z.string().url("UPSTASH_REDIS_REST_URL must be a valid URL").optional(),
+	UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 
 	// Optional: Logging
 	LOG_LEVEL: z
