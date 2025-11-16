@@ -19,12 +19,11 @@
  * - No SSR for charts (client-side only)
  */
 
-export { BarChartComponent } from "./BarChartOptimized";
-export { LineChartComponent } from "./LineChartOptimized";
-export { PieChartComponent } from "./PieChartOptimized";
-
+export { DateRangePicker } from "../DateRangePicker";
+export { ExportButton } from "../ExportButton";
 // Re-export non-chart components that don't need optimization
 export { KPICard } from "../KPICard";
 export { TrendIndicator } from "../TrendIndicator";
-export { ExportButton } from "../ExportButton";
-export { DateRangePicker } from "../DateRangePicker";
+export { BarChartComponent } from "./BarChartOptimized";
+export { LineChartComponent } from "./LineChartOptimized";
+export { PieChartComponent } from "./PieChartOptimized";

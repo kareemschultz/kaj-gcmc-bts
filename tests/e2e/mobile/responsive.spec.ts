@@ -297,7 +297,10 @@ test.describe("Cross-Device Consistency", () => {
 			// Load auth state
 			await context.addCookies(
 				JSON.parse(
-					require("fs").readFileSync("tests/fixtures/auth-state.json", "utf-8"),
+					require("node:fs").readFileSync(
+						"tests/fixtures/auth-state.json",
+						"utf-8",
+					),
 				).cookies,
 			);
 

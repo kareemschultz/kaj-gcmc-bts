@@ -1,7 +1,7 @@
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig, devices } from "@playwright/test";
 import * as dotenv from "dotenv";
-import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -138,15 +138,15 @@ export default defineConfig({
 	webServer: {
 		command: "bun run dev:web",
 		url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001",
-		reuseExistingServer: !process.env.CI,
+		reuseExistingServer: true, // Always reuse existing server for development
 		timeout: 120 * 1000, // 2 minutes for server to start
 		stdout: "ignore",
 		stderr: "pipe",
 	},
 
-	// Global setup and teardown
-	globalSetup: "./tests/fixtures/global-setup.ts",
-	globalTeardown: "./tests/fixtures/global-teardown.ts",
+	// Global setup and teardown (temporarily disabled for screenshot testing)
+	// globalSetup: "./tests/fixtures/global-setup.ts",
+	// globalTeardown: "./tests/fixtures/global-teardown.ts",
 
 	// Output folder for test artifacts
 	outputDir: "test-results/",

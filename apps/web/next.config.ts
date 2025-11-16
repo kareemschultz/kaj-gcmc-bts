@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 // Bundle analyzer (run with ANALYZE=true bun run build)
-const withBundleAnalyzer = process.env.ANALYZE === "true"
-	? require("@next/bundle-analyzer")({ enabled: true })
-	: (config: NextConfig) => config;
+const withBundleAnalyzer =
+	process.env.ANALYZE === "true"
+		? require("@next/bundle-analyzer")({ enabled: true })
+		: (config: NextConfig) => config;
 
 const nextConfig: NextConfig = {
 	typedRoutes: true,

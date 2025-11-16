@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import type {
 	Client,
 	Document,
@@ -8,6 +7,7 @@ import type {
 	Tenant,
 	User,
 } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 /**
  * Data Seeder for E2E Tests

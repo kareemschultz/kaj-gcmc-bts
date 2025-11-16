@@ -33,14 +33,15 @@ export default function SignInForm({
 						toast.success("Sign in successful");
 					},
 					onError: (error) => {
-						toast.error(error.error.message || error.error.statusText);
+						const errorMessage = error?.error?.message || error?.error?.statusText || "Sign in failed";
+						toast.error(errorMessage);
 					},
 				},
 			);
 		},
 		validators: {
 			onSubmit: z.object({
-				email: z.email("Invalid email address"),
+				email: z.string().email("Invalid email address"),
 				password: z.string().min(8, "Password must be at least 8 characters"),
 			}),
 		},
@@ -75,9 +76,9 @@ export default function SignInForm({
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
 								/>
-								{field.state.meta.errors.map((error) => (
-									<p key={error?.message} className="text-red-500">
-										{error?.message}
+								{field.state.meta.errors?.filter(Boolean).map((error, index) => (
+									<p key={error?.message || index} className="text-red-500">
+										{error?.message || "Invalid input"}
 									</p>
 								))}
 							</div>
@@ -98,9 +99,9 @@ export default function SignInForm({
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
 								/>
-								{field.state.meta.errors.map((error) => (
-									<p key={error?.message} className="text-red-500">
-										{error?.message}
+								{field.state.meta.errors?.filter(Boolean).map((error, index) => (
+									<p key={error?.message || index} className="text-red-500">
+										{error?.message || "Invalid input"}
 									</p>
 								))}
 							</div>

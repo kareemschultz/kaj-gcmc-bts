@@ -97,7 +97,7 @@ test.describe("Services CRUD", () => {
 	test("should delete service", async ({ page, dataSeeder }) => {
 		// Create a test service
 		const tenant = await dataSeeder.createTenant();
-		const service = await dataSeeder.createService(tenant.id, {
+		const _service = await dataSeeder.createService(tenant.id, {
 			name: "Delete Test Service",
 		});
 

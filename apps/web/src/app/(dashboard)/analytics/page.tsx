@@ -16,7 +16,6 @@ import {
 	DateRangePicker,
 	ExportButton,
 	KPICard,
-	LineChartComponent,
 	PieChartComponent,
 	TrendIndicator,
 } from "@/components/analytics/optimized";

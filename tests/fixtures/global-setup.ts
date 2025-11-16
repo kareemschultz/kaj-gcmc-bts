@@ -1,7 +1,10 @@
 import { execSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { chromium, type FullConfig } from "@playwright/test";
 import * as dotenv from "dotenv";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Global Setup for Playwright E2E Tests

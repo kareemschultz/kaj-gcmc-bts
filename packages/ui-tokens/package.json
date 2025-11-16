@@ -1,11 +1,11 @@
 {
-  "name": "@GCMC-KAJ/ui-tokens",
-  "version": "1.0.0",
-  "type": "module",
-  "exports": {
-    ".": "./src/index.ts"
-  },
-  "devDependencies": {
-    "typescript": "catalog:"
-  }
+	"name": "@GCMC-KAJ/ui-tokens",
+	"version": "1.0.0",
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"devDependencies": {
+		"typescript": "catalog:"
+	}
 }
