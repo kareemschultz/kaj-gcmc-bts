@@ -77,22 +77,26 @@ export function StatsCards() {
 			{stats.map((stat) => (
 				<Link key={stat.title} href={stat.href}>
 					<Card
-						className={`cursor-pointer transition-all hover:shadow-lg hover:-translate-y-0.5 ${
-							stat.alert ? "border-warning shadow-md ring-2 ring-warning/20" : ""
+						className={`hover:-translate-y-0.5 cursor-pointer transition-all hover:shadow-lg ${
+							stat.alert
+								? "border-warning shadow-md ring-2 ring-warning/20"
+								: ""
 						}`}
 					>
 						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-							<CardTitle className="font-semibold text-sm text-muted-foreground">
+							<CardTitle className="font-semibold text-muted-foreground text-sm">
 								{stat.title}
 							</CardTitle>
-							<div className={`p-2.5 rounded-lg ${stat.bgColor}`}>
+							<div className={`rounded-lg p-2.5 ${stat.bgColor}`}>
 								<stat.icon className={`h-5 w-5 ${stat.color}`} />
 							</div>
 						</CardHeader>
 						<CardContent>
-							<div className="font-bold text-3xl text-foreground">{stat.value}</div>
+							<div className="font-bold text-3xl text-foreground">
+								{stat.value}
+							</div>
 							{stat.alert && (
-								<p className="mt-2 text-xs font-medium text-warning flex items-center gap-1">
+								<p className="mt-2 flex items-center gap-1 font-medium text-warning text-xs">
 									<AlertTriangle className="h-3 w-3" />
 									Requires attention
 								</p>

@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
-import type { Result, NodeResult } from "axe-core";
 import type { Page } from "@playwright/test";
 import { expect } from "@playwright/test";
+import type { NodeResult, Result } from "axe-core";
 
 /**
  * Accessibility Helper for E2E Tests

@@ -45,13 +45,17 @@ export default function Header() {
 			<div className="container mx-auto">
 				<div className="flex items-center justify-between px-4 py-3">
 					{/* Logo/Brand */}
-					<Link href="/dashboard" className="flex items-center gap-3 group">
-						<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-600 text-white shadow-sm group-hover:bg-brand-700 transition-colors">
+					<Link href="/dashboard" className="group flex items-center gap-3">
+						<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-600 text-white shadow-sm transition-colors group-hover:bg-brand-700">
 							<span className="font-bold text-base">KAJ</span>
 						</div>
 						<div className="flex flex-col">
-							<span className="font-semibold text-lg text-foreground">GCMC Platform</span>
-							<span className="text-xs text-muted-foreground">Compliance Management</span>
+							<span className="font-semibold text-foreground text-lg">
+								GCMC Platform
+							</span>
+							<span className="text-muted-foreground text-xs">
+								Compliance Management
+							</span>
 						</div>
 					</Link>
 

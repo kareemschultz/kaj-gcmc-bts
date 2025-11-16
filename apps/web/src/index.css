@@ -5,39 +5,39 @@
 
 @theme {
 	--font-sans:
-		"Inter var", "Inter", "Geist", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-		"Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+		"Inter var", "Inter", "Geist", ui-sans-serif, system-ui, sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 	--font-mono: "JetBrains Mono", "Fira Code", "Consolas", monospace;
 
 	/* GCMC Brand Colors - Professional Blue-Gray */
 	--color-brand-50: oklch(0.965 0.005 240);
-	--color-brand-100: oklch(0.910 0.010 240);
-	--color-brand-200: oklch(0.840 0.020 240);
-	--color-brand-300: oklch(0.765 0.030 240);
-	--color-brand-400: oklch(0.680 0.040 240);
-	--color-brand-500: oklch(0.570 0.050 240);
+	--color-brand-100: oklch(0.91 0.01 240);
+	--color-brand-200: oklch(0.84 0.02 240);
+	--color-brand-300: oklch(0.765 0.03 240);
+	--color-brand-400: oklch(0.68 0.04 240);
+	--color-brand-500: oklch(0.57 0.05 240);
 	--color-brand-600: oklch(0.475 0.055 240);
-	--color-brand-700: oklch(0.390 0.060 240);
-	--color-brand-800: oklch(0.310 0.055 240);
-	--color-brand-900: oklch(0.230 0.045 240);
+	--color-brand-700: oklch(0.39 0.06 240);
+	--color-brand-800: oklch(0.31 0.055 240);
+	--color-brand-900: oklch(0.23 0.045 240);
 
 	/* Accent Colors - Trust Green */
-	--color-accent-50: oklch(0.980 0.020 145);
-	--color-accent-100: oklch(0.950 0.050 145);
-	--color-accent-200: oklch(0.910 0.090 145);
-	--color-accent-300: oklch(0.850 0.130 145);
-	--color-accent-400: oklch(0.780 0.165 145);
-	--color-accent-500: oklch(0.700 0.195 145);
-	--color-accent-600: oklch(0.600 0.190 145);
-	--color-accent-700: oklch(0.510 0.175 145);
-	--color-accent-800: oklch(0.440 0.155 145);
-	--color-accent-900: oklch(0.380 0.130 145);
+	--color-accent-50: oklch(0.98 0.02 145);
+	--color-accent-100: oklch(0.95 0.05 145);
+	--color-accent-200: oklch(0.91 0.09 145);
+	--color-accent-300: oklch(0.85 0.13 145);
+	--color-accent-400: oklch(0.78 0.165 145);
+	--color-accent-500: oklch(0.7 0.195 145);
+	--color-accent-600: oklch(0.6 0.19 145);
+	--color-accent-700: oklch(0.51 0.175 145);
+	--color-accent-800: oklch(0.44 0.155 145);
+	--color-accent-900: oklch(0.38 0.13 145);
 
 	/* Semantic Colors */
-	--color-success: oklch(0.650 0.180 155);
-	--color-warning: oklch(0.750 0.150 75);
-	--color-error: oklch(0.630 0.240 25);
-	--color-info: oklch(0.600 0.215 250);
+	--color-success: oklch(0.65 0.18 155);
+	--color-warning: oklch(0.75 0.15 75);
+	--color-error: oklch(0.63 0.24 25);
+	--color-info: oklch(0.6 0.215 250);
 }
 
 html,
@@ -55,13 +55,13 @@ body {
 
 	/* Base Colors - Clean, professional */
 	--background: oklch(0.995 0.002 240);
-	--foreground: oklch(0.230 0.045 240);
+	--foreground: oklch(0.23 0.045 240);
 
 	/* Card & Surfaces - Subtle elevation */
 	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.230 0.045 240);
+	--card-foreground: oklch(0.23 0.045 240);
 	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.230 0.045 240);
+	--popover-foreground: oklch(0.23 0.045 240);
 
 	/* Primary - GCMC Brand Blue-Gray */
 	--primary: oklch(0.475 0.055 240);
@@ -69,95 +69,95 @@ body {
 
 	/* Secondary - Lighter brand color */
 	--secondary: oklch(0.965 0.005 240);
-	--secondary-foreground: oklch(0.390 0.060 240);
+	--secondary-foreground: oklch(0.39 0.06 240);
 
 	/* Muted - Subtle backgrounds */
 	--muted: oklch(0.965 0.005 240);
-	--muted-foreground: oklch(0.570 0.050 240);
+	--muted-foreground: oklch(0.57 0.05 240);
 
 	/* Accent - Trust Green */
-	--accent: oklch(0.700 0.195 145);
+	--accent: oklch(0.7 0.195 145);
 	--accent-foreground: oklch(0.985 0 0);
 
 	/* Destructive - Error Red */
-	--destructive: oklch(0.630 0.240 25);
+	--destructive: oklch(0.63 0.24 25);
 	--destructive-foreground: oklch(0.985 0 0);
 
 	/* Borders & Inputs */
-	--border: oklch(0.910 0.010 240);
-	--input: oklch(0.910 0.010 240);
+	--border: oklch(0.91 0.01 240);
+	--input: oklch(0.91 0.01 240);
 	--ring: oklch(0.475 0.055 240);
 
 	/* Charts - Professional, accessible palette */
-	--chart-1: oklch(0.570 0.050 240);  /* Primary blue-gray */
-	--chart-2: oklch(0.700 0.195 145);  /* Accent green */
-	--chart-3: oklch(0.600 0.215 250);  /* Info blue */
-	--chart-4: oklch(0.750 0.150 75);   /* Warning amber */
-	--chart-5: oklch(0.680 0.040 240);  /* Secondary blue-gray */
+	--chart-1: oklch(0.57 0.05 240); /* Primary blue-gray */
+	--chart-2: oklch(0.7 0.195 145); /* Accent green */
+	--chart-3: oklch(0.6 0.215 250); /* Info blue */
+	--chart-4: oklch(0.75 0.15 75); /* Warning amber */
+	--chart-5: oklch(0.68 0.04 240); /* Secondary blue-gray */
 
 	/* Sidebar - Branded navigation */
 	--sidebar: oklch(0.995 0.002 240);
-	--sidebar-foreground: oklch(0.390 0.060 240);
+	--sidebar-foreground: oklch(0.39 0.06 240);
 	--sidebar-primary: oklch(0.475 0.055 240);
 	--sidebar-primary-foreground: oklch(0.985 0 0);
 	--sidebar-accent: oklch(0.965 0.005 240);
-	--sidebar-accent-foreground: oklch(0.390 0.060 240);
-	--sidebar-border: oklch(0.910 0.010 240);
+	--sidebar-accent-foreground: oklch(0.39 0.06 240);
+	--sidebar-border: oklch(0.91 0.01 240);
 	--sidebar-ring: oklch(0.475 0.055 240);
 }
 
 .dark {
 	/* Base Colors - Professional dark mode */
-	--background: oklch(0.190 0.015 240);
+	--background: oklch(0.19 0.015 240);
 	--foreground: oklch(0.965 0.005 240);
 
 	/* Card & Surfaces - Elevated dark surfaces */
-	--card: oklch(0.230 0.020 240);
+	--card: oklch(0.23 0.02 240);
 	--card-foreground: oklch(0.965 0.005 240);
-	--popover: oklch(0.230 0.020 240);
+	--popover: oklch(0.23 0.02 240);
 	--popover-foreground: oklch(0.965 0.005 240);
 
 	/* Primary - Lighter brand for dark mode */
-	--primary: oklch(0.680 0.040 240);
-	--primary-foreground: oklch(0.190 0.015 240);
+	--primary: oklch(0.68 0.04 240);
+	--primary-foreground: oklch(0.19 0.015 240);
 
 	/* Secondary - Dark mode secondary */
-	--secondary: oklch(0.310 0.025 240);
+	--secondary: oklch(0.31 0.025 240);
 	--secondary-foreground: oklch(0.965 0.005 240);
 
 	/* Muted - Subtle dark backgrounds */
-	--muted: oklch(0.280 0.020 240);
-	--muted-foreground: oklch(0.765 0.030 240);
+	--muted: oklch(0.28 0.02 240);
+	--muted-foreground: oklch(0.765 0.03 240);
 
 	/* Accent - Vibrant green for dark mode */
-	--accent: oklch(0.780 0.165 145);
-	--accent-foreground: oklch(0.190 0.015 240);
+	--accent: oklch(0.78 0.165 145);
+	--accent-foreground: oklch(0.19 0.015 240);
 
 	/* Destructive - Error for dark mode */
-	--destructive: oklch(0.650 0.220 25);
+	--destructive: oklch(0.65 0.22 25);
 	--destructive-foreground: oklch(0.965 0.005 240);
 
 	/* Borders & Inputs */
-	--border: oklch(0.310 0.025 240);
-	--input: oklch(0.340 0.030 240);
-	--ring: oklch(0.680 0.040 240);
+	--border: oklch(0.31 0.025 240);
+	--input: oklch(0.34 0.03 240);
+	--ring: oklch(0.68 0.04 240);
 
 	/* Charts - Dark mode optimized */
-	--chart-1: oklch(0.680 0.040 240);  /* Primary blue-gray */
-	--chart-2: oklch(0.780 0.165 145);  /* Accent green */
-	--chart-3: oklch(0.650 0.200 250);  /* Info blue */
-	--chart-4: oklch(0.800 0.140 75);   /* Warning amber */
-	--chart-5: oklch(0.765 0.030 240);  /* Secondary blue-gray */
+	--chart-1: oklch(0.68 0.04 240); /* Primary blue-gray */
+	--chart-2: oklch(0.78 0.165 145); /* Accent green */
+	--chart-3: oklch(0.65 0.2 250); /* Info blue */
+	--chart-4: oklch(0.8 0.14 75); /* Warning amber */
+	--chart-5: oklch(0.765 0.03 240); /* Secondary blue-gray */
 
 	/* Sidebar - Dark mode navigation */
-	--sidebar: oklch(0.230 0.020 240);
-	--sidebar-foreground: oklch(0.910 0.010 240);
-	--sidebar-primary: oklch(0.680 0.040 240);
-	--sidebar-primary-foreground: oklch(0.190 0.015 240);
-	--sidebar-accent: oklch(0.310 0.025 240);
+	--sidebar: oklch(0.23 0.02 240);
+	--sidebar-foreground: oklch(0.91 0.01 240);
+	--sidebar-primary: oklch(0.68 0.04 240);
+	--sidebar-primary-foreground: oklch(0.19 0.015 240);
+	--sidebar-accent: oklch(0.31 0.025 240);
 	--sidebar-accent-foreground: oklch(0.965 0.005 240);
-	--sidebar-border: oklch(0.310 0.025 240);
-	--sidebar-ring: oklch(0.680 0.040 240);
+	--sidebar-border: oklch(0.31 0.025 240);
+	--sidebar-ring: oklch(0.68 0.04 240);
 }
 
 @theme inline {
