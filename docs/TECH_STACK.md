@@ -57,11 +57,12 @@ The GCMC-KAJ Platform is built using modern, production-ready technologies focus
 | **React** | 19.2.0 | UI library |
 | **React DOM** | 19.2.0 | React renderer |
 
-**Why Next.js 16?**
+**Why Next.js 16.0.3?**
 - App Router for nested layouts
 - Server Components for performance
 - Built-in optimization (images, fonts, scripts)
 - TypeScript-first development
+- **Security**: CVE-2025-29927 (authorization bypass) resolved
 
 #### State Management & Data Fetching
 
@@ -94,7 +95,7 @@ The GCMC-KAJ Platform is built using modern, production-ready technologies focus
 | Technology | Version | Purpose |
 |------------|---------|---------|
 | **TanStack React Form** | 1.12.3 | Type-safe form management |
-| **Zod** | 4.1.11 | Schema validation |
+| **Zod** | 4.1.12 | Schema validation (v4 compatible with z.union) |
 
 #### Charts & Visualization
 
@@ -125,7 +126,8 @@ The GCMC-KAJ Platform is built using modern, production-ready technologies focus
 | **tRPC Server** | 11.5.0 | Type-safe API framework |
 | **@hono/trpc-server** | 0.4.0 | tRPC adapter for Hono |
 | **Better-Auth** | 1.3.28 | Authentication framework |
-| **Zod** | 4.1.11 | Input validation |
+| **Zod** | 4.1.12 | Input validation |
+| **@upstash/redis** | Latest | Rate limiting & caching |
 
 **Why Hono?**
 - Ultra-fast (faster than Express/Fastify)
