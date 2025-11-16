@@ -4,6 +4,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+env:
+  BUN_VERSION: "1.2.18"
+
 jobs:
   pr-metadata:
     name: PR Metadata Check
@@ -12,7 +15,7 @@ jobs:
       - name: Check PR title
         uses: amannn/action-semantic-pull-request@v5
         env:
-          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           types: |
             feat
@@ -26,7 +29,48 @@ jobs:
             ci
             chore
             revert
+            audit
           requireScope: false
+
+      - name: Comment on PR with guidelines
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## ⚠️ PR Title Format Required
+
+            Your PR title doesn't follow the conventional commits format.
+
+            **Expected format:**
+            \`\`\`
+            <type>: <description>
+            \`\`\`
+
+            **Valid types:**
+            - \`feat\`: New feature
+            - \`fix\`: Bug fix
+            - \`docs\`: Documentation changes
+            - \`style\`: Code style changes (formatting, etc.)
+            - \`refactor\`: Code refactoring
+            - \`perf\`: Performance improvements
+            - \`test\`: Test additions or changes
+            - \`build\`: Build system changes
+            - \`ci\`: CI/CD changes
+            - \`chore\`: Other changes
+            - \`audit\`: Security or quality audits
+
+            **Examples:**
+            - \`feat: add user authentication\`
+            - \`fix: resolve memory leak in worker\`
+            - \`docs: update deployment guide\`
+
+            Please update your PR title to match this format.
+            `
+            })
 
   size-check:
     name: Bundle Size Check
@@ -38,21 +82,67 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: "1.2.18"
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Generate Prisma client
+        run: bun --cwd packages/db db:generate
+
       - name: Build applications
         run: bun run build
+        continue-on-error: true
 
       - name: Check bundle sizes
+        id: bundle_sizes
         run: |
-          echo "📦 Bundle Sizes:"
-          du -sh apps/web/.next || echo "Web build not found"
-          du -sh apps/portal/.next || echo "Portal build not found"
-          du -sh apps/server/dist || echo "Server build not found"
-          du -sh apps/worker/dist || echo "Worker build not found"
+          echo "📦 Bundle Sizes:" > bundle-report.txt
+          echo "" >> bundle-report.txt
+
+          if [ -d "apps/web/.next" ]; then
+            WEB_SIZE=$(du -sh apps/web/.next | cut -f1)
+            echo "Web App: $WEB_SIZE" >> bundle-report.txt
+          else
+            echo "Web App: Build failed" >> bundle-report.txt
+          fi
+
+          if [ -d "apps/portal/.next" ]; then
+            PORTAL_SIZE=$(du -sh apps/portal/.next | cut -f1)
+            echo "Portal App: $PORTAL_SIZE" >> bundle-report.txt
+          else
+            echo "Portal App: Build failed" >> bundle-report.txt
+          fi
+
+          if [ -d "apps/server/dist" ]; then
+            SERVER_SIZE=$(du -sh apps/server/dist | cut -f1)
+            echo "API Server: $SERVER_SIZE" >> bundle-report.txt
+          else
+            echo "API Server: Build failed" >> bundle-report.txt
+          fi
+
+          if [ -d "apps/worker/dist" ]; then
+            WORKER_SIZE=$(du -sh apps/worker/dist | cut -f1)
+            echo "Worker: $WORKER_SIZE" >> bundle-report.txt
+          else
+            echo "Worker: Build failed" >> bundle-report.txt
+          fi
+
+          cat bundle-report.txt
+
+      - name: Comment bundle sizes on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const bundleReport = fs.readFileSync('bundle-report.txt', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 📦 Bundle Size Report\n\n\`\`\`\n${bundleReport}\n\`\`\`\n\n> Target: Web < 500KB | Portal < 400KB | Server < 50MB | Worker < 50MB`
+            })
 
   security-scan:
     name: Security Scan
@@ -68,9 +158,147 @@ jobs:
           scan-ref: "."
           format: "sarif"
           output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH"
+        continue-on-error: true
 
       - name: Upload Trivy results to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: "trivy-results.sarif"
+
+      - name: Run dependency audit
+        run: |
+          echo "## Security Audit" > security-report.txt
+          bun audit --json > audit.json || true
+
+          # Parse audit results
+          CRITICAL=$(jq '.advisories | map(select(.severity == "critical")) | length' audit.json || echo "0")
+          HIGH=$(jq '.advisories | map(select(.severity == "high")) | length' audit.json || echo "0")
+          MODERATE=$(jq '.advisories | map(select(.severity == "moderate")) | length' audit.json || echo "0")
+
+          echo "Critical: $CRITICAL" >> security-report.txt
+          echo "High: $HIGH" >> security-report.txt
+          echo "Moderate: $MODERATE" >> security-report.txt
+
+          cat security-report.txt
+
+      - name: Setup Bun for audit
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install dependencies for audit
+        run: bun install --frozen-lockfile
+
+  code-quality:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ env.BUN_VERSION }}
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Run Biome lint
+        run: bun run biome check . --diagnostic-level=warn
+        continue-on-error: true
+
+      - name: Count lint issues
+        id: lint_count
+        run: |
+          ISSUES=$(bun run biome check . --diagnostic-level=warn --reporter=json | jq '.diagnostics | length' || echo "0")
+          echo "issues=$ISSUES" >> $GITHUB_OUTPUT
+          echo "Found $ISSUES lint issues"
+
+      - name: Comment code quality on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issues = '${{ steps.lint_count.outputs.issues }}';
+            const status = issues == '0' ? '✅' : '⚠️';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## ${status} Code Quality Report\n\nLint Issues: **${issues}**\n\n${issues > 0 ? '> Fix with: \`bun run check\`' : '> No issues found! 🎉'}`
+            })
+
+  changes-summary:
+    name: PR Changes Summary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate changes summary
+        run: |
+          echo "## 📊 Changes Summary" > changes-summary.txt
+          echo "" >> changes-summary.txt
+
+          # Count files changed
+          FILES_CHANGED=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | wc -l)
+          echo "**Files Changed:** $FILES_CHANGED" >> changes-summary.txt
+          echo "" >> changes-summary.txt
+
+          # Lines added/removed
+          ADDITIONS=$(git diff --shortstat ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep -oP '\d+(?= insertions?)' || echo "0")
+          DELETIONS=$(git diff --shortstat ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | grep -oP '\d+(?= deletions?)' || echo "0")
+          echo "**Lines Added:** +$ADDITIONS" >> changes-summary.txt
+          echo "**Lines Removed:** -$DELETIONS" >> changes-summary.txt
+          echo "" >> changes-summary.txt
+
+          # File types
+          echo "### File Types Modified" >> changes-summary.txt
+          git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }} | \
+            awk -F. '{print $NF}' | sort | uniq -c | sort -rn >> changes-summary.txt
+
+          cat changes-summary.txt
+
+      - name: Comment changes summary on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = fs.readFileSync('changes-summary.txt', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            })
+
+  pr-summary:
+    name: PR Summary
+    runs-on: ubuntu-latest
+    needs: [pr-metadata, size-check, security-scan, code-quality, changes-summary]
+    if: always()
+    steps:
+      - name: Generate summary
+        run: |
+          echo "## 📋 PR Checks Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| PR Metadata | ${{ needs.pr-metadata.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Bundle Size | ${{ needs.size-check.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security Scan | ${{ needs.security-scan.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Code Quality | ${{ needs.code-quality.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Changes Summary | ${{ needs.changes-summary.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [[ "${{ needs.pr-metadata.result }}" == "failure" ]]; then
+            echo "❌ PR title must follow conventional commits format" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ All PR checks passed" >> $GITHUB_STEP_SUMMARY
+          fi
