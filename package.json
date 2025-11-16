@@ -47,13 +47,30 @@
 		"db:start": "turbo -F @GCMC-KAJ/db db:start",
 		"db:watch": "turbo -F @GCMC-KAJ/db db:watch",
 		"db:stop": "turbo -F @GCMC-KAJ/db db:stop",
-		"db:down": "turbo -F @GCMC-KAJ/db db:down"
+		"db:down": "turbo -F @GCMC-KAJ/db db:down",
+		"test:e2e": "playwright test",
+		"test:e2e:ui": "playwright test --ui",
+		"test:e2e:headed": "playwright test --headed",
+		"test:e2e:debug": "playwright test --debug",
+		"test:e2e:chromium": "playwright test --project=chromium",
+		"test:e2e:firefox": "playwright test --project=firefox",
+		"test:e2e:webkit": "playwright test --project=webkit",
+		"test:e2e:mobile": "playwright test --project=mobile-chrome --project=mobile-safari",
+		"test:e2e:auth": "playwright test tests/e2e/auth",
+		"test:e2e:workflows": "playwright test tests/e2e/workflows",
+		"test:e2e:crud": "playwright test tests/e2e/crud",
+		"test:e2e:navigation": "playwright test tests/e2e/navigation",
+		"test:e2e:visual": "playwright test tests/e2e/visual",
+		"test:e2e:a11y": "playwright test tests/e2e/accessibility",
+		"test:e2e:report": "playwright show-report",
+		"test:e2e:install": "playwright install --with-deps"
 	},
 	"dependencies": {
 		"dotenv": "^17.2.2",
 		"zod": "^4.1.11"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "^4.10.2",
 		"@biomejs/biome": "^2.2.0",
 		"@playwright/test": "^1.56.1",
 		"@types/bun": "^1.2.6",
