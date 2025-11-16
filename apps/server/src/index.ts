@@ -123,4 +123,45 @@ async function checkReadiness() {
 // Start readiness check
 checkReadiness();
 
+// Global error handlers for production stability
+process.on("unhandledRejection", (reason: unknown, promise: Promise<unknown>) => {
+	console.error("🚨 Unhandled Promise Rejection:", {
+		timestamp: new Date().toISOString(),
+		reason: reason instanceof Error ? reason.message : String(reason),
+		stack: reason instanceof Error ? reason.stack : undefined,
+		promise: String(promise),
+	});
+	// In production, you might want to send this to a monitoring service (Sentry, DataDog, etc.)
+	// For now, we log but don't exit - let the health check handle service degradation
+});
+
+process.on("uncaughtException", (error: Error) => {
+	console.error("🚨 Uncaught Exception:", {
+		timestamp: new Date().toISOString(),
+		message: error.message,
+		stack: error.stack,
+	});
+	// Uncaught exceptions are serious - gracefully shutdown
+	console.error("💥 Server is shutting down due to uncaught exception");
+
+	// Give time for logs to flush
+	setTimeout(() => {
+		process.exit(1);
+	}, 1000);
+});
+
+// Graceful shutdown handler
+process.on("SIGTERM", async () => {
+	console.log("📥 SIGTERM received. Starting graceful shutdown...");
+
+	try {
+		await prisma.$disconnect();
+		console.log("✅ Database connections closed");
+		process.exit(0);
+	} catch (error) {
+		console.error("❌ Error during shutdown:", error);
+		process.exit(1);
+	}
+});
+
 export default app;

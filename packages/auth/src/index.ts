@@ -107,8 +107,9 @@ export const auth = betterAuth<BetterAuthOptions>({
 	},
 	advanced: {
 		defaultCookieAttributes: {
-			sameSite: "none",
-			secure: true,
+			// Use "lax" for better CSRF protection unless in production cross-origin setup
+			sameSite: process.env.NODE_ENV === "production" ? "lax" : "lax",
+			secure: process.env.NODE_ENV === "production",
 			httpOnly: true,
 		},
 	},

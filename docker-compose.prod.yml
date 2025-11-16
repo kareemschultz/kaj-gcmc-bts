@@ -258,6 +258,58 @@ services:
         max-file: "5"
         compress: "true"
 
+  # Portal Application - Production
+  portal:
+    build:
+      context: .
+      dockerfile: apps/portal/Dockerfile
+      args:
+        - NODE_ENV=production
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:?NEXT_PUBLIC_API_URL is required}
+    image: ${DOCKER_REGISTRY:-gcmc-kaj}/portal:${VERSION:-latest}
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-gcmc_kaj}?schema=public
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+    networks:
+      - frontend
+    depends_on:
+      api:
+        condition: service_healthy
+    deploy:
+      replicas: ${PORTAL_REPLICAS:-2}
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"
+        compress: "true"
+
   # Worker - Production
   worker:
     build:
@@ -270,7 +322,7 @@ services:
       NODE_ENV: production
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-gcmc_kaj}?schema=public&connection_limit=10
       REDIS_URL: redis://redis:6379
-      HEALTH_PORT: 3002
+      HEALTH_PORT: 3004
       # MinIO configuration for file processing jobs
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
@@ -312,7 +364,7 @@ services:
         max_attempts: 3
         window: 120s
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
       interval: 30s
       timeout: 10s
       retries: 3

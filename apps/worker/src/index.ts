@@ -501,6 +501,46 @@ async function start() {
 	}
 }
 
+// Global error handlers for production stability
+process.on("unhandledRejection", (reason: unknown, promise: Promise<unknown>) => {
+	console.error("🚨 [Worker] Unhandled Promise Rejection:", {
+		timestamp: new Date().toISOString(),
+		reason: reason instanceof Error ? reason.message : String(reason),
+		stack: reason instanceof Error ? reason.stack : undefined,
+		promise: String(promise),
+	});
+	// Mark as unhealthy but don't exit - let the health check detect issues
+	isHealthy = false;
+});
+
+process.on("uncaughtException", (error: Error) => {
+	console.error("🚨 [Worker] Uncaught Exception:", {
+		timestamp: new Date().toISOString(),
+		message: error.message,
+		stack: error.stack,
+	});
+	// Uncaught exceptions are serious - gracefully shutdown
+	console.error("💥 Worker is shutting down due to uncaught exception");
+
+	// Attempt graceful shutdown
+	Promise.all([
+		complianceWorker.close(),
+		notificationWorker.close(),
+		filingWorker.close(),
+		emailWorker.close(),
+		scheduledEmailWorker.close(),
+		prisma.$disconnect(),
+	])
+		.then(() => {
+			console.log("✅ Graceful shutdown completed");
+			process.exit(1);
+		})
+		.catch((shutdownError) => {
+			console.error("❌ Error during shutdown:", shutdownError);
+			process.exit(1);
+		});
+});
+
 // Graceful shutdown
 process.on("SIGTERM", async () => {
 	console.log("⚠️  SIGTERM received, shutting down gracefully");
