@@ -17,6 +17,7 @@ import { trpcServer } from "@hono/trpc-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { authRateLimitMiddleware } from "./middleware/auth-rate-limit";
 import { securityHeaders } from "./middleware/security";
 import downloadsRoute from "./routes/downloads";
 
@@ -46,6 +47,9 @@ app.use(
 	}),
 );
 
+// Apply rate limiting to auth endpoints (sign in, sign up)
+// 5 requests per 15 minutes
+app.use("/api/auth/*", authRateLimitMiddleware);
 app.on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
 
 app.use(
@@ -124,16 +128,19 @@ async function checkReadiness() {
 checkReadiness();
 
 // Global error handlers for production stability
-process.on("unhandledRejection", (reason: unknown, promise: Promise<unknown>) => {
-	console.error("🚨 Unhandled Promise Rejection:", {
-		timestamp: new Date().toISOString(),
-		reason: reason instanceof Error ? reason.message : String(reason),
-		stack: reason instanceof Error ? reason.stack : undefined,
-		promise: String(promise),
-	});
-	// In production, you might want to send this to a monitoring service (Sentry, DataDog, etc.)
-	// For now, we log but don't exit - let the health check handle service degradation
-});
+process.on(
+	"unhandledRejection",
+	(reason: unknown, promise: Promise<unknown>) => {
+		console.error("🚨 Unhandled Promise Rejection:", {
+			timestamp: new Date().toISOString(),
+			reason: reason instanceof Error ? reason.message : String(reason),
+			stack: reason instanceof Error ? reason.stack : undefined,
+			promise: String(promise),
+		});
+		// In production, you might want to send this to a monitoring service (Sentry, DataDog, etc.)
+		// For now, we log but don't exit - let the health check handle service degradation
+	},
+);
 
 process.on("uncaughtException", (error: Error) => {
 	console.error("🚨 Uncaught Exception:", {
