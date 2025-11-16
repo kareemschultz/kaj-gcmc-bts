@@ -18,7 +18,9 @@
 		"zod": "catalog:",
 		"@GCMC-KAJ/api": "workspace:*",
 		"@GCMC-KAJ/auth": "workspace:*",
-		"@GCMC-KAJ/db": "workspace:*"
+		"@GCMC-KAJ/db": "workspace:*",
+		"@GCMC-KAJ/reports": "workspace:*",
+		"@GCMC-KAJ/storage": "workspace:*"
 	},
 	"devDependencies": {
 		"typescript": "catalog:",
