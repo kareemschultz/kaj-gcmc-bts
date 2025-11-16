@@ -1,13 +1,13 @@
-import {
-	type Client,
-	type Document,
-	type Filing,
-	PrismaClient,
-	type Service,
-	type ServiceRequest,
-	type Tenant,
-	type User,
-} from "@GCMC-KAJ/db/generated";
+import { PrismaClient } from "@prisma/client";
+import type {
+	Client,
+	Document,
+	Filing,
+	Service,
+	ServiceRequest,
+	Tenant,
+	User,
+} from "@prisma/client";
 
 /**
  * Data Seeder for E2E Tests
