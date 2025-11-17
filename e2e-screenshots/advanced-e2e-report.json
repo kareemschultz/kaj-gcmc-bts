@@ -1,0 +1,80 @@
+{
+	"summary": {
+		"totalTests": 4,
+		"passed": 3,
+		"failed": 1,
+		"successRate": "75.00",
+		"screenshots": 5,
+		"errors": 0,
+		"authenticated": false,
+		"timestamp": "2025-11-16T20:47:24.853Z"
+	},
+	"testResults": [
+		{
+			"test": "Admin Authentication",
+			"passed": false,
+			"details": "Login failed: Unknown error",
+			"error": "url.includes is not a function. (In 'url.includes(\"/dashboard\")', 'url.includes' is undefined)",
+			"timestamp": "2025-11-16T20:47:18.178Z"
+		},
+		{
+			"test": "Responsive Desktop",
+			"passed": true,
+			"details": "Page renders at 1920x1080",
+			"error": null,
+			"timestamp": "2025-11-16T20:47:20.412Z"
+		},
+		{
+			"test": "Responsive Tablet",
+			"passed": true,
+			"details": "Page renders at 1024x768",
+			"error": null,
+			"timestamp": "2025-11-16T20:47:22.650Z"
+		},
+		{
+			"test": "Responsive Mobile",
+			"passed": true,
+			"details": "Page renders at 375x667",
+			"error": null,
+			"timestamp": "2025-11-16T20:47:24.830Z"
+		}
+	],
+	"screenshots": [
+		{
+			"name": "01-login-page-start",
+			"description": "Login page initial load",
+			"filepath": "e2e-screenshots/1763326032838-01-login-page-start.png",
+			"timestamp": "2025-11-16T20:47:12.958Z"
+		},
+		{
+			"name": "02-login-form-filled",
+			"description": "Login form filled",
+			"filepath": "e2e-screenshots/1763326034999-02-login-form-filled.png",
+			"timestamp": "2025-11-16T20:47:15.156Z"
+		},
+		{
+			"name": "07-responsive-desktop",
+			"description": "Desktop responsive view (1920x1080)",
+			"filepath": "e2e-screenshots/1763326040309-07-responsive-desktop.png",
+			"timestamp": "2025-11-16T20:47:20.412Z"
+		},
+		{
+			"name": "07-responsive-tablet",
+			"description": "Tablet responsive view (1024x768)",
+			"filepath": "e2e-screenshots/1763326042523-07-responsive-tablet.png",
+			"timestamp": "2025-11-16T20:47:22.650Z"
+		},
+		{
+			"name": "07-responsive-mobile",
+			"description": "Mobile responsive view (375x667)",
+			"filepath": "e2e-screenshots/1763326044757-07-responsive-mobile.png",
+			"timestamp": "2025-11-16T20:47:24.830Z"
+		}
+	],
+	"errors": [],
+	"platformStatus": "NEEDS_ATTENTION",
+	"recommendations": [
+		"Fix failing test cases for improved platform reliability",
+		"Fix authentication flow for proper session management"
+	]
+}
