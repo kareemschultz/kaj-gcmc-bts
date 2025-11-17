@@ -22,8 +22,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { trpc } from "@/utils/trpc";
 import { formatDate } from "@/utils/date-utils";
+import { trpc } from "@/utils/trpc";
 
 const USER_SKELETON_ITEMS = Array.from(
 	{ length: 6 },
@@ -95,8 +95,8 @@ export function UsersList() {
 	}
 
 	return (
-		<div className="space-y-4">
-			<div className="flex gap-4">
+		<div className="space-y-6">
+			<div className="flex flex-col gap-4 sm:flex-row">
 				<div className="relative flex-1">
 					<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
 					<Input
@@ -106,7 +106,7 @@ export function UsersList() {
 							setSearch(e.target.value);
 							setPage(1);
 						}}
-						className="pl-9"
+						className="h-11 border-2 pl-9 transition-colors focus:border-primary"
 					/>
 				</div>
 				<Select
@@ -117,7 +117,7 @@ export function UsersList() {
 						);
 						setPage(1);
 					}}
-					className="w-48"
+					className="h-11 w-full sm:w-48"
 				>
 					<option value="">All Roles</option>
 					{roles?.map((role) => (
@@ -129,34 +129,55 @@ export function UsersList() {
 			</div>
 
 			{isLoading ? (
-				<div className="grid gap-4 md:grid-cols-2">
+				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 					{USER_SKELETON_ITEMS.map((skeletonKey) => (
-						<Card key={skeletonKey}>
-							<CardHeader>
-								<Skeleton className="h-6 w-32" />
-								<Skeleton className="h-4 w-24" />
+						<Card key={skeletonKey} className="animate-pulse">
+							<CardHeader className="pb-3">
+								<div className="flex items-center space-x-3">
+									<Skeleton className="h-10 w-10 rounded-full" />
+									<div className="space-y-2">
+										<Skeleton className="h-4 w-24" />
+										<Skeleton className="h-3 w-32" />
+									</div>
+								</div>
 							</CardHeader>
 							<CardContent>
-								<Skeleton className="mb-2 h-4 w-full" />
-								<Skeleton className="h-4 w-3/4" />
+								<Skeleton className="mb-3 h-8 w-full" />
+								<Skeleton className="h-3 w-20" />
 							</CardContent>
 						</Card>
 					))}
 				</div>
 			) : (
 				<>
-					<div className="grid gap-4 md:grid-cols-2">
+					<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 						{data?.users.map((user) => (
-							<Card key={user.id}>
-								<CardHeader>
+							<Card
+								key={user.id}
+								className="card-elevated-hover animate-slide-in transition-all duration-200 hover:shadow-lg"
+							>
+								<CardHeader className="pb-3">
 									<div className="flex items-start justify-between">
-										<div>
-											<CardTitle className="text-lg">{user.name}</CardTitle>
-											<CardDescription>{user.email}</CardDescription>
+										<div className="flex items-center space-x-3">
+											<div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 font-semibold text-primary">
+												{user.name
+													?.split(" ")
+													.map((n) => n[0])
+													.join("") || "U"}
+											</div>
+											<div>
+												<CardTitle className="font-semibold text-lg tracking-tight">
+													{user.name}
+												</CardTitle>
+												<CardDescription className="text-sm">
+													{user.email}
+												</CardDescription>
+											</div>
 										</div>
 										<Button
 											variant="ghost"
 											size="icon"
+											className="h-8 w-8 text-muted-foreground transition-colors hover:text-destructive"
 											onClick={() => {
 												setSelectedUserId(user.id);
 												setShowRemoveDialog(true);
@@ -167,12 +188,12 @@ export function UsersList() {
 										</Button>
 									</div>
 								</CardHeader>
-								<CardContent>
+								<CardContent className="space-y-4">
 									<div className="space-y-3">
-										<div className="flex items-center gap-2">
+										<div className="flex items-center gap-3">
 											<label
 												htmlFor={`user-role-${user.id}`}
-												className="text-muted-foreground text-sm"
+												className="min-w-[40px] font-medium text-foreground text-sm"
 											>
 												Role:
 											</label>
@@ -182,7 +203,7 @@ export function UsersList() {
 												onChange={(e) =>
 													handleRoleChange(user.id, Number(e.target.value))
 												}
-												className="flex-1"
+												className="h-9 flex-1"
 											>
 												{roles?.map((role) => (
 													<option key={role.id} value={role.id.toString()}>
@@ -192,13 +213,17 @@ export function UsersList() {
 											</Select>
 										</div>
 										{user.phone && (
-											<p className="text-muted-foreground text-sm">
-												{user.phone}
-											</p>
+											<div className="flex items-center gap-2 text-muted-foreground text-sm">
+												<span className="font-medium">Phone:</span>
+												<span>{user.phone}</span>
+											</div>
 										)}
-										<p className="text-muted-foreground text-xs">
-											Joined: {formatDate(user.createdAt)}
-										</p>
+										<div className="border-t pt-2">
+											<p className="flex items-center gap-2 text-muted-foreground text-xs">
+												<span className="font-medium">Joined:</span>
+												<span>{formatDate(user.createdAt)}</span>
+											</p>
+										</div>
 									</div>
 								</CardContent>
 							</Card>
@@ -206,32 +231,42 @@ export function UsersList() {
 					</div>
 
 					{data && data.users.length === 0 && (
-						<Card>
-							<CardContent className="flex flex-col items-center justify-center py-12 text-center">
-								<UserPlus className="mb-4 h-12 w-12 text-muted-foreground" />
-								<p className="text-muted-foreground">
-									No users found matching your criteria
+						<Card className="col-span-full">
+							<CardContent className="flex flex-col items-center justify-center py-16 text-center">
+								<div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+									<UserPlus className="h-8 w-8 text-muted-foreground" />
+								</div>
+								<h3 className="mb-2 font-semibold text-lg">No users found</h3>
+								<p className="max-w-sm text-muted-foreground">
+									No users match your current search criteria. Try adjusting
+									your filters or search terms.
 								</p>
 							</CardContent>
 						</Card>
 					)}
 
 					{data && data.pagination.totalPages > 1 && (
-						<div className="mt-6 flex justify-center gap-2">
+						<div className="mt-8 flex justify-center gap-2">
 							<Button
 								variant="outline"
+								size="sm"
 								onClick={() => setPage((p) => Math.max(1, p - 1))}
 								disabled={page === 1}
+								className="font-medium"
 							>
 								Previous
 							</Button>
-							<span className="flex items-center px-4">
-								Page {page} of {data.pagination.totalPages}
-							</span>
+							<div className="flex items-center rounded-md bg-muted/50 px-4 py-2">
+								<span className="font-medium text-sm">
+									Page {page} of {data.pagination.totalPages}
+								</span>
+							</div>
 							<Button
 								variant="outline"
+								size="sm"
 								onClick={() => setPage((p) => p + 1)}
 								disabled={page >= data.pagination.totalPages}
+								className="font-medium"
 							>
 								Next
 							</Button>

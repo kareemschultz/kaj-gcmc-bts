@@ -1,11 +1,11 @@
 {
 	"summary": {
-		"totalTests": 49,
-		"passed": 48,
-		"failed": 1,
-		"successRate": "97.96",
+		"totalTests": 41,
+		"passed": 30,
+		"failed": 11,
+		"successRate": "73.17",
 		"errors": 0,
-		"timestamp": "2025-11-16T20:40:57.794Z"
+		"timestamp": "2025-11-17T12:02:50.354Z"
 	},
 	"testResults": [
 		{
@@ -13,28 +13,28 @@
 			"passed": true,
 			"details": "API server responded with status 200",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:56.713Z"
+			"timestamp": "2025-11-17T12:02:44.436Z"
 		},
 		{
 			"test": "Web Server Health",
 			"passed": true,
 			"details": "Web server responded with status 200",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:56.850Z"
+			"timestamp": "2025-11-17T12:02:45.302Z"
 		},
 		{
 			"test": "Auth Endpoint Available",
 			"passed": true,
 			"details": "Auth endpoint responded with status 200",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:56.852Z"
+			"timestamp": "2025-11-17T12:02:45.303Z"
 		},
 		{
 			"test": "Admin Login",
 			"passed": true,
 			"details": "Login status: 200",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:56.961Z"
+			"timestamp": "2025-11-17T12:02:45.464Z"
 		},
 		{
 			"test": "Session Validation",
@@ -49,315 +49,259 @@
 			},
 			"details": "User: admin@gcmc-kaj.com",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:56.966Z"
+			"timestamp": "2025-11-17T12:02:45.478Z"
 		},
 		{
 			"test": "Admin User Data",
 			"passed": true,
 			"details": "Email: admin@gcmc-kaj.com, ID: rJYm9KSOAZhStU0U62UkyBI6TO2ocKPk",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:56.966Z"
+			"timestamp": "2025-11-17T12:02:45.478Z"
 		},
 		{
 			"test": "tRPC: Dashboard Overview",
-			"passed": true,
-			"details": "Endpoint accessible",
+			"passed": false,
+			"details": "Status: 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:56.979Z"
-		},
-		{
-			"test": "tRPC Response: Dashboard Overview",
-			"passed": true,
-			"details": "Valid tRPC response structure",
-			"error": null,
-			"timestamp": "2025-11-16T20:40:56.979Z"
+			"timestamp": "2025-11-17T12:02:45.483Z"
 		},
 		{
 			"test": "tRPC: Users List",
-			"passed": true,
-			"details": "Endpoint accessible",
+			"passed": false,
+			"details": "Status: 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.004Z"
-		},
-		{
-			"test": "tRPC Response: Users List",
-			"passed": true,
-			"details": "Valid tRPC response structure",
-			"error": null,
-			"timestamp": "2025-11-16T20:40:57.004Z"
+			"timestamp": "2025-11-17T12:02:45.484Z"
 		},
 		{
 			"test": "tRPC: Roles List",
-			"passed": true,
-			"details": "Endpoint accessible",
+			"passed": false,
+			"details": "Status: 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.018Z"
-		},
-		{
-			"test": "tRPC Response: Roles List",
-			"passed": true,
-			"details": "Valid tRPC response structure",
-			"error": null,
-			"timestamp": "2025-11-16T20:40:57.018Z"
+			"timestamp": "2025-11-17T12:02:45.484Z"
 		},
 		{
 			"test": "tRPC: Notifications Count",
-			"passed": true,
-			"details": "Endpoint accessible",
+			"passed": false,
+			"details": "Status: 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.030Z"
-		},
-		{
-			"test": "tRPC Response: Notifications Count",
-			"passed": true,
-			"details": "Valid tRPC response structure",
-			"error": null,
-			"timestamp": "2025-11-16T20:40:57.030Z"
+			"timestamp": "2025-11-17T12:02:45.485Z"
 		},
 		{
 			"test": "tRPC: Notifications Recent",
-			"passed": true,
-			"details": "Endpoint accessible",
+			"passed": false,
+			"details": "Status: 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.038Z"
-		},
-		{
-			"test": "tRPC Response: Notifications Recent",
-			"passed": true,
-			"details": "Valid tRPC response structure",
-			"error": null,
-			"timestamp": "2025-11-16T20:40:57.038Z"
+			"timestamp": "2025-11-17T12:02:45.485Z"
 		},
 		{
 			"test": "tRPC: Clients List",
-			"passed": true,
-			"details": "Endpoint accessible",
+			"passed": false,
+			"details": "Status: 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.053Z"
-		},
-		{
-			"test": "tRPC Response: Clients List",
-			"passed": true,
-			"details": "Valid tRPC response structure",
-			"error": null,
-			"timestamp": "2025-11-16T20:40:57.053Z"
+			"timestamp": "2025-11-17T12:02:45.486Z"
 		},
 		{
 			"test": "Route: Home Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.174Z"
+			"timestamp": "2025-11-17T12:02:45.614Z"
 		},
 		{
 			"test": "HTML: Home Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.174Z"
+			"timestamp": "2025-11-17T12:02:45.614Z"
 		},
 		{
 			"test": "Route: Login Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.216Z"
+			"timestamp": "2025-11-17T12:02:45.650Z"
 		},
 		{
 			"test": "HTML: Login Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.216Z"
+			"timestamp": "2025-11-17T12:02:45.650Z"
 		},
 		{
 			"test": "Route: Dashboard Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.276Z"
+			"timestamp": "2025-11-17T12:02:46.110Z"
 		},
 		{
 			"test": "HTML: Dashboard Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.276Z"
+			"timestamp": "2025-11-17T12:02:46.110Z"
 		},
 		{
 			"test": "Route: Admin Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.327Z"
+			"timestamp": "2025-11-17T12:02:46.674Z"
 		},
 		{
 			"test": "HTML: Admin Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.327Z"
+			"timestamp": "2025-11-17T12:02:46.674Z"
 		},
 		{
 			"test": "Route: Clients Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.388Z"
+			"timestamp": "2025-11-17T12:02:47.055Z"
 		},
 		{
 			"test": "HTML: Clients Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.388Z"
+			"timestamp": "2025-11-17T12:02:47.055Z"
 		},
 		{
 			"test": "Route: Documents Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.455Z"
+			"timestamp": "2025-11-17T12:02:47.483Z"
 		},
 		{
 			"test": "HTML: Documents Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.455Z"
+			"timestamp": "2025-11-17T12:02:47.483Z"
 		},
 		{
 			"test": "Route: Filings Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.548Z"
+			"timestamp": "2025-11-17T12:02:47.892Z"
 		},
 		{
 			"test": "HTML: Filings Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.548Z"
+			"timestamp": "2025-11-17T12:02:47.892Z"
 		},
 		{
 			"test": "Route: Analytics Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.582Z"
+			"timestamp": "2025-11-17T12:02:49.285Z"
 		},
 		{
 			"test": "HTML: Analytics Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.582Z"
+			"timestamp": "2025-11-17T12:02:49.285Z"
 		},
 		{
 			"test": "Route: Tasks Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.646Z"
+			"timestamp": "2025-11-17T12:02:49.638Z"
 		},
 		{
 			"test": "HTML: Tasks Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.646Z"
+			"timestamp": "2025-11-17T12:02:49.638Z"
 		},
 		{
 			"test": "Route: Service Requests Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.703Z"
+			"timestamp": "2025-11-17T12:02:50.000Z"
 		},
 		{
 			"test": "HTML: Service Requests Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.703Z"
+			"timestamp": "2025-11-17T12:02:50.000Z"
 		},
 		{
 			"test": "Route: Notifications Page",
 			"passed": true,
 			"details": "Status: 200 OK",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.758Z"
+			"timestamp": "2025-11-17T12:02:50.347Z"
 		},
 		{
 			"test": "HTML: Notifications Page",
 			"passed": true,
 			"details": "Valid HTML response",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.758Z"
+			"timestamp": "2025-11-17T12:02:50.347Z"
 		},
 		{
 			"test": "User Registration",
 			"passed": false,
 			"details": "Signup failed: 403",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.760Z"
+			"timestamp": "2025-11-17T12:02:50.349Z"
 		},
 		{
 			"test": "Database Query",
-			"passed": true,
-			"details": "Users query successful",
+			"passed": false,
+			"details": "Query failed: 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.772Z"
-		},
-		{
-			"test": "User Data Retrieved",
-			"passed": true,
-			"details": "Found 3 users in database",
-			"error": null,
-			"timestamp": "2025-11-16T20:40:57.772Z"
+			"timestamp": "2025-11-17T12:02:50.350Z"
 		},
 		{
 			"test": "Admin User Access",
-			"passed": true,
-			"details": "Admin can access user list",
+			"passed": false,
+			"details": "Access denied: 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.783Z"
+			"timestamp": "2025-11-17T12:02:50.351Z"
 		},
 		{
 			"test": "Admin Roles Access",
-			"passed": true,
-			"details": "Admin can access roles",
+			"passed": false,
+			"details": "Access denied: 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.790Z"
-		},
-		{
-			"test": "RBAC System",
-			"passed": true,
-			"details": "Found 8 roles in RBAC system",
-			"error": null,
-			"timestamp": "2025-11-16T20:40:57.790Z"
+			"timestamp": "2025-11-17T12:02:50.352Z"
 		},
 		{
 			"test": "404 Error Handling",
 			"passed": true,
 			"details": "Invalid endpoint returns 404",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.791Z"
+			"timestamp": "2025-11-17T12:02:50.352Z"
 		},
 		{
 			"test": "Unauthorized Access",
-			"passed": true,
-			"details": "Unauthorized access returns 401",
+			"passed": false,
+			"details": "Unauthorized access returns 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.792Z"
+			"timestamp": "2025-11-17T12:02:50.353Z"
 		},
 		{
 			"test": "Malformed Request",
 			"passed": true,
 			"details": "Malformed request returns 500",
 			"error": null,
-			"timestamp": "2025-11-16T20:40:57.793Z"
+			"timestamp": "2025-11-17T12:02:50.354Z"
 		}
 	],
 	"errors": [],
