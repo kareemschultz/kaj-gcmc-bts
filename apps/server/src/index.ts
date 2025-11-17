@@ -56,8 +56,34 @@ app.use(
 	"/trpc/*",
 	trpcServer({
 		router: appRouter,
-		createContext: (_opts, context) => {
-			return createContext({ context });
+		createContext: async (_opts, context) => {
+			try {
+				const ctx = await createContext({ context });
+				console.log("🔍 tRPC Context created:", {
+					hasSession: !!ctx.session,
+					hasUser: !!ctx.user,
+					userEmail: ctx.user?.email,
+					tenantId: ctx.tenantId,
+					role: ctx.role,
+					tenant: ctx.tenant?.code,
+				});
+				return ctx;
+			} catch (error) {
+				console.error("❌ tRPC Context creation failed:", error);
+				throw error;
+			}
+		},
+		onError: ({ path, error, input }) => {
+			console.error("🚨 tRPC Error:", {
+				path,
+				error: {
+					code: error.code,
+					message: error.message,
+					stack: error.stack,
+					cause: error.cause,
+				},
+				input,
+			});
 		},
 	}),
 );

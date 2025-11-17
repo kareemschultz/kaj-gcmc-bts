@@ -333,6 +333,11 @@ export const auth = betterAuth<BetterAuthOptions>({
 	// Enhanced lifecycle hooks with security measures
 	hooks: {
 		before: createAuthMiddleware(async (ctx) => {
+			// Guard against undefined request (can happen in tRPC context)
+			if (!ctx.request?.url) {
+				return;
+			}
+
 			const _url = new URL(ctx.request.url);
 			const isSignIn =
 				ctx.path.startsWith("/sign-in") || ctx.path.startsWith("/signin");
@@ -369,6 +374,11 @@ export const auth = betterAuth<BetterAuthOptions>({
 			}
 		}),
 		after: createAuthMiddleware(async (ctx) => {
+			// Guard against undefined request (can happen in tRPC context)
+			if (!ctx.request?.url) {
+				return;
+			}
+
 			const isSignIn =
 				ctx.path.startsWith("/sign-in") || ctx.path.startsWith("/signin");
 			const isSignUp =
