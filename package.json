@@ -71,6 +71,7 @@
 		"test:e2e:install": "playwright install --with-deps"
 	},
 	"dependencies": {
+		"@radix-ui/react-select": "^2.2.6",
 		"@react-email/components": "^1.0.1",
 		"@react-email/render": "^2.0.0",
 		"critters": "^0.0.25",
