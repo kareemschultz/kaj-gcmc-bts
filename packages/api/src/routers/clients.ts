@@ -181,7 +181,11 @@ export const clientsRouter = router({
 
 			// Send welcome email if client has email
 			if (client.email) {
-				const contactInfo = (client as typeof client & { tenant: { contactInfo: unknown; name: string } }).tenant.contactInfo;
+				const contactInfo = (
+					client as typeof client & {
+						tenant: { contactInfo: unknown; name: string };
+					}
+				).tenant.contactInfo;
 				let tenantSupportEmail: string | undefined;
 
 				if (
@@ -198,7 +202,11 @@ export const clientsRouter = router({
 				try {
 					await queueWelcomeEmail(client.email, {
 						clientName: client.name,
-						tenantName: (client as typeof client & { tenant: { contactInfo: unknown; name: string } }).tenant.name,
+						tenantName: (
+							client as typeof client & {
+								tenant: { contactInfo: unknown; name: string };
+							}
+						).tenant.name,
 						portalUrl: process.env.PORTAL_URL || "https://portal.gcmc.com",
 						supportEmail:
 							process.env.SUPPORT_EMAIL ||

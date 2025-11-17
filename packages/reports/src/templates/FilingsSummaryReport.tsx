@@ -10,7 +10,7 @@
 
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import { format } from "date-fns";
-import React from "react";
+import type React from "react";
 import { colors, commonStyles, getStatusStyle } from "../styles/common";
 
 interface FilingsSummaryReportProps {

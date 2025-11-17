@@ -386,10 +386,9 @@ export async function generateComplianceReport(
 			title: doc.title,
 			documentType: doc.documentType.name,
 			expiryDate: doc.latestVersion?.expiryDate || new Date(),
-			daysUntilExpiry: doc.latestVersion?.expiryDate ? differenceInDays(
-				doc.latestVersion.expiryDate,
-				now,
-			) : 0,
+			daysUntilExpiry: doc.latestVersion?.expiryDate
+				? differenceInDays(doc.latestVersion.expiryDate, now)
+				: 0,
 			status: doc.status,
 		}));
 
