@@ -12,8 +12,8 @@
  * 6. Identifies broken functionality
  */
 
-import { existsSync, mkdirSync } from "fs";
-import path from "path";
+import { existsSync, mkdirSync } from "node:fs";
+import path from "node:path";
 import { chromium } from "playwright";
 
 const TEST_CONFIG = {
@@ -283,7 +283,7 @@ class E2ETestSuite {
 						"07-admin-users",
 						"Admin users management page",
 					);
-				} catch (e) {
+				} catch (_e) {
 					console.log("Could not click users tab, might be already active");
 				}
 			}
@@ -438,7 +438,7 @@ class E2ETestSuite {
 					method: "POST",
 				});
 				await this.page.waitForTimeout(1000);
-			} catch (e) {
+			} catch (_e) {
 				// Try clicking logout button
 				await this.page.goto(`${TEST_CONFIG.baseUrl}/dashboard`);
 				await this.page.waitForTimeout(2000);
@@ -447,7 +447,7 @@ class E2ETestSuite {
 						"button:has-text('Sign Out'), button:has-text('Logout'), [data-testid='logout']",
 					);
 					await this.page.waitForTimeout(2000);
-				} catch (logoutErr) {
+				} catch (_logoutErr) {
 					console.log("Could not find logout button");
 				}
 			}
@@ -513,13 +513,13 @@ class E2ETestSuite {
 					);
 					await this.page.waitForTimeout(1000);
 					await this.screenshot("15-user-menu-open", "User menu dropdown open");
-				} catch (e) {
+				} catch (_e) {
 					console.log("Could not click user menu");
 				}
 			}
 
 			// Test notification component
-			const notificationIcon = await this.waitAndCheck(
+			const _notificationIcon = await this.waitAndCheck(
 				"[data-testid='notifications'], .notification-icon, button:has(svg)",
 				"Notification icon/component",
 			);
@@ -670,7 +670,7 @@ async function main() {
 
 		const success = report.summary.failed === 0 && report.summary.errors === 0;
 
-		console.log("\n" + "=".repeat(60));
+		console.log(`\n${"=".repeat(60)}`);
 		if (success) {
 			console.log("🎉 ALL E2E TESTS PASSED - Platform is fully functional!");
 		} else {

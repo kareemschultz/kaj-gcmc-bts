@@ -10,7 +10,7 @@
 
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import { differenceInDays, format } from "date-fns";
-import type React from "react";
+import React from "react";
 import { colors, commonStyles, getStatusStyle } from "../styles/common";
 
 interface DocumentsListReportProps {
@@ -117,7 +117,7 @@ export const DocumentsListReport: React.FC<DocumentsListReportProps> = ({
 								color: colors.primary,
 							}}
 						>
-							{type} ({groupedDocuments[type].length})
+							{type} ({groupedDocuments[type]?.length ?? 0})
 						</Text>
 
 						<View style={commonStyles.table}>
@@ -145,9 +145,9 @@ export const DocumentsListReport: React.FC<DocumentsListReportProps> = ({
 								</Text>
 							</View>
 
-							{groupedDocuments[type].map((doc, docIndex) => {
+							{(groupedDocuments[type] || []).map((doc, docIndex) => {
 								const warning = getExpiryWarning(doc.expiryDate);
-								const isLast = docIndex === groupedDocuments[type].length - 1;
+								const isLast = docIndex === (groupedDocuments[type]?.length ?? 0) - 1;
 
 								return (
 									<View

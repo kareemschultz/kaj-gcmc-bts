@@ -8,7 +8,6 @@ import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
@@ -24,7 +23,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { trpc } from "@/utils/trpc";
 
 interface TeamMember {
 	name: string;
@@ -74,8 +72,7 @@ export function OnboardingWizard({ onComplete }: { onComplete: () => void }) {
 	const [complianceNeeds, setComplianceNeeds] = useState("");
 	const [showInviteDialog, setShowInviteDialog] = useState(false);
 
-	const { data: roles } = trpc.roles.list.useQuery();
-	const utils = trpc.useUtils();
+	// Remove unused queries that are not needed for this component
 
 	const addTeamMember = () => {
 		if (newMember.name && newMember.email && newMember.role) {
@@ -247,9 +244,9 @@ export function OnboardingWizard({ onComplete }: { onComplete: () => void }) {
 								</div>
 							) : (
 								<div className="space-y-2">
-									{teamMembers.map((member, index) => (
+									{teamMembers.map((member) => (
 										<div
-											key={index}
+											key={member.email}
 											className="flex items-center justify-between rounded-lg border p-4"
 										>
 											<div>
@@ -361,7 +358,7 @@ export function OnboardingWizard({ onComplete }: { onComplete: () => void }) {
 				{/* Progress Bar */}
 				<div className="mt-6 flex items-center space-x-4">
 					{steps.map((step, index) => (
-						<div key={index} className="flex items-center">
+						<div key={step.title} className="flex items-center">
 							<div
 								className={`flex h-10 w-10 items-center justify-center rounded-full border-2 ${
 									index + 1 <= currentStep

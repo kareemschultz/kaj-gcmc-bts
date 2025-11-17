@@ -164,6 +164,12 @@ export const clientBusinessesRouter = router({
 						? new Date(input.incorporationDate)
 						: null,
 					tenantId: ctx.tenantId,
+					// Convert undefined to null for optional properties to satisfy exactOptionalPropertyTypes
+					registrationNumber: input.registrationNumber || null,
+					registrationType: input.registrationType || null,
+					country: input.country || null,
+					sector: input.sector || null,
+					status: input.status || null,
 				},
 				include: {
 					client: true,
@@ -215,10 +221,28 @@ export const clientBusinessesRouter = router({
 					tenantId: ctx.tenantId,
 				},
 				data: {
-					...input.data,
-					incorporationDate: input.data.incorporationDate
-						? new Date(input.data.incorporationDate)
-						: undefined,
+					// Convert undefined to null for optional properties to satisfy exactOptionalPropertyTypes
+					...(input.data.name !== undefined && { name: input.data.name }),
+					...(input.data.registrationNumber !== undefined && {
+						registrationNumber: input.data.registrationNumber || null,
+					}),
+					...(input.data.registrationType !== undefined && {
+						registrationType: input.data.registrationType || null,
+					}),
+					...(input.data.incorporationDate !== undefined && {
+						incorporationDate: input.data.incorporationDate
+							? new Date(input.data.incorporationDate)
+							: null,
+					}),
+					...(input.data.country !== undefined && {
+						country: input.data.country || null,
+					}),
+					...(input.data.sector !== undefined && {
+						sector: input.data.sector || null,
+					}),
+					...(input.data.status !== undefined && {
+						status: input.data.status || null,
+					}),
 				},
 				include: {
 					client: true,

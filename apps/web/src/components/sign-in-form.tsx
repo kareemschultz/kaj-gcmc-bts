@@ -33,7 +33,10 @@ export default function SignInForm({
 						toast.success("Sign in successful");
 					},
 					onError: (error) => {
-						const errorMessage = error?.error?.message || error?.error?.statusText || "Sign in failed";
+						const errorMessage =
+							error?.error?.message ||
+							error?.error?.statusText ||
+							"Sign in failed";
 						toast.error(errorMessage);
 					},
 				},
@@ -76,11 +79,13 @@ export default function SignInForm({
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
 								/>
-								{field.state.meta.errors?.filter(Boolean).map((error, index) => (
-									<p key={error?.message || index} className="text-red-500">
-										{error?.message || "Invalid input"}
-									</p>
-								))}
+								{field.state.meta.errors
+									?.filter(Boolean)
+									.map((error, index) => (
+										<p key={error?.message || index} className="text-red-500">
+											{error?.message || "Invalid input"}
+										</p>
+									))}
 							</div>
 						)}
 					</form.Field>
@@ -99,11 +104,13 @@ export default function SignInForm({
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
 								/>
-								{field.state.meta.errors?.filter(Boolean).map((error, index) => (
-									<p key={error?.message || index} className="text-red-500">
-										{error?.message || "Invalid input"}
-									</p>
-								))}
+								{field.state.meta.errors
+									?.filter(Boolean)
+									.map((error, index) => (
+										<p key={error?.message || index} className="text-red-500">
+											{error?.message || "Invalid input"}
+										</p>
+									))}
 							</div>
 						)}
 					</form.Field>

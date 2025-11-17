@@ -75,11 +75,19 @@ async function migrateExistingUsers() {
 					`✅ ${user.email} → ${defaultTenant.code} (${memberRole.name})`,
 				);
 				assignedCount++;
-			} catch (error: any) {
-				if (error.code === "P2002") {
+			} catch (error: unknown) {
+				if (
+					error &&
+					typeof error === "object" &&
+					"code" in error &&
+					error.code === "P2002"
+				) {
 					console.log(`ℹ️  ${user.email} already assigned (skipping)`);
 				} else {
-					console.error(`❌ Failed to assign ${user.email}:`, error.message);
+					console.error(
+						`❌ Failed to assign ${user.email}:`,
+						error instanceof Error ? error.message : String(error),
+					);
 				}
 			}
 		}

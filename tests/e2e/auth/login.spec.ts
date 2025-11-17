@@ -21,7 +21,7 @@ test.describe("Login Flow", () => {
 		await expect(page.locator('button[type="submit"]')).toBeVisible();
 	});
 
-	test("should login with valid credentials", async ({ page, authHelper }) => {
+	test("should login with valid credentials", async ({ page }) => {
 		// Fill in credentials
 		await page.fill('input[name="email"]', "admin@test.gcmc.com");
 		await page.fill('input[name="password"]', "TestPassword123!");

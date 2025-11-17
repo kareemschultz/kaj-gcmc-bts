@@ -103,7 +103,10 @@ const envSchema = z.object({
 	EMAIL_PROVIDER: z.enum(["log", "resend", "smtp"]).default("log"),
 	EMAIL_FROM: z.string().email("EMAIL_FROM must be a valid email").optional(),
 	EMAIL_FROM_NAME: z.string().optional(),
-	EMAIL_REPLY_TO: z.string().email("EMAIL_REPLY_TO must be a valid email").optional(),
+	EMAIL_REPLY_TO: z
+		.string()
+		.email("EMAIL_REPLY_TO must be a valid email")
+		.optional(),
 
 	// Resend Configuration
 	RESEND_API_KEY: z.string().optional(),
@@ -121,7 +124,10 @@ const envSchema = z.object({
 	SMTP_FROM: z.string().email("SMTP_FROM must be a valid email").optional(),
 
 	// Optional: Upstash Redis (for rate limiting)
-	UPSTASH_REDIS_REST_URL: z.string().url("UPSTASH_REDIS_REST_URL must be a valid URL").optional(),
+	UPSTASH_REDIS_REST_URL: z
+		.string()
+		.url("UPSTASH_REDIS_REST_URL must be a valid URL")
+		.optional(),
 	UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 
 	// Optional: Logging

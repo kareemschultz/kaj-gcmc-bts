@@ -539,7 +539,7 @@ class FunctionalTestSuite {
 
 		const report = await this.generateReport();
 
-		console.log("\n" + "=".repeat(60));
+		console.log(`\n${"=".repeat(60)}`);
 		if (report.summary.failed === 0) {
 			console.log("🎉 ALL FUNCTIONAL TESTS PASSED!");
 			console.log("✅ Platform is fully functional and ready for use");

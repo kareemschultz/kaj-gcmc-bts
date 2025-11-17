@@ -7,8 +7,8 @@
  * and provides comprehensive testing with proper error handling
  */
 
-import { existsSync, mkdirSync } from "fs";
-import path from "path";
+import { existsSync, mkdirSync } from "node:fs";
+import path from "node:path";
 import { chromium } from "playwright";
 
 const TEST_CONFIG = {
@@ -134,7 +134,7 @@ class AdvancedE2ETestSuite {
 					state: "detached",
 					timeout: 2000,
 				});
-			} catch (e) {
+			} catch (_e) {
 				// Ignore if no overlay exists
 			}
 
@@ -632,7 +632,7 @@ class AdvancedE2ETestSuite {
 			await this.init();
 
 			// Step 1: Authenticate
-			const authSuccess = await this.authenticateAdmin();
+			const _authSuccess = await this.authenticateAdmin();
 
 			// Step 2: Test application pages
 			await this.testApplicationPages();
@@ -681,7 +681,7 @@ async function main() {
 		const report = await testSuite.runAllTests();
 		const success = report.summary.failed === 0;
 
-		console.log("\n" + "=".repeat(60));
+		console.log(`\n${"=".repeat(60)}`);
 		if (success && report.summary.authenticated) {
 			console.log(
 				"🎉 ALL ADVANCED E2E TESTS PASSED - Platform fully functional!",

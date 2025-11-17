@@ -11,8 +11,8 @@
  * 5. Identifies and fixes remaining issues
  */
 
-import { existsSync, mkdirSync } from "fs";
-import path from "path";
+import { existsSync, mkdirSync } from "node:fs";
+import path from "node:path";
 import { chromium } from "playwright";
 
 const TEST_CONFIG = {
@@ -748,7 +748,7 @@ async function main() {
 		const report = await testSuite.runCompleteTestSuite();
 		const success = report.platformStatus === "PRODUCTION_READY";
 
-		console.log("\n" + "=".repeat(70));
+		console.log(`\n${"=".repeat(70)}`);
 		if (success) {
 			console.log("🎉 PLATFORM READY FOR PRODUCTION! All systems functional!");
 		} else {

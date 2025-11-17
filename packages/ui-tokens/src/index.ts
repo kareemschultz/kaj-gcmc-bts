@@ -136,12 +136,12 @@ export type DesignTokens = typeof designTokens;
  */
 export function hexToOklch(hex: string): string {
 	// Remove # if present
-	hex = hex.replace("#", "");
+	const cleanHex = hex.replace("#", "");
 
 	// Convert hex to RGB
-	const r = Number.parseInt(hex.substring(0, 2), 16) / 255;
-	const g = Number.parseInt(hex.substring(2, 4), 16) / 255;
-	const b = Number.parseInt(hex.substring(4, 6), 16) / 255;
+	const r = Number.parseInt(cleanHex.substring(0, 2), 16) / 255;
+	const g = Number.parseInt(cleanHex.substring(2, 4), 16) / 255;
+	const b = Number.parseInt(cleanHex.substring(4, 6), 16) / 255;
 
 	// Convert RGB to linear RGB
 	const toLinear = (c: number) =>

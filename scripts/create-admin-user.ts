@@ -59,7 +59,7 @@ async function createAdminUser() {
 				// Create permissions for this role
 				const permissionsData = roleDef.permissions.flatMap((perm) =>
 					perm.actions.map((action) => ({
-						roleId: role!.id,
+						roleId: role?.id,
 						module: perm.module,
 						action: action,
 						allowed: true,

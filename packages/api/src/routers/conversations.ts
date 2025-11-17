@@ -186,6 +186,10 @@ export const conversationsRouter = router({
 				data: {
 					...input,
 					tenantId: ctx.tenantId,
+					// Convert undefined to null for optional properties to satisfy exactOptionalPropertyTypes
+					clientId: input.clientId || null,
+					serviceRequestId: input.serviceRequestId || null,
+					subject: input.subject || null,
 				},
 			});
 

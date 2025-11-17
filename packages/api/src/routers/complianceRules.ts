@@ -109,6 +109,8 @@ export const complianceRulesRouter = router({
 				data: {
 					...input,
 					tenantId: ctx.tenantId,
+					// Convert undefined to null for optional JSON properties to satisfy exactOptionalPropertyTypes
+					appliesTo: input.appliesTo ?? null,
 				},
 			});
 
@@ -155,7 +157,14 @@ export const complianceRulesRouter = router({
 					id: input.id,
 					tenantId: ctx.tenantId,
 				},
-				data: input.data,
+				data: {
+					// Convert undefined to null for optional properties to satisfy exactOptionalPropertyTypes
+					...(input.data.name !== undefined && { name: input.data.name }),
+					...(input.data.active !== undefined && { active: input.data.active }),
+					...(input.data.appliesTo !== undefined && {
+						appliesTo: input.data.appliesTo ?? null,
+					}),
+				},
 			});
 
 			// Audit log
@@ -233,7 +242,13 @@ export const complianceRulesRouter = router({
 			}
 
 			const rule = await prisma.complianceRule.create({
-				data: input,
+				data: {
+					...input,
+					// Convert undefined to null for optional properties to satisfy exactOptionalPropertyTypes
+					description: input.description || null,
+					condition: input.condition ?? null,
+					targetId: input.targetId || null,
+				},
 			});
 
 			// Audit log
@@ -277,7 +292,22 @@ export const complianceRulesRouter = router({
 
 			const updated = await prisma.complianceRule.update({
 				where: { id: input.id },
-				data: input.data,
+				data: {
+					// Convert undefined to null for optional properties to satisfy exactOptionalPropertyTypes
+					...(input.data.ruleType !== undefined && {
+						ruleType: input.data.ruleType,
+					}),
+					...(input.data.weight !== undefined && { weight: input.data.weight }),
+					...(input.data.description !== undefined && {
+						description: input.data.description || null,
+					}),
+					...(input.data.condition !== undefined && {
+						condition: input.data.condition ?? null,
+					}),
+					...(input.data.targetId !== undefined && {
+						targetId: input.data.targetId || null,
+					}),
+				},
 			});
 
 			// Audit log

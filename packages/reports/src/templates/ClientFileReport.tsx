@@ -11,7 +11,7 @@
 
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import { format } from "date-fns";
-import type React from "react";
+import React from "react";
 import {
 	colors,
 	commonStyles,

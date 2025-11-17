@@ -218,7 +218,7 @@ export async function generateDocumentsListReport(
 		authority: doc.authority,
 		documentNumber: doc.latestVersion?.metadata
 			? (doc.latestVersion.metadata as { documentNumber?: string })
-					?.documentNumber
+					?.documentNumber || null
 			: null,
 	}));
 
@@ -385,11 +385,11 @@ export async function generateComplianceReport(
 		.map((doc) => ({
 			title: doc.title,
 			documentType: doc.documentType.name,
-			expiryDate: doc.latestVersion.expiryDate as Date,
-			daysUntilExpiry: differenceInDays(
-				doc.latestVersion.expiryDate as Date,
+			expiryDate: doc.latestVersion?.expiryDate || new Date(),
+			daysUntilExpiry: doc.latestVersion?.expiryDate ? differenceInDays(
+				doc.latestVersion.expiryDate,
 				now,
-			),
+			) : 0,
 			status: doc.status,
 		}));
 
@@ -459,7 +459,13 @@ export async function generateComplianceReport(
 			type: client.type,
 			sector: client.sector,
 		},
-		complianceScore,
+		complianceScore: complianceScore
+			? {
+					...complianceScore,
+					breakdown:
+						(complianceScore.breakdown as Record<string, unknown>) || {},
+				}
+			: null,
 		missingDocuments,
 		expiringDocuments,
 		overdueFilings: overdueFilingsList,

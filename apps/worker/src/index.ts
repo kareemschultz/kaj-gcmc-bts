@@ -502,16 +502,19 @@ async function start() {
 }
 
 // Global error handlers for production stability
-process.on("unhandledRejection", (reason: unknown, promise: Promise<unknown>) => {
-	console.error("🚨 [Worker] Unhandled Promise Rejection:", {
-		timestamp: new Date().toISOString(),
-		reason: reason instanceof Error ? reason.message : String(reason),
-		stack: reason instanceof Error ? reason.stack : undefined,
-		promise: String(promise),
-	});
-	// Mark as unhealthy but don't exit - let the health check detect issues
-	isHealthy = false;
-});
+process.on(
+	"unhandledRejection",
+	(reason: unknown, promise: Promise<unknown>) => {
+		console.error("🚨 [Worker] Unhandled Promise Rejection:", {
+			timestamp: new Date().toISOString(),
+			reason: reason instanceof Error ? reason.message : String(reason),
+			stack: reason instanceof Error ? reason.stack : undefined,
+			promise: String(promise),
+		});
+		// Mark as unhealthy but don't exit - let the health check detect issues
+		isHealthy = false;
+	},
+);
 
 process.on("uncaughtException", (error: Error) => {
 	console.error("🚨 [Worker] Uncaught Exception:", {

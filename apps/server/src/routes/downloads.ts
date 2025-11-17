@@ -129,8 +129,8 @@ app.get("/reports/:reportType/:clientId", async (c) => {
 		c.header("Pragma", "no-cache");
 		c.header("Expires", "0");
 
-		// Return PDF buffer
-		return c.body(pdfBuffer);
+		// Return PDF buffer - convert to Uint8Array for Hono compatibility
+		return c.body(new Uint8Array(pdfBuffer));
 	} catch (error) {
 		console.error("Error generating PDF report:", error);
 		return c.json(

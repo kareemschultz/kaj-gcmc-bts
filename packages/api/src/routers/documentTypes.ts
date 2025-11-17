@@ -131,6 +131,10 @@ export const documentTypesRouter = router({
 				data: {
 					...input,
 					tenantId: ctx.tenantId,
+					// Convert undefined to null for optional properties to satisfy exactOptionalPropertyTypes
+					description: input.description || null,
+					authority: input.authority || null,
+					metadata: input.metadata ?? null,
 				},
 			});
 
@@ -203,7 +207,23 @@ export const documentTypesRouter = router({
 					id: input.id,
 					tenantId: ctx.tenantId,
 				},
-				data: input.data,
+				data: {
+					// Convert undefined to null for optional properties to satisfy exactOptionalPropertyTypes
+					...(input.data.name !== undefined && { name: input.data.name }),
+					...(input.data.category !== undefined && {
+						category: input.data.category,
+					}),
+					...(input.data.description !== undefined && {
+						description: input.data.description || null,
+					}),
+					...(input.data.authority !== undefined && {
+						authority: input.data.authority || null,
+					}),
+					...(input.data.metadata !== undefined && {
+						metadata: input.data.metadata ?? null,
+					}),
+					...(input.data.tags !== undefined && { tags: input.data.tags }),
+				},
 			});
 
 			// Audit log

@@ -10,7 +10,7 @@
 
 import { Document, Page, Text, View } from "@react-pdf/renderer";
 import { format } from "date-fns";
-import type React from "react";
+import React from "react";
 import { colors, commonStyles, getStatusStyle } from "../styles/common";
 
 interface FilingsSummaryReportProps {
@@ -144,7 +144,6 @@ export const FilingsSummaryReport: React.FC<FilingsSummaryReportProps> = ({
 										commonStyles.tableCell,
 										{ width: "15%", fontSize: 8 },
 									]}
-									numberOfLines={2}
 								>
 									{filing.internalNotes || "-"}
 								</Text>

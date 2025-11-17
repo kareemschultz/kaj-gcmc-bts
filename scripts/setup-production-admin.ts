@@ -68,7 +68,7 @@ async function setupProductionAdmin() {
 				// Create comprehensive permissions
 				const permissionsData = firmAdminDef.permissions.flatMap((perm) =>
 					perm.actions.map((action) => ({
-						roleId: firmAdminRole!.id,
+						roleId: firmAdminRole?.id,
 						module: perm.module,
 						action: action,
 						allowed: true,

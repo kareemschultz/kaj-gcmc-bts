@@ -354,8 +354,11 @@ export const analyticsRouter = router({
 							revenue: 0,
 						};
 					}
-					acc[sr.serviceId].count++;
-					acc[sr.serviceId].revenue += sr.service.basePrice || 0;
+					const serviceData = acc[sr.serviceId];
+					if (serviceData) {
+						serviceData.count++;
+						serviceData.revenue += sr.service.basePrice || 0;
+					}
 					return acc;
 				},
 				{} as Record<
@@ -417,7 +420,10 @@ export const analyticsRouter = router({
 					if (!acc[log.actorUserId]) {
 						acc[log.actorUserId] = { userId: log.actorUserId, count: 0 };
 					}
-					acc[log.actorUserId].count++;
+					const userData = acc[log.actorUserId];
+					if (userData) {
+						userData.count++;
+					}
 					return acc;
 				},
 				{} as Record<string, { userId: string; count: number }>,
@@ -431,7 +437,10 @@ export const analyticsRouter = router({
 					if (!acc[log.action]) {
 						acc[log.action] = { action: log.action, count: 0 };
 					}
-					acc[log.action].count++;
+					const actionData = acc[log.action];
+					if (actionData) {
+						actionData.count++;
+					}
 					return acc;
 				},
 				{} as Record<string, { action: string; count: number }>,

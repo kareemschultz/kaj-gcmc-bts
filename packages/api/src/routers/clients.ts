@@ -151,6 +151,15 @@ export const clientsRouter = router({
 				data: {
 					...input,
 					tenantId: ctx.tenantId,
+					// Convert undefined to null for optional properties to satisfy exactOptionalPropertyTypes
+					email: input.email || null,
+					phone: input.phone || null,
+					address: input.address || null,
+					tin: input.tin || null,
+					nisNumber: input.nisNumber || null,
+					sector: input.sector || null,
+					riskLevel: input.riskLevel || null,
+					notes: input.notes || null,
 				},
 				include: {
 					tenant: true,
@@ -172,7 +181,7 @@ export const clientsRouter = router({
 
 			// Send welcome email if client has email
 			if (client.email) {
-				const contactInfo = client.tenant.contactInfo;
+				const contactInfo = (client as typeof client & { tenant: { contactInfo: unknown; name: string } }).tenant.contactInfo;
 				let tenantSupportEmail: string | undefined;
 
 				if (
@@ -189,7 +198,7 @@ export const clientsRouter = router({
 				try {
 					await queueWelcomeEmail(client.email, {
 						clientName: client.name,
-						tenantName: client.tenant.name,
+						tenantName: (client as typeof client & { tenant: { contactInfo: unknown; name: string } }).tenant.name,
 						portalUrl: process.env.PORTAL_URL || "https://portal.gcmc.com",
 						supportEmail:
 							process.env.SUPPORT_EMAIL ||
@@ -234,7 +243,33 @@ export const clientsRouter = router({
 					id: input.id,
 					tenantId: ctx.tenantId,
 				},
-				data: input.data,
+				data: {
+					// Convert undefined to null for optional properties to satisfy exactOptionalPropertyTypes
+					...(input.data.name !== undefined && { name: input.data.name }),
+					...(input.data.type !== undefined && { type: input.data.type }),
+					...(input.data.email !== undefined && {
+						email: input.data.email || null,
+					}),
+					...(input.data.phone !== undefined && {
+						phone: input.data.phone || null,
+					}),
+					...(input.data.address !== undefined && {
+						address: input.data.address || null,
+					}),
+					...(input.data.tin !== undefined && { tin: input.data.tin || null }),
+					...(input.data.nisNumber !== undefined && {
+						nisNumber: input.data.nisNumber || null,
+					}),
+					...(input.data.sector !== undefined && {
+						sector: input.data.sector || null,
+					}),
+					...(input.data.riskLevel !== undefined && {
+						riskLevel: input.data.riskLevel || null,
+					}),
+					...(input.data.notes !== undefined && {
+						notes: input.data.notes || null,
+					}),
+				},
 			});
 
 			// Audit log
