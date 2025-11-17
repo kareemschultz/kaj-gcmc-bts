@@ -6,6 +6,18 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { queryClient, trpc, trpcClient } from "@/utils/trpc";
 import { ThemeProvider } from "./theme-provider";
 import { Toaster } from "./ui/sonner";
+import { CommandPalette, useCommandPalette } from "./ui/command-palette";
+
+function ProvidersWithCommandPalette({ children }: { children: React.ReactNode }) {
+	const { open, setOpen } = useCommandPalette();
+
+	return (
+		<>
+			{children}
+			<CommandPalette open={open} setOpen={setOpen} />
+		</>
+	);
+}
 
 export default function Providers({ children }: { children: React.ReactNode }) {
 	return (
@@ -18,7 +30,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 					disableTransitionOnChange
 				>
 					<QueryClientProvider client={queryClient}>
-						{children}
+						<ProvidersWithCommandPalette>
+							{children}
+						</ProvidersWithCommandPalette>
 						<ReactQueryDevtools />
 					</QueryClientProvider>
 					<Toaster richColors />
