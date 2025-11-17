@@ -9,9 +9,21 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useIsClient } from "./client-only";
 
 export function ModeToggle() {
 	const { setTheme } = useTheme();
+	const isClient = useIsClient();
+
+	// Show a simple button during SSR/hydration to prevent layout shift
+	if (!isClient) {
+		return (
+			<Button variant="outline" size="icon" disabled>
+				<Sun className="h-[1.2rem] w-[1.2rem]" />
+				<span className="sr-only">Toggle theme</span>
+			</Button>
+		);
+	}
 
 	return (
 		<DropdownMenu>

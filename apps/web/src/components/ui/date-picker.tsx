@@ -146,7 +146,9 @@ export function TimePicker({
 	const [isOpen, setIsOpen] = React.useState(false);
 
 	const handleTimeSelect = (hours: number, minutes: number) => {
-		const newTime = new Date();
+		// Use existing time if available, otherwise start with current date
+		const baseTime = time || new Date();
+		const newTime = new Date(baseTime);
 		newTime.setHours(hours);
 		newTime.setMinutes(minutes);
 		newTime.setSeconds(0);
@@ -250,7 +252,9 @@ export function DateTimePicker({
 	};
 
 	const handleTimeSelect = (hours: number, minutes: number) => {
-		const newDate = date ? new Date(date) : new Date();
+		// Always use existing date if available, fallback to today only if needed
+		const baseDate = date || new Date();
+		const newDate = new Date(baseDate);
 		newDate.setHours(hours);
 		newDate.setMinutes(minutes);
 		newDate.setSeconds(0);

@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -15,8 +18,14 @@ import { Skeleton } from "./ui/skeleton";
 export default function UserMenu() {
 	const router = useRouter();
 	const { data: session, isPending } = authClient.useSession();
+	const [isClient, setIsClient] = useState(false);
 
-	if (isPending) {
+	useEffect(() => {
+		setIsClient(true);
+	}, []);
+
+	// Show loading state during hydration and while session is loading
+	if (!isClient || isPending) {
 		return <Skeleton className="h-9 w-24" />;
 	}
 

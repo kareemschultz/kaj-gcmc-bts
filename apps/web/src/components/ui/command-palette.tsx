@@ -39,6 +39,9 @@ export function CommandPalette({ open, setOpen }: CommandPaletteProps) {
 	const router = useRouter();
 
 	React.useEffect(() => {
+		// Only run on client-side
+		if (typeof window === 'undefined') return;
+
 		const down = (e: KeyboardEvent) => {
 			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
@@ -169,6 +172,9 @@ export function useCommandPalette() {
 	const [open, setOpen] = React.useState(false);
 
 	React.useEffect(() => {
+		// Only run on client-side
+		if (typeof window === 'undefined') return;
+
 		const down = (e: KeyboardEvent) => {
 			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();

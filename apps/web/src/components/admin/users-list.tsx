@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
+import { formatDate } from "@/utils/date-utils";
 
 const USER_SKELETON_ITEMS = Array.from(
 	{ length: 6 },
@@ -196,7 +197,7 @@ export function UsersList() {
 											</p>
 										)}
 										<p className="text-muted-foreground text-xs">
-											Joined: {new Date(user.createdAt).toLocaleDateString()}
+											Joined: {formatDate(user.createdAt)}
 										</p>
 									</div>
 								</CardContent>

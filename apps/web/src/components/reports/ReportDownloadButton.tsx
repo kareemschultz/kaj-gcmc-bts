@@ -99,8 +99,13 @@ export function ReportDownloadButton({
 			}
 
 			if (result.success) {
+				// Ensure we're on the client side
+				if (typeof window === 'undefined') {
+					throw new Error("Download is only available on client side");
+				}
+
 				// Convert base64 to blob
-				const binaryString = atob(result.data);
+				const binaryString = window.atob(result.data);
 				const bytes = new Uint8Array(binaryString.length);
 				for (let i = 0; i < binaryString.length; i++) {
 					bytes[i] = binaryString.charCodeAt(i);
