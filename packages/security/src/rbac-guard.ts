@@ -5,8 +5,8 @@
  * Provides fine-grained permission checking and enforcement
  */
 
-import type { UserRole } from '@GCMC-KAJ/types';
-import prisma from '@GCMC-KAJ/db';
+import prisma from "@GCMC-KAJ/db";
+import type { UserRole } from "@GCMC-KAJ/types";
 
 export interface RbacContext {
 	userId: string;
@@ -24,120 +24,123 @@ export interface Permission {
  * Permission matrix for all roles
  * This defines what each role can do within their tenant
  */
-export const PERMISSION_MATRIX: Record<UserRole, {
-	modules: Record<string, string[]>;
-	global?: boolean;
-	inherits?: UserRole[];
-}> = {
-	'Super Admin': {
+export const PERMISSION_MATRIX: Record<
+	UserRole,
+	{
+		modules: Record<string, string[]>;
+		global?: boolean;
+		inherits?: UserRole[];
+	}
+> = {
+	"Super Admin": {
 		global: true, // Can access all tenants
 		modules: {
-			'*': ['*'], // All actions on all modules
+			"*": ["*"], // All actions on all modules
 		},
 	},
-	'Tenant Admin': {
+	"Tenant Admin": {
 		modules: {
-			'clients': ['view', 'create', 'edit', 'delete'],
-			'documents': ['view', 'create', 'edit', 'delete'],
-			'filings': ['view', 'create', 'edit', 'delete'],
-			'services': ['view', 'create', 'edit', 'delete'],
-			'users': ['view', 'create', 'edit', 'delete'],
-			'settings': ['view', 'edit'],
-			'analytics': ['view', 'export'],
-			'compliance': ['view', 'create', 'edit'],
-			'tasks': ['view', 'create', 'edit', 'delete'],
-			'notifications': ['view', 'create', 'edit', 'delete'],
-			'profile': ['view', 'edit'],
-			'dashboard': ['view'],
-			'reports': ['view', 'create', 'export'],
+			clients: ["view", "create", "edit", "delete"],
+			documents: ["view", "create", "edit", "delete"],
+			filings: ["view", "create", "edit", "delete"],
+			services: ["view", "create", "edit", "delete"],
+			users: ["view", "create", "edit", "delete"],
+			settings: ["view", "edit"],
+			analytics: ["view", "export"],
+			compliance: ["view", "create", "edit"],
+			tasks: ["view", "create", "edit", "delete"],
+			notifications: ["view", "create", "edit", "delete"],
+			profile: ["view", "edit"],
+			dashboard: ["view"],
+			reports: ["view", "create", "export"],
 		},
 	},
-	'Manager': {
+	Manager: {
 		modules: {
-			'clients': ['view', 'create', 'edit'],
-			'documents': ['view', 'create', 'edit'],
-			'filings': ['view', 'create', 'edit'],
-			'services': ['view', 'create', 'edit'],
-			'users': ['view'],
-			'settings': ['view'],
-			'analytics': ['view'],
-			'compliance': ['view', 'create', 'edit'],
-			'tasks': ['view', 'create', 'edit'],
-			'notifications': ['view', 'create'],
-			'profile': ['view', 'edit'],
-			'dashboard': ['view'],
-			'reports': ['view', 'create'],
+			clients: ["view", "create", "edit"],
+			documents: ["view", "create", "edit"],
+			filings: ["view", "create", "edit"],
+			services: ["view", "create", "edit"],
+			users: ["view"],
+			settings: ["view"],
+			analytics: ["view"],
+			compliance: ["view", "create", "edit"],
+			tasks: ["view", "create", "edit"],
+			notifications: ["view", "create"],
+			profile: ["view", "edit"],
+			dashboard: ["view"],
+			reports: ["view", "create"],
 		},
 	},
-	'Supervisor': {
+	Supervisor: {
 		modules: {
-			'clients': ['view', 'create', 'edit'],
-			'documents': ['view', 'create', 'edit'],
-			'filings': ['view', 'create', 'edit'],
-			'services': ['view', 'create'],
-			'users': ['view'],
-			'analytics': ['view'],
-			'compliance': ['view', 'create'],
-			'tasks': ['view', 'create', 'edit'],
-			'notifications': ['view'],
-			'profile': ['view', 'edit'],
-			'dashboard': ['view'],
-			'reports': ['view'],
+			clients: ["view", "create", "edit"],
+			documents: ["view", "create", "edit"],
+			filings: ["view", "create", "edit"],
+			services: ["view", "create"],
+			users: ["view"],
+			analytics: ["view"],
+			compliance: ["view", "create"],
+			tasks: ["view", "create", "edit"],
+			notifications: ["view"],
+			profile: ["view", "edit"],
+			dashboard: ["view"],
+			reports: ["view"],
 		},
 	},
-	'Senior Staff': {
+	"Senior Staff": {
 		modules: {
-			'clients': ['view', 'create', 'edit'],
-			'documents': ['view', 'create', 'edit'],
-			'filings': ['view', 'create', 'edit'],
-			'services': ['view'],
-			'analytics': ['view'],
-			'compliance': ['view'],
-			'tasks': ['view', 'create', 'edit'],
-			'notifications': ['view'],
-			'profile': ['view', 'edit'],
-			'dashboard': ['view'],
-			'reports': ['view'],
+			clients: ["view", "create", "edit"],
+			documents: ["view", "create", "edit"],
+			filings: ["view", "create", "edit"],
+			services: ["view"],
+			analytics: ["view"],
+			compliance: ["view"],
+			tasks: ["view", "create", "edit"],
+			notifications: ["view"],
+			profile: ["view", "edit"],
+			dashboard: ["view"],
+			reports: ["view"],
 		},
 	},
-	'Staff': {
+	Staff: {
 		modules: {
-			'clients': ['view', 'create', 'edit'],
-			'documents': ['view', 'create'],
-			'filings': ['view', 'create'],
-			'services': ['view'],
-			'compliance': ['view'],
-			'tasks': ['view', 'create'],
-			'notifications': ['view'],
-			'profile': ['view', 'edit'],
-			'dashboard': ['view'],
-			'reports': ['view'],
+			clients: ["view", "create", "edit"],
+			documents: ["view", "create"],
+			filings: ["view", "create"],
+			services: ["view"],
+			compliance: ["view"],
+			tasks: ["view", "create"],
+			notifications: ["view"],
+			profile: ["view", "edit"],
+			dashboard: ["view"],
+			reports: ["view"],
 		},
 	},
-	'Junior Staff': {
+	"Junior Staff": {
 		modules: {
-			'clients': ['view'],
-			'documents': ['view'],
-			'filings': ['view'],
-			'services': ['view'],
-			'tasks': ['view', 'create'],
-			'notifications': ['view'],
-			'profile': ['view', 'edit'],
-			'dashboard': ['view'],
+			clients: ["view"],
+			documents: ["view"],
+			filings: ["view"],
+			services: ["view"],
+			tasks: ["view", "create"],
+			notifications: ["view"],
+			profile: ["view", "edit"],
+			dashboard: ["view"],
 		},
 	},
-	'Viewer': {
+	Viewer: {
 		modules: {
-			'clients': ['view'],
-			'documents': ['view'],
-			'filings': ['view'],
-			'services': ['view'],
-			'analytics': ['view'],
-			'compliance': ['view'],
-			'tasks': ['view'],
-			'notifications': ['view'],
-			'profile': ['view', 'edit'],
-			'dashboard': ['view'],
+			clients: ["view"],
+			documents: ["view"],
+			filings: ["view"],
+			services: ["view"],
+			analytics: ["view"],
+			compliance: ["view"],
+			tasks: ["view"],
+			notifications: ["view"],
+			profile: ["view", "edit"],
+			dashboard: ["view"],
 		},
 	},
 };
@@ -147,10 +150,10 @@ export const PERMISSION_MATRIX: Record<UserRole, {
  */
 export async function hasPermission(
 	context: RbacContext,
-	permission: Permission
+	permission: Permission,
 ): Promise<boolean> {
 	// Super Admin has all permissions globally
-	if (context.role === 'Super Admin') {
+	if (context.role === "Super Admin") {
 		return true;
 	}
 
@@ -161,13 +164,15 @@ export async function hasPermission(
 	}
 
 	// Check if role has global access (shouldn't apply to non-super-admin)
-	if (rolePermissions.global && context.role !== 'Super Admin') {
+	if (rolePermissions.global && context.role !== "Super Admin") {
 		return false; // Security: only Super Admin should have global access
 	}
 
 	// Check module permissions
 	const modulePermissions = rolePermissions.modules[permission.module] || [];
-	const hasModuleAccess = modulePermissions.includes(permission.action) || modulePermissions.includes('*');
+	const hasModuleAccess =
+		modulePermissions.includes(permission.action) ||
+		modulePermissions.includes("*");
 
 	if (!hasModuleAccess) {
 		// Check inherited roles if any
@@ -195,13 +200,13 @@ export async function hasPermission(
  */
 async function hasResourcePermission(
 	context: RbacContext,
-	permission: Permission
+	permission: Permission,
 ): Promise<boolean> {
 	if (!permission.resourceId) return true;
 
 	try {
 		switch (permission.module) {
-			case 'clients':
+			case "clients": {
 				const client = await prisma.client.findFirst({
 					where: {
 						id: Number(permission.resourceId),
@@ -209,8 +214,9 @@ async function hasResourcePermission(
 					},
 				});
 				return client !== null;
+			}
 
-			case 'documents':
+			case "documents": {
 				const document = await prisma.document.findFirst({
 					where: {
 						id: Number(permission.resourceId),
@@ -221,8 +227,9 @@ async function hasResourcePermission(
 					include: { client: true },
 				});
 				return document !== null;
+			}
 
-			case 'filings':
+			case "filings": {
 				const filing = await prisma.filing.findFirst({
 					where: {
 						id: Number(permission.resourceId),
@@ -233,8 +240,9 @@ async function hasResourcePermission(
 					include: { client: true },
 				});
 				return filing !== null;
+			}
 
-			case 'users':
+			case "users": {
 				// Users can edit their own profile, admins can edit tenant users
 				if (permission.resourceId === context.userId) {
 					return true; // Users can always edit their own profile
@@ -247,13 +255,17 @@ async function hasResourcePermission(
 						tenantId: context.tenantId,
 					},
 				});
-				return targetUser !== null && ['Tenant Admin', 'Manager'].includes(context.role);
+				return (
+					targetUser !== null &&
+					["Tenant Admin", "Manager"].includes(context.role)
+				);
+			}
 
 			default:
 				return true;
 		}
 	} catch (error) {
-		console.error('Error checking resource permission:', error);
+		console.error("Error checking resource permission:", error);
 		return false; // Fail secure
 	}
 }
@@ -265,7 +277,9 @@ export function requirePermission(permission: Permission) {
 	return async (context: RbacContext) => {
 		const allowed = await hasPermission(context, permission);
 		if (!allowed) {
-			throw new Error(`Access denied: insufficient permissions for ${permission.module}.${permission.action}`);
+			throw new Error(
+				`Access denied: insufficient permissions for ${permission.module}.${permission.action}`,
+			);
 		}
 		return true;
 	};
@@ -276,7 +290,7 @@ export function requirePermission(permission: Permission) {
  */
 export async function hasAllPermissions(
 	context: RbacContext,
-	permissions: Permission[]
+	permissions: Permission[],
 ): Promise<boolean> {
 	for (const permission of permissions) {
 		if (!(await hasPermission(context, permission))) {
@@ -291,7 +305,7 @@ export async function hasAllPermissions(
  */
 export async function hasAnyPermission(
 	context: RbacContext,
-	permissions: Permission[]
+	permissions: Permission[],
 ): Promise<boolean> {
 	for (const permission of permissions) {
 		if (await hasPermission(context, permission)) {
@@ -322,7 +336,10 @@ export function getRolePermissions(role: UserRole): Permission[] {
 /**
  * Ensure tenant isolation - verify user belongs to tenant
  */
-export async function validateTenantAccess(userId: string, tenantId: number): Promise<boolean> {
+export async function validateTenantAccess(
+	userId: string,
+	tenantId: number,
+): Promise<boolean> {
 	try {
 		// Super Admin can access any tenant
 		const userTenant = await prisma.tenantUser.findFirst({
@@ -330,7 +347,7 @@ export async function validateTenantAccess(userId: string, tenantId: number): Pr
 			include: { role: true },
 		});
 
-		if (userTenant?.role.name === 'Super Admin') {
+		if (userTenant?.role.name === "Super Admin") {
 			return true;
 		}
 
@@ -344,7 +361,7 @@ export async function validateTenantAccess(userId: string, tenantId: number): Pr
 
 		return tenantUser !== null;
 	} catch (error) {
-		console.error('Error validating tenant access:', error);
+		console.error("Error validating tenant access:", error);
 		return false; // Fail secure
 	}
 }
@@ -354,11 +371,11 @@ export async function validateTenantAccess(userId: string, tenantId: number): Pr
  */
 export async function getTenantFilteredData<T>(
 	context: RbacContext,
-	query: () => Promise<T[]>
+	query: () => Promise<T[]>,
 ): Promise<T[]> {
 	try {
 		// Super Admin sees everything
-		if (context.role === 'Super Admin') {
+		if (context.role === "Super Admin") {
 			return await query();
 		}
 
@@ -366,7 +383,7 @@ export async function getTenantFilteredData<T>(
 		// The query should already include tenant filtering
 		return await query();
 	} catch (error) {
-		console.error('Error in tenant-filtered data query:', error);
+		console.error("Error in tenant-filtered data query:", error);
 		return []; // Fail secure
 	}
 }
@@ -378,7 +395,7 @@ export async function logPermissionCheck(
 	context: RbacContext,
 	permission: Permission,
 	granted: boolean,
-	resourceDetails?: any
+	resourceDetails?: any,
 ): Promise<void> {
 	try {
 		// In production, you would send this to your audit logging system
@@ -394,11 +411,11 @@ export async function logPermissionCheck(
 			resourceDetails,
 		};
 
-		console.log('🔒 Permission Check:', logEntry);
+		console.log("🔒 Permission Check:", logEntry);
 
 		// TODO: Send to audit logging service
 		// await auditLogger.log('PERMISSION_CHECK', logEntry);
 	} catch (error) {
-		console.error('Error logging permission check:', error);
+		console.error("Error logging permission check:", error);
 	}
 }

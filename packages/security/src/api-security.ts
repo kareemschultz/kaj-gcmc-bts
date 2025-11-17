@@ -5,12 +5,11 @@
  * Implements input validation, rate limiting, and security controls
  */
 
-import type { Context } from '@GCMC-KAJ/api/context';
-import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
-import { hasPermission, type RbacContext } from './rbac-guard';
-import { validateTenantAccess } from './tenant-isolation';
-import { SecureSchemas } from './input-validation';
+import type { Context } from "@GCMC-KAJ/api/context";
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import { SecureSchemas } from "./input-validation";
+import { hasPermission, type RbacContext } from "./rbac-guard";
 
 /**
  * Security context for API requests
@@ -26,8 +25,8 @@ export interface ApiSecurityContext extends Context {
 export function createSecureContext(context: Context): ApiSecurityContext {
 	if (!context.user || !context.tenantId || !context.role) {
 		throw new TRPCError({
-			code: 'UNAUTHORIZED',
-			message: 'Authentication required',
+			code: "UNAUTHORIZED",
+			message: "Authentication required",
 		});
 	}
 
@@ -45,15 +44,15 @@ export function requireAuth() {
 	return async (context: Context) => {
 		if (!context.user) {
 			throw new TRPCError({
-				code: 'UNAUTHORIZED',
-				message: 'Authentication required',
+				code: "UNAUTHORIZED",
+				message: "Authentication required",
 			});
 		}
 
 		if (!context.tenantId || !context.role) {
 			throw new TRPCError({
-				code: 'FORBIDDEN',
-				message: 'User not assigned to any tenant',
+				code: "FORBIDDEN",
+				message: "User not assigned to any tenant",
 			});
 		}
 
@@ -70,8 +69,8 @@ export function requireRole(allowedRoles: string[]) {
 
 		if (!allowedRoles.includes(secureContext.role)) {
 			throw new TRPCError({
-				code: 'FORBIDDEN',
-				message: `Access denied. Required roles: ${allowedRoles.join(', ')}`,
+				code: "FORBIDDEN",
+				message: `Access denied. Required roles: ${allowedRoles.join(", ")}`,
 			});
 		}
 
@@ -87,7 +86,7 @@ export function requirePermission(module: string, action: string) {
 		const secureContext = await requireAuth()(context);
 
 		const rbacContext: RbacContext = {
-			userId: secureContext.user!.id,
+			userId: secureContext.user?.id,
 			tenantId: secureContext.tenantId,
 			role: secureContext.role as any,
 		};
@@ -100,7 +99,7 @@ export function requirePermission(module: string, action: string) {
 
 		if (!allowed) {
 			throw new TRPCError({
-				code: 'FORBIDDEN',
+				code: "FORBIDDEN",
 				message: `Access denied: insufficient permissions for ${module}.${action}`,
 			});
 		}
@@ -112,20 +111,22 @@ export function requirePermission(module: string, action: string) {
 /**
  * Validate tenant access for resources
  */
-export function requireTenantResource(resourceType: 'client' | 'document' | 'filing' | 'service') {
+export function requireTenantResource(
+	resourceType: "client" | "document" | "filing" | "service",
+) {
 	return async (context: Context, resourceId: number) => {
 		const secureContext = await requireAuth()(context);
 
 		const hasAccess = await validateResourceTenantAccess(
 			resourceType,
 			resourceId,
-			secureContext.tenantId
+			secureContext.tenantId,
 		);
 
 		if (!hasAccess) {
 			throw new TRPCError({
-				code: 'NOT_FOUND',
-				message: 'Resource not found or access denied',
+				code: "NOT_FOUND",
+				message: "Resource not found or access denied",
 			});
 		}
 
@@ -141,8 +142,11 @@ export const ApiSchemas = {
 	pagination: z.object({
 		page: z.number().min(1).max(1000).default(1),
 		limit: z.number().min(1).max(100).default(20),
-		orderBy: z.string().regex(/^[a-zA-Z_][a-zA-Z0-9_]*$/).optional(),
-		orderDir: z.enum(['asc', 'desc']).default('desc'),
+		orderBy: z
+			.string()
+			.regex(/^[a-zA-Z_][a-zA-Z0-9_]*$/)
+			.optional(),
+		orderDir: z.enum(["asc", "desc"]).default("desc"),
 	}),
 
 	// Search and filtering
@@ -156,16 +160,23 @@ export const ApiSchemas = {
 		name: SecureSchemas.businessName,
 		email: SecureSchemas.email.optional(),
 		phone: SecureSchemas.phoneNumber.optional(),
-		address: z.object({
-			street: SecureSchemas.safeText,
-			city: SecureSchemas.safeText,
-			state: SecureSchemas.safeText,
-			postalCode: SecureSchemas.postalCode,
-			country: SecureSchemas.safeText.default('US'),
-		}).optional(),
-		taxId: z.string().regex(/^[0-9\-]+$/).optional(),
+		address: z
+			.object({
+				street: SecureSchemas.safeText,
+				city: SecureSchemas.safeText,
+				state: SecureSchemas.safeText,
+				postalCode: SecureSchemas.postalCode,
+				country: SecureSchemas.safeText.default("US"),
+			})
+			.optional(),
+		taxId: z
+			.string()
+			.regex(/^[0-9-]+$/)
+			.optional(),
 		incorporationDate: z.string().datetime().optional(),
-		businessType: z.enum(['Corporation', 'LLC', 'Partnership', 'Sole Proprietorship']).optional(),
+		businessType: z
+			.enum(["Corporation", "LLC", "Partnership", "Sole Proprietorship"])
+			.optional(),
 	}),
 
 	updateClient: z.object({
@@ -173,16 +184,23 @@ export const ApiSchemas = {
 		name: SecureSchemas.businessName.optional(),
 		email: SecureSchemas.email.optional(),
 		phone: SecureSchemas.phoneNumber.optional(),
-		address: z.object({
-			street: SecureSchemas.safeText,
-			city: SecureSchemas.safeText,
-			state: SecureSchemas.safeText,
-			postalCode: SecureSchemas.postalCode,
-			country: SecureSchemas.safeText,
-		}).optional(),
-		taxId: z.string().regex(/^[0-9\-]+$/).optional(),
+		address: z
+			.object({
+				street: SecureSchemas.safeText,
+				city: SecureSchemas.safeText,
+				state: SecureSchemas.safeText,
+				postalCode: SecureSchemas.postalCode,
+				country: SecureSchemas.safeText,
+			})
+			.optional(),
+		taxId: z
+			.string()
+			.regex(/^[0-9-]+$/)
+			.optional(),
 		incorporationDate: z.string().datetime().optional(),
-		businessType: z.enum(['Corporation', 'LLC', 'Partnership', 'Sole Proprietorship']).optional(),
+		businessType: z
+			.enum(["Corporation", "LLC", "Partnership", "Sole Proprietorship"])
+			.optional(),
 	}),
 
 	// Document operations
@@ -192,8 +210,11 @@ export const ApiSchemas = {
 		type: z.string().min(1).max(50),
 		description: SecureSchemas.safeText.optional(),
 		filePath: z.string().min(1).max(500),
-		fileSize: z.number().positive().max(100 * 1024 * 1024), // 100MB max
-		mimeType: z.string().regex(/^[a-z]+\/[a-z0-9\-\+]+$/i),
+		fileSize: z
+			.number()
+			.positive()
+			.max(100 * 1024 * 1024), // 100MB max
+		mimeType: z.string().regex(/^[a-z]+\/[a-z0-9\-+]+$/i),
 	}),
 
 	// Filing operations
@@ -201,8 +222,10 @@ export const ApiSchemas = {
 		clientId: z.number().positive(),
 		filingTypeId: z.number().positive(),
 		dueDate: z.string().datetime(),
-		status: z.enum(['Pending', 'In Progress', 'Completed', 'Overdue']).default('Pending'),
-		priority: z.enum(['Low', 'Normal', 'High', 'Critical']).default('Normal'),
+		status: z
+			.enum(["Pending", "In Progress", "Completed", "Overdue"])
+			.default("Pending"),
+		priority: z.enum(["Low", "Normal", "High", "Critical"]).default("Normal"),
 		notes: SecureSchemas.safeText.optional(),
 	}),
 
@@ -211,14 +234,27 @@ export const ApiSchemas = {
 		id: z.string().uuid(),
 		name: SecureSchemas.safeText.optional(),
 		email: SecureSchemas.email.optional(),
-		role: z.enum(['Tenant Admin', 'Manager', 'Supervisor', 'Senior Staff', 'Staff', 'Junior Staff', 'Viewer']).optional(),
+		role: z
+			.enum([
+				"Tenant Admin",
+				"Manager",
+				"Supervisor",
+				"Senior Staff",
+				"Staff",
+				"Junior Staff",
+				"Viewer",
+			])
+			.optional(),
 	}),
 
 	// File upload
 	fileUpload: z.object({
 		fileName: SecureSchemas.fileName,
-		fileSize: z.number().positive().max(100 * 1024 * 1024),
-		mimeType: z.string().regex(/^[a-z]+\/[a-z0-9\-\+]+$/i),
+		fileSize: z
+			.number()
+			.positive()
+			.max(100 * 1024 * 1024),
+		mimeType: z.string().regex(/^[a-z]+\/[a-z0-9\-+]+$/i),
 		clientId: z.number().positive().optional(),
 	}),
 };
@@ -249,17 +285,20 @@ export const API_RATE_LIMITS = {
 /**
  * SQL injection prevention for dynamic queries
  */
-export function sanitizeOrderBy(orderBy: string, allowedColumns: string[]): string | null {
-	if (!orderBy || typeof orderBy !== 'string') return null;
+export function sanitizeOrderBy(
+	orderBy: string,
+	allowedColumns: string[],
+): string | null {
+	if (!orderBy || typeof orderBy !== "string") return null;
 
 	// Remove any non-alphanumeric characters except underscore
-	const sanitized = orderBy.replace(/[^a-zA-Z0-9_]/g, '');
+	const sanitized = orderBy.replace(/[^a-zA-Z0-9_]/g, "");
 
 	// Check if column is in allowed list
 	if (!allowedColumns.includes(sanitized)) {
 		throw new TRPCError({
-			code: 'BAD_REQUEST',
-			message: 'Invalid order by column',
+			code: "BAD_REQUEST",
+			message: "Invalid order by column",
 		});
 	}
 
@@ -270,7 +309,7 @@ export function sanitizeOrderBy(orderBy: string, allowedColumns: string[]): stri
  * Validate and sanitize search query
  */
 export function sanitizeSearchQuery(query: string): string {
-	if (!query || typeof query !== 'string') return '';
+	if (!query || typeof query !== "string") return "";
 
 	// Remove SQL injection patterns
 	const dangerous = [
@@ -282,8 +321,8 @@ export function sanitizeSearchQuery(query: string): string {
 	for (const pattern of dangerous) {
 		if (pattern.test(query)) {
 			throw new TRPCError({
-				code: 'BAD_REQUEST',
-				message: 'Invalid search query',
+				code: "BAD_REQUEST",
+				message: "Invalid search query",
 			});
 		}
 	}
@@ -310,32 +349,32 @@ export function validateFileUpload(file: {
 
 	// Check file size (100MB limit)
 	if (file.fileSize > 100 * 1024 * 1024) {
-		errors.push('File size exceeds 100MB limit');
+		errors.push("File size exceeds 100MB limit");
 	}
 
 	// Check MIME type whitelist
 	const allowedMimeTypes = [
 		// Documents
-		'application/pdf',
-		'application/msword',
-		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-		'application/vnd.ms-excel',
-		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+		"application/pdf",
+		"application/msword",
+		"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+		"application/vnd.ms-excel",
+		"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 		// Images
-		'image/jpeg',
-		'image/png',
-		'image/gif',
-		'image/webp',
+		"image/jpeg",
+		"image/png",
+		"image/gif",
+		"image/webp",
 		// Text
-		'text/plain',
-		'text/csv',
+		"text/plain",
+		"text/csv",
 		// Archives
-		'application/zip',
-		'application/x-zip-compressed',
+		"application/zip",
+		"application/x-zip-compressed",
 	];
 
 	if (!allowedMimeTypes.includes(file.mimeType)) {
-		errors.push('File type not allowed');
+		errors.push("File type not allowed");
 	}
 
 	return { isValid: errors.length === 0, errors };
@@ -346,7 +385,7 @@ export function validateFileUpload(file: {
  */
 export function handleSecurityError(error: any, context?: Context): TRPCError {
 	// Log security incidents
-	console.error('🚨 API Security Error:', {
+	console.error("🚨 API Security Error:", {
 		timestamp: new Date().toISOString(),
 		error: error.message,
 		userId: context?.user?.id,
@@ -360,11 +399,14 @@ export function handleSecurityError(error: any, context?: Context): TRPCError {
 	}
 
 	return new TRPCError({
-		code: 'INTERNAL_SERVER_ERROR',
-		message: 'A security error occurred',
+		code: "INTERNAL_SERVER_ERROR",
+		message: "A security error occurred",
 	});
 }
 
 // Re-export validation functions for use in other modules
-import { sanitizeFileName, validateResourceTenantAccess } from './tenant-isolation';
+import {
+	sanitizeFileName,
+	validateResourceTenantAccess,
+} from "./tenant-isolation";
 export { sanitizeFileName, validateResourceTenantAccess };

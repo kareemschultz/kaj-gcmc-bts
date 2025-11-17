@@ -7,8 +7,7 @@
  * Checks authentication, authorization, input validation, and compliance measures
  */
 
-import { runSecurityChecklist, validateProductionConfig, SECURITY_CONFIG } from "@GCMC-KAJ/auth/security-middleware";
-import { auth } from "@GCMC-KAJ/auth";
+import { runSecurityChecklist, SECURITY_CONFIG, validateProductionConfig } from "@GCMC-KAJ/auth/security-middleware";
 import prisma from "@GCMC-KAJ/db";
 
 interface SecurityAuditResult {
@@ -68,7 +67,7 @@ class SecurityAuditor {
 		const issues: string[] = [];
 
 		// Check password strength requirements
-		if (!process.env.MIN_PASSWORD_LENGTH || parseInt(process.env.MIN_PASSWORD_LENGTH) < 12) {
+		if (!process.env.MIN_PASSWORD_LENGTH || Number.parseInt(process.env.MIN_PASSWORD_LENGTH, 10) < 12) {
 			score -= 15;
 			issues.push("Minimum password length should be 12 characters");
 		}
@@ -99,13 +98,13 @@ class SecurityAuditor {
 				score -= 5;
 				issues.push("Rate limiting might be too permissive");
 			}
-		} catch (error) {
+		} catch (_error) {
 			score -= 10;
 			issues.push("Rate limiting configuration not accessible");
 		}
 
 		// Check account lockout policy
-		if (!process.env.MAX_LOGIN_ATTEMPTS || parseInt(process.env.MAX_LOGIN_ATTEMPTS) > 10) {
+		if (!process.env.MAX_LOGIN_ATTEMPTS || Number.parseInt(process.env.MAX_LOGIN_ATTEMPTS, 10) > 10) {
 			score -= 10;
 			issues.push("Account lockout policy is too permissive");
 		}
@@ -174,7 +173,7 @@ class SecurityAuditor {
 				}
 			}
 
-		} catch (error) {
+		} catch (_error) {
 			score -= 20;
 			issues.push("Database connection failed during authorization audit");
 			this.results.criticalIssues.push("Cannot verify authorization configuration");
@@ -197,7 +196,7 @@ class SecurityAuditor {
 		}
 
 		// Check file upload security
-		if (!process.env.MAX_FILE_SIZE || parseInt(process.env.MAX_FILE_SIZE) > 100 * 1024 * 1024) {
+		if (!process.env.MAX_FILE_SIZE || Number.parseInt(process.env.MAX_FILE_SIZE, 10) > 100 * 1024 * 1024) {
 			score -= 10;
 			issues.push("File upload size limit too high (>100MB)");
 		}
@@ -297,7 +296,7 @@ class SecurityAuditor {
 		}
 
 		// Check data retention policies
-		if (!process.env.USER_DATA_RETENTION_DAYS || parseInt(process.env.USER_DATA_RETENTION_DAYS) < 2555) {
+		if (!process.env.USER_DATA_RETENTION_DAYS || Number.parseInt(process.env.USER_DATA_RETENTION_DAYS, 10) < 2555) {
 			score -= 10;
 			issues.push("Data retention policy may not meet 7-year compliance requirement");
 		}
@@ -326,7 +325,7 @@ class SecurityAuditor {
 			issues.push("Automated backups not configured");
 		}
 
-		if (!process.env.BACKUP_RETENTION_DAYS || parseInt(process.env.BACKUP_RETENTION_DAYS) < 30) {
+		if (!process.env.BACKUP_RETENTION_DAYS || Number.parseInt(process.env.BACKUP_RETENTION_DAYS, 10) < 30) {
 			score -= 10;
 			issues.push("Backup retention period insufficient");
 		}
@@ -484,12 +483,10 @@ async function main() {
 
 		process.exit(success ? 0 : 1);
 
-	} catch (error) {
+	} catch (error) 
 		console.error("❌ Security audit failed:", error);
-		process.exit(1);
-	} finally {
+		process.exit(1);finally 
 		await prisma.$disconnect();
-	}
 }
 
 main().catch(console.error);

@@ -180,7 +180,10 @@ function getCorsOrigins(): string[] {
 const isProduction = process.env.NODE_ENV === "production";
 
 // Password strength validation
-function validatePasswordStrength(password: string): { isValid: boolean; errors: string[] } {
+function validatePasswordStrength(password: string): {
+	isValid: boolean;
+	errors: string[];
+} {
 	const errors: string[] = [];
 
 	if (password.length < 12) {
@@ -200,9 +203,17 @@ function validatePasswordStrength(password: string): { isValid: boolean; errors:
 	}
 	// Check for common weak passwords
 	const commonPasswords = [
-		"password123", "admin123", "qwerty123", "123456789", "password1234"
+		"password123",
+		"admin123",
+		"qwerty123",
+		"123456789",
+		"password1234",
 	];
-	if (commonPasswords.some(common => password.toLowerCase().includes(common.toLowerCase()))) {
+	if (
+		commonPasswords.some((common) =>
+			password.toLowerCase().includes(common.toLowerCase()),
+		)
+	) {
 		errors.push("Password contains common patterns that are not allowed");
 	}
 
@@ -210,21 +221,31 @@ function validatePasswordStrength(password: string): { isValid: boolean; errors:
 }
 
 // Rate limiting for failed authentication attempts
-let failedAttempts = new Map<string, { count: number; lastAttempt: number; lockedUntil?: number }>();
+const failedAttempts = new Map<
+	string,
+	{ count: number; lastAttempt: number; lockedUntil?: number }
+>();
 
 // Clean up old failed attempts every 30 minutes
-setInterval(() => {
-	const now = Date.now();
-	failedAttempts.forEach((value, key) => {
-		if (value.lockedUntil && now > value.lockedUntil) {
-			failedAttempts.delete(key);
-		} else if (now - value.lastAttempt > 30 * 60 * 1000) { // 30 minutes
-			failedAttempts.delete(key);
-		}
-	});
-}, 30 * 60 * 1000);
+setInterval(
+	() => {
+		const now = Date.now();
+		failedAttempts.forEach((value, key) => {
+			if (value.lockedUntil && now > value.lockedUntil) {
+				failedAttempts.delete(key);
+			} else if (now - value.lastAttempt > 30 * 60 * 1000) {
+				// 30 minutes
+				failedAttempts.delete(key);
+			}
+		});
+	},
+	30 * 60 * 1000,
+);
 
-function checkAccountLockout(identifier: string): { isLocked: boolean; lockedUntil?: number } {
+function checkAccountLockout(identifier: string): {
+	isLocked: boolean;
+	lockedUntil?: number;
+} {
 	const attempt = failedAttempts.get(identifier);
 	if (!attempt) return { isLocked: false };
 
@@ -237,7 +258,10 @@ function checkAccountLockout(identifier: string): { isLocked: boolean; lockedUnt
 
 function recordFailedAttempt(identifier: string): void {
 	const now = Date.now();
-	const attempt = failedAttempts.get(identifier) || { count: 0, lastAttempt: now };
+	const attempt = failedAttempts.get(identifier) || {
+		count: 0,
+		lastAttempt: now,
+	};
 
 	attempt.count++;
 	attempt.lastAttempt = now;
@@ -293,7 +317,10 @@ export const auth = betterAuth<BetterAuthOptions>({
 			skipVerification: (context) => {
 				// Skip CSRF for API routes that use proper authentication
 				const url = new URL(context.request.url);
-				return url.pathname.startsWith("/api/health") || url.pathname.startsWith("/api/ready");
+				return (
+					url.pathname.startsWith("/api/health") ||
+					url.pathname.startsWith("/api/ready")
+				);
 			},
 		},
 		// Enhanced session security
@@ -306,9 +333,11 @@ export const auth = betterAuth<BetterAuthOptions>({
 	// Enhanced lifecycle hooks with security measures
 	hooks: {
 		before: createAuthMiddleware(async (ctx) => {
-			const url = new URL(ctx.request.url);
-			const isSignIn = ctx.path.startsWith("/sign-in") || ctx.path.startsWith("/signin");
-			const isSignUp = ctx.path.startsWith("/sign-up") || ctx.path.startsWith("/signup");
+			const _url = new URL(ctx.request.url);
+			const isSignIn =
+				ctx.path.startsWith("/sign-in") || ctx.path.startsWith("/signin");
+			const isSignUp =
+				ctx.path.startsWith("/sign-up") || ctx.path.startsWith("/signup");
 
 			// Account lockout protection for sign-in attempts
 			if (isSignIn) {
@@ -316,8 +345,12 @@ export const auth = betterAuth<BetterAuthOptions>({
 				if (email) {
 					const lockoutCheck = checkAccountLockout(email);
 					if (lockoutCheck.isLocked) {
-						const remainingTime = lockoutCheck.lockedUntil ? Math.ceil((lockoutCheck.lockedUntil - Date.now()) / 60000) : 0;
-						throw new Error(`Account is temporarily locked. Please try again in ${remainingTime} minutes.`);
+						const remainingTime = lockoutCheck.lockedUntil
+							? Math.ceil((lockoutCheck.lockedUntil - Date.now()) / 60000)
+							: 0;
+						throw new Error(
+							`Account is temporarily locked. Please try again in ${remainingTime} minutes.`,
+						);
 					}
 				}
 			}
@@ -328,14 +361,18 @@ export const auth = betterAuth<BetterAuthOptions>({
 				if (password) {
 					const validation = validatePasswordStrength(password);
 					if (!validation.isValid) {
-						throw new Error(`Password does not meet security requirements: ${validation.errors.join(", ")}`);
+						throw new Error(
+							`Password does not meet security requirements: ${validation.errors.join(", ")}`,
+						);
 					}
 				}
 			}
 		}),
 		after: createAuthMiddleware(async (ctx) => {
-			const isSignIn = ctx.path.startsWith("/sign-in") || ctx.path.startsWith("/signin");
-			const isSignUp = ctx.path.startsWith("/sign-up") || ctx.path.startsWith("/signup");
+			const isSignIn =
+				ctx.path.startsWith("/sign-in") || ctx.path.startsWith("/signin");
+			const isSignUp =
+				ctx.path.startsWith("/sign-up") || ctx.path.startsWith("/signup");
 
 			// Handle successful sign-in
 			if (isSignIn && ctx.context.session) {
@@ -343,7 +380,9 @@ export const auth = betterAuth<BetterAuthOptions>({
 				if (email) {
 					clearFailedAttempts(email);
 					// Log successful authentication for audit trail
-					console.log(`✅ Successful authentication for ${email} at ${new Date().toISOString()}`);
+					console.log(
+						`✅ Successful authentication for ${email} at ${new Date().toISOString()}`,
+					);
 				}
 			} else if (isSignIn && !ctx.context.session) {
 				// Handle failed sign-in
@@ -351,7 +390,9 @@ export const auth = betterAuth<BetterAuthOptions>({
 				if (email) {
 					recordFailedAttempt(email);
 					// Log failed authentication for audit trail
-					console.warn(`⚠️  Failed authentication attempt for ${email} at ${new Date().toISOString()}`);
+					console.warn(
+						`⚠️  Failed authentication attempt for ${email} at ${new Date().toISOString()}`,
+					);
 				}
 			}
 
@@ -362,7 +403,9 @@ export const auth = betterAuth<BetterAuthOptions>({
 				if (newSession?.session) {
 					await ensureUserHasTenantAndRole(newSession.session.userId);
 					// Log new user registration for audit trail
-					console.log(`📝 New user registration: ${newSession.session.userId} at ${new Date().toISOString()}`);
+					console.log(
+						`📝 New user registration: ${newSession.session.userId} at ${new Date().toISOString()}`,
+					);
 				}
 			}
 		}),
@@ -374,7 +417,7 @@ export const auth = betterAuth<BetterAuthOptions>({
 		// Enable session rotation for enhanced security
 		rolling: true,
 		// Custom session validation
-		validateSession: async (session) => {
+		validateSession: async (_session) => {
 			// Additional security checks can be added here
 			// For example, check if user is still active, hasn't been locked, etc.
 			return true;
@@ -387,7 +430,9 @@ export const auth = betterAuth<BetterAuthOptions>({
 		skip: (request) => {
 			// Skip rate limiting for health checks
 			const url = new URL(request.url);
-			return url.pathname.includes("/health") || url.pathname.includes("/ready");
+			return (
+				url.pathname.includes("/health") || url.pathname.includes("/ready")
+			);
 		},
 	},
 });

@@ -3,10 +3,10 @@
  * Comprehensive API protection, input validation, and security controls
  */
 
-import { z } from "zod";
-import type { NextRequest } from "next/server";
-import { getUserTenantRole } from "./index";
 import type { UserRole } from "@GCMC-KAJ/types";
+import type { NextRequest } from "next/server";
+import { z } from "zod";
+import { getUserTenantRole } from "./index";
 
 // Rate limiting storage (in production, use Redis)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -56,13 +56,28 @@ export const SECURITY_CONFIG = {
 // Input sanitization schemas
 export const sanitizationSchemas = {
 	email: z.string().email().max(254).toLowerCase(),
-	name: z.string().min(1).max(100).regex(/^[a-zA-Z\s\-'\.]+$/, "Invalid name format"),
-	searchQuery: z.string().max(100).regex(/^[a-zA-Z0-9\s\-_@\.]+$/, "Invalid search query"),
+	name: z
+		.string()
+		.min(1)
+		.max(100)
+		.regex(/^[a-zA-Z\s\-'.]+$/, "Invalid name format"),
+	searchQuery: z
+		.string()
+		.max(100)
+		.regex(/^[a-zA-Z0-9\s\-_@.]+$/, "Invalid search query"),
 	id: z.string().uuid("Invalid ID format"),
-	tenantCode: z.string().min(1).max(50).regex(/^[a-z0-9\-]+$/, "Invalid tenant code"),
-	phoneNumber: z.string().regex(/^\+?[\d\s\-\(\)]+$/, "Invalid phone number"),
+	tenantCode: z
+		.string()
+		.min(1)
+		.max(50)
+		.regex(/^[a-z0-9-]+$/, "Invalid tenant code"),
+	phoneNumber: z.string().regex(/^\+?[\d\s\-()]+$/, "Invalid phone number"),
 	url: z.string().url().max(500),
-	filename: z.string().min(1).max(255).regex(/^[a-zA-Z0-9\-_\.\s]+$/, "Invalid filename"),
+	filename: z
+		.string()
+		.min(1)
+		.max(255)
+		.regex(/^[a-zA-Z0-9\-_.\s]+$/, "Invalid filename"),
 };
 
 // SQL injection prevention
@@ -84,10 +99,15 @@ export function sanitizeForXSS(input: string): string {
 export function generateCSRFToken(): string {
 	const buffer = new Uint8Array(32);
 	crypto.getRandomValues(buffer);
-	return Array.from(buffer, (byte) => byte.toString(16).padStart(2, "0")).join("");
+	return Array.from(buffer, (byte) => byte.toString(16).padStart(2, "0")).join(
+		"",
+	);
 }
 
-export function validateCSRFToken(token: string, sessionToken: string): boolean {
+export function validateCSRFToken(
+	token: string,
+	_sessionToken: string,
+): boolean {
 	// In production, store CSRF tokens in session/database
 	// For now, basic validation
 	return token && token.length === 64 && /^[a-f0-9]+$/.test(token);
@@ -99,13 +119,17 @@ export function createRateLimiter(options: {
 	maxRequests: number;
 	keyGenerator?: (req: NextRequest) => string;
 }) {
-	return function rateLimiter(req: NextRequest): { allowed: boolean; resetTime?: number } {
+	return function rateLimiter(req: NextRequest): {
+		allowed: boolean;
+		resetTime?: number;
+	} {
 		const key = options.keyGenerator?.(req) || getClientIdentifier(req);
 		const now = Date.now();
-		const windowStart = now - options.windowMs;
+		const _windowStart = now - options.windowMs;
 
 		// Clean up old entries
-		if (Math.random() < 0.1) { // 10% chance to cleanup
+		if (Math.random() < 0.1) {
+			// 10% chance to cleanup
 			for (const [k, v] of rateLimitStore.entries()) {
 				if (v.resetTime < now) {
 					rateLimitStore.delete(k);
@@ -149,7 +173,10 @@ export function handleCORS(req: NextRequest, origin?: string): Response | null {
 
 	if (req.method === "OPTIONS") {
 		// Preflight request
-		if (!requestOrigin || !SECURITY_CONFIG.cors.allowedOrigins.includes(requestOrigin)) {
+		if (
+			!requestOrigin ||
+			!SECURITY_CONFIG.cors.allowedOrigins.includes(requestOrigin)
+		) {
 			return new Response("CORS policy violation", { status: 403 });
 		}
 
@@ -157,9 +184,12 @@ export function handleCORS(req: NextRequest, origin?: string): Response | null {
 			status: 200,
 			headers: {
 				"Access-Control-Allow-Origin": requestOrigin,
-				"Access-Control-Allow-Methods": SECURITY_CONFIG.cors.allowedMethods.join(", "),
-				"Access-Control-Allow-Headers": SECURITY_CONFIG.cors.allowedHeaders.join(", "),
-				"Access-Control-Allow-Credentials": SECURITY_CONFIG.cors.credentials.toString(),
+				"Access-Control-Allow-Methods":
+					SECURITY_CONFIG.cors.allowedMethods.join(", "),
+				"Access-Control-Allow-Headers":
+					SECURITY_CONFIG.cors.allowedHeaders.join(", "),
+				"Access-Control-Allow-Credentials":
+					SECURITY_CONFIG.cors.credentials.toString(),
 				"Access-Control-Max-Age": SECURITY_CONFIG.cors.maxAge.toString(),
 			},
 		});
@@ -171,7 +201,7 @@ export function handleCORS(req: NextRequest, origin?: string): Response | null {
 // Input validation middleware
 export async function validateRequestBody<T>(
 	req: NextRequest,
-	schema: z.ZodSchema<T>
+	schema: z.ZodSchema<T>,
 ): Promise<{ success: true; data: T } | { success: false; error: string }> {
 	try {
 		const contentType = req.headers.get("Content-Type");
@@ -184,12 +214,17 @@ export async function validateRequestBody<T>(
 		const result = schema.safeParse(body);
 
 		if (!result.success) {
-			const errors = result.error.errors.map(err => `${err.path.join(".")}: ${err.message}`);
-			return { success: false, error: `Validation failed: ${errors.join(", ")}` };
+			const errors = result.error.errors.map(
+				(err) => `${err.path.join(".")}: ${err.message}`,
+			);
+			return {
+				success: false,
+				error: `Validation failed: ${errors.join(", ")}`,
+			};
 		}
 
 		return { success: true, data: result.data };
-	} catch (error) {
+	} catch (_error) {
 		return { success: false, error: "Invalid JSON body" };
 	}
 }
@@ -199,7 +234,7 @@ export async function checkPermission(
 	userId: string,
 	module: string,
 	action: string,
-	resourceTenantId?: number
+	resourceTenantId?: number,
 ): Promise<{ allowed: boolean; reason?: string }> {
 	try {
 		const userTenantRole = await getUserTenantRole(userId);
@@ -210,7 +245,10 @@ export async function checkPermission(
 
 		// Check tenant isolation
 		if (resourceTenantId && resourceTenantId !== userTenantRole.tenantId) {
-			return { allowed: false, reason: "Access denied: tenant isolation violation" };
+			return {
+				allowed: false,
+				reason: "Access denied: tenant isolation violation",
+			};
 		}
 
 		// Import permission check from RBAC system
@@ -218,12 +256,14 @@ export async function checkPermission(
 		const hasPermission = await checkUserPermission(
 			userTenantRole.role,
 			module,
-			action
+			action,
 		);
 
 		return {
 			allowed: hasPermission,
-			reason: hasPermission ? undefined : `Access denied: insufficient permissions for ${module}:${action}`,
+			reason: hasPermission
+				? undefined
+				: `Access denied: insufficient permissions for ${module}:${action}`,
 		};
 	} catch (error) {
 		console.error("Authorization check failed:", error);
@@ -232,17 +272,42 @@ export async function checkPermission(
 }
 
 // Mock permission check (replace with actual RBAC implementation)
-async function checkUserPermission(role: UserRole, module: string, action: string): Promise<boolean> {
+async function checkUserPermission(
+	role: UserRole,
+	module: string,
+	action: string,
+): Promise<boolean> {
 	// This would query the permissions table in production
 	const rolePermissions: Record<UserRole, string[]> = {
 		FirmAdmin: ["*:*"], // Full access
-		ComplianceOfficer: ["clients:*", "documents:*", "filings:*", "compliance:*", "analytics:view"],
+		ComplianceOfficer: [
+			"clients:*",
+			"documents:*",
+			"filings:*",
+			"compliance:*",
+			"analytics:view",
+		],
 		PreparerSenior: ["clients:*", "documents:*", "filings:create,edit,view"],
-		Preparer: ["clients:view,create,edit", "documents:view,create", "filings:view,create"],
+		Preparer: [
+			"clients:view,create,edit",
+			"documents:view,create",
+			"filings:view,create",
+		],
 		ClientManager: ["clients:*", "tasks:*", "notifications:*"],
-		Auditor: ["clients:view", "documents:view", "filings:view", "analytics:*", "compliance:view"],
+		Auditor: [
+			"clients:view",
+			"documents:view",
+			"filings:view",
+			"analytics:*",
+			"compliance:view",
+		],
 		ClientUser: ["profile:*", "documents:view", "tasks:view"],
-		Viewer: ["clients:view", "documents:view", "filings:view", "analytics:view"],
+		Viewer: [
+			"clients:view",
+			"documents:view",
+			"filings:view",
+			"analytics:view",
+		],
 	};
 
 	const permissions = rolePermissions[role] || [];
@@ -260,7 +325,10 @@ async function checkUserPermission(role: UserRole, module: string, action: strin
 }
 
 // File upload security
-export function validateFileUpload(file: File): { valid: boolean; error?: string } {
+export function validateFileUpload(file: File): {
+	valid: boolean;
+	error?: string;
+} {
 	// Check file size
 	if (file.size > SECURITY_CONFIG.validation.maxFileSize) {
 		return {
@@ -291,7 +359,12 @@ export function validateFileUpload(file: File): { valid: boolean; error?: string
 
 // Security audit logging
 export function logSecurityEvent(event: {
-	type: "authentication" | "authorization" | "validation" | "rate_limit" | "file_upload";
+	type:
+		| "authentication"
+		| "authorization"
+		| "validation"
+		| "rate_limit"
+		| "file_upload";
 	severity: "info" | "warning" | "error";
 	userId?: string;
 	ip?: string;
@@ -318,7 +391,10 @@ export function logSecurityEvent(event: {
 }
 
 // Environment variable validation for production
-export function validateProductionConfig(): { valid: boolean; errors: string[] } {
+export function validateProductionConfig(): {
+	valid: boolean;
+	errors: string[];
+} {
 	const errors: string[] = [];
 	const requiredEnvVars = [
 		"DATABASE_URL",
@@ -366,7 +442,9 @@ export function runSecurityChecklist(): {
 	if (configValidation.valid) {
 		passed.push("Environment configuration");
 	} else {
-		failed.push(`Environment configuration: ${configValidation.errors.join(", ")}`);
+		failed.push(
+			`Environment configuration: ${configValidation.errors.join(", ")}`,
+		);
 	}
 
 	// Check HTTPS in production
@@ -387,7 +465,9 @@ export function runSecurityChecklist(): {
 
 	// Check rate limiting
 	if (rateLimitStore instanceof Map) {
-		warnings.push("Using in-memory rate limiting (consider Redis for production)");
+		warnings.push(
+			"Using in-memory rate limiting (consider Redis for production)",
+		);
 	}
 
 	return { passed, failed, warnings };

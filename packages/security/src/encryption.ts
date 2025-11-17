@@ -5,20 +5,20 @@
  * Implements industry-standard algorithms and best practices
  */
 
-import crypto from 'crypto';
+import crypto from "crypto";
 
 // Encryption configuration
-const ALGORITHM = 'aes-256-gcm';
+const ALGORITHM = "aes-256-gcm";
 const KEY_LENGTH = 32; // 256 bits
 const IV_LENGTH = 16; // 128 bits
-const TAG_LENGTH = 16; // 128 bits
+const _TAG_LENGTH = 16; // 128 bits
 const SALT_LENGTH = 32; // 256 bits
 
 /**
  * Generate a cryptographically secure random key
  */
 export function generateSecretKey(): string {
-	return crypto.randomBytes(KEY_LENGTH).toString('hex');
+	return crypto.randomBytes(KEY_LENGTH).toString("hex");
 }
 
 /**
@@ -38,52 +38,62 @@ export function generateSalt(): Buffer {
 /**
  * Derive encryption key from password using PBKDF2
  */
-export function deriveKeyFromPassword(password: string, salt: Buffer, iterations: number = 100000): Buffer {
-	return crypto.pbkdf2Sync(password, salt, iterations, KEY_LENGTH, 'sha512');
+export function deriveKeyFromPassword(
+	password: string,
+	salt: Buffer,
+	iterations = 100000,
+): Buffer {
+	return crypto.pbkdf2Sync(password, salt, iterations, KEY_LENGTH, "sha512");
 }
 
 /**
  * Encrypt data using AES-256-GCM
  */
-export function encryptData(data: string, key: string | Buffer): {
+export function encryptData(
+	data: string,
+	key: string | Buffer,
+): {
 	encrypted: string;
 	iv: string;
 	tag: string;
 } {
-	const keyBuffer = typeof key === 'string' ? Buffer.from(key, 'hex') : key;
+	const keyBuffer = typeof key === "string" ? Buffer.from(key, "hex") : key;
 	const iv = generateIV();
 	const cipher = crypto.createCipher(ALGORITHM, keyBuffer);
 	cipher.setAutoPadding(true);
 
-	let encrypted = cipher.update(data, 'utf8', 'hex');
-	encrypted += cipher.final('hex');
+	let encrypted = cipher.update(data, "utf8", "hex");
+	encrypted += cipher.final("hex");
 
 	const tag = cipher.getAuthTag();
 
 	return {
 		encrypted,
-		iv: iv.toString('hex'),
-		tag: tag.toString('hex'),
+		iv: iv.toString("hex"),
+		tag: tag.toString("hex"),
 	};
 }
 
 /**
  * Decrypt data using AES-256-GCM
  */
-export function decryptData(encryptedData: {
-	encrypted: string;
-	iv: string;
-	tag: string;
-}, key: string | Buffer): string {
-	const keyBuffer = typeof key === 'string' ? Buffer.from(key, 'hex') : key;
-	const iv = Buffer.from(encryptedData.iv, 'hex');
-	const tag = Buffer.from(encryptedData.tag, 'hex');
+export function decryptData(
+	encryptedData: {
+		encrypted: string;
+		iv: string;
+		tag: string;
+	},
+	key: string | Buffer,
+): string {
+	const keyBuffer = typeof key === "string" ? Buffer.from(key, "hex") : key;
+	const _iv = Buffer.from(encryptedData.iv, "hex");
+	const tag = Buffer.from(encryptedData.tag, "hex");
 
 	const decipher = crypto.createDecipher(ALGORITHM, keyBuffer);
 	decipher.setAuthTag(tag);
 
-	let decrypted = decipher.update(encryptedData.encrypted, 'hex', 'utf8');
-	decrypted += decipher.final('utf8');
+	let decrypted = decipher.update(encryptedData.encrypted, "hex", "utf8");
+	decrypted += decipher.final("utf8");
 
 	return decrypted;
 }
@@ -92,7 +102,7 @@ export function decryptData(encryptedData: {
  * Hash password using bcrypt-style algorithm
  */
 export async function hashPassword(password: string): Promise<string> {
-	const bcrypt = require('bcryptjs');
+	const bcrypt = require("bcryptjs");
 	const saltRounds = 12; // High security level
 	return bcrypt.hash(password, saltRounds);
 }
@@ -100,8 +110,11 @@ export async function hashPassword(password: string): Promise<string> {
 /**
  * Verify password against hash
  */
-export async function verifyPassword(password: string, hash: string): Promise<boolean> {
-	const bcrypt = require('bcryptjs');
+export async function verifyPassword(
+	password: string,
+	hash: string,
+): Promise<boolean> {
+	const bcrypt = require("bcryptjs");
 	return bcrypt.compare(password, hash);
 }
 
@@ -109,52 +122,69 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
  * Create HMAC signature for data integrity
  */
 export function createHmacSignature(data: string, secret: string): string {
-	const hmac = crypto.createHmac('sha256', secret);
+	const hmac = crypto.createHmac("sha256", secret);
 	hmac.update(data);
-	return hmac.digest('hex');
+	return hmac.digest("hex");
 }
 
 /**
  * Verify HMAC signature
  */
-export function verifyHmacSignature(data: string, signature: string, secret: string): boolean {
+export function verifyHmacSignature(
+	data: string,
+	signature: string,
+	secret: string,
+): boolean {
 	const expectedSignature = createHmacSignature(data, secret);
 	// Use constant-time comparison to prevent timing attacks
 	return crypto.timingSafeEqual(
-		Buffer.from(signature, 'hex'),
-		Buffer.from(expectedSignature, 'hex')
+		Buffer.from(signature, "hex"),
+		Buffer.from(expectedSignature, "hex"),
 	);
 }
 
 /**
  * Generate secure random token for various purposes
  */
-export function generateSecureToken(length: number = 32): string {
-	return crypto.randomBytes(length).toString('hex');
+export function generateSecureToken(length = 32): string {
+	return crypto.randomBytes(length).toString("hex");
 }
 
 /**
  * Hash sensitive data for storage (one-way)
  */
-export function hashSensitiveData(data: string, salt?: string): {
+export function hashSensitiveData(
+	data: string,
+	salt?: string,
+): {
 	hash: string;
 	salt: string;
 } {
-	const saltBuffer = salt ? Buffer.from(salt, 'hex') : generateSalt();
-	const hash = crypto.pbkdf2Sync(data, saltBuffer, 100000, 32, 'sha512');
+	const saltBuffer = salt ? Buffer.from(salt, "hex") : generateSalt();
+	const hash = crypto.pbkdf2Sync(data, saltBuffer, 100000, 32, "sha512");
 
 	return {
-		hash: hash.toString('hex'),
-		salt: saltBuffer.toString('hex'),
+		hash: hash.toString("hex"),
+		salt: saltBuffer.toString("hex"),
 	};
 }
 
 /**
  * Verify hashed sensitive data
  */
-export function verifySensitiveData(data: string, hash: string, salt: string): boolean {
-	const computedHash = crypto.pbkdf2Sync(data, Buffer.from(salt, 'hex'), 100000, 32, 'sha512');
-	const expectedHash = Buffer.from(hash, 'hex');
+export function verifySensitiveData(
+	data: string,
+	hash: string,
+	salt: string,
+): boolean {
+	const computedHash = crypto.pbkdf2Sync(
+		data,
+		Buffer.from(salt, "hex"),
+		100000,
+		32,
+		"sha512",
+	);
+	const expectedHash = Buffer.from(hash, "hex");
 
 	return crypto.timingSafeEqual(computedHash, expectedHash);
 }
@@ -169,7 +199,7 @@ export function encryptPII(data: string): {
 } {
 	const key = process.env.PII_ENCRYPTION_KEY;
 	if (!key) {
-		throw new Error('PII_ENCRYPTION_KEY environment variable is required');
+		throw new Error("PII_ENCRYPTION_KEY environment variable is required");
 	}
 
 	return encryptData(data, key);
@@ -185,7 +215,7 @@ export function decryptPII(encryptedData: {
 }): string {
 	const key = process.env.PII_ENCRYPTION_KEY;
 	if (!key) {
-		throw new Error('PII_ENCRYPTION_KEY environment variable is required');
+		throw new Error("PII_ENCRYPTION_KEY environment variable is required");
 	}
 
 	return decryptData(encryptedData, key);
@@ -194,15 +224,18 @@ export function decryptPII(encryptedData: {
 /**
  * Generate API key with specific format
  */
-export function generateApiKey(prefix: string = 'gkaj'): string {
-	const randomPart = crypto.randomBytes(20).toString('hex');
+export function generateApiKey(prefix = "gkaj"): string {
+	const randomPart = crypto.randomBytes(20).toString("hex");
 	return `${prefix}_${randomPart}`;
 }
 
 /**
  * Validate API key format
  */
-export function validateApiKeyFormat(apiKey: string, expectedPrefix: string = 'gkaj'): boolean {
+export function validateApiKeyFormat(
+	apiKey: string,
+	expectedPrefix = "gkaj",
+): boolean {
 	const pattern = new RegExp(`^${expectedPrefix}_[a-f0-9]{40}$`);
 	return pattern.test(apiKey);
 }
@@ -211,18 +244,22 @@ export function validateApiKeyFormat(apiKey: string, expectedPrefix: string = 'g
  * Create digital signature for documents
  */
 export function signDocument(document: string, privateKey: string): string {
-	const sign = crypto.createSign('RSA-SHA256');
+	const sign = crypto.createSign("RSA-SHA256");
 	sign.update(document);
-	return sign.sign(privateKey, 'hex');
+	return sign.sign(privateKey, "hex");
 }
 
 /**
  * Verify digital signature
  */
-export function verifyDocumentSignature(document: string, signature: string, publicKey: string): boolean {
-	const verify = crypto.createVerify('RSA-SHA256');
+export function verifyDocumentSignature(
+	document: string,
+	signature: string,
+	publicKey: string,
+): boolean {
+	const verify = crypto.createVerify("RSA-SHA256");
 	verify.update(document);
-	return verify.verify(publicKey, signature, 'hex');
+	return verify.verify(publicKey, signature, "hex");
 }
 
 /**
@@ -232,15 +269,15 @@ export function generateKeyPair(): {
 	publicKey: string;
 	privateKey: string;
 } {
-	const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
+	const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
 		modulusLength: 2048,
 		publicKeyEncoding: {
-			type: 'spki',
-			format: 'pem',
+			type: "spki",
+			format: "pem",
 		},
 		privateKeyEncoding: {
-			type: 'pkcs8',
-			format: 'pem',
+			type: "pkcs8",
+			format: "pem",
 		},
 	});
 

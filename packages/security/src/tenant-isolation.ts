@@ -5,8 +5,8 @@
  * Prevents data leakage and unauthorized cross-tenant access
  */
 
-import prisma from '@GCMC-KAJ/db';
-import type { UserRole } from '@GCMC-KAJ/types';
+import prisma from "@GCMC-KAJ/db";
+import type { UserRole } from "@GCMC-KAJ/types";
 
 export interface TenantContext {
 	userId: string;
@@ -17,7 +17,10 @@ export interface TenantContext {
 /**
  * Validate that a user has access to a specific tenant
  */
-export async function validateTenantAccess(userId: string, tenantId: number): Promise<boolean> {
+export async function validateTenantAccess(
+	userId: string,
+	tenantId: number,
+): Promise<boolean> {
 	try {
 		const tenantUser = await prisma.tenantUser.findFirst({
 			where: {
@@ -30,13 +33,13 @@ export async function validateTenantAccess(userId: string, tenantId: number): Pr
 		});
 
 		// Super Admin can access any tenant
-		if (tenantUser?.role.name === 'Super Admin') {
+		if (tenantUser?.role.name === "Super Admin") {
 			return true;
 		}
 
 		return tenantUser !== null;
 	} catch (error) {
-		console.error('Error validating tenant access:', error);
+		console.error("Error validating tenant access:", error);
 		return false;
 	}
 }
@@ -66,7 +69,7 @@ export async function getUserTenantInfo(userId: string): Promise<{
 			role: tenantUser.role.name as UserRole,
 		};
 	} catch (error) {
-		console.error('Error getting user tenant info:', error);
+		console.error("Error getting user tenant info:", error);
 		return null;
 	}
 }
@@ -76,13 +79,13 @@ export async function getUserTenantInfo(userId: string): Promise<{
  */
 export function withTenantIsolation<T extends Record<string, any>>(
 	tenantId: number,
-	query: T
+	query: T,
 ): T {
 	// Add tenant filter to where clause
 	if (query.where) {
 		if (Array.isArray(query.where)) {
 			query.where.push({ tenantId });
-		} else if (typeof query.where === 'object') {
+		} else if (typeof query.where === "object") {
 			query.where.tenantId = tenantId;
 		}
 	} else {
@@ -99,10 +102,14 @@ export function createTenantPrismaClient(tenantId: number) {
 	return {
 		client: {
 			findMany: (args?: any) => {
-				return prisma.client.findMany(withTenantIsolation(tenantId, args || {}));
+				return prisma.client.findMany(
+					withTenantIsolation(tenantId, args || {}),
+				);
 			},
 			findFirst: (args?: any) => {
-				return prisma.client.findFirst(withTenantIsolation(tenantId, args || {}));
+				return prisma.client.findFirst(
+					withTenantIsolation(tenantId, args || {}),
+				);
 			},
 			findUnique: (args: any) => {
 				// For unique queries, we need to verify tenant ownership after finding
@@ -152,18 +159,20 @@ export function createTenantPrismaClient(tenantId: number) {
 				});
 			},
 			findUnique: (args: any) => {
-				return prisma.document.findUnique({
-					...args,
-					include: {
-						...args.include,
-						client: true,
-					},
-				}).then((result) => {
-					if (result && result.client.tenantId !== tenantId) {
-						return null;
-					}
-					return result;
-				});
+				return prisma.document
+					.findUnique({
+						...args,
+						include: {
+							...args.include,
+							client: true,
+						},
+					})
+					.then((result) => {
+						if (result && result.client.tenantId !== tenantId) {
+							return null;
+						}
+						return result;
+					});
 			},
 			create: (args: any) => {
 				// Documents are created through clients, so tenant isolation is maintained
@@ -216,18 +225,20 @@ export function createTenantPrismaClient(tenantId: number) {
 				});
 			},
 			findUnique: (args: any) => {
-				return prisma.filing.findUnique({
-					...args,
-					include: {
-						...args.include,
-						client: true,
-					},
-				}).then((result) => {
-					if (result && result.client.tenantId !== tenantId) {
-						return null;
-					}
-					return result;
-				});
+				return prisma.filing
+					.findUnique({
+						...args,
+						include: {
+							...args.include,
+							client: true,
+						},
+					})
+					.then((result) => {
+						if (result && result.client.tenantId !== tenantId) {
+							return null;
+						}
+						return result;
+					});
 			},
 			create: (args: any) => {
 				return prisma.filing.create(args);
@@ -262,13 +273,13 @@ export function createTenantPrismaClient(tenantId: number) {
  * Validate tenant isolation for a specific resource
  */
 export async function validateResourceTenantAccess(
-	resourceType: 'client' | 'document' | 'filing' | 'service',
+	resourceType: "client" | "document" | "filing" | "service",
 	resourceId: number | string,
-	tenantId: number
+	tenantId: number,
 ): Promise<boolean> {
 	try {
 		switch (resourceType) {
-			case 'client': {
+			case "client": {
 				const client = await prisma.client.findFirst({
 					where: {
 						id: Number(resourceId),
@@ -278,7 +289,7 @@ export async function validateResourceTenantAccess(
 				return client !== null;
 			}
 
-			case 'document': {
+			case "document": {
 				const document = await prisma.document.findFirst({
 					where: {
 						id: Number(resourceId),
@@ -290,7 +301,7 @@ export async function validateResourceTenantAccess(
 				return document !== null;
 			}
 
-			case 'filing': {
+			case "filing": {
 				const filing = await prisma.filing.findFirst({
 					where: {
 						id: Number(resourceId),
@@ -302,7 +313,7 @@ export async function validateResourceTenantAccess(
 				return filing !== null;
 			}
 
-			case 'service': {
+			case "service": {
 				const service = await prisma.serviceType.findFirst({
 					where: {
 						id: Number(resourceId),
@@ -330,7 +341,7 @@ export async function auditTenantAccess(
 	actualTenantId: number,
 	resource: string,
 	action: string,
-	success: boolean
+	success: boolean,
 ): Promise<void> {
 	const auditData = {
 		timestamp: new Date().toISOString(),
@@ -343,11 +354,14 @@ export async function auditTenantAccess(
 		crossTenantAttempt: requestedTenantId !== actualTenantId,
 	};
 
-	console.log('🔒 Tenant Access Audit:', auditData);
+	console.log("🔒 Tenant Access Audit:", auditData);
 
 	// Log security incidents (cross-tenant access attempts)
 	if (requestedTenantId !== actualTenantId && !success) {
-		console.warn('🚨 SECURITY INCIDENT: Cross-tenant access attempt detected!', auditData);
+		console.warn(
+			"🚨 SECURITY INCIDENT: Cross-tenant access attempt detected!",
+			auditData,
+		);
 		// In production, send alert to security monitoring system
 	}
 }
@@ -377,7 +391,7 @@ export async function getTenantConfig(tenantId: number): Promise<{
 			limits: {}, // Define tenant-specific limits
 		};
 	} catch (error) {
-		console.error('Error getting tenant config:', error);
+		console.error("Error getting tenant config:", error);
 		return null;
 	}
 }
@@ -390,7 +404,7 @@ export function requireTenantAccess(allowedRoles: UserRole[] = []) {
 		const checkTenantId = targetTenantId || context.tenantId;
 
 		// Super Admin can access any tenant
-		if (context.role === 'Super Admin') {
+		if (context.role === "Super Admin") {
 			return true;
 		}
 
@@ -401,16 +415,16 @@ export function requireTenantAccess(allowedRoles: UserRole[] = []) {
 				context.userId,
 				checkTenantId,
 				context.tenantId,
-				'api_access',
-				'tenant_validation',
-				false
+				"api_access",
+				"tenant_validation",
+				false,
 			);
-			throw new Error('Access denied: insufficient tenant permissions');
+			throw new Error("Access denied: insufficient tenant permissions");
 		}
 
 		// Check role restrictions if specified
 		if (allowedRoles.length > 0 && !allowedRoles.includes(context.role)) {
-			throw new Error('Access denied: insufficient role permissions');
+			throw new Error("Access denied: insufficient role permissions");
 		}
 
 		return true;
@@ -427,9 +441,13 @@ export function getTenantCacheKey(tenantId: number, key: string): string {
 /**
  * Tenant data encryption key derivation
  */
-export function getTenantEncryptionKey(tenantId: number, baseKey: string): string {
-	const crypto = require('crypto');
-	return crypto.createHmac('sha256', baseKey)
+export function getTenantEncryptionKey(
+	tenantId: number,
+	baseKey: string,
+): string {
+	const crypto = require("crypto");
+	return crypto
+		.createHmac("sha256", baseKey)
 		.update(`tenant:${tenantId}`)
-		.digest('hex');
+		.digest("hex");
 }
