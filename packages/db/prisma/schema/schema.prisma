@@ -128,6 +128,7 @@ model Tenant {
   complianceScores        ComplianceScore[]
   requirementBundles      RequirementBundle[]
   portalClientAccesses    ClientPortalAccess[]
+  generatedReports        GeneratedReport[]
 
   @@map("tenants")
 }
@@ -217,6 +218,7 @@ model Client {
   auditLogs        AuditLog[]
   recurringFilings RecurringFiling[]
   portalAccesses   ClientPortalAccess[]
+  generatedReports GeneratedReport[]
 
   @@index([tenantId])
   @@index([tenantId, type])
@@ -449,6 +451,37 @@ model FilingDocument {
   @@index([filingId])
   @@index([documentId])
   @@map("filing_documents")
+}
+
+// ============================================================================
+// REPORT GENERATION & ARCHIVAL
+// ============================================================================
+
+model GeneratedReport {
+  id            Int      @id @default(autoincrement())
+  tenantId      Int
+  clientId      Int
+  reportType    String   // client_file, compliance, documents_list, filings_summary, service_history
+  filePath      String   // MinIO path to stored PDF
+  fileName      String   // Original filename for downloads
+  fileSize      Int      // File size in bytes
+  checksum      String   // SHA256 checksum for integrity
+  generatedBy   String   // User ID who generated the report
+  generatedAt   DateTime // When the report was generated
+  expiresAt     DateTime // When the report should be deleted (retention policy)
+  downloadedAt  DateTime? // Last download timestamp
+  downloadCount Int      @default(0) // Number of times downloaded
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId, clientId])
+  @@index([tenantId, reportType])
+  @@index([generatedAt])
+  @@index([expiresAt])
+  @@map("generated_reports")
 }
 
 // ============================================================================

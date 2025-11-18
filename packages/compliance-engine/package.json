@@ -1,0 +1,21 @@
+{
+	"name": "@GCMC-KAJ/compliance-engine",
+	"version": "0.1.0",
+	"private": true,
+	"main": "src/index.ts",
+	"types": "src/index.ts",
+	"scripts": {
+		"build": "tsdown",
+		"check-types": "tsc -b"
+	},
+	"dependencies": {
+		"zod": "catalog:",
+		"@GCMC-KAJ/types": "workspace:*",
+		"@GCMC-KAJ/db": "workspace:*",
+		"date-fns": "^4.1.0"
+	},
+	"devDependencies": {
+		"typescript": "catalog:",
+		"tsdown": "catalog:"
+	}
+}

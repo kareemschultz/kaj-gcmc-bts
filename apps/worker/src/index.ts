@@ -24,9 +24,17 @@ import prisma from "@GCMC-KAJ/db";
 import { Queue, Worker } from "bullmq";
 import { Hono } from "hono";
 import Redis from "ioredis";
+import {
+	type ComplianceJobData,
+	processComplianceJob,
+} from "./jobs/complianceJob";
 import type { EmailJobData } from "./jobs/emailJob";
 import { processEmailJob } from "./jobs/emailJob";
 import { processScheduledEmailJob } from "./jobs/scheduledEmailJob";
+import {
+	processStorageMaintenanceJob,
+	type StorageMaintenanceJobData,
+} from "./jobs/storageMaintenanceJob";
 
 // Redis connection
 const connection = new Redis(
@@ -52,6 +60,8 @@ healthApp.get("/health", (c) => {
 		timestamp: new Date().toISOString(),
 		workers: {
 			compliance: "active",
+			guyanaCompliance: "active",
+			storageMaintenance: "active",
 			notifications: "active",
 			filings: "active",
 			email: "active",
@@ -64,7 +74,18 @@ healthApp.get("/health", (c) => {
 // QUEUE DEFINITIONS
 // ============================================================================
 
-export const complianceQueue = new Queue("compliance-refresh", { connection });
+export const complianceQueue = new Queue<ComplianceJobData>(
+	"compliance-refresh",
+	{ connection },
+);
+export const guyanaComplianceQueue = new Queue<ComplianceJobData>(
+	"guyana-compliance",
+	{ connection },
+);
+export const storageMaintenanceQueue = new Queue<StorageMaintenanceJobData>(
+	"storage-maintenance",
+	{ connection },
+);
 export const notificationQueue = new Queue("notifications", { connection });
 export const filingQueue = new Queue("filing-reminders", { connection });
 export const emailQueue = new Queue<EmailJobData>("email", { connection });
@@ -182,6 +203,18 @@ const complianceWorker = new Worker(
 			console.error("[Compliance] Error:", error);
 			throw error;
 		}
+	},
+	{ connection },
+);
+
+/**
+ * Guyana Compliance Engine Worker
+ * Processes Guyana-specific compliance jobs using the compliance engine
+ */
+const guyanaComplianceWorker = new Worker<ComplianceJobData>(
+	"guyana-compliance",
+	async (job) => {
+		return processComplianceJob(job);
 	},
 	{ connection },
 );
@@ -326,6 +359,14 @@ complianceWorker.on("failed", (job, err) => {
 	console.error(`❌ [Compliance] Job ${job?.id} failed:`, err);
 });
 
+guyanaComplianceWorker.on("completed", (job) => {
+	console.log(`✅ [Guyana Compliance] Job ${job.id} completed`);
+});
+
+guyanaComplianceWorker.on("failed", (job, err) => {
+	console.error(`❌ [Guyana Compliance] Job ${job?.id} failed:`, err);
+});
+
 notificationWorker.on("completed", (job) => {
 	console.log(`✅ [Notifications] Job ${job.id} completed`);
 });
@@ -366,6 +407,18 @@ const scheduledEmailWorker = new Worker(
 	{ connection },
 );
 
+/**
+ * Storage Maintenance Worker
+ * Handles automated storage maintenance tasks
+ */
+const storageMaintenanceWorker = new Worker<StorageMaintenanceJobData>(
+	"storage-maintenance",
+	async (job) => {
+		return processStorageMaintenanceJob(job);
+	},
+	{ connection },
+);
+
 emailWorker.on("completed", (job) => {
 	console.log(`✅ [Email] Job ${job.id} completed`);
 });
@@ -380,6 +433,14 @@ scheduledEmailWorker.on("completed", (job) => {
 
 scheduledEmailWorker.on("failed", (job, err) => {
 	console.error(`❌ [Scheduled Email] Job ${job?.id} failed:`, err);
+});
+
+storageMaintenanceWorker.on("completed", (job) => {
+	console.log(`✅ [Storage Maintenance] Job ${job.id} completed`);
+});
+
+storageMaintenanceWorker.on("failed", (job, err) => {
+	console.error(`❌ [Storage Maintenance] Job ${job?.id} failed:`, err);
 });
 
 // ============================================================================
@@ -400,6 +461,59 @@ async function scheduleComplianceRefresh() {
 		},
 	);
 	console.log("📅 Scheduled: Daily compliance refresh at 2 AM");
+}
+
+/**
+ * Schedule Guyana compliance jobs
+ */
+async function scheduleGuyanaCompliance() {
+	// Schedule score refresh every 6 hours
+	await guyanaComplianceQueue.add(
+		"guyana-score-refresh",
+		{ type: "score_refresh" },
+		{
+			repeat: {
+				pattern: "0 */6 * * *", // Every 6 hours
+			},
+		},
+	);
+
+	// Schedule deadline checks daily at 7 AM
+	await guyanaComplianceQueue.add(
+		"guyana-deadline-check",
+		{ type: "deadline_check", notificationThreshold: 14 }, // 14 days notice
+		{
+			repeat: {
+				pattern: "0 7 * * *", // 7 AM daily
+			},
+		},
+	);
+
+	// Schedule penalty calculations daily at 1 AM
+	await guyanaComplianceQueue.add(
+		"guyana-penalty-calculation",
+		{ type: "penalty_calculation" },
+		{
+			repeat: {
+				pattern: "0 1 * * *", // 1 AM daily
+			},
+		},
+	);
+
+	// Schedule weekly compliance reports on Mondays at 6 AM
+	await guyanaComplianceQueue.add(
+		"guyana-weekly-reports",
+		{ type: "compliance_report" },
+		{
+			repeat: {
+				pattern: "0 6 * * 1", // Mondays at 6 AM
+			},
+		},
+	);
+
+	console.log(
+		"📅 Scheduled: Guyana compliance jobs - score refresh (6h), deadlines (7 AM), penalties (1 AM), reports (Mon 6 AM)",
+	);
 }
 
 /**
@@ -466,6 +580,66 @@ async function scheduleFilingReminderEmails() {
 	console.log("📅 Scheduled: Daily filing reminder emails at 8 AM");
 }
 
+/**
+ * Schedule storage maintenance jobs
+ */
+async function scheduleStorageMaintenance() {
+	// Daily cleanup of expired reports at 3 AM
+	await storageMaintenanceQueue.add(
+		"daily-cleanup-expired-reports",
+		{
+			type: "CLEANUP_EXPIRED_REPORTS",
+			retentionDays: 365,
+			dryRun: false,
+		},
+		{
+			repeat: {
+				pattern: "0 3 * * *", // 3 AM daily
+			},
+		},
+	);
+
+	// Weekly file integrity check on Sundays at 2 AM
+	await storageMaintenanceQueue.add(
+		"weekly-file-integrity-check",
+		{ type: "VALIDATE_FILE_INTEGRITY" },
+		{
+			repeat: {
+				pattern: "0 2 * * 0", // Sundays at 2 AM
+			},
+		},
+	);
+
+	// Monthly storage usage report on 1st at 4 AM
+	await storageMaintenanceQueue.add(
+		"monthly-storage-report",
+		{ type: "STORAGE_USAGE_REPORT" },
+		{
+			repeat: {
+				pattern: "0 4 1 * *", // 1st of month at 4 AM
+			},
+		},
+	);
+
+	// Weekly orphaned file cleanup on Saturdays at 3 AM
+	await storageMaintenanceQueue.add(
+		"weekly-orphaned-cleanup",
+		{
+			type: "CLEANUP_ORPHANED_FILES",
+			dryRun: false,
+		},
+		{
+			repeat: {
+				pattern: "0 3 * * 6", // Saturdays at 3 AM
+			},
+		},
+	);
+
+	console.log(
+		"📅 Scheduled: Storage maintenance - daily cleanup (3 AM), weekly integrity checks (Sun 2 AM), monthly reports (1st 4 AM), orphaned cleanup (Sat 3 AM)",
+	);
+}
+
 // ============================================================================
 // STARTUP
 // ============================================================================
@@ -488,10 +662,12 @@ async function start() {
 
 		// Schedule recurring jobs
 		await scheduleComplianceRefresh();
+		await scheduleGuyanaCompliance();
 		await scheduleExpiryNotifications();
 		await scheduleFilingReminders();
 		await scheduleDocumentExpiryEmails();
 		await scheduleFilingReminderEmails();
+		await scheduleStorageMaintenance();
 
 		isHealthy = true;
 		console.log("✅ Worker ready and listening for jobs");
@@ -528,6 +704,8 @@ process.on("uncaughtException", (error: Error) => {
 	// Attempt graceful shutdown
 	Promise.all([
 		complianceWorker.close(),
+		guyanaComplianceWorker.close(),
+		storageMaintenanceWorker.close(),
 		notificationWorker.close(),
 		filingWorker.close(),
 		emailWorker.close(),
@@ -548,6 +726,8 @@ process.on("uncaughtException", (error: Error) => {
 process.on("SIGTERM", async () => {
 	console.log("⚠️  SIGTERM received, shutting down gracefully");
 	await complianceWorker.close();
+	await guyanaComplianceWorker.close();
+	await storageMaintenanceWorker.close();
 	await notificationWorker.close();
 	await filingWorker.close();
 	await emailWorker.close();

@@ -144,10 +144,12 @@
       "name": "@GCMC-KAJ/worker",
       "version": "1.0.0",
       "dependencies": {
+        "@GCMC-KAJ/compliance-engine": "workspace:*",
         "@GCMC-KAJ/db": "workspace:*",
         "@GCMC-KAJ/email": "workspace:*",
         "@GCMC-KAJ/types": "workspace:*",
         "bullmq": "^5.34.2",
+        "hono": "^4.6.14",
         "ioredis": "^5.4.1",
       },
       "devDependencies": {
@@ -199,6 +201,20 @@
       },
       "peerDependencies": {
         "typescript": "^5",
+      },
+    },
+    "packages/compliance-engine": {
+      "name": "@GCMC-KAJ/compliance-engine",
+      "version": "0.1.0",
+      "dependencies": {
+        "@GCMC-KAJ/db": "workspace:*",
+        "@GCMC-KAJ/types": "workspace:*",
+        "date-fns": "^4.1.0",
+        "zod": "catalog:",
+      },
+      "devDependencies": {
+        "tsdown": "catalog:",
+        "typescript": "catalog:",
       },
     },
     "packages/config": {
@@ -363,6 +379,8 @@
     "@GCMC-KAJ/api": ["@GCMC-KAJ/api@workspace:packages/api"],
 
     "@GCMC-KAJ/auth": ["@GCMC-KAJ/auth@workspace:packages/auth"],
+
+    "@GCMC-KAJ/compliance-engine": ["@GCMC-KAJ/compliance-engine@workspace:packages/compliance-engine"],
 
     "@GCMC-KAJ/config": ["@GCMC-KAJ/config@workspace:packages/config"],
 

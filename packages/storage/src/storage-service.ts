@@ -123,27 +123,115 @@ export async function generatePresignedDownloadUrl(
 }
 
 /**
- * Upload file directly to MinIO (server-side upload)
+ * Enhanced filename sanitization with better security
+ */
+export function sanitizeFileName(fileName: string): string {
+	// Remove path separators and null bytes
+	let sanitized = fileName
+		.replace(/\0/g, "") // null bytes
+		.replace(/[/\\]/g, "") // path separators
+		.replace(/\.\./g, "") // parent directory references
+		.replace(/^\.+/, ""); // leading dots
+
+	// Whitelist: alphanumeric, dots, dashes, underscores
+	sanitized = sanitized.replace(/[^\w.-]/g, "_");
+
+	// Ensure it doesn't exceed filesystem limits
+	if (sanitized.length > 255) {
+		const extension = sanitized.substring(sanitized.lastIndexOf("."));
+		const nameWithoutExt = sanitized.substring(0, sanitized.lastIndexOf("."));
+		sanitized = nameWithoutExt.substring(0, 255 - extension.length) + extension;
+	}
+
+	// Reject empty filenames
+	if (!sanitized || sanitized === "." || sanitized === "..") {
+		throw new Error("Invalid filename after sanitization");
+	}
+
+	return sanitized;
+}
+
+/**
+ * Validate file content against declared MIME type using magic bytes
+ */
+export async function validateFileContent(
+	file: Buffer,
+	declaredMimeType: string,
+): Promise<boolean> {
+	// Check file signatures (magic bytes) for common types
+	const signatures: Record<string, number[]> = {
+		"application/pdf": [0x25, 0x50, 0x44, 0x46], // %PDF
+		"image/jpeg": [0xff, 0xd8, 0xff],
+		"image/png": [0x89, 0x50, 0x4e, 0x47],
+		"application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
+			0x50, 0x4b,
+		], // ZIP-based
+		"application/vnd.ms-excel": [0xd0, 0xcf, 0x11, 0xe0], // OLE
+		"text/plain": [], // Allow any for text files
+		"text/csv": [], // Allow any for CSV files
+	};
+
+	const signature = signatures[declaredMimeType];
+	if (!signature || signature.length === 0) {
+		// For unsupported types or text files, allow
+		return true;
+	}
+
+	// Check if file starts with expected signature
+	if (file.length < signature.length) {
+		return false;
+	}
+
+	for (let i = 0; i < signature.length; i++) {
+		if (file[i] !== signature[i]) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Upload file directly to MinIO (server-side upload) with enhanced validation
  */
 export async function uploadFile(
 	tenantId: number,
 	file: Buffer,
 	fileName: string,
 	metadata?: Record<string, string>,
-): Promise<{ filePath: string; size: number }> {
+): Promise<{ filePath: string; size: number; checksum: string }> {
 	const bucketName = getTenantBucketName(tenantId);
 
 	// Ensure bucket exists
 	await ensureBucket(tenantId);
 
-	// Generate unique file path
+	// Enhanced filename sanitization
+	const sanitizedFileName = sanitizeFileName(fileName);
+
+	// Generate unique file path with better organization
 	const timestamp = Date.now();
-	const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9._-]/g, "_");
 	const filePath = `documents/${timestamp}-${sanitizedFileName}`;
+
+	// Calculate file checksum for integrity
+	const crypto = await import("crypto");
+	const checksum = crypto.createHash("sha256").update(file).digest("hex");
+
+	// Validate file content if MIME type provided
+	if (metadata?.contentType) {
+		const isValid = await validateFileContent(file, metadata.contentType);
+		if (!isValid) {
+			throw new Error(
+				`File content does not match declared MIME type: ${metadata.contentType}`,
+			);
+		}
+	}
 
 	try {
 		const metaData = {
 			"Content-Type": metadata?.contentType || "application/octet-stream",
+			"X-File-Checksum-SHA256": checksum,
+			"X-Original-Filename": fileName,
+			"X-Upload-Timestamp": new Date().toISOString(),
 			...metadata,
 		};
 
@@ -155,14 +243,15 @@ export async function uploadFile(
 			metaData,
 		);
 
-		console.log("Uploaded file to storage", {
+		console.log("Uploaded file to storage with integrity check", {
 			tenantId,
-			fileName,
+			fileName: sanitizedFileName,
 			filePath,
 			size: file.length,
+			checksum,
 		});
 
-		return { filePath, size: file.length };
+		return { filePath, size: file.length, checksum };
 	} catch (error) {
 		console.error("Failed to upload file", error, {
 			tenantId,

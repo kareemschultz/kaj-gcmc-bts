@@ -9,11 +9,13 @@
 		"start": "bun dist/index.js"
 	},
 	"dependencies": {
+		"@GCMC-KAJ/compliance-engine": "workspace:*",
 		"@GCMC-KAJ/db": "workspace:*",
 		"@GCMC-KAJ/email": "workspace:*",
 		"@GCMC-KAJ/types": "workspace:*",
 		"bullmq": "^5.34.2",
-		"ioredis": "^5.4.1"
+		"ioredis": "^5.4.1",
+		"hono": "^4.6.14"
 	},
 	"devDependencies": {
 		"@types/node": "^22.10.2",
