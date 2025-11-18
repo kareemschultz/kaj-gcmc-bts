@@ -2,6 +2,7 @@ import { protectedProcedure, publicProcedure, router } from "../index";
 
 // Import all routers
 import { analyticsRouter } from "./analytics";
+import { clientAnalyticsRouter } from "./client-analytics";
 import { clientBusinessesRouter } from "./clientBusinesses";
 import { clientsRouter } from "./clients";
 import { complianceRulesRouter } from "./complianceRules";
@@ -46,6 +47,7 @@ export const appRouter = router({
 	tenants: tenantsRouter,
 	roles: rolesRouter,
 	clients: clientsRouter,
+	clientAnalytics: clientAnalyticsRouter,
 	clientBusinesses: clientBusinessesRouter,
 
 	// Document management

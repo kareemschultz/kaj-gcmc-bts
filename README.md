@@ -108,6 +108,8 @@ The legacy implementation lived in a **Next.js monolith**. It has been fully mig
 - **Analytics & Dashboards**
   - Compliance overview, risk distribution, activity feed
   - Module‑level analytics
+  - **NEW**: Comprehensive Client Dashboard with advanced visualizations
+  - **NEW**: Business Intelligence with correlation analysis and predictive insights
 - **PDF Reporting**
   - Client file report, filings summary, documents inventory, compliance report, service history
 - **Background Jobs**
@@ -602,6 +604,82 @@ Example usage (frontend):
 ```
 
 Full details live in `REPORTS_SYSTEM_SUMMARY.md` & `packages/reports/README.md`.
+
+---
+
+## 📊 Client Dashboard & Business Intelligence
+
+### **Comprehensive Client Profile View**
+
+The platform now features an advanced client dashboard providing a **holistic, data-driven view** of each client with:
+
+#### **📈 Multi-Tab Dashboard Interface**
+- **Overview**: Key metrics, primary charts, and status distributions
+- **Analytics**: Advanced business intelligence with correlation analysis
+- **Compliance**: Detailed compliance breakdown and alerts
+- **Documents**: Document analytics and expiration tracking
+- **Filings**: Filing performance and deadline management
+- **Services**: Service request tracking and quality metrics
+- **Activity**: Real-time timeline of all client activities
+
+#### **🎯 Advanced Data Visualizations**
+1. **Business Performance Radar**: 6-dimensional analysis across:
+   - Compliance Score
+   - Document Management
+   - Filing Performance
+   - Service Quality
+   - Risk Management
+   - Efficiency Score
+
+2. **Interactive Charts** (powered by Recharts):
+   - **Area Charts**: Compliance trends over time
+   - **Bar Charts**: Service completion and filing distributions
+   - **Pie Charts**: Status breakdowns for documents and filings
+   - **Scatter Plots**: Metric correlation analysis
+   - **Radar Charts**: Multi-dimensional performance analysis
+
+3. **Correlation Analysis**:
+   - Statistical relationships between metrics
+   - Performance correlation mapping
+   - Business intelligence insights
+
+#### **📊 Key Performance Indicators**
+- **Real-time Metrics**: Document counts, filing status, service requests, fees
+- **Compliance Badges**: Visual compliance level indicators
+- **Trend Analysis**: Historical performance tracking
+- **Predictive Insights**: AI-driven recommendations
+
+#### **🔍 Business Intelligence Features**
+- **Cost-Benefit Analysis**: Investment vs. returns visualization
+- **ROI Calculations**: Efficiency and value metrics
+- **Performance Benchmarking**: Industry comparison capabilities
+- **Intelligent Insights**: Automated recommendations and best practices
+
+### **API Integration**
+
+New tRPC router `clientAnalytics` provides:
+
+```typescript
+// Client analytics endpoints
+trpc.clientAnalytics.getById(clientId)          // Basic client info
+trpc.clientAnalytics.complianceStats(clientId)  // Compliance analysis
+trpc.clientAnalytics.documentsAnalytics(clientId) // Document metrics
+trpc.clientAnalytics.filingsAnalytics(clientId)   // Filing performance
+trpc.clientAnalytics.servicesAnalytics(clientId)  // Service analytics
+trpc.clientAnalytics.activityTimeline(clientId)   // Activity history
+```
+
+### **Technical Features**
+- **Redis Caching**: 2-5 minute intelligent caching for performance
+- **Real-time Updates**: Live data synchronization
+- **Responsive Design**: Mobile and desktop optimized
+- **Accessibility**: WCAG 2.1 compliant interface
+- **Performance Monitoring**: Core Web Vitals tracking
+
+### **Usage**
+Navigate to any client profile at `/clients/[id]` to access the comprehensive dashboard with all analytics and visualization features.
+
+**Documentation**: See `docs/CLIENT_DASHBOARD_FEATURES.md` for complete technical documentation.
 
 ---
 

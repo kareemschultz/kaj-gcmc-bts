@@ -377,6 +377,14 @@ export const CacheKeys = {
 	recentReports: (tenantId: number) => `reports:recent:${tenantId}`,
 	storageStats: (tenantId: number) => `storage:stats:${tenantId}`,
 
+	// Client Analytics
+	clientProfile: (tenantId: number, clientId: number) => `client:profile:${tenantId}:${clientId}`,
+	clientCompliance: (tenantId: number, clientId: number) => `client:compliance:${tenantId}:${clientId}`,
+	clientDocuments: (tenantId: number, clientId: number) => `client:documents:${tenantId}:${clientId}`,
+	clientFilings: (tenantId: number, clientId: number) => `client:filings:${tenantId}:${clientId}`,
+	clientServices: (tenantId: number, clientId: number) => `client:services:${tenantId}:${clientId}`,
+	clientActivity: (tenantId: number, clientId: number) => `client:activity:${tenantId}:${clientId}`,
+
 	// Tag-based cache groups for invalidation
 	tags: {
 		tenant: (tenantId: number) => `tenant:${tenantId}`,
@@ -385,6 +393,10 @@ export const CacheKeys = {
 		reports: "reports",
 		dashboard: "dashboard",
 		filings: "filings",
+		clients: "clients",
+		documents: "documents",
+		services: "services",
+		activity: "activity",
 		grt: "grt",
 		corporationTax: "corporation-tax",
 		paye: "paye",
