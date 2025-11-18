@@ -5,11 +5,11 @@
  * Implements OWASP security best practices and enterprise-grade security controls
  */
 
-// Export existing modules
-export * from "./encryption";
-export * from "./input-validation";
-export * from "./rbac-guard";
-export * from "./sql-injection-prevention";
-export * from "./tenant-isolation";
-export * from "./xss-protection";
-export * from "./api-security";
+// Export security utilities
+export * from './input-validation';
+export * from './xss-protection';
+export * from './sql-injection-prevention';
+export * from './encryption';
+export * from './rate-limiting';
+export * from './auth-helpers';
+export * from './cors-config';
