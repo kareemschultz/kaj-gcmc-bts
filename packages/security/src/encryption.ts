@@ -5,7 +5,7 @@
  * Implements industry-standard algorithms and best practices
  */
 
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 // Encryption configuration
 const ALGORITHM = "aes-256-gcm";

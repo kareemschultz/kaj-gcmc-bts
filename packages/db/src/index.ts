@@ -1,11 +1,12 @@
-import { Prisma, PrismaClient } from "../prisma/generated/client";
+import { Prisma, type PrismaClient } from "../prisma/generated/client";
+import { OptimizedPrismaClient } from "./optimizations";
 
 const globalForPrisma = globalThis as unknown as {
 	prisma: PrismaClient | undefined;
 };
 
 // Helper function to get database URL with connection pooling
-function getDatabaseUrl(): string {
+function _getDatabaseUrl(): string {
 	const baseUrl = process.env.DATABASE_URL;
 
 	if (!baseUrl) {
@@ -27,19 +28,7 @@ function getDatabaseUrl(): string {
 	return baseUrl;
 }
 
-const prisma =
-	globalForPrisma.prisma ??
-	new PrismaClient({
-		log:
-			process.env.NODE_ENV === "development"
-				? ["query", "error", "warn"]
-				: ["error"],
-		datasources: {
-			db: {
-				url: getDatabaseUrl(),
-			},
-		},
-	});
+const prisma = globalForPrisma.prisma ?? new OptimizedPrismaClient();
 
 // Prevent hot reload from creating new instances in development
 if (process.env.NODE_ENV !== "production") {
@@ -48,3 +37,4 @@ if (process.env.NODE_ENV !== "production") {
 
 export default prisma;
 export { Prisma };
+export { OptimizedPrismaClient, QueryOptimizer } from "./optimizations";

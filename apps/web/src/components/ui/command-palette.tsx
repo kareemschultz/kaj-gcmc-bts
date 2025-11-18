@@ -1,23 +1,19 @@
 "use client";
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
 import {
-	Calculator,
+	BarChart3,
+	Bell,
 	Calendar,
-	CreditCard,
+	ClipboardList,
 	FileText,
+	HelpCircle,
+	Home,
 	Settings,
-	Smile,
 	User,
 	Users,
-	Search,
-	Home,
-	BarChart3,
-	ClipboardList,
-	Bell,
-	HelpCircle,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import * as React from "react";
 
 import {
 	CommandDialog,
@@ -40,7 +36,7 @@ export function CommandPalette({ open, setOpen }: CommandPaletteProps) {
 
 	React.useEffect(() => {
 		// Only run on client-side
-		if (typeof window === 'undefined') return;
+		if (typeof window === "undefined") return;
 
 		const down = (e: KeyboardEvent) => {
 			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -53,10 +49,13 @@ export function CommandPalette({ open, setOpen }: CommandPaletteProps) {
 		return () => document.removeEventListener("keydown", down);
 	}, [open, setOpen]);
 
-	const runCommand = React.useCallback((command: () => void) => {
-		setOpen(false);
-		command();
-	}, [setOpen]);
+	const runCommand = React.useCallback(
+		(command: () => void) => {
+			setOpen(false);
+			command();
+		},
+		[setOpen],
+	);
 
 	return (
 		<CommandDialog open={open} onOpenChange={setOpen}>
@@ -173,7 +172,7 @@ export function useCommandPalette() {
 
 	React.useEffect(() => {
 		// Only run on client-side
-		if (typeof window === 'undefined') return;
+		if (typeof window === "undefined") return;
 
 		const down = (e: KeyboardEvent) => {
 			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {

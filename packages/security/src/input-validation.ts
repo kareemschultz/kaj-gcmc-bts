@@ -290,7 +290,7 @@ export function validateCommandArgument(arg: string): {
  * Cross-Site Request Forgery (CSRF) token validation
  */
 export function generateCsrfToken(): string {
-	const crypto = require("crypto");
+	const crypto = require("node:crypto");
 	return crypto.randomBytes(32).toString("hex");
 }
 
@@ -300,7 +300,7 @@ export function validateCsrfToken(
 ): boolean {
 	if (!token || !expectedToken) return false;
 	// Use constant-time comparison to prevent timing attacks
-	const crypto = require("crypto");
+	const crypto = require("node:crypto");
 	const tokenBuffer = Buffer.from(token, "hex");
 	const expectedBuffer = Buffer.from(expectedToken, "hex");
 

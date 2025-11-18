@@ -9,10 +9,9 @@
  * - Registered office requirements
  */
 
-import { addMonths, addYears, isAfter, isBefore } from "date-fns";
+import { addMonths, addYears, isBefore } from "date-fns";
 import type {
 	BusinessType,
-	ComplianceRequirement,
 	ComplianceResult,
 	FilingDeadline,
 	GuyanaBusinessProfile,
@@ -231,7 +230,7 @@ export function getDCRAForms(businessType: BusinessType) {
  */
 export function calculateDCRAComplianceCosts(
 	businessType: BusinessType,
-	yearsInOperation: number,
+	_yearsInOperation: number,
 ): {
 	registrationFee: number;
 	annualReturnFee: number;

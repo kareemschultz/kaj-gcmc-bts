@@ -213,7 +213,7 @@ export async function uploadFile(
 	const filePath = `documents/${timestamp}-${sanitizedFileName}`;
 
 	// Calculate file checksum for integrity
-	const crypto = await import("crypto");
+	const crypto = await import("node:crypto");
 	const checksum = crypto.createHash("sha256").update(file).digest("hex");
 
 	// Validate file content if MIME type provided

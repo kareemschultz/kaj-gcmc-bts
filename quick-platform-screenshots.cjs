@@ -6,8 +6,8 @@
  */
 
 const puppeteer = require("puppeteer");
-const fs = require("fs").promises;
-const path = require("path");
+const fs = require("node:fs").promises;
+const path = require("node:path");
 
 async function takeQuickScreenshots() {
 	const screenshotsDir =
@@ -18,7 +18,7 @@ async function takeQuickScreenshots() {
 	// Create screenshots directory
 	try {
 		await fs.mkdir(screenshotsDir, { recursive: true });
-	} catch (error) {
+	} catch (_error) {
 		console.log("Screenshots directory already exists");
 	}
 

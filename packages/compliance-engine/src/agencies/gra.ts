@@ -9,14 +9,7 @@
  * - Excise Tax
  */
 
-import {
-	addDays,
-	addMonths,
-	addQuarters,
-	addYears,
-	isAfter,
-	isBefore,
-} from "date-fns";
+import { addDays, addMonths, isBefore } from "date-fns";
 import type {
 	BusinessType,
 	ComplianceRequirement,
@@ -240,7 +233,7 @@ export function calculateGRATaxes(
  */
 export function assessGRACompliance(
 	business: GuyanaBusinessProfile,
-	filingHistory: any[] = [],
+	_filingHistory: any[] = [],
 ): ComplianceResult {
 	const deadlines = calculateGRADeadlines(business);
 	const overdueFilings = deadlines.filter((d) => d.isOverdue);

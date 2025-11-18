@@ -1,10 +1,8 @@
 "use client";
 
-import * as React from "react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-
-import { cn } from "@/lib/utils";
+import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -12,6 +10,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 interface DatePickerProps {
 	date?: Date;
@@ -41,7 +40,7 @@ export function DatePicker({
 					className={cn(
 						"justify-start text-left font-normal",
 						!date && "text-muted-foreground",
-						className
+						className,
 					)}
 					disabled={disabled}
 				>
@@ -91,7 +90,7 @@ export function DateRangePicker({
 					className={cn(
 						"justify-start text-left font-normal",
 						!from && "text-muted-foreground",
-						className
+						className,
 					)}
 					disabled={disabled}
 				>
@@ -99,8 +98,7 @@ export function DateRangePicker({
 					{from ? (
 						to ? (
 							<>
-								{format(from, "LLL dd, y")} -{" "}
-								{format(to, "LLL dd, y")}
+								{format(from, "LLL dd, y")} - {format(to, "LLL dd, y")}
 							</>
 						) : (
 							format(from, "LLL dd, y")
@@ -166,7 +164,7 @@ export function TimePicker({
 					className={cn(
 						"justify-start text-left font-normal",
 						!time && "text-muted-foreground",
-						className
+						className,
 					)}
 					disabled={disabled}
 				>
@@ -177,8 +175,8 @@ export function TimePicker({
 			<PopoverContent className="w-auto p-0" align="start">
 				<div className="grid grid-cols-2 gap-1 p-3">
 					<div className="space-y-1">
-						<label className="text-xs font-medium">Hours</label>
-						<div className="grid grid-cols-4 gap-1 max-h-32 overflow-y-auto">
+						<label className="font-medium text-xs">Hours</label>
+						<div className="grid max-h-32 grid-cols-4 gap-1 overflow-y-auto">
 							{Array.from({ length: 24 }, (_, i) => (
 								<Button
 									key={i}
@@ -193,22 +191,26 @@ export function TimePicker({
 						</div>
 					</div>
 					<div className="space-y-1">
-						<label className="text-xs font-medium">Minutes</label>
-						<div className="grid grid-cols-4 gap-1 max-h-32 overflow-y-auto">
-							{Array.from({ length: 60 }, (_, i) => i % 15 === 0).map((_, i) => {
-								const minute = i * 15;
-								return (
-									<Button
-										key={minute}
-										variant="ghost"
-										size="sm"
-										className="h-8"
-										onClick={() => handleTimeSelect(time?.getHours() || 0, minute)}
-									>
-										{minute.toString().padStart(2, "0")}
-									</Button>
-								);
-							})}
+						<label className="font-medium text-xs">Minutes</label>
+						<div className="grid max-h-32 grid-cols-4 gap-1 overflow-y-auto">
+							{Array.from({ length: 60 }, (_, i) => i % 15 === 0).map(
+								(_, i) => {
+									const minute = i * 15;
+									return (
+										<Button
+											key={minute}
+											variant="ghost"
+											size="sm"
+											className="h-8"
+											onClick={() =>
+												handleTimeSelect(time?.getHours() || 0, minute)
+											}
+										>
+											{minute.toString().padStart(2, "0")}
+										</Button>
+									);
+								},
+							)}
 						</div>
 					</div>
 				</div>
@@ -271,7 +273,7 @@ export function DateTimePicker({
 					className={cn(
 						"justify-start text-left font-normal",
 						!date && "text-muted-foreground",
-						className
+						className,
 					)}
 					disabled={disabled}
 				>
@@ -281,16 +283,12 @@ export function DateTimePicker({
 			</PopoverTrigger>
 			<PopoverContent className="w-auto p-0" align="start">
 				<div className="border-b">
-					<Calendar
-						mode="single"
-						selected={date}
-						onSelect={handleDateSelect}
-					/>
+					<Calendar mode="single" selected={date} onSelect={handleDateSelect} />
 				</div>
 				<div className="grid grid-cols-2 gap-1 p-3">
 					<div className="space-y-1">
-						<label className="text-xs font-medium">Hours</label>
-						<div className="grid grid-cols-4 gap-1 max-h-24 overflow-y-auto">
+						<label className="font-medium text-xs">Hours</label>
+						<div className="grid max-h-24 grid-cols-4 gap-1 overflow-y-auto">
 							{Array.from({ length: 24 }, (_, i) => (
 								<Button
 									key={i}
@@ -305,15 +303,17 @@ export function DateTimePicker({
 						</div>
 					</div>
 					<div className="space-y-1">
-						<label className="text-xs font-medium">Minutes</label>
-						<div className="grid grid-cols-4 gap-1 max-h-24 overflow-y-auto">
+						<label className="font-medium text-xs">Minutes</label>
+						<div className="grid max-h-24 grid-cols-4 gap-1 overflow-y-auto">
 							{[0, 15, 30, 45].map((minute) => (
 								<Button
 									key={minute}
 									variant="ghost"
 									size="sm"
 									className="h-8"
-									onClick={() => handleTimeSelect(date?.getHours() || 0, minute)}
+									onClick={() =>
+										handleTimeSelect(date?.getHours() || 0, minute)
+									}
 								>
 									{minute.toString().padStart(2, "0")}
 								</Button>

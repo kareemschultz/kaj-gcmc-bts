@@ -14,6 +14,7 @@ import { filingsRouter } from "./filings";
 import { filingTypesRouter } from "./filingTypes";
 import { guyanaRouter } from "./guyana";
 import { notificationsRouter } from "./notifications";
+import { performanceRouter } from "./performance";
 import { portalRouter } from "./portal";
 import { recurringFilingsRouter } from "./recurringFilings";
 import { reportsRouter } from "./reports";
@@ -73,6 +74,7 @@ export const appRouter = router({
 	// Analytics & dashboards
 	dashboard: dashboardRouter,
 	analytics: analyticsRouter,
+	performance: performanceRouter,
 
 	// Guyana-specific compliance
 	guyana: guyanaRouter,

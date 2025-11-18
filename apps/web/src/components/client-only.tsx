@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 
 interface ClientOnlyProps {
-  children: React.ReactNode;
-  fallback?: React.ReactNode;
+	children: React.ReactNode;
+	fallback?: React.ReactNode;
 }
 
 /**
@@ -22,17 +22,17 @@ interface ClientOnlyProps {
  * @param fallback - Optional fallback to show during SSR/hydration (default: null)
  */
 export function ClientOnly({ children, fallback = null }: ClientOnlyProps) {
-  const [hasMounted, setHasMounted] = useState(false);
+	const [hasMounted, setHasMounted] = useState(false);
 
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+	useEffect(() => {
+		setHasMounted(true);
+	}, []);
 
-  if (!hasMounted) {
-    return <>{fallback}</>;
-  }
+	if (!hasMounted) {
+		return <>{fallback}</>;
+	}
 
-  return <>{children}</>;
+	return <>{children}</>;
 }
 
 /**
@@ -40,11 +40,11 @@ export function ClientOnly({ children, fallback = null }: ClientOnlyProps) {
  * Useful for conditional rendering based on client-side state
  */
 export function useIsClient() {
-  const [isClient, setIsClient] = useState(false);
+	const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+	useEffect(() => {
+		setIsClient(true);
+	}, []);
 
-  return isClient;
+	return isClient;
 }

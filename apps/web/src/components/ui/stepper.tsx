@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
 import { Check, ChevronRight } from "lucide-react";
-
-import { cn } from "@/lib/utils";
+import * as React from "react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export interface StepperStep {
 	id: string;
@@ -50,12 +49,7 @@ export function Stepper({
 
 				return (
 					<React.Fragment key={step.id}>
-						<div
-							className={cn(
-								"flex items-center",
-								!isHorizontal && "w-full",
-							)}
-						>
+						<div className={cn("flex items-center", !isHorizontal && "w-full")}>
 							<StepIndicator
 								step={step}
 								index={index}
@@ -113,9 +107,7 @@ function StepIndicator({
 
 	return (
 		<Button
-			variant={
-				isActive ? "default" : isComplete ? "secondary" : "outline"
-			}
+			variant={isActive ? "default" : isComplete ? "secondary" : "outline"}
 			size="icon"
 			className={cn(
 				"shrink-0 rounded-full border-2",
@@ -123,7 +115,7 @@ function StepIndicator({
 				isComplete && !isActive && "bg-primary text-primary-foreground",
 				isActive && "ring-2 ring-primary ring-offset-2",
 				onClick && "cursor-pointer",
-				!onClick && "cursor-default pointer-events-none",
+				!onClick && "pointer-events-none cursor-default",
 			)}
 			onClick={onClick}
 			disabled={!onClick}
@@ -182,16 +174,11 @@ function StepContent({
 			>
 				{step.title}
 				{step.isOptional && (
-					<span className="ml-1 text-xs text-muted-foreground">(optional)</span>
+					<span className="ml-1 text-muted-foreground text-xs">(optional)</span>
 				)}
 			</div>
 			{step.description && (
-				<div
-					className={cn(
-						"text-muted-foreground",
-						descriptionSizes[size],
-					)}
-				>
+				<div className={cn("text-muted-foreground", descriptionSizes[size])}>
 					{step.description}
 				</div>
 			)}
@@ -219,10 +206,7 @@ function StepSeparator({ isHorizontal, isComplete }: StepSeparatorProps) {
 	return (
 		<div className="ml-4 flex h-6 w-px">
 			<div
-				className={cn(
-					"w-px flex-1",
-					isComplete ? "bg-primary" : "bg-border",
-				)}
+				className={cn("w-px flex-1", isComplete ? "bg-primary" : "bg-border")}
 			/>
 		</div>
 	);
@@ -265,9 +249,7 @@ export function MultiStepForm({
 				/>
 			</div>
 
-			<div className="min-h-[400px]">
-				{children}
-			</div>
+			<div className="min-h-[400px]">{children}</div>
 
 			<div className="mt-8 flex justify-between">
 				<Button

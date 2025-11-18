@@ -1,12 +1,12 @@
 /**
  * Guyana Government Agencies
- * 
+ *
  * Comprehensive integration for all major Guyana regulatory agencies
  */
 
-export * from './gra';
-export * from './nis';
-export * from './dcra';
-export * from './go-invest';
-export * from './epa';
-export * from './immigration';
+export * from "./dcra";
+export * from "./epa";
+export * from "./go-invest";
+export * from "./gra";
+export * from "./immigration";
+export * from "./nis";

@@ -3,7 +3,7 @@
  *
  * Comprehensive compliance automation for Guyana government agencies:
  * - GRA (Guyana Revenue Authority)
- * - NIS (National Insurance Scheme) 
+ * - NIS (National Insurance Scheme)
  * - DCRA (Deeds & Commercial Registry Authority)
  * - GO-Invest (Guyana Office for Investment)
  * - EPA (Environmental Protection Agency)
@@ -11,15 +11,12 @@
  */
 
 // Export agency modules
-export * from './agencies';
-
-// Export compliance rules and calculations
-export * from './rules';
-export * from './calculators';
-export * from './workflows';
-
+export * from "./agencies";
+export * from "./calculators";
 // Export main compliance orchestrator
-export * from './compliance-orchestrator';
-
+export * from "./compliance-orchestrator";
+// Export compliance rules and calculations
+export * from "./rules";
 // Export types
-export * from './types';
+export * from "./types";
+export * from "./workflows";

@@ -1,17 +1,16 @@
 "use client";
 
-import * as React from "react";
 import {
-	ColumnDef,
-	ColumnFiltersState,
-	SortingState,
-	VisibilityState,
+	type ColumnDef,
+	type ColumnFiltersState,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
+	type SortingState,
 	useReactTable,
+	type VisibilityState,
 } from "@tanstack/react-table";
 import {
 	ChevronDown,
@@ -20,10 +19,10 @@ import {
 	ChevronsLeft,
 	ChevronsRight,
 	Download,
-	Filter,
 	Search,
 	Settings2,
 } from "lucide-react";
+import * as React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -83,7 +82,8 @@ export function DataTable<TData, TValue>({
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
 		[],
 	);
-	const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+	const [columnVisibility, setColumnVisibility] =
+		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
 
 	// Add selection column if row selection is enabled
@@ -122,7 +122,9 @@ export function DataTable<TData, TValue>({
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
 		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: enablePagination ? getPaginationRowModel() : undefined,
+		getPaginationRowModel: enablePagination
+			? getPaginationRowModel()
+			: undefined,
 		getSortedRowModel: getSortedRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
 		onColumnVisibilityChange: setColumnVisibility,
@@ -143,19 +145,20 @@ export function DataTable<TData, TValue>({
 	// Handle row selection changes
 	React.useEffect(() => {
 		if (onRowSelectionChange && enableRowSelection) {
-			const selectedRows = table.getFilteredSelectedRowModel().rows.map(
-				row => row.original,
-			);
+			const selectedRows = table
+				.getFilteredSelectedRowModel()
+				.rows.map((row) => row.original);
 			onRowSelectionChange(selectedRows);
 		}
-	}, [rowSelection, table, onRowSelectionChange, enableRowSelection]);
+	}, [table, onRowSelectionChange, enableRowSelection]);
 
 	// Export functionality
 	const handleExport = React.useCallback(() => {
 		if (onExport) {
-			const exportData = enableRowSelection && Object.keys(rowSelection).length > 0
-				? table.getFilteredSelectedRowModel().rows.map(row => row.original)
-				: table.getFilteredRowModel().rows.map(row => row.original);
+			const exportData =
+				enableRowSelection && Object.keys(rowSelection).length > 0
+					? table.getFilteredSelectedRowModel().rows.map((row) => row.original)
+					: table.getFilteredRowModel().rows.map((row) => row.original);
 			onExport(exportData);
 		}
 	}, [table, onExport, enableRowSelection, rowSelection]);
@@ -166,8 +169,8 @@ export function DataTable<TData, TValue>({
 			<div className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
 				<div className="flex flex-1 items-center gap-2">
 					{searchKey && (
-						<div className="relative flex-1 max-w-sm">
-							<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+						<div className="relative max-w-sm flex-1">
+							<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
 							<Input
 								placeholder={searchPlaceholder}
 								value={
@@ -311,7 +314,9 @@ export function DataTable<TData, TValue>({
 								}}
 							>
 								<SelectTrigger className="h-8 w-16">
-									<SelectValue placeholder={table.getState().pagination.pageSize} />
+									<SelectValue
+										placeholder={table.getState().pagination.pageSize}
+									/>
 								</SelectTrigger>
 								<SelectContent side="top">
 									{[10, 20, 30, 40, 50].map((pageSize) => (
@@ -340,7 +345,7 @@ export function DataTable<TData, TValue>({
 							>
 								<ChevronLeft className="h-4 w-4" />
 							</Button>
-							<div className="flex items-center justify-center text-sm font-medium min-w-[100px]">
+							<div className="flex min-w-[100px] items-center justify-center font-medium text-sm">
 								Page {table.getState().pagination.pageIndex + 1} of{" "}
 								{table.getPageCount()}
 							</div>

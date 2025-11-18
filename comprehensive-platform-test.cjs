@@ -8,8 +8,8 @@
  */
 
 const puppeteer = require("puppeteer");
-const fs = require("fs").promises;
-const path = require("path");
+const fs = require("node:fs").promises;
+const path = require("node:path");
 
 const TEST_CONFIG = {
 	baseUrl: "http://localhost:3001",
@@ -45,7 +45,7 @@ class PlatformTester {
 		// Create screenshots directory
 		try {
 			await fs.mkdir(TEST_CONFIG.screenshotsDir, { recursive: true });
-		} catch (error) {
+		} catch (_error) {
 			console.log("Screenshots directory already exists or created");
 		}
 
@@ -182,7 +182,7 @@ class PlatformTester {
 			const dashboardUrl = this.page.url();
 			if (
 				dashboardUrl.includes("/dashboard") ||
-				dashboardUrl === TEST_CONFIG.baseUrl + "/"
+				dashboardUrl === `${TEST_CONFIG.baseUrl}/`
 			) {
 				console.log("✅ Login successful - redirected to dashboard");
 				await this.takeScreenshot(
@@ -236,7 +236,7 @@ class PlatformTester {
 					"Dashboard analytics and charts",
 				);
 			}
-		} catch (error) {
+		} catch (_error) {
 			console.log("📊 No charts found, continuing...");
 		}
 	}
@@ -411,9 +411,8 @@ class PlatformTester {
 			// Get performance metrics
 			const metrics = await this.page.metrics();
 			console.log("📊 Performance Metrics:", {
-				JSHeapUsedSize: Math.round(metrics.JSHeapUsedSize / 1024 / 1024) + "MB",
-				JSHeapTotalSize:
-					Math.round(metrics.JSHeapTotalSize / 1024 / 1024) + "MB",
+				JSHeapUsedSize: `${Math.round(metrics.JSHeapUsedSize / 1024 / 1024)}MB`,
+				JSHeapTotalSize: `${Math.round(metrics.JSHeapTotalSize / 1024 / 1024)}MB`,
 				ScriptDuration: metrics.ScriptDuration,
 				TaskDuration: metrics.TaskDuration,
 			});

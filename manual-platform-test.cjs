@@ -8,8 +8,8 @@
  */
 
 const puppeteer = require("puppeteer");
-const fs = require("fs").promises;
-const path = require("path");
+const fs = require("node:fs").promises;
+const path = require("node:path");
 
 const TEST_CONFIG = {
 	baseUrl: "http://localhost:3001",
@@ -40,7 +40,7 @@ class ManualPlatformTester {
 		// Create screenshots directory
 		try {
 			await fs.mkdir(TEST_CONFIG.screenshotsDir, { recursive: true });
-		} catch (error) {
+		} catch (_error) {
 			console.log("Screenshots directory already exists or created");
 		}
 

@@ -238,7 +238,7 @@ export const reportsRouter = router({
 		.mutation(async ({ ctx, input }) => {
 			const report = await prisma.generatedReport.findFirst({
 				where: {
-					id: Number.parseInt(input.reportId),
+					id: Number.parseInt(input.reportId, 10),
 					tenantId: ctx.tenantId,
 				},
 			});
@@ -310,7 +310,7 @@ export const reportsRouter = router({
 /**
  * Generate mock report data (placeholder for actual PDF generation)
  */
-async function generateReportData(reportType: string, options: any) {
+async function generateReportData(reportType: string, _options: any) {
 	// This is a placeholder - in a real implementation, you'd use a PDF library like puppeteer or pdfkit
 	const mockPdfContent = `
 %PDF-1.4

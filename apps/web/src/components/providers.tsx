@@ -5,10 +5,14 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { queryClient, trpc, trpcClient } from "@/utils/trpc";
 import { ThemeProvider } from "./theme-provider";
-import { Toaster } from "./ui/sonner";
 import { CommandPalette, useCommandPalette } from "./ui/command-palette";
+import { Toaster } from "./ui/sonner";
 
-function ProvidersWithCommandPalette({ children }: { children: React.ReactNode }) {
+function ProvidersWithCommandPalette({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
 	const { open, setOpen } = useCommandPalette();
 
 	return (

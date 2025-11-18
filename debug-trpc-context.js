@@ -14,7 +14,7 @@ async function testTrpcContext() {
 		console.log("1. Testing auth.api.getSession...");
 
 		// Create a mock request object
-		const mockRequest = {
+		const _mockRequest = {
 			headers: testHeaders,
 			url: "http://localhost:3000/test",
 		};

@@ -1,12 +1,21 @@
 "use client";
 
+import {
+	AlertCircle,
+	Archive,
+	type File,
+	FileText,
+	Image,
+	Music,
+	Upload,
+	Video,
+	X,
+} from "lucide-react";
 import * as React from "react";
-import { Upload, File, X, FileText, Image, Video, Music, Archive, AlertCircle } from "lucide-react";
-
-import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export interface FileWithPreview extends File {
 	preview?: string;
@@ -53,98 +62,112 @@ export function FileUpload({
 		}
 	}, []);
 
-	const validateFiles = React.useCallback((fileList: File[]): { validFiles: FileWithPreview[]; errors: string[] } => {
-		const validFiles: FileWithPreview[] = [];
-		const newErrors: string[] = [];
+	const validateFiles = React.useCallback(
+		(fileList: File[]): { validFiles: FileWithPreview[]; errors: string[] } => {
+			const validFiles: FileWithPreview[] = [];
+			const newErrors: string[] = [];
 
-		for (const file of fileList) {
-			// Check file size
-			if (file.size > maxSize) {
-				newErrors.push(`${file.name} is too large (max ${formatFileSize(maxSize)})`);
-				continue;
-			}
-
-			// Check file count
-			if (files.length + validFiles.length >= maxFiles) {
-				newErrors.push(`Maximum ${maxFiles} files allowed`);
-				break;
-			}
-
-			// Check file type if accept is specified
-			if (accept) {
-				const acceptedTypes = accept.split(',').map(type => type.trim());
-				const isAccepted = acceptedTypes.some(type => {
-					if (type.startsWith('.')) {
-						return file.name.toLowerCase().endsWith(type.toLowerCase());
-					}
-					return file.type.match(type.replace('*', '.*'));
-				});
-
-				if (!isAccepted) {
-					newErrors.push(`${file.name} is not an accepted file type`);
+			for (const file of fileList) {
+				// Check file size
+				if (file.size > maxSize) {
+					newErrors.push(
+						`${file.name} is too large (max ${formatFileSize(maxSize)})`,
+					);
 					continue;
 				}
+
+				// Check file count
+				if (files.length + validFiles.length >= maxFiles) {
+					newErrors.push(`Maximum ${maxFiles} files allowed`);
+					break;
+				}
+
+				// Check file type if accept is specified
+				if (accept) {
+					const acceptedTypes = accept.split(",").map((type) => type.trim());
+					const isAccepted = acceptedTypes.some((type) => {
+						if (type.startsWith(".")) {
+							return file.name.toLowerCase().endsWith(type.toLowerCase());
+						}
+						return file.type.match(type.replace("*", ".*"));
+					});
+
+					if (!isAccepted) {
+						newErrors.push(`${file.name} is not an accepted file type`);
+						continue;
+					}
+				}
+
+				// Add preview for images
+				const fileWithPreview: FileWithPreview = {
+					...file,
+					id: Math.random().toString(36).substr(2, 9),
+				};
+
+				if (file.type.startsWith("image/")) {
+					fileWithPreview.preview = URL.createObjectURL(file);
+				}
+
+				validFiles.push(fileWithPreview);
 			}
 
-			// Add preview for images
-			const fileWithPreview: FileWithPreview = {
-				...file,
-				id: Math.random().toString(36).substr(2, 9),
-			};
+			return { validFiles, errors: newErrors };
+		},
+		[files.length, maxFiles, maxSize, accept],
+	);
 
-			if (file.type.startsWith('image/')) {
-				fileWithPreview.preview = URL.createObjectURL(file);
+	const handleDrop = React.useCallback(
+		(e: React.DragEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+			setDragActive(false);
+
+			if (disabled) return;
+
+			const droppedFiles = Array.from(e.dataTransfer.files);
+			const { validFiles, errors } = validateFiles(droppedFiles);
+
+			if (validFiles.length > 0) {
+				const newFiles = multiple ? [...files, ...validFiles] : validFiles;
+				setFiles(newFiles);
+				onFilesChange(newFiles);
 			}
 
-			validFiles.push(fileWithPreview);
-		}
+			setErrors(errors);
+		},
+		[disabled, files, multiple, onFilesChange, validateFiles],
+	);
 
-		return { validFiles, errors: newErrors };
-	}, [files.length, maxFiles, maxSize, accept]);
+	const handleFileInput = React.useCallback(
+		(e: React.ChangeEvent<HTMLInputElement>) => {
+			if (!e.target.files) return;
 
-	const handleDrop = React.useCallback((e: React.DragEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
-		setDragActive(false);
+			const selectedFiles = Array.from(e.target.files);
+			const { validFiles, errors } = validateFiles(selectedFiles);
 
-		if (disabled) return;
+			if (validFiles.length > 0) {
+				const newFiles = multiple ? [...files, ...validFiles] : validFiles;
+				setFiles(newFiles);
+				onFilesChange(newFiles);
+			}
 
-		const droppedFiles = Array.from(e.dataTransfer.files);
-		const { validFiles, errors } = validateFiles(droppedFiles);
+			setErrors(errors);
+			e.target.value = ""; // Reset input
+		},
+		[files, multiple, onFilesChange, validateFiles],
+	);
 
-		if (validFiles.length > 0) {
-			const newFiles = multiple ? [...files, ...validFiles] : validFiles;
+	const removeFile = React.useCallback(
+		(fileToRemove: FileWithPreview) => {
+			if (fileToRemove.preview) {
+				URL.revokeObjectURL(fileToRemove.preview);
+			}
+			const newFiles = files.filter((file) => file.id !== fileToRemove.id);
 			setFiles(newFiles);
 			onFilesChange(newFiles);
-		}
-
-		setErrors(errors);
-	}, [disabled, files, multiple, onFilesChange, validateFiles]);
-
-	const handleFileInput = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-		if (!e.target.files) return;
-
-		const selectedFiles = Array.from(e.target.files);
-		const { validFiles, errors } = validateFiles(selectedFiles);
-
-		if (validFiles.length > 0) {
-			const newFiles = multiple ? [...files, ...validFiles] : validFiles;
-			setFiles(newFiles);
-			onFilesChange(newFiles);
-		}
-
-		setErrors(errors);
-		e.target.value = ''; // Reset input
-	}, [files, multiple, onFilesChange, validateFiles]);
-
-	const removeFile = React.useCallback((fileToRemove: FileWithPreview) => {
-		if (fileToRemove.preview) {
-			URL.revokeObjectURL(fileToRemove.preview);
-		}
-		const newFiles = files.filter(file => file.id !== fileToRemove.id);
-		setFiles(newFiles);
-		onFilesChange(newFiles);
-	}, [files, onFilesChange]);
+		},
+		[files, onFilesChange],
+	);
 
 	const openFileDialog = React.useCallback(() => {
 		inputRef.current?.click();
@@ -153,13 +176,13 @@ export function FileUpload({
 	// Cleanup previews on unmount
 	React.useEffect(() => {
 		return () => {
-			files.forEach(file => {
+			files.forEach((file) => {
 				if (file.preview) {
 					URL.revokeObjectURL(file.preview);
 				}
 			});
 		};
-	}, []);
+	}, [files.forEach]);
 
 	return (
 		<div className={cn("w-full", className)}>
@@ -168,8 +191,8 @@ export function FileUpload({
 				className={cn(
 					"relative border-2 border-dashed transition-colors",
 					dragActive && "border-primary bg-primary/5",
-					disabled && "opacity-50 cursor-not-allowed",
-					!disabled && "cursor-pointer hover:border-primary/50"
+					disabled && "cursor-not-allowed opacity-50",
+					!disabled && "cursor-pointer hover:border-primary/50",
 				)}
 				onDragEnter={handleDrag}
 				onDragLeave={handleDrag}
@@ -190,12 +213,12 @@ export function FileUpload({
 
 					{children || (
 						<>
-							<Upload className="h-10 w-10 text-muted-foreground mb-4" />
+							<Upload className="mb-4 h-10 w-10 text-muted-foreground" />
 							<div className="space-y-2">
-								<p className="text-sm font-medium">
+								<p className="font-medium text-sm">
 									Drop files here or click to browse
 								</p>
-								<p className="text-xs text-muted-foreground">
+								<p className="text-muted-foreground text-xs">
 									{accept && `Accepted formats: ${accept}`}
 									{maxSize && ` • Max size: ${formatFileSize(maxSize)}`}
 									{maxFiles > 1 && ` • Max files: ${maxFiles}`}
@@ -210,7 +233,10 @@ export function FileUpload({
 			{errors.length > 0 && (
 				<div className="mt-4 space-y-1">
 					{errors.map((error, index) => (
-						<div key={index} className="flex items-center gap-2 text-sm text-destructive">
+						<div
+							key={index}
+							className="flex items-center gap-2 text-destructive text-sm"
+						>
 							<AlertCircle className="h-4 w-4" />
 							<span>{error}</span>
 						</div>
@@ -221,7 +247,7 @@ export function FileUpload({
 			{/* File Previews */}
 			{showPreview && files.length > 0 && (
 				<div className="mt-4">
-					<h4 className="text-sm font-medium mb-2">
+					<h4 className="mb-2 font-medium text-sm">
 						Uploaded Files ({files.length})
 					</h4>
 					<div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -245,10 +271,14 @@ interface FilePreviewProps {
 }
 
 function FilePreview({ file, onRemove }: FilePreviewProps) {
-	const isImage = file.type.startsWith('image/');
-	const isVideo = file.type.startsWith('video/');
-	const isAudio = file.type.startsWith('audio/');
-	const isArchive = ['application/zip', 'application/x-rar-compressed', 'application/x-tar'].includes(file.type);
+	const isImage = file.type.startsWith("image/");
+	const isVideo = file.type.startsWith("video/");
+	const isAudio = file.type.startsWith("audio/");
+	const isArchive = [
+		"application/zip",
+		"application/x-rar-compressed",
+		"application/x-tar",
+	].includes(file.type);
 
 	const getFileIcon = () => {
 		if (isImage) return Image;
@@ -283,10 +313,10 @@ function FilePreview({ file, onRemove }: FilePreviewProps) {
 
 					{/* File Info */}
 					<div className="min-w-0 flex-1">
-						<p className="truncate text-sm font-medium" title={file.name}>
+						<p className="truncate font-medium text-sm" title={file.name}>
 							{file.name}
 						</p>
-						<div className="flex items-center gap-2 mt-1">
+						<div className="mt-1 flex items-center gap-2">
 							<Badge variant="secondary" className="text-xs">
 								{formatFileSize(file.size)}
 							</Badge>
@@ -318,13 +348,13 @@ function FilePreview({ file, onRemove }: FilePreviewProps) {
 
 // Utility functions
 function formatFileSize(bytes: number): string {
-	if (bytes === 0) return '0 Bytes';
+	if (bytes === 0) return "0 Bytes";
 	const k = 1024;
-	const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+	const sizes = ["Bytes", "KB", "MB", "GB"];
 	const i = Math.floor(Math.log(bytes) / Math.log(k));
-	return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+	return `${Number.parseFloat((bytes / k ** i).toFixed(2))} ${sizes[i]}`;
 }
 
 function getFileExtension(filename: string): string {
-	return filename.split('.').pop()?.toUpperCase() || '';
+	return filename.split(".").pop()?.toUpperCase() || "";
 }

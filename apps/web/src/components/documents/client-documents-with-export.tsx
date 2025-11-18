@@ -15,8 +15,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { trpc } from "@/utils/trpc";
 import { formatDate } from "@/utils/date-utils";
+import { trpc } from "@/utils/trpc";
 
 const DOCUMENT_SKELETON_KEYS = Array.from(
 	{ length: 6 },
@@ -177,7 +177,8 @@ export function ClientDocumentsWithExport({
 												</div>
 												{document.latestVersion?.expiryDate && (
 													<p className="text-muted-foreground text-xs">
-														Expires: {formatDate(document.latestVersion.expiryDate)}
+														Expires:{" "}
+														{formatDate(document.latestVersion.expiryDate)}
 													</p>
 												)}
 												<div className="mt-3 flex gap-4 text-muted-foreground text-xs">

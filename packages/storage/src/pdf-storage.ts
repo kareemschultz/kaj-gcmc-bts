@@ -55,7 +55,7 @@ export async function storePdfReport(
 	const filePath = `reports/${reportType}/${clientId}/${fileName}`;
 
 	// Calculate file checksum for integrity
-	const crypto = await import("crypto");
+	const crypto = await import("node:crypto");
 	const checksum = crypto.createHash("sha256").update(pdfBuffer).digest("hex");
 
 	try {
@@ -136,7 +136,7 @@ export async function retrievePdfReport(
 
 		// Validate integrity if checksum provided
 		if (expectedChecksum) {
-			const crypto = await import("crypto");
+			const crypto = await import("node:crypto");
 			const actualChecksum = crypto
 				.createHash("sha256")
 				.update(buffer)
@@ -227,11 +227,7 @@ export async function listClientPdfReports(
 		}> = [];
 
 		for await (const obj of objectsStream) {
-			if (
-				obj.name &&
-				obj.name.includes(`/${clientId}/`) &&
-				obj.name.endsWith(".pdf")
-			) {
+			if (obj.name?.includes(`/${clientId}/`) && obj.name.endsWith(".pdf")) {
 				// Extract report type from path: reports/{reportType}/{clientId}/{filename}
 				const pathParts = obj.name.split("/");
 				const extractedReportType = pathParts[1] || "unknown";
@@ -338,7 +334,7 @@ export async function getPdfStorageStats(tenantId: number): Promise<{
 		let newestReport: Date | null = null;
 
 		for await (const obj of objectsStream) {
-			if (obj.name && obj.name.endsWith(".pdf")) {
+			if (obj.name?.endsWith(".pdf")) {
 				totalReports++;
 				totalSize += obj.size;
 

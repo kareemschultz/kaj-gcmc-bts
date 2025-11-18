@@ -11,7 +11,6 @@
 
 import { addDays, addMonths } from "date-fns";
 import type {
-	ComplianceRequirement,
 	ComplianceResult,
 	FilingDeadline,
 	GuyanaBusinessProfile,
@@ -38,7 +37,7 @@ export const NIS_RATES = {
  */
 export function calculateNISContributions(
 	weeklyEarnings: number,
-	isEmployer = false,
+	_isEmployer = false,
 ): {
 	employeeContribution: number;
 	employerContribution: number;
@@ -145,7 +144,7 @@ export function calculateNISDeadlines(
  */
 export function assessNISCompliance(
 	business: GuyanaBusinessProfile,
-	contributionHistory: any[] = [],
+	_contributionHistory: any[] = [],
 ): ComplianceResult {
 	const deadlines = calculateNISDeadlines(business);
 	const overdueFilings = deadlines.filter((d) => d.isOverdue);

@@ -1,46 +1,55 @@
 "use client";
 
-import { useState } from "react";
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import {
-	FileText,
-	Users,
-	Calendar,
-	ChevronDown,
-	Home,
-	Settings,
 	BarChart3,
+	Calendar,
 	Files,
+	FileText,
+	Home,
 	Mail,
+	Settings,
 	Shield,
+	Users,
 } from "lucide-react";
-
+import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { DataTable } from "@/components/ui/data-table";
-import { MultiStepForm, StepperStep } from "@/components/ui/stepper";
-import { FileUpload, FileWithPreview } from "@/components/ui/file-upload";
-import { DatePicker, DateRangePicker, TimePicker, DateTimePicker } from "@/components/ui/date-picker";
 import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { DataTable } from "@/components/ui/data-table";
+import {
+	DatePicker,
+	DateRangePicker,
+	DateTimePicker,
+	TimePicker,
+} from "@/components/ui/date-picker";
+import { FileUpload, type FileWithPreview } from "@/components/ui/file-upload";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+	CollapsibleMenu,
 	Sidebar,
 	SidebarContent,
-	SidebarHeader,
 	SidebarFooter,
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
+	SidebarHeader,
 	SidebarMenu,
-	SidebarMenuItem,
 	SidebarMenuButton,
+	SidebarMenuItem,
 	SidebarProvider,
 	SidebarTrigger,
-	CollapsibleMenu,
 } from "@/components/ui/sidebar";
+import { MultiStepForm, type StepperStep } from "@/components/ui/stepper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 // Sample data for the data table
@@ -154,10 +163,13 @@ const steps: StepperStep[] = [
 
 export function ComponentsDemo() {
 	const [selectedDate, setSelectedDate] = useState<Date>();
-	const [selectedDateRange, setSelectedDateRange] = useState<{ from?: Date; to?: Date }>({});
+	const [selectedDateRange, setSelectedDateRange] = useState<{
+		from?: Date;
+		to?: Date;
+	}>({});
 	const [selectedTime, setSelectedTime] = useState<Date>();
 	const [selectedDateTime, setSelectedDateTime] = useState<Date>();
-	const [uploadedFiles, setUploadedFiles] = useState<FileWithPreview[]>([]);
+	const [_uploadedFiles, setUploadedFiles] = useState<FileWithPreview[]>([]);
 	const [currentStep, setCurrentStep] = useState(0);
 	const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -192,14 +204,16 @@ export function ComponentsDemo() {
 						Command Palette
 					</CardTitle>
 					<CardDescription>
-						Global search and navigation component (Press <kbd className="px-2 py-1 text-xs bg-muted rounded">Ctrl+K</kbd> or <kbd className="px-2 py-1 text-xs bg-muted rounded">Cmd+K</kbd>)
+						Global search and navigation component (Press{" "}
+						<kbd className="rounded bg-muted px-2 py-1 text-xs">Ctrl+K</kbd> or{" "}
+						<kbd className="rounded bg-muted px-2 py-1 text-xs">Cmd+K</kbd>)
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<div className="space-y-4">
-						<div className="p-4 border rounded-lg bg-muted/50">
-							<h4 className="font-medium mb-2">Features:</h4>
-							<ul className="text-sm text-muted-foreground space-y-1">
+						<div className="rounded-lg border bg-muted/50 p-4">
+							<h4 className="mb-2 font-medium">Features:</h4>
+							<ul className="space-y-1 text-muted-foreground text-sm">
 								<li>• Quick navigation between pages</li>
 								<li>• Action shortcuts for common tasks</li>
 								<li>• Recent items and search functionality</li>
@@ -230,7 +244,8 @@ export function ComponentsDemo() {
 						Advanced Data Table
 					</CardTitle>
 					<CardDescription>
-						Feature-rich data table with sorting, filtering, pagination, and export functionality
+						Feature-rich data table with sorting, filtering, pagination, and
+						export functionality
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -267,14 +282,19 @@ export function ComponentsDemo() {
 						onSubmit={handleSubmit}
 						enableStepClick={true}
 					>
-						<div className="min-h-[300px] flex items-center justify-center border rounded-lg bg-muted/20">
+						<div className="flex min-h-[300px] items-center justify-center rounded-lg border bg-muted/20">
 							{currentStep === 0 && (
-								<div className="text-center space-y-4">
-									<h3 className="text-xl font-semibold">Personal Information</h3>
-									<div className="space-y-4 max-w-md">
+								<div className="space-y-4 text-center">
+									<h3 className="font-semibold text-xl">
+										Personal Information
+									</h3>
+									<div className="max-w-md space-y-4">
 										<div>
 											<Label htmlFor="firstName">First Name</Label>
-											<Input id="firstName" placeholder="Enter your first name" />
+											<Input
+												id="firstName"
+												placeholder="Enter your first name"
+											/>
 										</div>
 										<div>
 											<Label htmlFor="lastName">Last Name</Label>
@@ -284,9 +304,9 @@ export function ComponentsDemo() {
 								</div>
 							)}
 							{currentStep === 1 && (
-								<div className="text-center space-y-4">
-									<h3 className="text-xl font-semibold">Company Details</h3>
-									<div className="space-y-4 max-w-md">
+								<div className="space-y-4 text-center">
+									<h3 className="font-semibold text-xl">Company Details</h3>
+									<div className="max-w-md space-y-4">
 										<div>
 											<Label htmlFor="company">Company Name</Label>
 											<Input id="company" placeholder="Enter company name" />
@@ -299,19 +319,22 @@ export function ComponentsDemo() {
 								</div>
 							)}
 							{currentStep === 2 && (
-								<div className="text-center space-y-4">
-									<h3 className="text-xl font-semibold">Preferences</h3>
-									<div className="space-y-4 max-w-md">
+								<div className="space-y-4 text-center">
+									<h3 className="font-semibold text-xl">Preferences</h3>
+									<div className="max-w-md space-y-4">
 										<div>
 											<Label htmlFor="notifications">Email Notifications</Label>
-											<Textarea id="notifications" placeholder="Configure notification preferences" />
+											<Textarea
+												id="notifications"
+												placeholder="Configure notification preferences"
+											/>
 										</div>
 									</div>
 								</div>
 							)}
 							{currentStep === 3 && (
-								<div className="text-center space-y-4">
-									<h3 className="text-xl font-semibold">Review & Submit</h3>
+								<div className="space-y-4 text-center">
+									<h3 className="font-semibold text-xl">Review & Submit</h3>
 									<p className="text-muted-foreground">
 										Please review your information before submitting.
 									</p>
@@ -375,7 +398,7 @@ export function ComponentsDemo() {
 									placeholder="Choose a date"
 								/>
 								{selectedDate && (
-									<p className="text-sm text-muted-foreground">
+									<p className="text-muted-foreground text-sm">
 										Selected: {format(selectedDate, "PPP")}
 									</p>
 								)}
@@ -392,9 +415,10 @@ export function ComponentsDemo() {
 									placeholder="Choose date range"
 								/>
 								{selectedDateRange.from && (
-									<p className="text-sm text-muted-foreground">
+									<p className="text-muted-foreground text-sm">
 										Range: {format(selectedDateRange.from, "MMM d, y")}
-										{selectedDateRange.to && ` - ${format(selectedDateRange.to, "MMM d, y")}`}
+										{selectedDateRange.to &&
+											` - ${format(selectedDateRange.to, "MMM d, y")}`}
 									</p>
 								)}
 							</div>
@@ -409,7 +433,7 @@ export function ComponentsDemo() {
 									placeholder="Choose time"
 								/>
 								{selectedTime && (
-									<p className="text-sm text-muted-foreground">
+									<p className="text-muted-foreground text-sm">
 										Selected: {format(selectedTime, "HH:mm")}
 									</p>
 								)}
@@ -425,7 +449,7 @@ export function ComponentsDemo() {
 									placeholder="Choose date and time"
 								/>
 								{selectedDateTime && (
-									<p className="text-sm text-muted-foreground">
+									<p className="text-muted-foreground text-sm">
 										Selected: {format(selectedDateTime, "PPP 'at' HH:mm")}
 									</p>
 								)}
@@ -447,8 +471,11 @@ export function ComponentsDemo() {
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<div className="border rounded-lg overflow-hidden">
-						<SidebarProvider defaultOpen={sidebarOpen} onOpenChange={setSidebarOpen}>
+					<div className="overflow-hidden rounded-lg border">
+						<SidebarProvider
+							defaultOpen={sidebarOpen}
+							onOpenChange={setSidebarOpen}
+						>
 							<div className="flex h-[400px]">
 								<Sidebar variant="inset">
 									<SidebarHeader>
@@ -535,7 +562,7 @@ export function ComponentsDemo() {
 									</SidebarContent>
 									<SidebarFooter>
 										<div className="p-2">
-											<div className="flex items-center gap-2 text-sm text-muted-foreground">
+											<div className="flex items-center gap-2 text-muted-foreground text-sm">
 												<div className="h-2 w-2 rounded-full bg-green-500" />
 												<span>System Operational</span>
 											</div>
@@ -547,11 +574,12 @@ export function ComponentsDemo() {
 										<SidebarTrigger />
 										<h2 className="font-semibold">Main Content Area</h2>
 									</div>
-									<div className="rounded-lg border p-6 bg-muted/20">
-										<h3 className="font-medium mb-2">Demo Content</h3>
-										<p className="text-sm text-muted-foreground">
-											This is the main content area. The sidebar can be collapsed using the
-											trigger button or by clicking the items. On mobile, it becomes a slide-out menu.
+									<div className="rounded-lg border bg-muted/20 p-6">
+										<h3 className="mb-2 font-medium">Demo Content</h3>
+										<p className="text-muted-foreground text-sm">
+											This is the main content area. The sidebar can be
+											collapsed using the trigger button or by clicking the
+											items. On mobile, it becomes a slide-out menu.
 										</p>
 									</div>
 								</main>
@@ -573,7 +601,7 @@ export function ComponentsDemo() {
 					<div className="grid gap-4 md:grid-cols-2">
 						<div className="space-y-3">
 							<h4 className="font-medium">Component Features:</h4>
-							<ul className="text-sm text-muted-foreground space-y-1">
+							<ul className="space-y-1 text-muted-foreground text-sm">
 								<li>• TypeScript-first with proper type safety</li>
 								<li>• Accessible components following ARIA standards</li>
 								<li>• Mobile-responsive design patterns</li>
@@ -584,7 +612,7 @@ export function ComponentsDemo() {
 						</div>
 						<div className="space-y-3">
 							<h4 className="font-medium">Enterprise Ready:</h4>
-							<ul className="text-sm text-muted-foreground space-y-1">
+							<ul className="space-y-1 text-muted-foreground text-sm">
 								<li>• Advanced data handling and export</li>
 								<li>• Form validation and error handling</li>
 								<li>• File upload with security validation</li>

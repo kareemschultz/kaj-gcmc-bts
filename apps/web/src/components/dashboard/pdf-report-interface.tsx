@@ -2,7 +2,6 @@
 
 import {
 	AlertCircle,
-	Building,
 	Calendar,
 	Download,
 	FileCheck,
@@ -30,7 +29,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
 	Select,
@@ -81,7 +79,7 @@ export function PDFReportInterface() {
 	const { data: availableReports } = trpc.reports.availableTypes.useQuery();
 	const { data: recentReports } = trpc.reports.recent.useQuery();
 	const generateReport = trpc.reports.generate.useMutation();
-	const downloadReport = trpc.reports.download.useMutation();
+	const _downloadReport = trpc.reports.download.useMutation();
 
 	const reportTypes = [
 		{
@@ -449,7 +447,7 @@ function RecentReportsTable({ reports }: { reports: any[] }) {
 			if (result.downloadUrl) {
 				window.open(result.downloadUrl, "_blank");
 			}
-		} catch (error) {
+		} catch (_error) {
 			toast.error("Failed to download report");
 		}
 	};

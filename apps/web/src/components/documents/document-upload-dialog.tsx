@@ -34,8 +34,10 @@ export function DocumentUploadDialog({
 	const [progress, setProgress] = useState(0);
 
 	// tRPC mutations
-	const requestUploadUrlMutation = trpc.documentUpload.requestUploadUrl.useMutation();
-	const completeUploadMutation = trpc.documentUpload.completeUpload.useMutation();
+	const requestUploadUrlMutation =
+		trpc.documentUpload.requestUploadUrl.useMutation();
+	const completeUploadMutation =
+		trpc.documentUpload.completeUpload.useMutation();
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = e.target.files?.[0];
@@ -71,18 +73,18 @@ export function DocumentUploadDialog({
 
 			// Step 2: Upload file to presigned URL
 			const formData = new FormData();
-			formData.append('file', file);
+			formData.append("file", file);
 
 			const uploadResponse = await fetch(uploadUrlResponse.uploadUrl, {
-				method: 'PUT',
+				method: "PUT",
 				body: file,
 				headers: {
-					'Content-Type': file.type,
+					"Content-Type": file.type,
 				},
 			});
 
 			if (!uploadResponse.ok) {
-				throw new Error('Upload to storage failed');
+				throw new Error("Upload to storage failed");
 			}
 
 			setProgress(75);
@@ -108,7 +110,6 @@ export function DocumentUploadDialog({
 
 			// Call completion callback if provided
 			onUploadComplete?.();
-
 		} catch (error) {
 			toast.error("Failed to upload document");
 			console.error("Upload error:", error);

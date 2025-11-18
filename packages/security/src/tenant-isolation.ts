@@ -445,7 +445,7 @@ export function getTenantEncryptionKey(
 	tenantId: number,
 	baseKey: string,
 ): string {
-	const crypto = require("crypto");
+	const crypto = require("node:crypto");
 	return crypto
 		.createHmac("sha256", baseKey)
 		.update(`tenant:${tenantId}`)

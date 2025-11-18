@@ -2,6 +2,6 @@
  * Tax and Financial Calculators
  */
 
-export * from './tax-calculator';
-export * from './penalty-calculator';
-export * from './nis-calculator';
+export * from "./nis-calculator";
+export * from "./penalty-calculator";
+export * from "./tax-calculator";

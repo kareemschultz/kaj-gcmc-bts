@@ -100,7 +100,7 @@ export function ReportDownloadButton({
 
 			if (result.success) {
 				// Ensure we're on the client side
-				if (typeof window === 'undefined') {
+				if (typeof window === "undefined") {
 					throw new Error("Download is only available on client side");
 				}
 

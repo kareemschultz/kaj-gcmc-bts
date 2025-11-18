@@ -60,19 +60,19 @@ function AdminContent() {
 
 export default function AdminPage() {
 	return (
-		<Suspense fallback={
-			<div className="container mx-auto py-8">
-				<div className="mb-6">
-					<h1 className="font-bold text-3xl">Admin</h1>
-					<p className="text-muted-foreground">
-						Loading...
-					</p>
+		<Suspense
+			fallback={
+				<div className="container mx-auto py-8">
+					<div className="mb-6">
+						<h1 className="font-bold text-3xl">Admin</h1>
+						<p className="text-muted-foreground">Loading...</p>
+					</div>
+					<div className="flex h-32 items-center justify-center">
+						<div className="h-8 w-8 animate-spin rounded-full border-gray-300 border-b-2" />
+					</div>
 				</div>
-				<div className="flex h-32 items-center justify-center">
-					<div className="h-8 w-8 animate-spin rounded-full border-gray-300 border-b-2" />
-				</div>
-			</div>
-		}>
+			}
+		>
 			<AdminContent />
 		</Suspense>
 	);
