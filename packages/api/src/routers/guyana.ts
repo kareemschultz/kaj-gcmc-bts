@@ -7,7 +7,7 @@
 
 import { CacheKeys, cacheMiddleware } from "@GCMC-KAJ/cache";
 import prisma from "@GCMC-KAJ/db";
-import { rbacProcedure, router } from "../index";
+import { cachedRbacProcedure, rbacProcedure, router } from "../index";
 
 /**
  * Guyana router - specialized endpoints for Guyana business compliance

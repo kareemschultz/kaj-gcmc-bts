@@ -1,4 +1,4 @@
-import { performanceMiddleware } from "@GCMC-KAJ/cache";
+import { cacheMiddleware, performanceMiddleware } from "@GCMC-KAJ/cache";
 import { assertPermission, type UserPermissionContext } from "@GCMC-KAJ/rbac";
 import { initTRPC, TRPCError } from "@trpc/server";
 import type { Context } from "./context";
@@ -8,6 +8,19 @@ export const t = initTRPC.context<Context>().create();
 export const router = t.router;
 
 export const publicProcedure = t.procedure.use(performanceMiddleware());
+
+/**
+ * Cached procedure - for queries that benefit from caching
+ */
+export const cachedProcedure = t.procedure.use(performanceMiddleware()).use(
+	cacheMiddleware({
+		ttl: 300, // 5 minutes default
+		shouldCache: (_input: unknown, ctx: any) => {
+			// Only cache read operations for authenticated users
+			return !!ctx.user && !!ctx.tenant;
+		},
+	}),
+);
 
 /**
  * Protected procedure - requires authentication
@@ -59,4 +72,41 @@ export function rbacProcedure(module: string, action: string) {
 
 		return next({ ctx });
 	});
+}
+
+/**
+ * Cached RBAC-aware procedure for read operations
+ * Usage: cachedRbacProcedure('clients', 'view', { ttl: 600 })
+ */
+export function cachedRbacProcedure(
+	module: string,
+	action: string,
+	options?: { ttl?: number },
+) {
+	return cachedProcedure
+		.use(
+			cacheMiddleware({
+				ttl: options?.ttl || 300,
+				keyBuilder: (input: unknown, ctx: any) => {
+					return `rbac:${module}:${action}:${ctx.tenant?.id}:${JSON.stringify(input)}`;
+				},
+				shouldCache: (_input: unknown, _ctx: unknown) => {
+					// Only cache read operations
+					return (
+						action === "view" || action === "list" || action.includes("get")
+					);
+				},
+			}),
+		)
+		.use(({ ctx, next }) => {
+			const userContext: UserPermissionContext = {
+				userId: ctx.user.id,
+				tenantId: ctx.tenantId,
+				role: ctx.role,
+			};
+
+			assertPermission(userContext, module, action);
+
+			return next({ ctx });
+		});
 }

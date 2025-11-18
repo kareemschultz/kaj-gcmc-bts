@@ -31,16 +31,20 @@ export class RedisCache {
 	private isConnected = false;
 
 	constructor(config: CacheConfig) {
-		this.client = new Redis({
+		const redisConfig = {
 			host: config.host,
 			port: config.port,
-			password: config.password,
 			db: config.db || 0,
 			keyPrefix: config.keyPrefix || "gcmc:",
-			retryDelayOnFailover: config.retryDelayOnFailover || 100,
 			maxRetriesPerRequest: config.maxRetriesPerRequest || 3,
 			lazyConnect: true,
-		});
+		};
+
+		if (config.password) {
+			redisConfig.password = config.password;
+		}
+
+		this.client = new Redis(redisConfig);
 
 		this.setupEventHandlers();
 	}
@@ -88,13 +92,9 @@ export class RedisCache {
 				? await this.compress(serialized)
 				: serialized;
 
-			const args = [key, finalValue];
-
-			if (options.ttl) {
-				args.push("EX", options.ttl.toString());
-			}
-
-			const result = await this.client.set(...args);
+			const result = options.ttl
+				? await this.client.setex(key, options.ttl, finalValue)
+				: await this.client.set(key, finalValue);
 
 			// Store tags for cache invalidation
 			if (options.tags && options.tags.length > 0) {
@@ -201,7 +201,9 @@ export class RedisCache {
 
 			for (const tag of tags) {
 				const tagKeys = await this.client.smembers(`tag:${tag}`);
-				tagKeys.forEach((key) => keys.add(key));
+				tagKeys.forEach((key) => {
+					keys.add(key);
+				});
 			}
 
 			if (keys.size === 0) return 0;
@@ -210,12 +212,16 @@ export class RedisCache {
 			const pipeline = this.client.pipeline();
 
 			// Delete all keys
-			keysArray.forEach((key) => pipeline.del(key));
+			keysArray.forEach((key) => {
+				pipeline.del(key);
+			});
 
 			// Clean up tag sets
-			tags.forEach((tag) => pipeline.del(`tag:${tag}`));
+			tags.forEach((tag) => {
+				pipeline.del(`tag:${tag}`);
+			});
 
-			const _results = await pipeline.exec();
+			await pipeline.exec();
 			return keysArray.length;
 		} catch (error) {
 			console.error("Failed to invalidate cache by tags:", error);
@@ -324,7 +330,9 @@ export class RedisCache {
 		info.split("\r\n").forEach((line) => {
 			if (line.includes(":")) {
 				const [key, value] = line.split(":");
-				result[key] = value;
+				if (key && value !== undefined) {
+					result[key] = value;
+				}
 			}
 		});
 
@@ -378,12 +386,18 @@ export const CacheKeys = {
 	storageStats: (tenantId: number) => `storage:stats:${tenantId}`,
 
 	// Client Analytics
-	clientProfile: (tenantId: number, clientId: number) => `client:profile:${tenantId}:${clientId}`,
-	clientCompliance: (tenantId: number, clientId: number) => `client:compliance:${tenantId}:${clientId}`,
-	clientDocuments: (tenantId: number, clientId: number) => `client:documents:${tenantId}:${clientId}`,
-	clientFilings: (tenantId: number, clientId: number) => `client:filings:${tenantId}:${clientId}`,
-	clientServices: (tenantId: number, clientId: number) => `client:services:${tenantId}:${clientId}`,
-	clientActivity: (tenantId: number, clientId: number) => `client:activity:${tenantId}:${clientId}`,
+	clientProfile: (tenantId: number, clientId: number) =>
+		`client:profile:${tenantId}:${clientId}`,
+	clientCompliance: (tenantId: number, clientId: number) =>
+		`client:compliance:${tenantId}:${clientId}`,
+	clientDocuments: (tenantId: number, clientId: number) =>
+		`client:documents:${tenantId}:${clientId}`,
+	clientFilings: (tenantId: number, clientId: number) =>
+		`client:filings:${tenantId}:${clientId}`,
+	clientServices: (tenantId: number, clientId: number) =>
+		`client:services:${tenantId}:${clientId}`,
+	clientActivity: (tenantId: number, clientId: number) =>
+		`client:activity:${tenantId}:${clientId}`,
 
 	// Tag-based cache groups for invalidation
 	tags: {

@@ -7,7 +7,7 @@
 
 import prisma from "@GCMC-KAJ/db";
 import { z } from "zod";
-import { rbacProcedure, router } from "../index";
+import { cachedRbacProcedure, rbacProcedure, router } from "../index";
 
 /**
  * Dashboard router
@@ -16,145 +16,148 @@ export const dashboardRouter = router({
 	/**
 	 * Get main dashboard overview
 	 * Requires: analytics:view permission
+	 * Cached for 3 minutes
 	 */
-	overview: rbacProcedure("analytics", "view").query(async ({ ctx }) => {
-		const [
-			totalClients,
-			totalDocuments,
-			totalFilings,
-			totalServiceRequests,
-			expiringDocuments,
-			overdueFilings,
-			activeServiceRequests,
-			recentClients,
-			recentDocuments,
-		] = await Promise.all([
-			// Total counts
-			prisma.client.count({ where: { tenantId: ctx.tenantId } }),
-			prisma.document.count({ where: { tenantId: ctx.tenantId } }),
-			prisma.filing.count({ where: { tenantId: ctx.tenantId } }),
-			prisma.serviceRequest.count({ where: { tenantId: ctx.tenantId } }),
-
-			// Alerts - Expiring documents (next 30 days)
-			prisma.document.count({
-				where: {
-					tenantId: ctx.tenantId,
-					latestVersion: {
-						expiryDate: {
-							lte: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-							gte: new Date(),
-						},
-					},
-				},
-			}),
-
-			// Alerts - Overdue filings
-			prisma.filing.count({
-				where: {
-					tenantId: ctx.tenantId,
-					status: { in: ["draft", "prepared"] },
-					periodEnd: { lt: new Date() },
-				},
-			}),
-
-			// Active service requests
-			prisma.serviceRequest.count({
-				where: {
-					tenantId: ctx.tenantId,
-					status: { in: ["new", "in_progress", "awaiting_client"] },
-				},
-			}),
-
-			// Recent activity - Clients
-			prisma.client.findMany({
-				where: { tenantId: ctx.tenantId },
-				take: 5,
-				orderBy: { createdAt: "desc" },
-				select: {
-					id: true,
-					name: true,
-					type: true,
-					createdAt: true,
-				},
-			}),
-
-			// Recent activity - Documents
-			prisma.document.findMany({
-				where: { tenantId: ctx.tenantId },
-				take: 5,
-				orderBy: { createdAt: "desc" },
-				include: {
-					client: { select: { id: true, name: true } },
-					documentType: { select: { name: true } },
-				},
-			}),
-		]);
-
-		return {
-			counts: {
-				clients: totalClients,
-				documents: totalDocuments,
-				filings: totalFilings,
-				serviceRequests: totalServiceRequests,
-			},
-			alerts: {
+	overview: cachedRbacProcedure("analytics", "view", { ttl: 180 }).query(
+		async ({ ctx }) => {
+			const [
+				totalClients,
+				totalDocuments,
+				totalFilings,
+				totalServiceRequests,
 				expiringDocuments,
 				overdueFilings,
 				activeServiceRequests,
-			},
-			recentActivity: {
-				clients: recentClients,
-				documents: recentDocuments,
-			},
-		};
-	}),
-
-	/**
-	 * Get compliance overview dashboard
-	 * Requires: compliance:view permission
-	 */
-	complianceOverview: rbacProcedure("compliance", "view").query(
-		async ({ ctx }) => {
-			const [
-				totalScores,
-				highRiskClients,
-				mediumRiskClients,
-				lowRiskClients,
-				recentScores,
+				recentClients,
+				recentDocuments,
 			] = await Promise.all([
-				prisma.complianceScore.count({ where: { tenantId: ctx.tenantId } }),
-				prisma.complianceScore.count({
-					where: { tenantId: ctx.tenantId, level: "high" },
-				}),
-				prisma.complianceScore.count({
-					where: { tenantId: ctx.tenantId, level: "medium" },
-				}),
-				prisma.complianceScore.count({
-					where: { tenantId: ctx.tenantId, level: "low" },
-				}),
-				prisma.complianceScore.findMany({
-					where: { tenantId: ctx.tenantId },
-					take: 10,
-					orderBy: { lastCalculatedAt: "desc" },
-					include: {
-						client: {
-							select: { id: true, name: true },
+				// Total counts
+				prisma.client.count({ where: { tenantId: ctx.tenantId } }),
+				prisma.document.count({ where: { tenantId: ctx.tenantId } }),
+				prisma.filing.count({ where: { tenantId: ctx.tenantId } }),
+				prisma.serviceRequest.count({ where: { tenantId: ctx.tenantId } }),
+
+				// Alerts - Expiring documents (next 30 days)
+				prisma.document.count({
+					where: {
+						tenantId: ctx.tenantId,
+						latestVersion: {
+							expiryDate: {
+								lte: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+								gte: new Date(),
+							},
 						},
+					},
+				}),
+
+				// Alerts - Overdue filings
+				prisma.filing.count({
+					where: {
+						tenantId: ctx.tenantId,
+						status: { in: ["draft", "prepared"] },
+						periodEnd: { lt: new Date() },
+					},
+				}),
+
+				// Active service requests
+				prisma.serviceRequest.count({
+					where: {
+						tenantId: ctx.tenantId,
+						status: { in: ["new", "in_progress", "awaiting_client"] },
+					},
+				}),
+
+				// Recent activity - Clients
+				prisma.client.findMany({
+					where: { tenantId: ctx.tenantId },
+					take: 5,
+					orderBy: { createdAt: "desc" },
+					select: {
+						id: true,
+						name: true,
+						type: true,
+						createdAt: true,
+					},
+				}),
+
+				// Recent activity - Documents
+				prisma.document.findMany({
+					where: { tenantId: ctx.tenantId },
+					take: 5,
+					orderBy: { createdAt: "desc" },
+					include: {
+						client: { select: { id: true, name: true } },
+						documentType: { select: { name: true } },
 					},
 				}),
 			]);
 
 			return {
-				total: totalScores,
-				byLevel: {
-					high: highRiskClients,
-					medium: mediumRiskClients,
-					low: lowRiskClients,
+				counts: {
+					clients: totalClients,
+					documents: totalDocuments,
+					filings: totalFilings,
+					serviceRequests: totalServiceRequests,
 				},
-				recentScores,
+				alerts: {
+					expiringDocuments,
+					overdueFilings,
+					activeServiceRequests,
+				},
+				recentActivity: {
+					clients: recentClients,
+					documents: recentDocuments,
+				},
 			};
 		},
 	),
+
+	/**
+	 * Get compliance overview dashboard
+	 * Requires: compliance:view permission
+	 */
+	complianceOverview: cachedRbacProcedure("compliance", "view", {
+		ttl: 240,
+	}).query(async ({ ctx }) => {
+		const [
+			totalScores,
+			highRiskClients,
+			mediumRiskClients,
+			lowRiskClients,
+			recentScores,
+		] = await Promise.all([
+			prisma.complianceScore.count({ where: { tenantId: ctx.tenantId } }),
+			prisma.complianceScore.count({
+				where: { tenantId: ctx.tenantId, level: "high" },
+			}),
+			prisma.complianceScore.count({
+				where: { tenantId: ctx.tenantId, level: "medium" },
+			}),
+			prisma.complianceScore.count({
+				where: { tenantId: ctx.tenantId, level: "low" },
+			}),
+			prisma.complianceScore.findMany({
+				where: { tenantId: ctx.tenantId },
+				take: 10,
+				orderBy: { lastCalculatedAt: "desc" },
+				include: {
+					client: {
+						select: { id: true, name: true },
+					},
+				},
+			}),
+		]);
+
+		return {
+			total: totalScores,
+			byLevel: {
+				high: highRiskClients,
+				medium: mediumRiskClients,
+				low: lowRiskClients,
+			},
+			recentScores,
+		};
+	}),
 
 	/**
 	 * Get task overview dashboard

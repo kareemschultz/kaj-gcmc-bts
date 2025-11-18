@@ -151,11 +151,11 @@ export class PerformanceMonitor {
 		aggregated.averageResponseTime =
 			responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length;
 		aggregated.medianResponseTime =
-			responseTimes[Math.floor(responseTimes.length / 2)];
+			responseTimes[Math.floor(responseTimes.length / 2)] || 0;
 		aggregated.p95ResponseTime =
-			responseTimes[Math.floor(responseTimes.length * 0.95)];
+			responseTimes[Math.floor(responseTimes.length * 0.95)] || 0;
 		aggregated.p99ResponseTime =
-			responseTimes[Math.floor(responseTimes.length * 0.99)];
+			responseTimes[Math.floor(responseTimes.length * 0.99)] || 0;
 
 		// Calculate error rate
 		const errorCount = metrics.filter((m) => m.statusCode >= 400).length;
@@ -276,7 +276,7 @@ export function performanceMiddleware() {
 			}
 
 			return result;
-		} catch (error: any) {
+		} catch (error: unknown) {
 			const responseTime = Date.now() - startTime;
 
 			// Record error metric
@@ -285,10 +285,10 @@ export function performanceMiddleware() {
 				method: type,
 				responseTime,
 				timestamp: new Date(),
-				statusCode: error.code === "INTERNAL_SERVER_ERROR" ? 500 : 400,
+				statusCode: (error as any).code === "INTERNAL_SERVER_ERROR" ? 500 : 400,
 				tenantId: ctx.tenant?.id,
 				userId: ctx.user?.id,
-				errorMessage: error.message,
+				errorMessage: error instanceof Error ? error.message : String(error),
 			});
 
 			throw error;
@@ -299,11 +299,11 @@ export function performanceMiddleware() {
 /**
  * Database query optimization helpers
  */
-export class QueryOptimizer {
+export const QueryOptimizer = {
 	/**
 	 * Analyze database query patterns and suggest optimizations
 	 */
-	static async analyzeQueries() {
+	async analyzeQueries() {
 		// This would integrate with Prisma query logging
 		// and provide optimization suggestions
 		return {
@@ -318,12 +318,12 @@ export class QueryOptimizer {
 				"CREATE INDEX idx_tax_filing_client_due_date ON TaxFiling(clientId, dueDate)",
 			],
 		};
-	}
+	},
 
 	/**
 	 * Monitor connection pool usage
 	 */
-	static async getConnectionPoolStats() {
+	async getConnectionPoolStats() {
 		// This would integrate with Prisma connection pool monitoring
 		return {
 			activeConnections: 5,
@@ -333,5 +333,5 @@ export class QueryOptimizer {
 			utilizationRate: 40, // percentage
 			waitingRequests: 0,
 		};
-	}
-}
+	},
+};

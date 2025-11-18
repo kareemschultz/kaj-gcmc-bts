@@ -1,8 +1,25 @@
 /**
- * Cache Package Exports
+ * GCMC-KAJ Cache Package
+ *
+ * High-performance caching and performance monitoring for the platform
  */
 
-export { cacheMiddleware, invalidateCache } from "./middleware";
-export { PerformanceMonitor, performanceMiddleware } from "./performance";
-export { CacheKeys, createCache, getCache, RedisCache } from "./redis-cache";
-export type { CacheConfig, CacheOptions } from "./types";
+// Middleware
+export { CacheWarmer, cacheMiddleware, invalidateCache } from "./middleware.js";
+
+// Performance Monitoring
+export {
+	PerformanceMonitor,
+	performanceMiddleware,
+	QueryOptimizer,
+} from "./performance.js";
+// Redis Cache Service
+export { CacheKeys, createCache, getCache, RedisCache } from "./redis-cache.js";
+
+// Types
+export type {
+	CacheConfig,
+	CacheOptions,
+	CacheStats,
+	PerformanceMetrics,
+} from "./types.js";

@@ -23,6 +23,7 @@
 	},
 	"dependencies": {
 		"@GCMC-KAJ/auth": "workspace:*",
+		"@GCMC-KAJ/cache": "workspace:*",
 		"@GCMC-KAJ/db": "workspace:*",
 		"@GCMC-KAJ/email": "workspace:*",
 		"@GCMC-KAJ/rbac": "workspace:*",
