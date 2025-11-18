@@ -14,19 +14,28 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { trpc } from "@/utils/trpc";
 
 interface DocumentUploadDialogProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
+	documentId?: number;
+	onUploadComplete?: () => void;
 }
 
 export function DocumentUploadDialog({
 	open,
 	onOpenChange,
+	documentId,
+	onUploadComplete,
 }: DocumentUploadDialogProps) {
 	const [file, setFile] = useState<File | null>(null);
 	const [uploading, setUploading] = useState(false);
 	const [progress, setProgress] = useState(0);
+
+	// tRPC mutations
+	const requestUploadUrlMutation = trpc.documentUpload.requestUploadUrl.useMutation();
+	const completeUploadMutation = trpc.documentUpload.completeUpload.useMutation();
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = e.target.files?.[0];
@@ -41,35 +50,68 @@ export function DocumentUploadDialog({
 			return;
 		}
 
+		if (!documentId) {
+			toast.error("Document ID is required for upload");
+			return;
+		}
+
 		setUploading(true);
-		setProgress(0);
+		setProgress(10);
 
 		try {
-			// Simulate upload progress
-			const interval = setInterval(() => {
-				setProgress((prev) => {
-					if (prev >= 90) {
-						clearInterval(interval);
-						return prev;
-					}
-					return prev + 10;
-				});
-			}, 200);
+			// Step 1: Request upload URL
+			const uploadUrlResponse = await requestUploadUrlMutation.mutateAsync({
+				documentId,
+				fileName: file.name,
+				fileType: file.type,
+				fileSize: file.size,
+			});
 
-			// TODO: Implement actual file upload using tRPC documentUpload.createUploadUrl
-			// This is a placeholder for the upload logic
-			await new Promise((resolve) => setTimeout(resolve, 2000));
+			setProgress(25);
 
-			clearInterval(interval);
+			// Step 2: Upload file to presigned URL
+			const formData = new FormData();
+			formData.append('file', file);
+
+			const uploadResponse = await fetch(uploadUrlResponse.uploadUrl, {
+				method: 'PUT',
+				body: file,
+				headers: {
+					'Content-Type': file.type,
+				},
+			});
+
+			if (!uploadResponse.ok) {
+				throw new Error('Upload to storage failed');
+			}
+
+			setProgress(75);
+
+			// Step 3: Complete the upload
+			await completeUploadMutation.mutateAsync({
+				documentId,
+				fileKey: uploadUrlResponse.fileKey,
+				fileSize: file.size,
+				mimeType: file.type,
+				metadata: {
+					originalFileName: file.name,
+					uploadedAt: new Date().toISOString(),
+				},
+			});
+
 			setProgress(100);
 
 			toast.success("Document uploaded successfully");
 			onOpenChange(false);
 			setFile(null);
 			setProgress(0);
+
+			// Call completion callback if provided
+			onUploadComplete?.();
+
 		} catch (error) {
 			toast.error("Failed to upload document");
-			console.error(error);
+			console.error("Upload error:", error);
 		} finally {
 			setUploading(false);
 		}
