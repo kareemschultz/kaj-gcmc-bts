@@ -16,6 +16,8 @@ import { usePathname } from "next/navigation";
 import { ModeToggle } from "./mode-toggle";
 import { NotificationBell } from "./notifications/notification-bell";
 import UserMenu from "./user-menu";
+import { AccessibilityControls } from "./animations/accessibility-controls";
+import { PageTransition } from "./animations/page-transitions";
 
 export default function Header() {
 	const pathname = usePathname();
@@ -84,6 +86,7 @@ export default function Header() {
 					{/* Right Section */}
 					<div className="flex items-center gap-2">
 						<NotificationBell />
+						<AccessibilityControls showPerformanceMetrics />
 						<ModeToggle />
 						<UserMenu />
 					</div>

@@ -7,6 +7,7 @@ import { queryClient, trpc, trpcClient } from "@/utils/trpc";
 import { ThemeProvider } from "./theme-provider";
 import { CommandPalette, useCommandPalette } from "./ui/command-palette";
 import { Toaster } from "./ui/sonner";
+import { AnimationProvider } from "@/lib/animations/context";
 
 function ProvidersWithCommandPalette({
 	children,
@@ -33,13 +34,22 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 					enableSystem
 					disableTransitionOnChange
 				>
-					<QueryClientProvider client={queryClient}>
-						<ProvidersWithCommandPalette>
-							{children}
-						</ProvidersWithCommandPalette>
-						<ReactQueryDevtools />
-					</QueryClientProvider>
-					<Toaster richColors />
+					<AnimationProvider
+						initialConfig={{
+							respectMotionPreference: true,
+							enableGPUAcceleration: true,
+							frameRateTarget: 60,
+							maxConcurrentAnimations: 15,
+						}}
+					>
+						<QueryClientProvider client={queryClient}>
+							<ProvidersWithCommandPalette>
+								{children}
+							</ProvidersWithCommandPalette>
+							<ReactQueryDevtools />
+						</QueryClientProvider>
+						<Toaster richColors />
+					</AnimationProvider>
 				</ThemeProvider>
 			</trpc.Provider>
 		</ErrorBoundary>

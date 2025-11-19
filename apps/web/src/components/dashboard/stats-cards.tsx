@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardCard, ClientCountCard, DocumentCountCard, FilingCountCard } from "@/components/ui/dashboard-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
-import { motion } from 'framer-motion';
+import { AnimatedCard, MonetaryValue, DeadlineWarning, LoadingOverlay } from "@/lib/animations";
 
 const DASHBOARD_SKELETON_KEYS = Array.from(
 	{ length: 4 },
@@ -20,11 +20,11 @@ export function StatsCards() {
 		return (
 			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 				{DASHBOARD_SKELETON_KEYS.map((skeletonKey, index) => (
-					<motion.div
+					<AnimatedCard
 						key={skeletonKey}
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ delay: index * 0.1, duration: 0.3 }}
+						animationType="business"
+						staggerDelay={index * 0.1}
+						loading={true}
 					>
 						<DashboardCard
 							title=""
@@ -32,7 +32,7 @@ export function StatsCards() {
 							icon={Users}
 							loading={true}
 						/>
-					</motion.div>
+					</AnimatedCard>
 				))}
 			</div>
 		);
@@ -61,43 +61,48 @@ export function StatsCards() {
 
 	return (
 		<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-			<motion.div
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 0.1 }}
+			<AnimatedCard
+				animationType="business"
+				staggerDelay={0.1}
+				interactive={true}
+				elevation="medium"
 			>
 				<ClientCountCard
 					count={data.counts.clients}
 					trend={generateTrend(data.counts.clients)}
 				/>
-			</motion.div>
+			</AnimatedCard>
 
-			<motion.div
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 0.2 }}
+			<AnimatedCard
+				animationType="business"
+				staggerDelay={0.2}
+				interactive={true}
+				elevation="medium"
 			>
 				<DocumentCountCard
 					count={data.counts.documents}
 					trend={generateTrend(data.counts.documents)}
 				/>
-			</motion.div>
+			</AnimatedCard>
 
-			<motion.div
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 0.3 }}
+			<AnimatedCard
+				animationType="business"
+				staggerDelay={0.3}
+				interactive={true}
+				elevation="medium"
 			>
 				<FilingCountCard
 					count={data.counts.filings}
 					trend={generateTrend(data.counts.filings)}
 				/>
-			</motion.div>
+			</AnimatedCard>
 
-			<motion.div
-				initial={{ opacity: 0, y: 20 }}
-				animate={{ opacity: 1, y: 0 }}
-				transition={{ delay: 0.4 }}
+			<AnimatedCard
+				animationType={data.alerts.expiringDocuments > 0 ? "glow" : "business"}
+				staggerDelay={0.4}
+				interactive={true}
+				elevation={data.alerts.expiringDocuments > 0 ? "high" : "medium"}
+				className={data.alerts.expiringDocuments > 0 ? "ring-2 ring-orange-200 border-orange-300" : ""}
 			>
 				<DashboardCard
 					title="Expiring Documents"
@@ -108,9 +113,8 @@ export function StatsCards() {
 						positive: false
 					} : undefined}
 					href="/documents?status=expiring"
-					className={data.alerts.expiringDocuments > 0 ? "ring-2 ring-orange-200 border-orange-300" : ""}
 				/>
-			</motion.div>
+			</AnimatedCard>
 		</div>
 	);
 }
