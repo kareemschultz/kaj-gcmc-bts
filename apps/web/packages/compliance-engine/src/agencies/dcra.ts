@@ -12,8 +12,10 @@
 import { addMonths, addYears, isBefore } from "date-fns";
 import type {
 	BusinessType,
+	ComplianceLevel,
 	ComplianceResult,
 	FilingDeadline,
+	FilingHistory,
 	GuyanaBusinessProfile,
 } from "../types";
 
@@ -39,6 +41,11 @@ export const DCRA_REQUIREMENTS = {
 			dueMonths: 12,
 			lateFee: 2000,
 		},
+		COOPERATIVE: {
+			fee: 8000, // GYD 8,000
+			dueMonths: 12,
+			lateFee: 3000,
+		},
 	},
 
 	REGISTRATION_FEES: {
@@ -47,6 +54,7 @@ export const DCRA_REQUIREMENTS = {
 		SOLE_PROPRIETORSHIP: 10000, // GYD 10,000
 		BRANCH: 30000, // GYD 30,000
 		SUBSIDIARY: 25000, // GYD 25,000
+		COOPERATIVE: 12000, // GYD 12,000
 	},
 
 	NAME_RESERVATION: {
@@ -72,7 +80,10 @@ export function calculateDCRADeadlines(
 	const now = new Date();
 
 	// Annual return due 12 months after incorporation/last filing
-	const requirement = DCRA_REQUIREMENTS.ANNUAL_RETURNS[business.businessType];
+	const requirement =
+		DCRA_REQUIREMENTS.ANNUAL_RETURNS[
+			business.businessType as keyof typeof DCRA_REQUIREMENTS.ANNUAL_RETURNS
+		];
 	if (requirement) {
 		const annualReturnDue = addMonths(
 			business.registrationDate,
@@ -110,13 +121,13 @@ export function calculateDCRADeadlines(
  */
 export function assessDCRACompliance(
 	business: GuyanaBusinessProfile,
-	filingHistory: any[] = [],
+	filingHistory: FilingHistory[] = [],
 ): ComplianceResult {
 	const deadlines = calculateDCRADeadlines(business);
 	const overdueFilings = deadlines.filter((d) => d.isOverdue);
 
 	let score = 100;
-	let level: any = "COMPLIANT";
+	let level: ComplianceLevel = "COMPLIANT";
 	const notes: string[] = [];
 
 	// Check if business is properly registered
@@ -220,9 +231,17 @@ export function getDCRAForms(businessType: BusinessType) {
 			"Form 15: Power of Attorney Filing",
 			"Form 16: Parent Company Details",
 		],
+		COOPERATIVE: [
+			"Form 17: Cooperative Registration",
+			"Form 18: Membership Rules",
+			"Form 19: Board Appointment",
+		],
 	};
 
-	return [...commonForms, ...(specificForms[businessType] || [])];
+	return [
+		...commonForms,
+		...(specificForms[businessType as keyof typeof specificForms] || []),
+	];
 }
 
 /**
@@ -237,8 +256,14 @@ export function calculateDCRAComplianceCosts(
 	totalAnnualCost: number;
 	projectedCosts: number[];
 } {
-	const registration = DCRA_REQUIREMENTS.REGISTRATION_FEES[businessType] || 0;
-	const annualReturn = DCRA_REQUIREMENTS.ANNUAL_RETURNS[businessType]?.fee || 0;
+	const registration =
+		DCRA_REQUIREMENTS.REGISTRATION_FEES[
+			businessType as keyof typeof DCRA_REQUIREMENTS.REGISTRATION_FEES
+		] || 0;
+	const annualReturn =
+		DCRA_REQUIREMENTS.ANNUAL_RETURNS[
+			businessType as keyof typeof DCRA_REQUIREMENTS.ANNUAL_RETURNS
+		]?.fee || 0;
 
 	// Project costs for next 5 years
 	const projectedCosts = Array.from({ length: 5 }, () => annualReturn);
@@ -291,9 +316,18 @@ export function getDCRAComplianceChecklist(
 			"Submit parent company financial statements",
 			"Appoint local representative",
 		],
+		COOPERATIVE: [
+			"Draft cooperative bylaws and rules",
+			"Register minimum required members",
+			"Establish board of directors",
+			"Define profit sharing and member rights",
+		],
 	};
 
-	return [...commonItems, ...(specificItems[businessType] || [])];
+	return [
+		...commonItems,
+		...(specificItems[businessType as keyof typeof specificItems] || []),
+	];
 }
 
 /**
@@ -342,16 +376,19 @@ export function validateBusinessName(
 	const requiredSuffixes = {
 		CORPORATION: ["Inc.", "Corp.", "Limited", "Ltd."],
 		PARTNERSHIP: ["Partnership", "Partners", "& Co."],
+		COOPERATIVE: ["Cooperative", "Co-op", "Society"],
 	};
 
-	if (requiredSuffixes[businessType]) {
-		const hasRequiredSuffix = requiredSuffixes[businessType].some((suffix) =>
-			proposedName.toLowerCase().includes(suffix.toLowerCase()),
+	const typedSuffixes = requiredSuffixes as Record<string, string[]>;
+	if (typedSuffixes[businessType]) {
+		const hasRequiredSuffix = typedSuffixes[businessType].some(
+			(suffix: string) =>
+				proposedName.toLowerCase().includes(suffix.toLowerCase()),
 		);
 
 		if (!hasRequiredSuffix) {
 			issues.push(
-				`${businessType} must include one of: ${requiredSuffixes[businessType].join(", ")}`,
+				`${businessType} must include one of: ${typedSuffixes[businessType].join(", ")}`,
 			);
 			suggestions.push(
 				`Consider: "${proposedName} Inc." or "${proposedName} Limited"`,

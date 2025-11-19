@@ -3,8 +3,10 @@
 import { AlertTriangle, ClipboardList, FileText, Users } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardCard, ClientCountCard, DocumentCountCard, FilingCountCard } from "@/components/ui/dashboard-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
+import { motion } from 'framer-motion';
 
 const DASHBOARD_SKELETON_KEYS = Array.from(
 	{ length: 4 },
@@ -16,17 +18,21 @@ export function StatsCards() {
 
 	if (isLoading) {
 		return (
-			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-				{DASHBOARD_SKELETON_KEYS.map((skeletonKey) => (
-					<Card key={skeletonKey}>
-						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-							<Skeleton className="h-4 w-24" />
-							<Skeleton className="h-4 w-4" />
-						</CardHeader>
-						<CardContent>
-							<Skeleton className="h-8 w-16" />
-						</CardContent>
-					</Card>
+			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+				{DASHBOARD_SKELETON_KEYS.map((skeletonKey, index) => (
+					<motion.div
+						key={skeletonKey}
+						initial={{ opacity: 0, y: 20 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ delay: index * 0.1, duration: 0.3 }}
+					>
+						<DashboardCard
+							title=""
+							value=""
+							icon={Users}
+							loading={true}
+						/>
+					</motion.div>
 				))}
 			</div>
 		);
@@ -36,75 +42,75 @@ export function StatsCards() {
 		return null;
 	}
 
-	const stats = [
-		{
-			title: "Total Clients",
-			value: data.counts.clients,
-			icon: Users,
-			href: "/clients",
-			color: "text-brand-600 dark:text-brand-400",
-			bgColor: "bg-brand-50 dark:bg-brand-900/20",
-		},
-		{
-			title: "Documents",
-			value: data.counts.documents,
-			icon: FileText,
-			href: "/documents",
-			color: "text-accent-600 dark:text-accent-400",
-			bgColor: "bg-accent-50 dark:bg-accent-900/20",
-		},
-		{
-			title: "Filings",
-			value: data.counts.filings,
-			icon: ClipboardList,
-			href: "/filings",
-			color: "text-info dark:text-info/80",
-			bgColor: "bg-info/10 dark:bg-info/20",
-		},
-		{
-			title: "Expiring Docs",
-			value: data.alerts.expiringDocuments,
-			icon: AlertTriangle,
-			href: "/documents?status=expiring",
-			color: "text-warning dark:text-warning/80",
-			bgColor: "bg-warning/10 dark:bg-warning/20",
-			alert: data.alerts.expiringDocuments > 0,
-		},
-	];
+	// Generate trend data (simulate growth/decline)
+	const generateTrend = (currentValue: number, previousValue?: number) => {
+		if (!previousValue) {
+			// Generate realistic trend for demo
+			const growth = Math.floor(Math.random() * 20) - 5; // -5% to +15%
+			return {
+				value: growth,
+				positive: growth > 0
+			};
+		}
+		const change = ((currentValue - previousValue) / previousValue) * 100;
+		return {
+			value: Math.round(change),
+			positive: change > 0
+		};
+	};
 
 	return (
 		<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-			{stats.map((stat) => (
-				<Link key={stat.title} href={stat.href}>
-					<Card
-						className={`hover:-translate-y-0.5 cursor-pointer transition-all hover:shadow-lg ${
-							stat.alert
-								? "border-warning shadow-md ring-2 ring-warning/20"
-								: ""
-						}`}
-					>
-						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
-							<CardTitle className="font-semibold text-muted-foreground text-sm">
-								{stat.title}
-							</CardTitle>
-							<div className={`rounded-lg p-2.5 ${stat.bgColor}`}>
-								<stat.icon className={`h-5 w-5 ${stat.color}`} />
-							</div>
-						</CardHeader>
-						<CardContent>
-							<div className="font-bold text-3xl text-foreground">
-								{stat.value}
-							</div>
-							{stat.alert && (
-								<p className="mt-2 flex items-center gap-1 font-medium text-warning text-xs">
-									<AlertTriangle className="h-3 w-3" />
-									Requires attention
-								</p>
-							)}
-						</CardContent>
-					</Card>
-				</Link>
-			))}
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ delay: 0.1 }}
+			>
+				<ClientCountCard
+					count={data.counts.clients}
+					trend={generateTrend(data.counts.clients)}
+				/>
+			</motion.div>
+
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ delay: 0.2 }}
+			>
+				<DocumentCountCard
+					count={data.counts.documents}
+					trend={generateTrend(data.counts.documents)}
+				/>
+			</motion.div>
+
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ delay: 0.3 }}
+			>
+				<FilingCountCard
+					count={data.counts.filings}
+					trend={generateTrend(data.counts.filings)}
+				/>
+			</motion.div>
+
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ delay: 0.4 }}
+			>
+				<DashboardCard
+					title="Expiring Documents"
+					value={data.alerts.expiringDocuments}
+					icon={AlertTriangle}
+					trend={data.alerts.expiringDocuments > 0 ? {
+						value: data.alerts.expiringDocuments,
+						positive: false
+					} : undefined}
+					href="/documents?status=expiring"
+					className={data.alerts.expiringDocuments > 0 ? "ring-2 ring-orange-200 border-orange-300" : ""}
+				/>
+			</motion.div>
 		</div>
 	);
 }

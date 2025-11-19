@@ -20,9 +20,11 @@ import {
 } from "./agencies/nis";
 
 import type {
+	ComplianceLevel,
 	ComplianceResult,
 	ComplianceScore,
 	FilingDeadline,
+	FilingHistory,
 	GuyanaAgency,
 	GuyanaBusinessProfile,
 	TaxCalculationInput,
@@ -38,7 +40,7 @@ export class GuyanaComplianceOrchestrator {
 	 */
 	async getComplianceScore(
 		business: GuyanaBusinessProfile,
-		filingHistory: any[] = [],
+		filingHistory: FilingHistory[] = [],
 	): Promise<ComplianceScore> {
 		const results = await this.getAllComplianceResults(business, filingHistory);
 
@@ -53,7 +55,7 @@ export class GuyanaComplianceOrchestrator {
 		};
 
 		let weightedScore = 0;
-		const byAgency: Record<GuyanaAgency, number> = {} as any;
+		const byAgency: Record<GuyanaAgency, number> = {} as Record<GuyanaAgency, number>;
 
 		results.forEach((result) => {
 			const weight = weights[result.agency] || 0;
@@ -62,7 +64,7 @@ export class GuyanaComplianceOrchestrator {
 		});
 
 		// Determine overall compliance level
-		let level: any = "COMPLIANT";
+		let level: ComplianceLevel = "COMPLIANT";
 		const criticalIssues = results.filter((r) => r.level === "CRITICAL").length;
 
 		if (criticalIssues > 0) {
@@ -87,7 +89,7 @@ export class GuyanaComplianceOrchestrator {
 	 */
 	async getAllComplianceResults(
 		business: GuyanaBusinessProfile,
-		filingHistory: any[] = [],
+		filingHistory: FilingHistory[] = [],
 	): Promise<ComplianceResult[]> {
 		return [
 			assessGRACompliance(business, filingHistory),
@@ -142,7 +144,7 @@ export class GuyanaComplianceOrchestrator {
 	 */
 	async getComplianceActionPlan(
 		business: GuyanaBusinessProfile,
-		filingHistory: any[] = [],
+		filingHistory: FilingHistory[] = [],
 	): Promise<{
 		criticalActions: string[];
 		upcomingDeadlines: FilingDeadline[];
@@ -234,7 +236,7 @@ export class GuyanaComplianceOrchestrator {
 	 */
 	async generateComplianceReport(
 		business: GuyanaBusinessProfile,
-		filingHistory: any[] = [],
+		filingHistory: FilingHistory[] = [],
 	): Promise<{
 		business: GuyanaBusinessProfile;
 		complianceScore: ComplianceScore;

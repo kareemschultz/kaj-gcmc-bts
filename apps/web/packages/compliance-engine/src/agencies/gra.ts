@@ -12,9 +12,11 @@
 import { addDays, addMonths, isBefore } from "date-fns";
 import type {
 	BusinessType,
+	ComplianceLevel,
 	ComplianceRequirement,
 	ComplianceResult,
 	FilingDeadline,
+	FilingHistory,
 	GuyanaBusinessProfile,
 	TaxCalculationInput,
 	TaxCalculationResult,
@@ -191,7 +193,7 @@ export function calculateGRADeadlines(
 export function calculateGRATaxes(
 	input: TaxCalculationInput,
 ): TaxCalculationResult {
-	const { grossIncome, deductions, businessType, employeeCount } = input;
+	const { grossIncome, deductions } = input;
 	const taxableIncome = Math.max(0, grossIncome - deductions);
 
 	// Corporate Tax Calculation
@@ -233,13 +235,13 @@ export function calculateGRATaxes(
  */
 export function assessGRACompliance(
 	business: GuyanaBusinessProfile,
-	_filingHistory: any[] = [],
+	_filingHistory: FilingHistory[] = [],
 ): ComplianceResult {
 	const deadlines = calculateGRADeadlines(business);
 	const overdueFilings = deadlines.filter((d) => d.isOverdue);
 
 	let score = 100;
-	let level: any = "COMPLIANT";
+	let level: ComplianceLevel = "COMPLIANT";
 	const notes: string[] = [];
 
 	// Deduct points for overdue filings

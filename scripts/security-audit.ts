@@ -7,7 +7,11 @@
  * Checks authentication, authorization, input validation, and compliance measures
  */
 
-import { runSecurityChecklist, SECURITY_CONFIG, validateProductionConfig } from "@GCMC-KAJ/auth/security-middleware";
+import {
+	runSecurityChecklist,
+	SECURITY_CONFIG,
+	validateProductionConfig,
+} from "@GCMC-KAJ/auth/security-middleware";
 import prisma from "@GCMC-KAJ/db";
 
 interface SecurityAuditResult {
@@ -47,7 +51,7 @@ class SecurityAuditor {
 
 	async runCompleteAudit(): Promise<SecurityAuditResult> {
 		console.log("🔒 KAJ-GCMC Platform Security Audit");
-		console.log("=" .repeat(50));
+		console.log("=".repeat(50));
 
 		await this.auditAuthentication();
 		await this.auditAuthorization();
@@ -67,13 +71,19 @@ class SecurityAuditor {
 		const issues: string[] = [];
 
 		// Check password strength requirements
-		if (!process.env.MIN_PASSWORD_LENGTH || Number.parseInt(process.env.MIN_PASSWORD_LENGTH, 10) < 12) {
+		if (
+			!process.env.MIN_PASSWORD_LENGTH ||
+			Number.parseInt(process.env.MIN_PASSWORD_LENGTH, 10) < 12
+		) {
 			score -= 15;
 			issues.push("Minimum password length should be 12 characters");
 		}
 
 		// Check session configuration
-		if (!process.env.NEXTAUTH_SECRET || process.env.NEXTAUTH_SECRET.length < 32) {
+		if (
+			!process.env.NEXTAUTH_SECRET ||
+			process.env.NEXTAUTH_SECRET.length < 32
+		) {
 			score -= 20;
 			issues.push("NEXTAUTH_SECRET must be at least 32 characters");
 			this.results.criticalIssues.push("Weak authentication secret");
@@ -104,7 +114,10 @@ class SecurityAuditor {
 		}
 
 		// Check account lockout policy
-		if (!process.env.MAX_LOGIN_ATTEMPTS || Number.parseInt(process.env.MAX_LOGIN_ATTEMPTS, 10) > 10) {
+		if (
+			!process.env.MAX_LOGIN_ATTEMPTS ||
+			Number.parseInt(process.env.MAX_LOGIN_ATTEMPTS, 10) > 10
+		) {
 			score -= 10;
 			issues.push("Account lockout policy is too permissive");
 		}
@@ -115,8 +128,13 @@ class SecurityAuditor {
 			issues.push("CSRF protection not properly configured");
 		}
 
-		this.results.categories.authentication = { score: Math.max(0, score), issues };
-		console.log(`   Authentication Score: ${this.results.categories.authentication.score}/100`);
+		this.results.categories.authentication = {
+			score: Math.max(0, score),
+			issues,
+		};
+		console.log(
+			`   Authentication Score: ${this.results.categories.authentication.score}/100`,
+		);
 	}
 
 	private async auditAuthorization(): Promise<void> {
@@ -136,15 +154,19 @@ class SecurityAuditor {
 			}
 
 			// Check for roles without permissions
-			const rolesWithoutPermissions = roles.filter(role => role.permissions.length === 0);
+			const rolesWithoutPermissions = roles.filter(
+				(role) => role.permissions.length === 0,
+			);
 			if (rolesWithoutPermissions.length > 0) {
 				score -= 15;
-				issues.push(`${rolesWithoutPermissions.length} roles found without any permissions`);
+				issues.push(
+					`${rolesWithoutPermissions.length} roles found without any permissions`,
+				);
 			}
 
 			// Check for overly permissive roles
-			const adminRoles = roles.filter(role =>
-				role.permissions.some(p => p.module === "*" && p.action === "*")
+			const adminRoles = roles.filter((role) =>
+				role.permissions.some((p) => p.module === "*" && p.action === "*"),
 			);
 			if (adminRoles.length > 2) {
 				score -= 10;
@@ -158,29 +180,37 @@ class SecurityAuditor {
 				const crossTenantUsers = await prisma.user.findMany({
 					include: {
 						tenantUsers: {
-							include: { tenant: true }
-						}
-					}
+							include: { tenant: true },
+						},
+					},
 				});
 
 				const usersWithMultipleTenants = crossTenantUsers.filter(
-					user => user.tenantUsers.length > 1
+					(user) => user.tenantUsers.length > 1,
 				);
 
 				if (usersWithMultipleTenants.length > 0) {
 					score -= 5;
-					issues.push("Users with multiple tenant access detected - verify isolation");
+					issues.push(
+						"Users with multiple tenant access detected - verify isolation",
+					);
 				}
 			}
-
 		} catch (_error) {
 			score -= 20;
 			issues.push("Database connection failed during authorization audit");
-			this.results.criticalIssues.push("Cannot verify authorization configuration");
+			this.results.criticalIssues.push(
+				"Cannot verify authorization configuration",
+			);
 		}
 
-		this.results.categories.authorization = { score: Math.max(0, score), issues };
-		console.log(`   Authorization Score: ${this.results.categories.authorization.score}/100`);
+		this.results.categories.authorization = {
+			score: Math.max(0, score),
+			issues,
+		};
+		console.log(
+			`   Authorization Score: ${this.results.categories.authorization.score}/100`,
+		);
 	}
 
 	private async auditDataProtection(): Promise<void> {
@@ -196,7 +226,10 @@ class SecurityAuditor {
 		}
 
 		// Check file upload security
-		if (!process.env.MAX_FILE_SIZE || Number.parseInt(process.env.MAX_FILE_SIZE, 10) > 100 * 1024 * 1024) {
+		if (
+			!process.env.MAX_FILE_SIZE ||
+			Number.parseInt(process.env.MAX_FILE_SIZE, 10) > 100 * 1024 * 1024
+		) {
 			score -= 10;
 			issues.push("File upload size limit too high (>100MB)");
 		}
@@ -211,18 +244,26 @@ class SecurityAuditor {
 			if (!process.env.WEB_URL?.startsWith("https://")) {
 				score -= 25;
 				issues.push("HTTPS not enforced for web application");
-				this.results.criticalIssues.push("Unencrypted web traffic in production");
+				this.results.criticalIssues.push(
+					"Unencrypted web traffic in production",
+				);
 			}
 
 			if (!process.env.API_URL?.startsWith("https://")) {
 				score -= 25;
 				issues.push("HTTPS not enforced for API endpoints");
-				this.results.criticalIssues.push("Unencrypted API traffic in production");
+				this.results.criticalIssues.push(
+					"Unencrypted API traffic in production",
+				);
 			}
 		}
 
 		// Check Redis security
-		if (process.env.REDIS_URL && !process.env.REDIS_URL.includes("rediss://") && process.env.NODE_ENV === "production") {
+		if (
+			process.env.REDIS_URL &&
+			!process.env.REDIS_URL.includes("rediss://") &&
+			process.env.NODE_ENV === "production"
+		) {
 			score -= 10;
 			issues.push("Redis connection not using SSL in production");
 		}
@@ -233,8 +274,13 @@ class SecurityAuditor {
 			issues.push("Backup encryption not configured");
 		}
 
-		this.results.categories.dataProtection = { score: Math.max(0, score), issues };
-		console.log(`   Data Protection Score: ${this.results.categories.dataProtection.score}/100`);
+		this.results.categories.dataProtection = {
+			score: Math.max(0, score),
+			issues,
+		};
+		console.log(
+			`   Data Protection Score: ${this.results.categories.dataProtection.score}/100`,
+		);
 	}
 
 	private auditInfrastructure(): void {
@@ -269,7 +315,10 @@ class SecurityAuditor {
 		}
 
 		// Check logging configuration
-		if (!process.env.LOG_LEVEL || !["error", "warn", "info"].includes(process.env.LOG_LEVEL)) {
+		if (
+			!process.env.LOG_LEVEL ||
+			!["error", "warn", "info"].includes(process.env.LOG_LEVEL)
+		) {
 			score -= 5;
 			issues.push("Logging level not properly configured");
 		}
@@ -280,8 +329,13 @@ class SecurityAuditor {
 			issues.push("Application metrics not enabled");
 		}
 
-		this.results.categories.infrastructure = { score: Math.max(0, score), issues };
-		console.log(`   Infrastructure Score: ${this.results.categories.infrastructure.score}/100`);
+		this.results.categories.infrastructure = {
+			score: Math.max(0, score),
+			issues,
+		};
+		console.log(
+			`   Infrastructure Score: ${this.results.categories.infrastructure.score}/100`,
+		);
 	}
 
 	private auditCompliance(): void {
@@ -296,9 +350,14 @@ class SecurityAuditor {
 		}
 
 		// Check data retention policies
-		if (!process.env.USER_DATA_RETENTION_DAYS || Number.parseInt(process.env.USER_DATA_RETENTION_DAYS, 10) < 2555) {
+		if (
+			!process.env.USER_DATA_RETENTION_DAYS ||
+			Number.parseInt(process.env.USER_DATA_RETENTION_DAYS, 10) < 2555
+		) {
 			score -= 10;
-			issues.push("Data retention policy may not meet 7-year compliance requirement");
+			issues.push(
+				"Data retention policy may not meet 7-year compliance requirement",
+			);
 		}
 
 		// Check GDPR compliance features
@@ -325,7 +384,10 @@ class SecurityAuditor {
 			issues.push("Automated backups not configured");
 		}
 
-		if (!process.env.BACKUP_RETENTION_DAYS || Number.parseInt(process.env.BACKUP_RETENTION_DAYS, 10) < 30) {
+		if (
+			!process.env.BACKUP_RETENTION_DAYS ||
+			Number.parseInt(process.env.BACKUP_RETENTION_DAYS, 10) < 30
+		) {
 			score -= 10;
 			issues.push("Backup retention period insufficient");
 		}
@@ -337,7 +399,9 @@ class SecurityAuditor {
 		}
 
 		this.results.categories.compliance = { score: Math.max(0, score), issues };
-		console.log(`   Compliance Score: ${this.results.categories.compliance.score}/100`);
+		console.log(
+			`   Compliance Score: ${this.results.categories.compliance.score}/100`,
+		);
 	}
 
 	private calculateOverallScore(): void {
@@ -347,15 +411,15 @@ class SecurityAuditor {
 			authorization: 0.25,
 			dataProtection: 0.25,
 			infrastructure: 0.15,
-			compliance: 0.10,
+			compliance: 0.1,
 		};
 
 		this.results.overallScore = Math.round(
 			categories.authentication.score * weights.authentication +
-			categories.authorization.score * weights.authorization +
-			categories.dataProtection.score * weights.dataProtection +
-			categories.infrastructure.score * weights.infrastructure +
-			categories.compliance.score * weights.compliance
+				categories.authorization.score * weights.authorization +
+				categories.dataProtection.score * weights.dataProtection +
+				categories.infrastructure.score * weights.infrastructure +
+				categories.compliance.score * weights.compliance,
 		);
 	}
 
@@ -363,29 +427,43 @@ class SecurityAuditor {
 		const recommendations: string[] = [];
 
 		if (this.results.overallScore < 70) {
-			recommendations.push("URGENT: Overall security score is below acceptable threshold (70%)");
+			recommendations.push(
+				"URGENT: Overall security score is below acceptable threshold (70%)",
+			);
 		}
 
 		if (this.results.criticalIssues.length > 0) {
-			recommendations.push("Address all critical security issues before production deployment");
+			recommendations.push(
+				"Address all critical security issues before production deployment",
+			);
 		}
 
 		if (this.results.categories.authentication.score < 80) {
-			recommendations.push("Strengthen authentication mechanisms and session security");
+			recommendations.push(
+				"Strengthen authentication mechanisms and session security",
+			);
 		}
 
 		if (this.results.categories.authorization.score < 80) {
-			recommendations.push("Review and improve role-based access control implementation");
+			recommendations.push(
+				"Review and improve role-based access control implementation",
+			);
 		}
 
 		if (this.results.categories.dataProtection.score < 80) {
 			recommendations.push("Implement comprehensive data protection measures");
 		}
 
-		recommendations.push("Conduct regular security audits (monthly recommended)");
-		recommendations.push("Implement automated security scanning in CI/CD pipeline");
+		recommendations.push(
+			"Conduct regular security audits (monthly recommended)",
+		);
+		recommendations.push(
+			"Implement automated security scanning in CI/CD pipeline",
+		);
 		recommendations.push("Set up real-time security monitoring and alerting");
-		recommendations.push("Conduct penetration testing before production deployment");
+		recommendations.push(
+			"Conduct penetration testing before production deployment",
+		);
 
 		this.results.recommendations = recommendations;
 	}
@@ -403,25 +481,35 @@ class SecurityAuditor {
 		];
 
 		if (this.results.overallScore >= 90) {
-			report.push("✅ **Excellent** - Platform meets enterprise security standards");
+			report.push(
+				"✅ **Excellent** - Platform meets enterprise security standards",
+			);
 		} else if (this.results.overallScore >= 80) {
-			report.push("⚠️  **Good** - Platform has strong security with minor improvements needed");
+			report.push(
+				"⚠️  **Good** - Platform has strong security with minor improvements needed",
+			);
 		} else if (this.results.overallScore >= 70) {
-			report.push("⚠️  **Acceptable** - Platform has adequate security but requires attention");
+			report.push(
+				"⚠️  **Acceptable** - Platform has adequate security but requires attention",
+			);
 		} else {
-			report.push("❌ **Poor** - Platform requires significant security improvements");
+			report.push(
+				"❌ **Poor** - Platform requires significant security improvements",
+			);
 		}
 
 		report.push("", "## Category Scores", "");
 
 		Object.entries(this.results.categories).forEach(([category, data]) => {
 			const status = data.score >= 90 ? "✅" : data.score >= 80 ? "⚠️" : "❌";
-			report.push(`- **${category.charAt(0).toUpperCase() + category.slice(1)}:** ${data.score}/100 ${status}`);
+			report.push(
+				`- **${category.charAt(0).toUpperCase() + category.slice(1)}:** ${data.score}/100 ${status}`,
+			);
 		});
 
 		if (this.results.criticalIssues.length > 0) {
 			report.push("", "## 🚨 Critical Issues", "");
-			this.results.criticalIssues.forEach(issue => {
+			this.results.criticalIssues.forEach((issue) => {
 				report.push(`- ${issue}`);
 			});
 		}
@@ -430,8 +518,12 @@ class SecurityAuditor {
 
 		Object.entries(this.results.categories).forEach(([category, data]) => {
 			if (data.issues.length > 0) {
-				report.push("", `### ${category.charAt(0).toUpperCase() + category.slice(1)}`, "");
-				data.issues.forEach(issue => {
+				report.push(
+					"",
+					`### ${category.charAt(0).toUpperCase() + category.slice(1)}`,
+					"",
+				);
+				data.issues.forEach((issue) => {
 					report.push(`- ${issue}`);
 				});
 			}
@@ -456,7 +548,7 @@ async function main() {
 		const results = await auditor.runCompleteAudit();
 
 		console.log("\n📊 Security Audit Results:");
-		console.log("=" .repeat(50));
+		console.log("=".repeat(50));
 		console.log(`Overall Score: ${results.overallScore}/100`);
 
 		if (results.criticalIssues.length > 0) {
@@ -474,15 +566,17 @@ async function main() {
 		// Export results as JSON for programmatic use
 		await Bun.write(
 			"./security-audit-results.json",
-			JSON.stringify(results, null, 2)
+			JSON.stringify(results, null, 2),
 		);
 
 		// Exit with appropriate code
-		const success = results.overallScore >= 70 && results.criticalIssues.length === 0;
-		console.log(`\n${success ? "✅ Security audit passed" : "❌ Security audit failed"}`);
+		const success =
+			results.overallScore >= 70 && results.criticalIssues.length === 0;
+		console.log(
+			`\n${success ? "✅ Security audit passed" : "❌ Security audit failed"}`,
+		);
 
 		process.exit(success ? 0 : 1);
-
 	} catch (error) {
 		console.error("❌ Security audit failed:", error);
 		process.exit(1);

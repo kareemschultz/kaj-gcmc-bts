@@ -19,12 +19,13 @@ import { Redis } from "@upstash/redis";
  */
 let redis: Redis;
 try {
-	redis = process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-		? new Redis({
-				url: process.env.UPSTASH_REDIS_REST_URL,
-				token: process.env.UPSTASH_REDIS_REST_TOKEN,
-			})
-		: new Redis({ url: process.env.REDIS_URL || "redis://localhost:6379" });
+	redis =
+		process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+			? new Redis({
+					url: process.env.UPSTASH_REDIS_REST_URL,
+					token: process.env.UPSTASH_REDIS_REST_TOKEN,
+				})
+			: new Redis({ url: process.env.REDIS_URL || "redis://localhost:6379" });
 } catch (error) {
 	console.warn("Redis not available, using in-memory rate limiting:", error);
 	// Create a mock Redis client for development

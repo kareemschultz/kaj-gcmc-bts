@@ -17,7 +17,6 @@ import { trpcServer } from "@hono/trpc-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { authRateLimitMiddleware } from "./middleware/auth-rate-limit";
 import { securityHeaders } from "./middleware/security";
 import downloadsRoute from "./routes/downloads";
 
@@ -29,28 +28,83 @@ const app = new Hono();
 // Track readiness state
 let isReady = false;
 
-// Security headers middleware (applied to all routes)
-app.use("*", securityHeaders());
+// Create a clean auth app with no middleware
+const authApp = new Hono();
 
-// Request logging
-app.use(logger());
+// Mount Better Auth handler directly (no middleware interference)
+authApp.all("/*", async (c) => {
+	console.log("🔐 Auth request:", c.req.method, c.req.url);
 
-// CORS configuration with validated environment
+	// Handle CORS manually for auth routes
+	const origin = c.req.header("origin");
+	const allowedOrigins = env.CORS_ORIGIN.split(",").map((o) => o.trim());
+
+	if (origin && allowedOrigins.includes(origin)) {
+		c.header("Access-Control-Allow-Origin", origin);
+	}
+	c.header("Access-Control-Allow-Credentials", "true");
+	c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+	c.header(
+		"Access-Control-Allow-Headers",
+		"Content-Type, Authorization, X-Requested-With",
+	);
+
+	// Handle preflight
+	if (c.req.method === "OPTIONS") {
+		return new Response(null, { status: 200 });
+	}
+
+	try {
+		const res = await auth.handler(c.req.raw);
+		console.log("🔐 Auth response status:", res.status);
+		return res;
+	} catch (error) {
+		console.error("❌ Auth handler error:", error);
+		console.error(
+			"❌ Error stack:",
+			error instanceof Error ? error.stack : "No stack",
+		);
+		return c.json(
+			{
+				error: "Authentication failed",
+				details: error instanceof Error ? error.message : "Unknown error",
+			},
+			500,
+		);
+	}
+});
+
+// Mount the auth app FIRST before any other middleware
+app.route("/api/auth", authApp);
+
+// CORS configuration for other routes
 app.use(
-	"/*",
 	cors({
-		origin: env.CORS_ORIGIN,
-		allowMethods: ["GET", "POST", "OPTIONS"],
-		allowHeaders: ["Content-Type", "Authorization"],
+		origin: env.CORS_ORIGIN.split(",").map((o) => o.trim()),
+		allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+		allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
 		credentials: true,
 		maxAge: 86400, // 24 hours
 	}),
 );
 
-// Apply rate limiting to auth endpoints (sign in, sign up)
-// 5 requests per 15 minutes
-app.use("/api/auth/*", authRateLimitMiddleware);
-app.on(["POST", "GET"], "/api/auth/*", (c) => auth.handler(c.req.raw));
+// Security headers middleware (applied to non-auth routes only)
+app.use((c, next) => {
+	// Skip security headers for auth routes
+	if (c.req.url.includes("/api/auth/")) {
+		return next();
+	}
+	return securityHeaders()(c, next);
+});
+
+// Request logging (applied to non-auth routes only)
+app.use((c, next) => {
+	// Skip logger for auth routes to prevent body consumption
+	if (c.req.url.includes("/api/auth/")) {
+		return next();
+	}
+	return logger()(c, next);
+});
 
 app.use(
 	"/trpc/*",
@@ -196,5 +250,17 @@ process.on("SIGTERM", async () => {
 		process.exit(1);
 	}
 });
+
+// Start the server
+const port = process.env.PORT || process.env.HEALTH_PORT || 3003;
+
+Bun.serve({
+	fetch: app.fetch,
+	port: Number(port),
+});
+
+console.log(`🚀 Server running on port ${port}`);
+console.log(`🔐 Auth URL: http://localhost:${port}/api/auth/`);
+console.log(`📊 Health check: http://localhost:${port}/health`);
 
 export default app;

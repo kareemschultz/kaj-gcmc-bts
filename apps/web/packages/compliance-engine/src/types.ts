@@ -107,6 +107,17 @@ export interface FilingDeadline {
 	};
 }
 
+export interface FilingHistory {
+	id: string;
+	agency: GuyanaAgency;
+	filingType: string;
+	filedDate: Date;
+	dueDate: Date;
+	status: "FILED" | "LATE" | "PENDING" | "REJECTED";
+	penalties?: number;
+	notes?: string;
+}
+
 export interface ComplianceScore {
 	overall: number; // 0-100
 	byAgency: Record<GuyanaAgency, number>;

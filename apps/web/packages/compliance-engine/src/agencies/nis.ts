@@ -11,8 +11,10 @@
 
 import { addDays, addMonths } from "date-fns";
 import type {
+	ComplianceLevel,
 	ComplianceResult,
 	FilingDeadline,
+	FilingHistory,
 	GuyanaBusinessProfile,
 } from "../types";
 
@@ -144,13 +146,13 @@ export function calculateNISDeadlines(
  */
 export function assessNISCompliance(
 	business: GuyanaBusinessProfile,
-	_contributionHistory: any[] = [],
+	_contributionHistory: FilingHistory[] = [],
 ): ComplianceResult {
 	const deadlines = calculateNISDeadlines(business);
 	const overdueFilings = deadlines.filter((d) => d.isOverdue);
 
 	let score = 100;
-	let level: any = "COMPLIANT";
+	let level: ComplianceLevel = "COMPLIANT";
 	const notes: string[] = [];
 
 	// Check NIS registration

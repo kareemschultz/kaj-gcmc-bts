@@ -3,6 +3,7 @@
  */
 
 import type {
+	ComplianceLevel,
 	ComplianceResult,
 	FilingDeadline,
 	GuyanaBusinessProfile,
@@ -22,7 +23,7 @@ export function assessEPACompliance(
 	business: GuyanaBusinessProfile,
 ): ComplianceResult {
 	let score = 100;
-	let level: any = "COMPLIANT";
+	let level: ComplianceLevel = "COMPLIANT";
 	const notes: string[] = [];
 
 	// Check if business requires environmental permit

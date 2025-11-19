@@ -1,5 +1,5 @@
-import { PrismaClient } from "@GCMC-KAJ/db/generated";
-import { hash } from "better-auth/utils/hash";
+import prisma from "@GCMC-KAJ/db";
+import bcrypt from "bcryptjs";
 
 /**
  * Seed Test Database
@@ -7,31 +7,22 @@ import { hash } from "better-auth/utils/hash";
  * Creates initial test data for E2E tests.
  */
 export async function seedTestDatabase() {
-	const prisma = new PrismaClient({
-		datasources: {
-			db: {
-				url: process.env.DATABASE_URL,
-			},
-		},
-	});
-
 	try {
 		console.log("🌱 Seeding test database...");
 
 		// Create test tenant
 		const testTenant = await prisma.tenant.upsert({
-			where: { slug: "test-tenant" },
+			where: { code: "test-tenant" },
 			update: {},
 			create: {
 				name: "Test Tenant Organization",
-				slug: "test-tenant",
-				tier: "PROFESSIONAL",
-				status: "ACTIVE",
+				code: "test-tenant",
+				contactInfo: {},
 				settings: {},
 			},
 		});
 
-		console.log("✅ Test tenant created:", testTenant.slug);
+		console.log("✅ Test tenant created:", testTenant.code);
 
 		// Create admin user
 		const adminUser = await prisma.user.upsert({
@@ -57,7 +48,7 @@ export async function seedTestDatabase() {
 				userId: adminUser.id,
 				providerId: "credential",
 				accountId: adminUser.id,
-				password: await hash("TestPassword123!"),
+				password: await bcrypt.hash("TestPassword123!", 12),
 			},
 		});
 
@@ -87,7 +78,7 @@ export async function seedTestDatabase() {
 				userId: regularUser.id,
 				providerId: "credential",
 				accountId: regularUser.id,
-				password: await hash("TestPassword123!"),
+				password: await bcrypt.hash("TestPassword123!", 12),
 			},
 		});
 
@@ -117,7 +108,7 @@ export async function seedTestDatabase() {
 				userId: clientUser.id,
 				providerId: "credential",
 				accountId: clientUser.id,
-				password: await hash("TestPassword123!"),
+				password: await bcrypt.hash("TestPassword123!", 12),
 			},
 		});
 
@@ -213,33 +204,25 @@ export async function seedTestDatabase() {
  * Removes all test data (use with caution!)
  */
 export async function cleanupTestDatabase() {
-	const prisma = new PrismaClient({
-		datasources: {
-			db: {
-				url: process.env.DATABASE_URL,
-			},
-		},
-	});
-
 	try {
 		console.log("🗑️  Cleaning up test database...");
 
 		// Delete in order to respect foreign key constraints
 		await prisma.tenantUser.deleteMany({
 			where: {
-				tenant: { slug: "test-tenant" },
+				tenant: { code: "test-tenant" },
 			},
 		});
 
 		await prisma.service.deleteMany({
 			where: {
-				tenant: { slug: "test-tenant" },
+				tenant: { code: "test-tenant" },
 			},
 		});
 
 		await prisma.client.deleteMany({
 			where: {
-				tenant: { slug: "test-tenant" },
+				tenant: { code: "test-tenant" },
 			},
 		});
 
@@ -270,7 +253,7 @@ export async function cleanupTestDatabase() {
 		});
 
 		await prisma.tenant.deleteMany({
-			where: { slug: "test-tenant" },
+			where: { code: "test-tenant" },
 		});
 
 		console.log("✅ Test database cleaned up");
