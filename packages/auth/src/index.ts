@@ -221,7 +221,8 @@ export const auth = betterAuth<BetterAuthOptions>({
 			rolling: true,
 		},
 	},
-	// Remove hooks entirely for now to get basic auth working
+	// Hooks disabled temporarily due to Better-Auth compatibility issue
+	// TODO: Re-enable after fixing session persistence through tRPC context enhancement
 	// hooks: {
 	// 	after: [
 	// 		{

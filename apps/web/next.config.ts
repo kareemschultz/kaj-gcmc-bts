@@ -79,7 +79,7 @@ const nextConfig: NextConfig = {
 							"img-src 'self' data: https: blob:",
 							isProduction
 								? "connect-src 'self' ws: wss:"
-								: "connect-src 'self' ws: wss: http://localhost:3000 https://localhost:3000",
+								: "connect-src 'self' ws: wss: http://localhost:3000 https://localhost:3000 http://localhost:3003 https://localhost:3003",
 							"frame-ancestors 'self'",
 							"base-uri 'self'",
 							"form-action 'self'",

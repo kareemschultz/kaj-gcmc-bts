@@ -92,6 +92,24 @@ export const ROLE_DEFINITIONS: RoleDefinition[] = [
 		],
 	},
 	{
+		name: "Admin",
+		description: "Full administrative access to all platform features",
+		permissions: [
+			{ module: "dashboard", actions: ["view", "edit"] },
+			{ module: "analytics", actions: ["view", "edit"] },
+			{ module: "clients", actions: ["view", "create", "edit", "delete"] },
+			{ module: "documents", actions: ["view", "create", "edit", "delete"] },
+			{ module: "filings", actions: ["view", "create", "edit", "submit", "delete"] },
+			{ module: "services", actions: ["view", "create", "edit", "delete"] },
+			{ module: "compliance", actions: ["view", "edit", "manage"] },
+			{ module: "tasks", actions: ["view", "create", "edit", "delete"] },
+			{ module: "notifications", actions: ["view", "create", "edit", "delete"] },
+			{ module: "users", actions: ["view", "create", "edit", "delete"] },
+			{ module: "profile", actions: ["view", "edit"] },
+			{ module: "system", actions: ["view", "edit", "manage"] },
+		],
+	},
+	{
 		name: "ClientPortalUser",
 		description: "Client portal access for end users",
 		permissions: [

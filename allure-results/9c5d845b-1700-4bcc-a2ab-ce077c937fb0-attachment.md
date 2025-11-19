@@ -1,0 +1,190 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link "KAJ GCMC Platform Compliance Management" [ref=e6] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e8]: KAJ
+          - generic [ref=e9]:
+            - generic [ref=e10]: GCMC Platform
+            - generic [ref=e11]: Compliance Management
+        - navigation [ref=e12]:
+          - link "Dashboard" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e14]
+            - generic [ref=e19]: Dashboard
+          - link "Clients" [ref=e20] [cursor=pointer]:
+            - /url: /clients
+            - img [ref=e21]
+            - generic [ref=e26]: Clients
+          - link "Documents" [ref=e27] [cursor=pointer]:
+            - /url: /documents
+            - img [ref=e28]
+            - generic [ref=e31]: Documents
+          - link "Filings" [ref=e32] [cursor=pointer]:
+            - /url: /filings
+            - img [ref=e33]
+            - generic [ref=e36]: Filings
+          - link "Services" [ref=e37] [cursor=pointer]:
+            - /url: /services
+            - img [ref=e38]
+            - generic [ref=e41]: Services
+          - link "Requests" [ref=e42] [cursor=pointer]:
+            - /url: /service-requests
+            - img [ref=e43]
+            - generic [ref=e46]: Requests
+          - link "Tasks" [ref=e47] [cursor=pointer]:
+            - /url: /tasks
+            - img [ref=e48]
+            - generic [ref=e51]: Tasks
+          - link "Messages" [ref=e52] [cursor=pointer]:
+            - /url: /conversations
+            - img [ref=e53]
+            - generic [ref=e55]: Messages
+          - link "Alerts" [ref=e56] [cursor=pointer]:
+            - /url: /notifications
+            - img [ref=e57]
+            - generic [ref=e60]: Alerts
+          - link "Admin" [ref=e61] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e62]
+            - generic [ref=e65]: Admin
+        - generic [ref=e66]:
+          - button "Notifications" [ref=e67]:
+            - img
+            - generic [ref=e68]: Notifications
+          - button "Toggle theme" [ref=e69]:
+            - img
+            - generic [ref=e70]: Toggle theme
+          - button "Admin" [ref=e71]
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - heading "Dashboard" [level=1] [ref=e74]
+        - paragraph [ref=e75]: Welcome back, Admin
+      - generic [ref=e76]:
+        - generic [ref=e77]:
+          - link "Total Clients 0 ↗ 13% vs last period" [ref=e79] [cursor=pointer]:
+            - /url: /clients
+            - generic [ref=e81]:
+              - generic [ref=e82]:
+                - paragraph [ref=e83]: Total Clients
+                - paragraph [ref=e84]: "0"
+                - generic [ref=e85]:
+                  - generic [ref=e86]: ↗
+                  - text: 13%
+                  - generic [ref=e87]: vs last period
+              - img [ref=e89]
+          - link "Active Documents 0 ↘ 1% vs last period" [ref=e92] [cursor=pointer]:
+            - /url: /documents
+            - generic [ref=e94]:
+              - generic [ref=e95]:
+                - paragraph [ref=e96]: Active Documents
+                - paragraph [ref=e97]: "0"
+                - generic [ref=e98]:
+                  - generic [ref=e99]: ↘
+                  - text: 1%
+                  - generic [ref=e100]: vs last period
+              - img [ref=e102]
+          - link "Upcoming Filings 0 ↗ 7% vs last period" [ref=e105] [cursor=pointer]:
+            - /url: /filings
+            - generic [ref=e107]:
+              - generic [ref=e108]:
+                - paragraph [ref=e109]: Upcoming Filings
+                - paragraph [ref=e110]: "0"
+                - generic [ref=e111]:
+                  - generic [ref=e112]: ↗
+                  - text: 7%
+                  - generic [ref=e113]: vs last period
+              - img [ref=e115]
+          - link "Expiring Documents 0" [ref=e118] [cursor=pointer]:
+            - /url: /documents?status=expiring
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - paragraph [ref=e122]: Expiring Documents
+                - paragraph [ref=e123]: "0"
+              - img [ref=e125]
+        - generic [ref=e127]:
+          - generic [ref=e129]:
+            - heading "Compliance Overview" [level=2] [ref=e130]
+            - generic [ref=e131]:
+              - generic [ref=e132]:
+                - heading "Overall Score" [level=3] [ref=e133]
+                - generic [ref=e134]:
+                  - generic [ref=e135]:
+                    - application [ref=e138]
+                    - generic [ref=e144]:
+                      - generic [ref=e145]: 0%
+                      - generic [ref=e146]: Poor
+                  - generic [ref=e148]:
+                    - generic [ref=e149]: Poor
+                    - generic [ref=e150]: Fair
+                    - generic [ref=e151]: Good
+                    - generic [ref=e152]: Excellent
+              - generic [ref=e159]:
+                - heading "By Agency" [level=3] [ref=e160]
+                - generic [ref=e163]:
+                  - generic [ref=e165]:
+                    - application [ref=e168]
+                    - generic [ref=e177]: 85%
+                  - generic [ref=e178]:
+                    - heading "GRA (Guyana Revenue Authority)" [level=4] [ref=e179]
+                    - generic [ref=e180]:
+                      - generic [ref=e181]: 10/12 completed
+                      - generic [ref=e182]: 1 overdue
+                - generic [ref=e185]:
+                  - generic [ref=e187]:
+                    - application [ref=e190]
+                    - generic [ref=e199]: 92%
+                  - generic [ref=e200]:
+                    - heading "DCRA (Deeds & Commercial Registry)" [level=4] [ref=e201]
+                    - generic [ref=e203]: 8/8 completed
+                - generic [ref=e206]:
+                  - generic [ref=e208]:
+                    - application [ref=e211]
+                    - generic [ref=e220]: 78%
+                  - generic [ref=e221]:
+                    - heading "NIS (National Insurance Scheme)" [level=4] [ref=e222]
+                    - generic [ref=e223]:
+                      - generic [ref=e224]: 5/6 completed
+                      - generic [ref=e225]: 1 overdue
+                - generic [ref=e228]:
+                  - generic [ref=e230]:
+                    - application [ref=e233]
+                    - generic [ref=e242]: 95%
+                  - generic [ref=e243]:
+                    - heading "EPA (Environmental Protection)" [level=4] [ref=e244]
+                    - generic [ref=e246]: 4/4 completed
+          - generic [ref=e248]:
+            - generic [ref=e249]:
+              - heading "Recent Activity" [level=3] [ref=e250]
+              - button "View all" [ref=e251]
+            - generic [ref=e254]:
+              - generic [ref=e255]:
+                - img [ref=e257]
+                - generic [ref=e261]:
+                  - generic [ref=e262]:
+                    - paragraph [ref=e263]: Compliance Score Update
+                    - paragraph [ref=e264]: Quarterly compliance assessment completed with improved scoring
+                    - generic [ref=e265]:
+                      - generic [ref=e267]: G
+                      - generic [ref=e268]: GCMC-KAJ System
+                  - generic [ref=e269]: 2h ago
+              - generic [ref=e270]:
+                - img [ref=e272]
+                - generic [ref=e276]:
+                  - generic [ref=e277]:
+                    - paragraph [ref=e278]: System Backup
+                    - paragraph [ref=e279]: Automated daily backup completed successfully
+                  - generic [ref=e280]: 6h ago
+  - generic [ref=e281]:
+    - img [ref=e283]
+    - button "Open Tanstack query devtools" [ref=e331] [cursor=pointer]:
+      - img [ref=e332]
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e385] [cursor=pointer]:
+    - img [ref=e386]
+  - alert [ref=e389]: GCMC-KAJ Business Tax Services | Guyana Compliance Platform
+```

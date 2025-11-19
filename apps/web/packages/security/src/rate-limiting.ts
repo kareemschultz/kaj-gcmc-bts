@@ -4,20 +4,25 @@
 
 import { RateLimiterMemory } from "rate-limiter-flexible";
 
+/**
+ * Request interface with ip property for rate limiting
+ */
+interface RateLimitRequest {
+	ip: string;
+	[key: string]: unknown;
+}
+
 export const defaultRateLimiter = new RateLimiterMemory({
-	keyGenerator: (req: any) => req.ip,
 	points: 100, // Number of requests
 	duration: 60, // Per 60 seconds
 });
 
 export const strictRateLimiter = new RateLimiterMemory({
-	keyGenerator: (req: any) => req.ip,
 	points: 10,
 	duration: 60,
 });
 
 export const loginRateLimiter = new RateLimiterMemory({
-	keyGenerator: (req: any) => req.ip,
 	points: 5, // Number of login attempts
 	duration: 900, // Per 15 minutes
 });

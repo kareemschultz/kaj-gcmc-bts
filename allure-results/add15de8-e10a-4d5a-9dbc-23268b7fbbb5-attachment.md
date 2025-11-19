@@ -1,0 +1,104 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link "KAJ GCMC Platform Compliance Management" [ref=e6] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e8]: KAJ
+          - generic [ref=e9]:
+            - generic [ref=e10]: GCMC Platform
+            - generic [ref=e11]: Compliance Management
+        - navigation [ref=e12]:
+          - link "Dashboard" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e14]
+            - generic [ref=e19]: Dashboard
+          - link "Clients" [ref=e20] [cursor=pointer]:
+            - /url: /clients
+            - img [ref=e21]
+            - generic [ref=e26]: Clients
+          - link "Documents" [ref=e27] [cursor=pointer]:
+            - /url: /documents
+            - img [ref=e28]
+            - generic [ref=e31]: Documents
+          - link "Filings" [ref=e32] [cursor=pointer]:
+            - /url: /filings
+            - img [ref=e33]
+            - generic [ref=e36]: Filings
+          - link "Services" [ref=e37] [cursor=pointer]:
+            - /url: /services
+            - img [ref=e38]
+            - generic [ref=e41]: Services
+          - link "Requests" [ref=e42] [cursor=pointer]:
+            - /url: /service-requests
+            - img [ref=e43]
+            - generic [ref=e46]: Requests
+          - link "Tasks" [ref=e47] [cursor=pointer]:
+            - /url: /tasks
+            - img [ref=e48]
+            - generic [ref=e51]: Tasks
+          - link "Messages" [ref=e52] [cursor=pointer]:
+            - /url: /conversations
+            - img [ref=e53]
+            - generic [ref=e55]: Messages
+          - link "Alerts" [ref=e56] [cursor=pointer]:
+            - /url: /notifications
+            - img [ref=e57]
+            - generic [ref=e60]: Alerts
+          - link "Admin" [ref=e61] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e62]
+            - generic [ref=e65]: Admin
+        - generic [ref=e66]:
+          - button "Notifications" [ref=e67]:
+            - img
+            - generic [ref=e68]: Notifications
+          - button "Toggle theme" [ref=e69]:
+            - img
+            - generic [ref=e70]: Toggle theme
+          - button "Admin" [ref=e71]
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - heading "Dashboard" [level=1] [ref=e74]
+        - paragraph [ref=e75]: Welcome back, Admin
+      - generic [ref=e76]:
+        - generic [ref=e77]:
+          - generic [ref=e80]:
+            - generic [ref=e81]:
+              - paragraph
+            - img [ref=e86]
+          - generic [ref=e93]:
+            - generic [ref=e94]:
+              - paragraph
+            - img [ref=e99]
+          - generic [ref=e106]:
+            - generic [ref=e107]:
+              - paragraph
+            - img [ref=e112]
+          - generic [ref=e119]:
+            - generic [ref=e120]:
+              - paragraph
+            - img [ref=e125]
+        - generic [ref=e130]:
+          - generic [ref=e132]:
+            - generic [ref=e133]: Compliance Overview
+            - generic [ref=e134]: Client compliance score distribution
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - heading "Recent Activity" [level=3] [ref=e143]
+              - button "View all" [ref=e144]
+            - generic [ref=e146]:
+              - img [ref=e147]
+              - paragraph [ref=e150]: No recent activity
+  - generic [ref=e151]:
+    - img [ref=e153]
+    - button "Open Tanstack query devtools" [ref=e201] [cursor=pointer]:
+      - img [ref=e202]
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e255] [cursor=pointer]:
+    - img [ref=e256]
+  - alert [ref=e259]: GCMC-KAJ Business Tax Services | Guyana Compliance Platform
+```

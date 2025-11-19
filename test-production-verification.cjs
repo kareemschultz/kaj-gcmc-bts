@@ -8,8 +8,8 @@
  */
 
 const puppeteer = require('puppeteer');
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 console.log('🚀 Starting GCMC-KAJ Production Verification...\n');
 
@@ -197,7 +197,7 @@ class ProductionVerifier {
 
     // Check for Next.js hydration
     const isHydrated = await this.page.evaluate(() => {
-      return window.next && window.next.router;
+      return window.next?.router;
     });
 
     if (!isHydrated) {

@@ -3,6 +3,7 @@
 export type UserRole =
 	| "SuperAdmin"
 	| "FirmAdmin"
+	| "Admin"
 	| "ComplianceManager"
 	| "ComplianceOfficer"
 	| "DocumentOfficer"

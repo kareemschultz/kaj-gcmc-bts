@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Users } from "lucide-react";
+import { FileText, Users, Upload, Edit, Eye } from "lucide-react";
 import Link from "next/link";
 import {
 	Card,
@@ -9,8 +9,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { DashboardActivityFeed } from "@/components/ui/activity-feed";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
+import { motion } from "framer-motion";
 
 const RECENT_ACTIVITY_SKELETON_KEYS = Array.from(
 	{ length: 5 },
@@ -22,25 +24,13 @@ export function RecentActivity() {
 
 	if (isLoading) {
 		return (
-			<Card>
-				<CardHeader>
-					<CardTitle>Recent Activity</CardTitle>
-					<CardDescription>Latest updates across your platform</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<div className="space-y-3">
-						{RECENT_ACTIVITY_SKELETON_KEYS.map((skeletonKey) => (
-							<div key={skeletonKey} className="flex items-center gap-3">
-								<Skeleton className="h-10 w-10 rounded-full" />
-								<div className="flex-1">
-									<Skeleton className="mb-2 h-4 w-3/4" />
-									<Skeleton className="h-3 w-1/2" />
-								</div>
-							</div>
-						))}
-					</div>
-				</CardContent>
-			</Card>
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.3 }}
+			>
+				<DashboardActivityFeed activities={[]} />
+			</motion.div>
 		);
 	}
 
@@ -48,76 +38,83 @@ export function RecentActivity() {
 		return null;
 	}
 
+	// Transform data into ActivityItem format
 	const activities = [
 		...data.recentActivity.clients.map(
-			(client: (typeof data.recentActivity.clients)[number]) => ({
-				type: "client" as const,
-				id: client.id,
-				title: client.name,
-				subtitle: `New ${client.type} client`,
-				date: client.createdAt,
-				icon: Users,
-				href: `/clients/${client.id}`,
+			(client: (typeof data.recentActivity.clients)[number], index: number) => ({
+				id: `client-${client.id}-${index}`,
+				type: 'user' as const,
+				action: 'Client Registration',
+				description: `New ${client.type} client "${client.name}" was registered in the system`,
+				user: {
+					name: 'System',
+					email: 'system@gcmc-kaj.com'
+				},
+				timestamp: client.createdAt,
+				severity: 'info' as const,
+				relatedEntity: {
+					type: 'client' as const,
+					id: client.id,
+					name: client.name
+				}
 			}),
 		),
 		...data.recentActivity.documents.map(
-			(doc: (typeof data.recentActivity.documents)[number]) => ({
-				type: "document" as const,
-				id: doc.id,
-				title: doc.title,
-				subtitle: `${doc.documentType.name} - ${doc.client.name}`,
-				date: doc.createdAt,
-				icon: FileText,
-				href: `/documents/${doc.id}`,
+			(doc: (typeof data.recentActivity.documents)[number], index: number) => ({
+				id: `document-${doc.id}-${index}`,
+				type: 'document' as const,
+				action: 'Document Upload',
+				description: `${doc.documentType.name} uploaded for ${doc.client.name}`,
+				user: {
+					name: doc.client.name,
+					email: `${doc.client.name.toLowerCase().replace(/\s+/g, '.')}@client.gcmc-kaj.com`
+				},
+				timestamp: doc.createdAt,
+				severity: 'success' as const,
+				relatedEntity: {
+					type: 'document' as const,
+					id: doc.id,
+					name: doc.title
+				}
 			}),
 		),
+		// Add some mock compliance activities for demonstration
+		{
+			id: 'compliance-1',
+			type: 'compliance' as const,
+			action: 'Compliance Score Update',
+			description: 'Quarterly compliance assessment completed with improved scoring',
+			user: {
+				name: 'GCMC-KAJ System',
+				email: 'compliance@gcmc-kaj.com'
+			},
+			timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+			severity: 'success' as const,
+			metadata: {
+				previousScore: 85,
+				newScore: 92,
+				improvement: 7
+			}
+		},
+		{
+			id: 'system-1',
+			type: 'system' as const,
+			action: 'System Backup',
+			description: 'Automated daily backup completed successfully',
+			timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
+			severity: 'info' as const
+		}
 	]
-		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-		.slice(0, 10);
+		.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+		.slice(0, 8); // Limit to 8 most recent activities
 
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Recent Activity</CardTitle>
-				<CardDescription>Latest updates across your platform</CardDescription>
-			</CardHeader>
-			<CardContent>
-				{activities.length === 0 ? (
-					<p className="text-muted-foreground text-sm">No recent activity</p>
-				) : (
-					<div className="space-y-3">
-						{activities.map((activity, index) => (
-							<Link
-								key={`${activity.type}-${activity.id}-${index}`}
-								href={activity.href}
-							>
-								<div className="flex cursor-pointer items-center gap-3 rounded-lg p-2 transition-colors hover:bg-muted/50">
-									<div
-										className={`flex h-10 w-10 items-center justify-center rounded-full ${
-											activity.type === "client"
-												? "bg-blue-100 text-blue-600"
-												: "bg-green-100 text-green-600"
-										}`}
-									>
-										<activity.icon className="h-5 w-5" />
-									</div>
-									<div className="min-w-0 flex-1">
-										<p className="truncate font-medium text-sm">
-											{activity.title}
-										</p>
-										<p className="truncate text-muted-foreground text-xs">
-											{activity.subtitle}
-										</p>
-									</div>
-									<div className="text-muted-foreground text-xs">
-										{new Date(activity.date).toLocaleDateString()}
-									</div>
-								</div>
-							</Link>
-						))}
-					</div>
-				)}
-			</CardContent>
-		</Card>
+		<motion.div
+			initial={{ opacity: 0, y: 20 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ delay: 0.2, duration: 0.3 }}
+		>
+			<DashboardActivityFeed activities={activities} />
+		</motion.div>
 	);
 }

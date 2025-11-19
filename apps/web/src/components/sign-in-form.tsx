@@ -189,23 +189,6 @@ export default function SignInForm({
 						</p>
 					</div>
 
-					{/* Demo Credentials Notice */}
-					<div className="mb-6 rounded-lg border border-emerald-500/30 bg-emerald-900/30 p-4">
-						<div className="mb-2 flex items-center space-x-2">
-							<Shield className="h-4 w-4 text-emerald-400" />
-							<span className="font-medium text-emerald-400 text-sm">
-								Demo Credentials
-							</span>
-						</div>
-						<div className="space-y-1 text-slate-300 text-sm">
-							<div>
-								<strong>Email:</strong> admin@gcmc-kaj.com
-							</div>
-							<div>
-								<strong>Password:</strong> Admin123!@#
-							</div>
-						</div>
-					</div>
 
 					{/* Login Form */}
 					<form

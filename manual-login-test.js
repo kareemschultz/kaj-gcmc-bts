@@ -72,7 +72,7 @@ async function testLogin() {
 				const errorText = await page.textContent("body");
 				console.log(
 					"📄 Page content contains:",
-					errorText.substring(0, 200) + "...",
+					`${errorText.substring(0, 200)}...`,
 				);
 
 				// Take screenshot for debugging

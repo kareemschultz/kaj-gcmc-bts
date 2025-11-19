@@ -1,0 +1,251 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'tests/**'
+      - 'playwright.config.ts'
+      - 'package.json'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'tests/**'
+      - 'playwright.config.ts'
+      - 'package.json'
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: false
+        default: 'smoke'
+        type: choice
+        options:
+          - 'smoke'
+          - 'critical'
+          - 'regression'
+          - 'full'
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  test:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+        include:
+          - browser: chromium
+            mobile: true
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: gcmc_kaj_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: '1.2.18'
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Setup test environment
+        run: |
+          cp .env.example .env.test
+          echo "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/gcmc_kaj_test" >> .env.test
+          echo "REDIS_URL=redis://localhost:6379" >> .env.test
+          echo "NEXT_PUBLIC_APP_URL=http://localhost:3001" >> .env.test
+          echo "API_URL=http://localhost:3003" >> .env.test
+
+      - name: Setup database
+        run: |
+          bun run db:push
+          bun run db:migrate
+
+      - name: Install Playwright
+        run: bun run test:e2e:install
+
+      - name: Build applications
+        run: |
+          bun run build
+
+      - name: Start applications in background
+        run: |
+          bun run dev:web &
+          bun run dev:server &
+          sleep 30
+
+      - name: Wait for applications to be ready
+        run: |
+          npx wait-on http://localhost:3001 --timeout 60000
+          npx wait-on http://localhost:3003/api/health --timeout 60000
+
+      - name: Run E2E tests (Smoke)
+        if: ${{ github.event.inputs.test_suite == 'smoke' || github.event.inputs.test_suite == '' }}
+        run: bun run test:e2e:smoke --project=${{ matrix.browser }}
+
+      - name: Run E2E tests (Critical)
+        if: ${{ github.event.inputs.test_suite == 'critical' }}
+        run: bun run test:e2e:critical --project=${{ matrix.browser }}
+
+      - name: Run E2E tests (Regression)
+        if: ${{ github.event.inputs.test_suite == 'regression' }}
+        run: bun run test:e2e:regression --project=${{ matrix.browser }}
+
+      - name: Run E2E tests (Full Suite)
+        if: ${{ github.event.inputs.test_suite == 'full' }}
+        run: bun run test:e2e --project=${{ matrix.browser }}
+
+      - name: Run Mobile tests
+        if: ${{ matrix.mobile }}
+        run: bun run test:e2e:mobile
+
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          bun run allure:generate
+
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.browser }}
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload Allure Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-results-${{ matrix.browser }}
+          path: allure-results/
+          retention-days: 30
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: allure-report-${{ matrix.browser }}
+          path: allure-report/
+          retention-days: 30
+
+      - name: Upload Test Screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: screenshots-${{ matrix.browser }}
+          path: test-results/
+          retention-days: 7
+
+  publish-report:
+    if: always()
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Merge Allure Results
+        run: |
+          mkdir -p merged-allure-results
+          find . -name "allure-results-*" -type d | while read dir; do
+            cp -r "$dir"/* merged-allure-results/ 2>/dev/null || true
+          done
+
+      - name: Setup Allure
+        run: |
+          wget -O allure.tgz https://github.com/allure-framework/allure2/releases/download/2.24.1/allure-2.24.1.tgz
+          tar -xzf allure.tgz
+          sudo mv allure-2.24.1 /opt/allure
+          sudo ln -s /opt/allure/bin/allure /usr/bin/allure
+
+      - name: Generate Combined Allure Report
+        run: |
+          allure generate merged-allure-results --clean -o combined-allure-report
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: combined-allure-report
+          destination_dir: allure-report
+
+      - name: Comment PR with Test Results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            // Find test summary
+            let testSummary = 'E2E Tests completed. Check artifacts for detailed results.';
+
+            // Create comment
+            const comment = `## 🧪 E2E Test Results
+
+            ${testSummary}
+
+            ### 📊 Test Reports
+            - **Playwright Report**: Available in artifacts
+            - **Allure Report**: Available in artifacts
+            - **Screenshots**: Available in artifacts (if tests failed)
+
+            ### 🏃‍♂️ Test Execution
+            - **Browsers Tested**: Chromium, Firefox, WebKit
+            - **Mobile Testing**: Included
+            - **Test Categories**: ${process.env.GITHUB_EVENT_INPUTS_TEST_SUITE || 'smoke'}
+
+            ---
+            Generated by GitHub Actions 🤖`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

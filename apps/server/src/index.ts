@@ -11,6 +11,7 @@ if (!process.env.DATABASE_URL || !process.env.BETTER_AUTH_SECRET) {
 import { createContext } from "@GCMC-KAJ/api/context";
 import { appRouter } from "@GCMC-KAJ/api/routers/index";
 import { auth } from "@GCMC-KAJ/auth";
+import { createCache } from "@GCMC-KAJ/cache";
 import { validateEnv } from "@GCMC-KAJ/config";
 import prisma from "@GCMC-KAJ/db";
 import { trpcServer } from "@hono/trpc-server";
@@ -51,13 +52,37 @@ authApp.all("/*", async (c) => {
 
 	// Handle preflight
 	if (c.req.method === "OPTIONS") {
-		return new Response(null, { status: 200 });
+		const headers = new Headers();
+		if (origin && allowedOrigins.includes(origin)) {
+			headers.set("Access-Control-Allow-Origin", origin);
+		}
+		headers.set("Access-Control-Allow-Credentials", "true");
+		headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+		headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+
+		return new Response(null, { status: 200, headers });
 	}
 
 	try {
 		const res = await auth.handler(c.req.raw);
 		console.log("🔐 Auth response status:", res.status);
-		return res;
+
+		// Clone the response to add CORS headers
+		const clonedRes = new Response(res.body, {
+			status: res.status,
+			statusText: res.statusText,
+			headers: res.headers
+		});
+
+		// Add CORS headers to the cloned response
+		if (origin && allowedOrigins.includes(origin)) {
+			clonedRes.headers.set("Access-Control-Allow-Origin", origin);
+		}
+		clonedRes.headers.set("Access-Control-Allow-Credentials", "true");
+		clonedRes.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+		clonedRes.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+
+		return clonedRes;
 	} catch (error) {
 		console.error("❌ Auth handler error:", error);
 		console.error(
@@ -195,9 +220,17 @@ async function checkReadiness() {
 	try {
 		await prisma.$connect();
 		console.log("✅ Database connected");
+
+		// Initialize cache
+		await createCache({
+			host: "localhost",
+			port: 6379,
+		});
+		console.log("✅ Cache initialized");
+
 		isReady = true;
 	} catch (error) {
-		console.error("❌ Database connection failed:", error);
+		console.error("❌ Startup failed:", error);
 		isReady = false;
 		// Retry after 5 seconds
 		setTimeout(checkReadiness, 5000);

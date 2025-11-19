@@ -52,7 +52,12 @@ export default defineConfig({
 		["html", { outputFolder: "playwright-report", open: "never" }],
 		["json", { outputFile: "playwright-report/results.json" }],
 		["junit", { outputFile: "playwright-report/results.xml" }],
+		["allure-playwright", {
+			outputFolder: "allure-results",
+			suiteTitle: "GCMC-KAJ E2E Test Suite"
+		}],
 		["list"],
+		...(process.env.CI ? [["github"]] : []),
 	],
 
 	// Shared settings for all the projects below
@@ -66,13 +71,13 @@ export default defineConfig({
 		},
 
 		// Collect trace when retrying the failed test
-		trace: "on-first-retry",
+		trace: process.env.CI ? "on-first-retry" : "retain-on-failure",
 
 		// Screenshot on failure
-		screenshot: "only-on-failure",
+		screenshot: process.env.CI ? "only-on-failure" : "retain-on-failure",
 
 		// Video on first retry
-		video: "retain-on-failure",
+		video: process.env.CI ? "retain-on-failure" : "retain-on-failure",
 
 		// Browser context options
 		viewport: { width: 1280, height: 720 },

@@ -1,0 +1,74 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - link "KAJ GCMC Platform Compliance Management" [ref=e6] [cursor=pointer]:
+            - /url: /dashboard
+            - generic [ref=e8]: KAJ
+            - generic [ref=e9]:
+              - generic [ref=e10]: GCMC Platform
+              - generic [ref=e11]: Compliance Management
+          - generic [ref=e12]:
+            - button "Notifications" [ref=e13]:
+              - img
+              - generic [ref=e14]: Notifications
+            - button "Toggle theme" [disabled]:
+              - img
+              - generic: Toggle theme
+        - generic [ref=e17]:
+          - link "Dashboard" [ref=e18] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e19]
+            - generic [ref=e24]: Dashboard
+          - link "Clients" [ref=e25] [cursor=pointer]:
+            - /url: /clients
+            - img [ref=e26]
+            - generic [ref=e31]: Clients
+          - link "Documents" [ref=e32] [cursor=pointer]:
+            - /url: /documents
+            - img [ref=e33]
+            - generic [ref=e36]: Documents
+          - link "Filings" [ref=e37] [cursor=pointer]:
+            - /url: /filings
+            - img [ref=e38]
+            - generic [ref=e41]: Filings
+          - link "Services" [ref=e42] [cursor=pointer]:
+            - /url: /services
+            - img [ref=e43]
+            - generic [ref=e46]: Services
+          - link "Requests" [ref=e47] [cursor=pointer]:
+            - /url: /service-requests
+            - img [ref=e48]
+            - generic [ref=e51]: Requests
+    - generic [ref=e55]:
+      - generic [ref=e56]:
+        - img [ref=e58]
+        - generic [ref=e62]:
+          - heading "GCMC-KAJ" [level=1] [ref=e63]
+          - paragraph [ref=e64]: Business Tax Services
+      - generic [ref=e65]:
+        - heading "Welcome Back" [level=2] [ref=e66]
+        - paragraph [ref=e67]: Sign in to access your tax management dashboard
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - generic [ref=e70]: Email Address
+          - textbox "Email Address" [ref=e71]:
+            - /placeholder: Enter your email address
+        - generic [ref=e72]:
+          - generic [ref=e73]: Password
+          - generic [ref=e74]:
+            - textbox "Password" [ref=e75]:
+              - /placeholder: Enter your password
+            - button [ref=e76]:
+              - img [ref=e77]
+        - button "Sign In to Dashboard" [ref=e80]
+      - button "Need an account? Contact your administrator" [ref=e82]
+      - paragraph [ref=e84]: © 2024 GCMC-KAJ Business Tax Services. All rights reserved.
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e90] [cursor=pointer]:
+    - img [ref=e91]
+```
