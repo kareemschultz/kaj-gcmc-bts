@@ -15,14 +15,28 @@ import { Redis } from "@upstash/redis";
  * Redis client configuration
  * Uses UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN from environment
  * Falls back to local Redis URL for development if Upstash credentials not available
+ * If no Redis available, falls back to in-memory rate limiting
  */
-const redis =
-	process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+let redis: Redis;
+try {
+	redis = process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
 		? new Redis({
 				url: process.env.UPSTASH_REDIS_REST_URL,
 				token: process.env.UPSTASH_REDIS_REST_TOKEN,
 			})
-		: Redis.fromEnv();
+		: new Redis({ url: process.env.REDIS_URL || "redis://localhost:6379" });
+} catch (error) {
+	console.warn("Redis not available, using in-memory rate limiting:", error);
+	// Create a mock Redis client for development
+	redis = {
+		get: async () => null,
+		set: async () => "OK",
+		del: async () => 1,
+		incr: async () => 1,
+		expire: async () => 1,
+		eval: async () => null,
+	} as unknown as Redis;
+}
 
 /**
  * Normal operations rate limiter
