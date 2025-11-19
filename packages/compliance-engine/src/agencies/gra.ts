@@ -12,9 +12,11 @@
 import { addDays, addMonths, isBefore } from "date-fns";
 import type {
 	BusinessType,
+	ComplianceLevel,
 	ComplianceRequirement,
 	ComplianceResult,
 	FilingDeadline,
+	FilingHistoryEntry,
 	GuyanaBusinessProfile,
 	TaxCalculationInput,
 	TaxCalculationResult,
@@ -191,7 +193,12 @@ export function calculateGRADeadlines(
 export function calculateGRATaxes(
 	input: TaxCalculationInput,
 ): TaxCalculationResult {
-	const { grossIncome, deductions, businessType, employeeCount } = input;
+	const {
+		grossIncome,
+		deductions,
+		businessType: _businessType,
+		employeeCount: _employeeCount,
+	} = input;
 	const taxableIncome = Math.max(0, grossIncome - deductions);
 
 	// Corporate Tax Calculation
@@ -233,13 +240,13 @@ export function calculateGRATaxes(
  */
 export function assessGRACompliance(
 	business: GuyanaBusinessProfile,
-	_filingHistory: any[] = [],
+	_filingHistory: FilingHistoryEntry[] = [],
 ): ComplianceResult {
 	const deadlines = calculateGRADeadlines(business);
 	const overdueFilings = deadlines.filter((d) => d.isOverdue);
 
 	let score = 100;
-	let level: any = "COMPLIANT";
+	let level: ComplianceLevel = "COMPLIANT";
 	const notes: string[] = [];
 
 	// Deduct points for overdue filings
@@ -302,6 +309,21 @@ export function getGRAForms(businessType: BusinessType) {
 			"Form PIT-1: Personal Income Tax Return",
 			"Form VAT-1: Value Added Tax Return (if applicable)",
 			"Form PT-1: Property Tax Return",
+		],
+		COOPERATIVE: [
+			"Form CIT-1: Cooperative Income Tax Return",
+			"Form VAT-1: Value Added Tax Return",
+			"Form PT-1: Property Tax Return",
+		],
+		BRANCH: [
+			"Form CIT-1: Branch Income Tax Return",
+			"Form VAT-1: Value Added Tax Return",
+			"Form WHT-1: Withholding Tax Return",
+		],
+		SUBSIDIARY: [
+			"Form CIT-1: Subsidiary Income Tax Return",
+			"Form VAT-1: Value Added Tax Return",
+			"Form WHT-1: Withholding Tax Return",
 		],
 	};
 

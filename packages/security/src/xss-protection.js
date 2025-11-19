@@ -4,23 +4,13 @@
  * Comprehensive XSS prevention and content sanitization
  * Implements multiple layers of protection against XSS attacks
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CSP_DIRECTIVES = void 0;
-exports.sanitizeUserInput = sanitizeUserInput;
-exports.sanitizeRichText = sanitizeRichText;
-exports.sanitizeDocumentContent = sanitizeDocumentContent;
-exports.sanitizeJsonResponse = sanitizeJsonResponse;
-exports.generateCSPHeader = generateCSPHeader;
-exports.sanitizeFileName = sanitizeFileName;
-exports.detectXSSPayload = detectXSSPayload;
-exports.logXSSAttempt = logXSSAttempt;
-exports.xssProtectionMiddleware = xssProtectionMiddleware;
-var validator_1 = require("validator");
-var xss_1 = require("xss");
+import validator from "validator";
+import xss from "xss";
+
 /**
  * XSS filter configuration for different contexts
  */
-var XSS_FILTERS = {
+const XSS_FILTERS = {
 	// Strict filter for user input (no HTML allowed)
 	strict: {
 		whiteList: {},
@@ -37,17 +27,13 @@ var XSS_FILTERS = {
 		onIgnoreTag: (tag, html, _options) => {
 			// Log potential XSS attempts
 			console.warn("🚨 Potential XSS attempt blocked:", {
-				tag: tag,
+				tag,
 				html: html.substring(0, 100),
 			});
 			return "";
 		},
 		onIgnoreTagAttr: (tag, name, value) => {
-			console.warn("🚨 Dangerous attribute blocked:", {
-				tag: tag,
-				name: name,
-				value: value,
-			});
+			console.warn("🚨 Dangerous attribute blocked:", { tag, name, value });
 			return "";
 		},
 	},
@@ -153,15 +139,11 @@ var XSS_FILTERS = {
 			}
 			// Validate style attribute
 			if (name === "style") {
-				return sanitizeStyle(value)
-					? "".concat(name, '="').concat(sanitizeStyle(value), '"')
-					: "";
+				return sanitizeStyle(value) ? `${name}="${sanitizeStyle(value)}"` : "";
 			}
 			// Allow whitelisted attributes
 			if (isWhiteAttr) {
-				return ""
-					.concat(name, '="')
-					.concat(validator_1.default.escape(value), '"');
+				return `${name}="${validator.escape(value)}"`;
 			}
 			return "";
 		},
@@ -173,11 +155,11 @@ var XSS_FILTERS = {
 function isValidUrl(url) {
 	if (!url) return false;
 	try {
-		var parsed = new URL(url);
+		const parsed = new URL(url);
 		// Only allow safe protocols
-		var safeProtocols = ["http:", "https:", "mailto:", "tel:"];
+		const safeProtocols = ["http:", "https:", "mailto:", "tel:"];
 		return safeProtocols.includes(parsed.protocol);
-	} catch (_a) {
+	} catch {
 		// Relative URLs are okay
 		return !/^(javascript:|data:|vbscript:)/i.test(url);
 	}
@@ -188,7 +170,7 @@ function isValidUrl(url) {
 function sanitizeStyle(style) {
 	if (!style) return "";
 	// Remove dangerous CSS properties and values
-	var dangerousPatterns = [
+	const dangerousPatterns = [
 		/expression\s*\(/i,
 		/javascript:/i,
 		/vbscript:/i,
@@ -199,13 +181,8 @@ function sanitizeStyle(style) {
 		/-moz-binding/i,
 		/behavior:/i,
 	];
-	var sanitized = style;
-	for (
-		var _i = 0, dangerousPatterns_1 = dangerousPatterns;
-		_i < dangerousPatterns_1.length;
-		_i++
-	) {
-		var pattern = dangerousPatterns_1[_i];
+	let sanitized = style;
+	for (const pattern of dangerousPatterns) {
 		sanitized = sanitized.replace(pattern, "");
 	}
 	// Remove any remaining potentially dangerous characters
@@ -215,45 +192,42 @@ function sanitizeStyle(style) {
 /**
  * Strict XSS filtering for user input (no HTML allowed)
  */
-function sanitizeUserInput(input) {
+export function sanitizeUserInput(input) {
 	if (!input || typeof input !== "string") return "";
 	// Use strict filtering
-	var sanitized = (0, xss_1.default)(input, XSS_FILTERS.strict);
+	const sanitized = xss(input, XSS_FILTERS.strict);
 	// Additional escape for any remaining special characters
-	return validator_1.default.escape(sanitized);
+	return validator.escape(sanitized);
 }
 /**
  * Basic XSS filtering for rich text content
  */
-function sanitizeRichText(input) {
+export function sanitizeRichText(input) {
 	if (!input || typeof input !== "string") return "";
-	return (0, xss_1.default)(input, XSS_FILTERS.basic);
+	return xss(input, XSS_FILTERS.basic);
 }
 /**
  * Extended XSS filtering for document content
  */
-function sanitizeDocumentContent(input) {
+export function sanitizeDocumentContent(input) {
 	if (!input || typeof input !== "string") return "";
-	return (0, xss_1.default)(input, XSS_FILTERS.document);
+	return xss(input, XSS_FILTERS.document);
 }
 /**
  * Sanitize JSON to prevent XSS in JSON responses
  */
-function sanitizeJsonResponse(obj) {
+export function sanitizeJsonResponse(obj) {
 	if (obj === null || obj === undefined) return obj;
 	if (typeof obj === "string") {
-		return validator_1.default.escape(obj);
+		return validator.escape(obj);
 	}
 	if (Array.isArray(obj)) {
 		return obj.map(sanitizeJsonResponse);
 	}
 	if (typeof obj === "object") {
-		var sanitized = {};
-		for (var _i = 0, _a = Object.entries(obj); _i < _a.length; _i++) {
-			var _b = _a[_i];
-			var key = _b[0];
-			var value = _b[1];
-			sanitized[validator_1.default.escape(key)] = sanitizeJsonResponse(value);
+		const sanitized = {};
+		for (const [key, value] of Object.entries(obj)) {
+			sanitized[validator.escape(key)] = sanitizeJsonResponse(value);
 		}
 		return sanitized;
 	}
@@ -262,7 +236,7 @@ function sanitizeJsonResponse(obj) {
 /**
  * Content Security Policy (CSP) helpers
  */
-exports.CSP_DIRECTIVES = {
+export const CSP_DIRECTIVES = {
 	development: {
 		"default-src": ["'self'"],
 		"script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
@@ -296,43 +270,41 @@ exports.CSP_DIRECTIVES = {
 /**
  * Generate CSP header value
  */
-function generateCSPHeader(environment) {
-	var directives = exports.CSP_DIRECTIVES[environment];
+export function generateCSPHeader(environment) {
+	const directives = CSP_DIRECTIVES[environment];
 	return Object.entries(directives)
-		.map((_a) => {
-			var directive = _a[0];
-			var sources = _a[1];
+		.map(([directive, sources]) => {
 			if (sources.length === 0) return directive;
-			return "".concat(directive, " ").concat(sources.join(" "));
+			return `${directive} ${sources.join(" ")}`;
 		})
 		.join("; ");
 }
 /**
  * Validate and sanitize file upload names
  */
-function sanitizeFileName(fileName) {
+export function sanitizeFileName(fileName) {
 	if (!fileName || typeof fileName !== "string") return "";
 	// Remove path separators and dangerous characters
-	var sanitized = fileName
+	let sanitized = fileName
 		.replace(/[<>:"/\\|?*\x00-\x1f]/g, "")
 		.replace(/^\.+/, "") // Remove leading dots
 		.trim();
 	// Limit length
 	if (sanitized.length > 255) {
-		var extension = sanitized.substring(sanitized.lastIndexOf("."));
-		var name_1 = sanitized.substring(0, 255 - extension.length);
-		sanitized = name_1 + extension;
+		const extension = sanitized.substring(sanitized.lastIndexOf("."));
+		const name = sanitized.substring(0, 255 - extension.length);
+		sanitized = name + extension;
 	}
 	return sanitized || "unnamed-file";
 }
 /**
  * Detect potential XSS payloads
  */
-function detectXSSPayload(input) {
+export function detectXSSPayload(input) {
 	if (!input || typeof input !== "string") {
 		return { isXSS: false, detectedPatterns: [], riskLevel: "low" };
 	}
-	var xssPatterns = [
+	const xssPatterns = [
 		// Script tags
 		{ pattern: /<script[\s\S]*?>[\s\S]*?<\/script>/gi, risk: "high" },
 		// Event handlers
@@ -358,16 +330,9 @@ function detectXSSPayload(input) {
 		// Input tags
 		{ pattern: /<input/gi, risk: "low" },
 	];
-	var detectedPatterns = [];
-	var highestRisk = "low";
-	for (
-		var _i = 0, xssPatterns_1 = xssPatterns;
-		_i < xssPatterns_1.length;
-		_i++
-	) {
-		var _a = xssPatterns_1[_i];
-		var pattern = _a.pattern;
-		var risk = _a.risk;
+	const detectedPatterns = [];
+	let highestRisk = "low";
+	for (const { pattern, risk } of xssPatterns) {
 		if (pattern.test(input)) {
 			detectedPatterns.push(pattern.toString());
 			if (risk === "high" || (risk === "medium" && highestRisk === "low")) {
@@ -377,22 +342,28 @@ function detectXSSPayload(input) {
 	}
 	return {
 		isXSS: detectedPatterns.length > 0,
-		detectedPatterns: detectedPatterns,
+		detectedPatterns,
 		riskLevel: highestRisk,
 	};
 }
 /**
  * Log XSS attempts for security monitoring
  */
-function logXSSAttempt(input, detectedPatterns, riskLevel, userId, endpoint) {
-	var logData = {
+export function logXSSAttempt(
+	input,
+	detectedPatterns,
+	riskLevel,
+	userId,
+	endpoint,
+) {
+	const logData = {
 		timestamp: new Date().toISOString(),
 		type: "XSS_ATTEMPT",
 		input: input.substring(0, 200), // Limit logged input
-		detectedPatterns: detectedPatterns,
-		riskLevel: riskLevel,
-		userId: userId,
-		endpoint: endpoint,
+		detectedPatterns,
+		riskLevel,
+		userId,
+		endpoint,
 	};
 	if (riskLevel === "high") {
 		console.error("🚨 High-Risk XSS Attempt:", logData);
@@ -406,10 +377,7 @@ function logXSSAttempt(input, detectedPatterns, riskLevel, userId, endpoint) {
 /**
  * Middleware for automatic XSS protection
  */
-function xssProtectionMiddleware(strictMode) {
-	if (strictMode === void 0) {
-		strictMode = false;
-	}
+export function xssProtectionMiddleware(strictMode = false) {
 	return (req, _res, next) => {
 		// Sanitize request body
 		if (req.body && typeof req.body === "object") {
@@ -428,7 +396,7 @@ function xssProtectionMiddleware(strictMode) {
 function sanitizeRequestBody(obj, strictMode) {
 	if (obj === null || obj === undefined) return obj;
 	if (typeof obj === "string") {
-		var detection = detectXSSPayload(obj);
+		const detection = detectXSSPayload(obj);
 		if (detection.isXSS && detection.riskLevel === "high") {
 			// Block high-risk payloads
 			throw new Error("Potentially malicious content detected");
@@ -439,13 +407,10 @@ function sanitizeRequestBody(obj, strictMode) {
 		return obj.map((item) => sanitizeRequestBody(item, strictMode));
 	}
 	if (typeof obj === "object") {
-		var sanitized = {};
-		for (var _i = 0, _a = Object.entries(obj); _i < _a.length; _i++) {
-			var _b = _a[_i];
-			var key = _b[0];
-			var value = _b[1];
+		const sanitized = {};
+		for (const [key, value] of Object.entries(obj)) {
 			// Sanitize both keys and values
-			var sanitizedKey = sanitizeUserInput(key);
+			const sanitizedKey = sanitizeUserInput(key);
 			sanitized[sanitizedKey] = sanitizeRequestBody(value, strictMode);
 		}
 		return sanitized;

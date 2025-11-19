@@ -5,7 +5,7 @@
  * and performance monitoring for Prisma
  */
 
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "../prisma/generated/client";
 
 /**
  * Optimized Prisma client with performance enhancements
@@ -37,10 +37,10 @@ export class OptimizedPrismaClient extends PrismaClient {
 
 		super({
 			log: [
-				{ emit: "event", level: "query" },
-				{ emit: "event", level: "error" },
-				{ emit: "event", level: "info" },
-				{ emit: "event", level: "warn" },
+				{ emit: "event" as const, level: "query" },
+				{ emit: "event" as const, level: "error" },
+				{ emit: "event" as const, level: "info" },
+				{ emit: "event" as const, level: "warn" },
 			],
 			datasources: {
 				db: {
@@ -55,7 +55,7 @@ export class OptimizedPrismaClient extends PrismaClient {
 
 	private setupQueryLogging() {
 		// Log slow queries for performance monitoring
-		this.$on("query", (e) => {
+		this.$on("query" as never, (e: any) => {
 			if (e.duration > 1000) {
 				// Log queries taking more than 1 second
 				console.warn("Slow query detected:", {
@@ -67,7 +67,7 @@ export class OptimizedPrismaClient extends PrismaClient {
 			}
 		});
 
-		this.$on("error", (e) => {
+		this.$on("error" as never, (e: any) => {
 			console.error("Database error:", e);
 		});
 	}
@@ -123,15 +123,12 @@ export class OptimizedPrismaClient extends PrismaClient {
 					createdAt: true,
 					_count: {
 						select: {
-							taxFilings: true,
+							filings: true,
 							penalties: true,
 						},
 					},
 				},
-				orderBy: [
-					{ status: "asc" }, // Active clients first
-					{ name: "asc" },
-				],
+				orderBy: [{ name: "asc" }],
 				take: limit,
 				skip: offset,
 			}),

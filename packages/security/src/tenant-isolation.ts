@@ -32,8 +32,8 @@ export async function validateTenantAccess(
 			},
 		});
 
-		// Super Admin can access any tenant
-		if (tenantUser?.role.name === "Super Admin") {
+		// SuperAdmin can access any tenant
+		if (tenantUser?.role.name === "SuperAdmin") {
 			return true;
 		}
 
@@ -77,19 +77,19 @@ export async function getUserTenantInfo(userId: string): Promise<{
 /**
  * Middleware to ensure tenant isolation in database queries
  */
-export function withTenantIsolation<T extends Record<string, any>>(
+export function withTenantIsolation<T extends Record<string, unknown>>(
 	tenantId: number,
 	query: T,
 ): T {
 	// Add tenant filter to where clause
-	if (query.where) {
+	if ("where" in query && query.where) {
 		if (Array.isArray(query.where)) {
 			query.where.push({ tenantId });
 		} else if (typeof query.where === "object") {
-			query.where.tenantId = tenantId;
+			(query.where as Record<string, unknown>).tenantId = tenantId;
 		}
 	} else {
-		query.where = { tenantId };
+		(query as Record<string, unknown>).where = { tenantId };
 	}
 
 	return query;
@@ -101,17 +101,17 @@ export function withTenantIsolation<T extends Record<string, any>>(
 export function createTenantPrismaClient(tenantId: number) {
 	return {
 		client: {
-			findMany: (args?: any) => {
+			findMany: (args?: Record<string, unknown>) => {
 				return prisma.client.findMany(
 					withTenantIsolation(tenantId, args || {}),
 				);
 			},
-			findFirst: (args?: any) => {
+			findFirst: (args?: Record<string, unknown>) => {
 				return prisma.client.findFirst(
 					withTenantIsolation(tenantId, args || {}),
 				);
 			},
-			findUnique: (args: any) => {
+			findUnique: (args: Record<string, unknown>) => {
 				// For unique queries, we need to verify tenant ownership after finding
 				return prisma.client.findUnique(args).then(async (result) => {
 					if (result && result.tenantId !== tenantId) {
@@ -120,23 +120,23 @@ export function createTenantPrismaClient(tenantId: number) {
 					return result;
 				});
 			},
-			create: (args: any) => {
+			create: (args: Record<string, unknown>) => {
 				if (!args.data) args.data = {};
 				args.data.tenantId = tenantId;
 				return prisma.client.create(args);
 			},
-			update: (args: any) => {
+			update: (args: Record<string, unknown>) => {
 				return prisma.client.update(withTenantIsolation(tenantId, args));
 			},
-			delete: (args: any) => {
+			delete: (args: Record<string, unknown>) => {
 				return prisma.client.delete(withTenantIsolation(tenantId, args));
 			},
-			count: (args?: any) => {
+			count: (args?: Record<string, unknown>) => {
 				return prisma.client.count(withTenantIsolation(tenantId, args || {}));
 			},
 		},
 		document: {
-			findMany: (args?: any) => {
+			findMany: (args?: Record<string, unknown>) => {
 				return prisma.document.findMany({
 					...args,
 					where: {
@@ -147,7 +147,7 @@ export function createTenantPrismaClient(tenantId: number) {
 					},
 				});
 			},
-			findFirst: (args?: any) => {
+			findFirst: (args?: Record<string, unknown>) => {
 				return prisma.document.findFirst({
 					...args,
 					where: {
@@ -158,7 +158,7 @@ export function createTenantPrismaClient(tenantId: number) {
 					},
 				});
 			},
-			findUnique: (args: any) => {
+			findUnique: (args: Record<string, unknown>) => {
 				return prisma.document
 					.findUnique({
 						...args,
@@ -168,17 +168,17 @@ export function createTenantPrismaClient(tenantId: number) {
 						},
 					})
 					.then((result) => {
-						if (result && result.client.tenantId !== tenantId) {
+						if (result && result.clientId !== tenantId) {
 							return null;
 						}
 						return result;
 					});
 			},
-			create: (args: any) => {
+			create: (args: Record<string, unknown>) => {
 				// Documents are created through clients, so tenant isolation is maintained
 				return prisma.document.create(args);
 			},
-			update: (args: any) => {
+			update: (args: Record<string, unknown>) => {
 				return prisma.document.update({
 					...args,
 					where: {
@@ -189,7 +189,7 @@ export function createTenantPrismaClient(tenantId: number) {
 					},
 				});
 			},
-			delete: (args: any) => {
+			delete: (args: Record<string, unknown>) => {
 				return prisma.document.delete({
 					...args,
 					where: {
@@ -202,7 +202,7 @@ export function createTenantPrismaClient(tenantId: number) {
 			},
 		},
 		filing: {
-			findMany: (args?: any) => {
+			findMany: (args?: Record<string, unknown>) => {
 				return prisma.filing.findMany({
 					...args,
 					where: {
@@ -213,7 +213,7 @@ export function createTenantPrismaClient(tenantId: number) {
 					},
 				});
 			},
-			findFirst: (args?: any) => {
+			findFirst: (args?: Record<string, unknown>) => {
 				return prisma.filing.findFirst({
 					...args,
 					where: {
@@ -224,7 +224,7 @@ export function createTenantPrismaClient(tenantId: number) {
 					},
 				});
 			},
-			findUnique: (args: any) => {
+			findUnique: (args: Record<string, unknown>) => {
 				return prisma.filing
 					.findUnique({
 						...args,
@@ -234,16 +234,16 @@ export function createTenantPrismaClient(tenantId: number) {
 						},
 					})
 					.then((result) => {
-						if (result && result.client.tenantId !== tenantId) {
+						if (result && result.clientId !== tenantId) {
 							return null;
 						}
 						return result;
 					});
 			},
-			create: (args: any) => {
+			create: (args: Record<string, unknown>) => {
 				return prisma.filing.create(args);
 			},
-			update: (args: any) => {
+			update: (args: Record<string, unknown>) => {
 				return prisma.filing.update({
 					...args,
 					where: {
@@ -254,7 +254,7 @@ export function createTenantPrismaClient(tenantId: number) {
 					},
 				});
 			},
-			delete: (args: any) => {
+			delete: (args: Record<string, unknown>) => {
 				return prisma.filing.delete({
 					...args,
 					where: {
@@ -314,7 +314,7 @@ export async function validateResourceTenantAccess(
 			}
 
 			case "service": {
-				const service = await prisma.serviceType.findFirst({
+				const service = await prisma.serviceRequest.findFirst({
 					where: {
 						id: Number(resourceId),
 						tenantId,
@@ -403,8 +403,8 @@ export function requireTenantAccess(allowedRoles: UserRole[] = []) {
 	return async (context: TenantContext, targetTenantId?: number) => {
 		const checkTenantId = targetTenantId || context.tenantId;
 
-		// Super Admin can access any tenant
-		if (context.role === "Super Admin") {
+		// SuperAdmin can access any tenant
+		if (context.role === "SuperAdmin") {
 			return true;
 		}
 

@@ -1,0 +1,242 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcmc-kaj-worker
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: worker
+    tier: backend
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0  # Ensure workers are always available
+  selector:
+    matchLabels:
+      app: gcmc-kaj-worker
+      component: worker
+  template:
+    metadata:
+      labels:
+        app: gcmc-kaj-worker
+        component: worker
+        tier: backend
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3004"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: worker
+        image: ghcr.io/your-org/gcmc-kaj/worker:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3004
+          name: health
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: DATABASE_URL
+        - name: REDIS_URL
+          value: "redis://redis:6379"
+        - name: HEALTH_PORT
+          value: "3004"
+        - name: MINIO_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: gcmc-kaj-config
+              key: MINIO_ENDPOINT
+        - name: MINIO_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: gcmc-kaj-config
+              key: MINIO_PORT
+        - name: MINIO_USE_SSL
+          valueFrom:
+            configMapKeyRef:
+              name: gcmc-kaj-config
+              key: MINIO_USE_SSL
+        - name: MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: MINIO_ACCESS_KEY
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: MINIO_SECRET_KEY
+        - name: MINIO_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: gcmc-kaj-config
+              key: MINIO_REGION
+        - name: PORTAL_URL
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: PORTAL_URL
+        - name: SUPPORT_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: SUPPORT_EMAIL
+        - name: EMAIL_PROVIDER
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: EMAIL_PROVIDER
+        - name: SMTP_HOST
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: SMTP_HOST
+        - name: SMTP_PORT
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: SMTP_PORT
+        - name: SMTP_USER
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: SMTP_USER
+        - name: SMTP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: SMTP_PASSWORD
+        - name: NODE_OPTIONS
+          value: "--max-old-space-size=1024"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3004
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3004
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        securityContext:
+          runAsUser: 1001
+          runAsGroup: 1001
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: var-tmp
+          mountPath: /var/tmp
+      volumes:
+      - name: tmp
+        emptyDir:
+          sizeLimit: 1Gi
+      - name: var-tmp
+        emptyDir:
+          sizeLimit: 1Gi
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 1001
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - gcmc-kaj-worker
+              topologyKey: kubernetes.io/hostname
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gcmc-kaj-worker
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: worker
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3004
+    targetPort: 3004
+    protocol: TCP
+    name: health
+  selector:
+    app: gcmc-kaj-worker
+    component: worker
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gcmc-kaj-worker-hpa
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: worker
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gcmc-kaj-worker
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 85
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Pods
+        value: 2
+        periodSeconds: 60

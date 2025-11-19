@@ -4,9 +4,9 @@
 
 import { storePdfReport } from "@GCMC-KAJ/storage";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
+import type { Context } from "../..";
+import { createCallerFactory } from "../..";
 import { reportsRouter } from "../../routers/reports";
-import type { Context } from "../../trpc";
-import { createCallerFactory } from "../../trpc";
 import {
 	cleanupIntegrationTestContext,
 	createIntegrationTestContext,

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gcmc-kaj
+  labels:
+    name: gcmc-kaj
+    app: gcmc-kaj-business-tax-services
+    environment: production
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gcmc-kaj-staging
+  labels:
+    name: gcmc-kaj-staging
+    app: gcmc-kaj-business-tax-services
+    environment: staging
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gcmc-kaj-dev
+  labels:
+    name: gcmc-kaj-dev
+    app: gcmc-kaj-business-tax-services
+    environment: development

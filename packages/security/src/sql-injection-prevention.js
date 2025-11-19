@@ -4,20 +4,12 @@
  * Comprehensive protection against SQL injection attacks
  * Works with Prisma ORM and raw queries
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SafeQueryBuilder = exports.SqlSafeSchemas = void 0;
-exports.detectSqlInjection = detectSqlInjection;
-exports.sanitizeSqlInput = sanitizeSqlInput;
-exports.validateSqlIdentifier = validateSqlIdentifier;
-exports.escapeSqlIdentifier = escapeSqlIdentifier;
-exports.validateOrderBy = validateOrderBy;
-exports.validatePrismaWhere = validatePrismaWhere;
-exports.logSqlInjectionAttempt = logSqlInjectionAttempt;
-var zod_1 = require("zod");
+import { z } from "zod";
+
 /**
  * SQL injection patterns to detect and block
  */
-var SQL_INJECTION_PATTERNS = [
+const SQL_INJECTION_PATTERNS = [
 	// Union-based injection
 	/(\s|^)(union|select|insert|delete|update|drop|create|alter|exec|execute)(\s|$)/i,
 	// Comment-based injection
@@ -42,44 +34,39 @@ var SQL_INJECTION_PATTERNS = [
 /**
  * Characters that should not appear in SQL identifiers
  */
-var _DANGEROUS_SQL_CHARS = /[;'"`\\/*\-+=<>()]/;
+const _DANGEROUS_SQL_CHARS = /[;'"`\\/*\-+=<>()]/;
 /**
  * Detect potential SQL injection in user input
  */
-function detectSqlInjection(input) {
+export function detectSqlInjection(input) {
 	if (!input || typeof input !== "string") {
 		return { isMalicious: false, detectedPatterns: [] };
 	}
-	var detectedPatterns = [];
-	for (
-		var _i = 0, SQL_INJECTION_PATTERNS_1 = SQL_INJECTION_PATTERNS;
-		_i < SQL_INJECTION_PATTERNS_1.length;
-		_i++
-	) {
-		var pattern = SQL_INJECTION_PATTERNS_1[_i];
+	const detectedPatterns = [];
+	for (const pattern of SQL_INJECTION_PATTERNS) {
 		if (pattern.test(input)) {
 			detectedPatterns.push(pattern.toString());
 		}
 	}
 	return {
 		isMalicious: detectedPatterns.length > 0,
-		detectedPatterns: detectedPatterns,
+		detectedPatterns,
 	};
 }
 /**
  * Sanitize user input to prevent SQL injection
  */
-function sanitizeSqlInput(input) {
+export function sanitizeSqlInput(input) {
 	if (!input || typeof input !== "string") return "";
 	// Remove dangerous patterns
-	var sanitized = input;
+	let sanitized = input;
 	// Escape single quotes
 	sanitized = sanitized.replace(/'/g, "''");
 	// Remove SQL comments
 	sanitized = sanitized.replace(/--.*$/gm, "");
 	sanitized = sanitized.replace(/\/\*.*?\*\//gs, "");
 	// Remove dangerous SQL keywords at word boundaries
-	var dangerousKeywords = [
+	const dangerousKeywords = [
 		"union",
 		"select",
 		"insert",
@@ -101,13 +88,8 @@ function sanitizeSqlInput(input) {
 		"sys",
 		"information_schema",
 	];
-	for (
-		var _i = 0, dangerousKeywords_1 = dangerousKeywords;
-		_i < dangerousKeywords_1.length;
-		_i++
-	) {
-		var keyword = dangerousKeywords_1[_i];
-		var regex = new RegExp("\\b".concat(keyword, "\\b"), "gi");
+	for (const keyword of dangerousKeywords) {
+		const regex = new RegExp(`\\b${keyword}\\b`, "gi");
 		sanitized = sanitized.replace(regex, "");
 	}
 	return sanitized.trim();
@@ -115,7 +97,7 @@ function sanitizeSqlInput(input) {
 /**
  * Validate SQL identifier (table name, column name, etc.)
  */
-function validateSqlIdentifier(identifier) {
+export function validateSqlIdentifier(identifier) {
 	if (!identifier || typeof identifier !== "string") {
 		return { isValid: false, error: "Identifier cannot be empty" };
 	}
@@ -136,7 +118,7 @@ function validateSqlIdentifier(identifier) {
 		return { isValid: false, error: "Identifier too long (max 63 characters)" };
 	}
 	// Check against SQL reserved words
-	var sqlReservedWords = [
+	const sqlReservedWords = [
 		"select",
 		"insert",
 		"update",
@@ -173,41 +155,38 @@ function validateSqlIdentifier(identifier) {
 /**
  * Escape SQL identifier for safe use in queries
  */
-function escapeSqlIdentifier(identifier) {
-	var validation = validateSqlIdentifier(identifier);
+export function escapeSqlIdentifier(identifier) {
+	const validation = validateSqlIdentifier(identifier);
 	if (!validation.isValid) {
-		throw new Error("Invalid SQL identifier: ".concat(validation.error));
+		throw new Error(`Invalid SQL identifier: ${validation.error}`);
 	}
 	// Double-quote the identifier for PostgreSQL
-	return '"'.concat(identifier.replace(/"/g, '""'), '"');
+	return `"${identifier.replace(/"/g, '""')}"`;
 }
 /**
  * Validate and sanitize ORDER BY clause
  */
-function validateOrderBy(orderBy, allowedColumns) {
-	var _a;
+export function validateOrderBy(orderBy, allowedColumns) {
 	if (!orderBy || typeof orderBy !== "string") return null;
 	// Parse column and direction
-	var parts = orderBy.trim().split(/\s+/);
+	const parts = orderBy.trim().split(/\s+/);
 	if (parts.length === 0 || parts.length > 2) return null;
-	var column = parts[0];
-	var direction =
-		((_a = parts[1]) === null || _a === void 0 ? void 0 : _a.toUpperCase()) ||
-		"ASC";
+	const column = parts[0];
+	const direction = parts[1]?.toUpperCase() || "ASC";
 	// Validate direction
 	if (!["ASC", "DESC"].includes(direction)) return null;
 	// Validate column name
-	var columnValidation = validateSqlIdentifier(column);
+	const columnValidation = validateSqlIdentifier(column);
 	if (!columnValidation.isValid) return null;
 	// Check if column is in allowed list
 	if (!allowedColumns.includes(column)) return null;
-	return { column: column, direction: direction };
+	return { column, direction };
 }
 /**
  * Zod schema for SQL-safe inputs
  */
-exports.SqlSafeSchemas = {
-	identifier: zod_1.z
+export const SqlSafeSchemas = {
+	identifier: z
 		.string()
 		.min(1)
 		.max(63)
@@ -216,42 +195,39 @@ exports.SqlSafeSchemas = {
 			(val) => validateSqlIdentifier(val).isValid,
 			"Invalid SQL identifier",
 		),
-	searchTerm: zod_1.z
+	searchTerm: z
 		.string()
 		.max(255)
 		.transform((val) => {
-			var detection = detectSqlInjection(val);
+			const detection = detectSqlInjection(val);
 			if (detection.isMalicious) {
 				throw new Error("Potentially malicious input detected");
 			}
 			return sanitizeSqlInput(val);
 		}),
-	orderBy: zod_1.z
+	orderBy: z
 		.string()
 		.regex(
 			/^[a-zA-Z_][a-zA-Z0-9_]*(\s+(ASC|DESC))?$/i,
 			"Invalid ORDER BY format",
 		)
 		.optional(),
-	limit: zod_1.z.number().int().min(1).max(1000),
-	offset: zod_1.z.number().int().min(0).max(1000000),
+	limit: z.number().int().min(1).max(1000),
+	offset: z.number().int().min(0).max(1000000),
 };
 /**
  * Parameterized query builder for complex WHERE clauses
  */
-var SafeQueryBuilder = /** @class */ (() => {
-	function SafeQueryBuilder() {
-		this.conditions = [];
-		this.parameters = [];
-		this.parameterIndex = 1;
-	}
-	SafeQueryBuilder.prototype.addCondition = function (column, operator, value) {
-		var _a;
-		var columnValidation = validateSqlIdentifier(column);
+export class SafeQueryBuilder {
+	conditions = [];
+	parameters = [];
+	parameterIndex = 1;
+	addCondition(column, operator, value) {
+		const columnValidation = validateSqlIdentifier(column);
 		if (!columnValidation.isValid) {
-			throw new Error("Invalid column name: ".concat(columnValidation.error));
+			throw new Error(`Invalid column name: ${columnValidation.error}`);
 		}
-		var validOperators = [
+		const validOperators = [
 			"=",
 			"!=",
 			"<",
@@ -264,9 +240,9 @@ var SafeQueryBuilder = /** @class */ (() => {
 			"NOT IN",
 		];
 		if (!validOperators.includes(operator.toUpperCase())) {
-			throw new Error("Invalid operator: ".concat(operator));
+			throw new Error(`Invalid operator: ${operator}`);
 		}
-		var escapedColumn = escapeSqlIdentifier(column);
+		const escapedColumn = escapeSqlIdentifier(column);
 		if (
 			operator.toUpperCase() === "IN" ||
 			operator.toUpperCase() === "NOT IN"
@@ -274,68 +250,53 @@ var SafeQueryBuilder = /** @class */ (() => {
 			if (!Array.isArray(value)) {
 				throw new Error("IN operator requires array value");
 			}
-			var placeholders = value
-				.map(() => "$".concat(this.parameterIndex++))
+			const placeholders = value
+				.map(() => `$${this.parameterIndex++}`)
 				.join(", ");
-			this.conditions.push(
-				""
-					.concat(escapedColumn, " ")
-					.concat(operator, " (")
-					.concat(placeholders, ")"),
-			);
-			(_a = this.parameters).push.apply(_a, value);
+			this.conditions.push(`${escapedColumn} ${operator} (${placeholders})`);
+			this.parameters.push(...value);
 		} else {
 			this.conditions.push(
-				""
-					.concat(escapedColumn, " ")
-					.concat(operator, " $")
-					.concat(this.parameterIndex++),
+				`${escapedColumn} ${operator} $${this.parameterIndex++}`,
 			);
 			this.parameters.push(value);
 		}
 		return this;
-	};
-	SafeQueryBuilder.prototype.addRawCondition = function (condition) {
-		var _a;
-		var parameters = [];
-		for (var _i = 1; _i < arguments.length; _i++) {
-			parameters[_i - 1] = arguments[_i];
-		}
+	}
+	addRawCondition(condition, ...parameters) {
 		// Only allow if condition doesn't contain user input
 		// This should only be used for trusted, hardcoded conditions
 		console.warn("Raw condition added to query builder. Ensure this is safe!");
 		this.conditions.push(condition);
-		(_a = this.parameters).push.apply(_a, parameters);
+		this.parameters.push(...parameters);
 		return this;
-	};
-	SafeQueryBuilder.prototype.build = function () {
-		var whereClause =
+	}
+	build() {
+		const whereClause =
 			this.conditions.length > 0
-				? "WHERE ".concat(this.conditions.join(" AND "))
+				? `WHERE ${this.conditions.join(" AND ")}`
 				: "";
 		return {
-			whereClause: whereClause,
+			whereClause,
 			parameters: this.parameters,
 		};
-	};
-	SafeQueryBuilder.prototype.reset = function () {
+	}
+	reset() {
 		this.conditions = [];
 		this.parameters = [];
 		this.parameterIndex = 1;
 		return this;
-	};
-	return SafeQueryBuilder;
-})();
-exports.SafeQueryBuilder = SafeQueryBuilder;
+	}
+}
 /**
  * Validate Prisma where clause for security
  */
-function validatePrismaWhere(whereClause) {
+export function validatePrismaWhere(whereClause) {
 	if (!whereClause || typeof whereClause !== "object") return true;
 	// Recursively check all values in the where clause
 	function checkValue(value) {
 		if (typeof value === "string") {
-			var detection = detectSqlInjection(value);
+			const detection = detectSqlInjection(value);
 			return !detection.isMalicious;
 		}
 		if (Array.isArray(value)) {
@@ -351,14 +312,19 @@ function validatePrismaWhere(whereClause) {
 /**
  * Log SQL injection attempts for security monitoring
  */
-function logSqlInjectionAttempt(input, detectedPatterns, userId, endpoint) {
-	var logData = {
+export function logSqlInjectionAttempt(
+	input,
+	detectedPatterns,
+	userId,
+	endpoint,
+) {
+	const logData = {
 		timestamp: new Date().toISOString(),
 		type: "SQL_INJECTION_ATTEMPT",
 		input: input.substring(0, 200), // Limit logged input
-		detectedPatterns: detectedPatterns,
-		userId: userId,
-		endpoint: endpoint,
+		detectedPatterns,
+		userId,
+		endpoint,
 		severity: "HIGH",
 	};
 	console.warn("🚨 SQL Injection Attempt Detected:", logData);

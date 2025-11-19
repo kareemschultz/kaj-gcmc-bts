@@ -32,13 +32,13 @@ export const PERMISSION_MATRIX: Record<
 		inherits?: UserRole[];
 	}
 > = {
-	"Super Admin": {
+	SuperAdmin: {
 		global: true, // Can access all tenants
 		modules: {
 			"*": ["*"], // All actions on all modules
 		},
 	},
-	"Tenant Admin": {
+	FirmAdmin: {
 		modules: {
 			clients: ["view", "create", "edit", "delete"],
 			documents: ["view", "create", "edit", "delete"],
@@ -55,7 +55,7 @@ export const PERMISSION_MATRIX: Record<
 			reports: ["view", "create", "export"],
 		},
 	},
-	Manager: {
+	ComplianceManager: {
 		modules: {
 			clients: ["view", "create", "edit"],
 			documents: ["view", "create", "edit"],
@@ -72,7 +72,7 @@ export const PERMISSION_MATRIX: Record<
 			reports: ["view", "create"],
 		},
 	},
-	Supervisor: {
+	ComplianceOfficer: {
 		modules: {
 			clients: ["view", "create", "edit"],
 			documents: ["view", "create", "edit"],
@@ -88,7 +88,7 @@ export const PERMISSION_MATRIX: Record<
 			reports: ["view"],
 		},
 	},
-	"Senior Staff": {
+	DocumentOfficer: {
 		modules: {
 			clients: ["view", "create", "edit"],
 			documents: ["view", "create", "edit"],
@@ -103,7 +103,7 @@ export const PERMISSION_MATRIX: Record<
 			reports: ["view"],
 		},
 	},
-	Staff: {
+	FilingClerk: {
 		modules: {
 			clients: ["view", "create", "edit"],
 			documents: ["view", "create"],
@@ -117,7 +117,7 @@ export const PERMISSION_MATRIX: Record<
 			reports: ["view"],
 		},
 	},
-	"Junior Staff": {
+	ClientPortalUser: {
 		modules: {
 			clients: ["view"],
 			documents: ["view"],
@@ -152,8 +152,8 @@ export async function hasPermission(
 	context: RbacContext,
 	permission: Permission,
 ): Promise<boolean> {
-	// Super Admin has all permissions globally
-	if (context.role === "Super Admin") {
+	// SuperAdmin has all permissions globally
+	if (context.role === "SuperAdmin") {
 		return true;
 	}
 
@@ -163,9 +163,9 @@ export async function hasPermission(
 		return false;
 	}
 
-	// Check if role has global access (shouldn't apply to non-super-admin)
-	if (rolePermissions.global && context.role !== "Super Admin") {
-		return false; // Security: only Super Admin should have global access
+	// Check if role has global access (this should never happen for non-SuperAdmin roles)
+	if (rolePermissions.global) {
+		return false; // Security: only SuperAdmin should have global access, and SuperAdmin already returned true above
 	}
 
 	// Check module permissions
@@ -255,10 +255,7 @@ async function hasResourcePermission(
 						tenantId: context.tenantId,
 					},
 				});
-				return (
-					targetUser !== null &&
-					["Tenant Admin", "Manager"].includes(context.role)
-				);
+				return targetUser !== null && ["FirmAdmin"].includes(context.role);
 			}
 
 			default:
@@ -341,13 +338,13 @@ export async function validateTenantAccess(
 	tenantId: number,
 ): Promise<boolean> {
 	try {
-		// Super Admin can access any tenant
+		// SuperAdmin can access any tenant
 		const userTenant = await prisma.tenantUser.findFirst({
 			where: { userId },
 			include: { role: true },
 		});
 
-		if (userTenant?.role.name === "Super Admin") {
+		if (userTenant?.role.name === "SuperAdmin") {
 			return true;
 		}
 
@@ -374,8 +371,8 @@ export async function getTenantFilteredData<T>(
 	query: () => Promise<T[]>,
 ): Promise<T[]> {
 	try {
-		// Super Admin sees everything
-		if (context.role === "Super Admin") {
+		// SuperAdmin sees everything
+		if (context.role === "SuperAdmin") {
 			return await query();
 		}
 
@@ -395,7 +392,7 @@ export async function logPermissionCheck(
 	context: RbacContext,
 	permission: Permission,
 	granted: boolean,
-	resourceDetails?: any,
+	resourceDetails?: Record<string, unknown>,
 ): Promise<void> {
 	try {
 		// In production, you would send this to your audit logging system

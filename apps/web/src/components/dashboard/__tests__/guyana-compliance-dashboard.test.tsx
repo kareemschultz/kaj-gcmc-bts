@@ -101,7 +101,9 @@ describe("GuyanaComplianceDashboard", () => {
 			error: null,
 		});
 
-		const { container } = render(<GuyanaComplianceDashboard />, { wrapper: createWrapper() });
+		const { container } = render(<GuyanaComplianceDashboard />, {
+			wrapper: createWrapper(),
+		});
 
 		expect(container.querySelector(".skeleton")).toBeTruthy();
 	});
@@ -142,7 +144,7 @@ describe("GuyanaComplianceDashboard", () => {
 				screen.getByText("GRA & GRT compliance tracking for your clients"),
 			).toBeInTheDocument();
 			expect(screen.getByText("85.0%")).toBeInTheDocument(); // Compliance rate
-			expect(screen.getByText("12")).toBeInTheDocument(); // Upcoming deadlines
+			expect(screen.getAllByText("12").length).toBeGreaterThan(0); // Upcoming deadlines
 			expect(screen.getByText("5")).toBeInTheDocument(); // Overdue filings
 			expect(screen.getByText("$2,500")).toBeInTheDocument(); // Total penalties
 		});

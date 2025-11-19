@@ -430,7 +430,7 @@ class SecurityAuditor {
 
 		Object.entries(this.results.categories).forEach(([category, data]) => {
 			if (data.issues.length > 0) {
-				report.push(`", "### ${category.charAt(0).toUpperCase() + category.slice(1)}", "");
+				report.push("", `### ${category.charAt(0).toUpperCase() + category.slice(1)}`, "");
 				data.issues.forEach(issue => {
 					report.push(`- ${issue}`);
 				});
@@ -483,10 +483,12 @@ async function main() {
 
 		process.exit(success ? 0 : 1);
 
-	} catch (error) 
+	} catch (error) {
 		console.error("❌ Security audit failed:", error);
-		process.exit(1);finally 
+		process.exit(1);
+	} finally {
 		await prisma.$disconnect();
+	}
 }
 
 main().catch(console.error);

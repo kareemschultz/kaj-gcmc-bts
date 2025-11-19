@@ -11,7 +11,7 @@ import crypto from "node:crypto";
 const ALGORITHM = "aes-256-gcm";
 const KEY_LENGTH = 32; // 256 bits
 const IV_LENGTH = 16; // 128 bits
-const _TAG_LENGTH = 16; // 128 bits
+// Unused constant removed - const TAG_LENGTH = 16; // 128 bits
 const SALT_LENGTH = 32; // 256 bits
 
 /**
@@ -59,7 +59,7 @@ export function encryptData(
 } {
 	const keyBuffer = typeof key === "string" ? Buffer.from(key, "hex") : key;
 	const iv = generateIV();
-	const cipher = crypto.createCipher(ALGORITHM, keyBuffer);
+	const cipher = crypto.createCipheriv(ALGORITHM, keyBuffer, iv);
 	cipher.setAutoPadding(true);
 
 	let encrypted = cipher.update(data, "utf8", "hex");
@@ -86,10 +86,10 @@ export function decryptData(
 	key: string | Buffer,
 ): string {
 	const keyBuffer = typeof key === "string" ? Buffer.from(key, "hex") : key;
-	const _iv = Buffer.from(encryptedData.iv, "hex");
+	const iv = Buffer.from(encryptedData.iv, "hex");
 	const tag = Buffer.from(encryptedData.tag, "hex");
 
-	const decipher = crypto.createDecipher(ALGORITHM, keyBuffer);
+	const decipher = crypto.createDecipheriv(ALGORITHM, keyBuffer, iv);
 	decipher.setAuthTag(tag);
 
 	let decrypted = decipher.update(encryptedData.encrypted, "hex", "utf8");
@@ -297,7 +297,10 @@ export function generateSecureRandomNumber(min: number, max: number): number {
 		const randomBytes = crypto.randomBytes(bytesNeeded);
 		randomValue = 0;
 		for (let i = 0; i < bytesNeeded; i++) {
-			randomValue = randomValue * 256 + randomBytes[i];
+			const byte = randomBytes[i];
+			if (byte !== undefined) {
+				randomValue = randomValue * 256 + byte;
+			}
 		}
 	} while (randomValue > maxValidValue);
 

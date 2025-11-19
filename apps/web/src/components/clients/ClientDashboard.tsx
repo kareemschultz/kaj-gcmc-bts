@@ -14,21 +14,21 @@ import {
 } from "lucide-react";
 import { useMemo } from "react";
 import {
-	AreaChart,
 	Area,
-	BarChart,
+	AreaChart,
 	Bar,
-	LineChart,
-	Line,
-	PieChart,
-	Pie,
+	BarChart,
+	CartesianGrid,
 	Cell,
+	Legend,
+	Line,
+	LineChart,
+	Pie,
+	PieChart,
 	ResponsiveContainer,
 	Tooltip,
 	XAxis,
 	YAxis,
-	CartesianGrid,
-	Legend,
 } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -133,24 +133,22 @@ export function ClientDashboard({ clientId }: ClientDashboardProps) {
 		];
 
 		// Monthly compliance trend
-		const complianceTrendData = complianceData.monthlyTrend?.map(
-			(month: any) => ({
+		const complianceTrendData =
+			complianceData.monthlyTrend?.map((month: any) => ({
 				month: month.month,
 				score: month.score,
 				filings: month.filings,
 				documents: month.documents,
-			}),
-		) || [];
+			})) || [];
 
 		// Service requests over time
-		const servicesTimelineData = servicesData?.monthlyStats?.map(
-			(month: any) => ({
+		const servicesTimelineData =
+			servicesData?.monthlyStats?.map((month: any) => ({
 				month: month.month,
 				completed: month.completed,
 				pending: month.pending,
 				total: month.completed + month.pending,
-			}),
-		) || [];
+			})) || [];
 
 		return {
 			filingsStatusData,
@@ -218,7 +216,9 @@ export function ClientDashboard({ clientId }: ClientDashboardProps) {
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="font-medium text-sm">Total Documents</CardTitle>
+						<CardTitle className="font-medium text-sm">
+							Total Documents
+						</CardTitle>
 						<FileText className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
@@ -233,13 +233,13 @@ export function ClientDashboard({ clientId }: ClientDashboardProps) {
 
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="font-medium text-sm">Active Filings</CardTitle>
+						<CardTitle className="font-medium text-sm">
+							Active Filings
+						</CardTitle>
 						<FileCheck className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="font-bold text-2xl">
-							{filingsData?.total || 0}
-						</div>
+						<div className="font-bold text-2xl">{filingsData?.total || 0}</div>
 						<p className="text-muted-foreground text-xs">
 							{filingsData?.statusBreakdown?.overdue || 0} overdue
 						</p>
@@ -254,9 +254,7 @@ export function ClientDashboard({ clientId }: ClientDashboardProps) {
 						<Users className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="font-bold text-2xl">
-							{servicesData?.total || 0}
-						</div>
+						<div className="font-bold text-2xl">{servicesData?.total || 0}</div>
 						<p className="text-muted-foreground text-xs">
 							{servicesData?.pending || 0} pending
 						</p>
@@ -283,7 +281,7 @@ export function ClientDashboard({ clientId }: ClientDashboardProps) {
 
 			{/* Main Dashboard Tabs */}
 			<Tabs defaultValue="overview" className="space-y-4">
-				<TabsList className="grid grid-cols-7 w-full">
+				<TabsList className="grid w-full grid-cols-7">
 					<TabsTrigger value="overview">Overview</TabsTrigger>
 					<TabsTrigger value="analytics">Analytics</TabsTrigger>
 					<TabsTrigger value="compliance">Compliance</TabsTrigger>
@@ -614,7 +612,10 @@ function FilingsDetailsView({
 				<CardContent>
 					<div className="space-y-3">
 						{filingsData?.upcoming?.map((filing: any) => (
-							<div key={filing.id} className="flex items-center justify-between">
+							<div
+								key={filing.id}
+								className="flex items-center justify-between"
+							>
 								<div>
 									<p className="font-medium">{filing.type}</p>
 									<p className="text-muted-foreground text-sm">
@@ -660,7 +661,10 @@ function ServicesDetailsView({
 				<CardContent>
 					<div className="space-y-3">
 						{servicesData?.recent?.map((service: any) => (
-							<div key={service.id} className="flex items-center justify-between">
+							<div
+								key={service.id}
+								className="flex items-center justify-between"
+							>
 								<div>
 									<p className="font-medium">{service.type}</p>
 									<p className="text-muted-foreground text-sm">

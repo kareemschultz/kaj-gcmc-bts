@@ -20,9 +20,13 @@ import {
 } from "./agencies/nis";
 
 import type {
+	BusinessValidationResult,
+	ComplianceActionPlan,
+	ComplianceLevel,
 	ComplianceResult,
 	ComplianceScore,
 	FilingDeadline,
+	FilingHistoryEntry,
 	GuyanaAgency,
 	GuyanaBusinessProfile,
 	TaxCalculationInput,
@@ -38,7 +42,7 @@ export class GuyanaComplianceOrchestrator {
 	 */
 	async getComplianceScore(
 		business: GuyanaBusinessProfile,
-		filingHistory: any[] = [],
+		filingHistory: FilingHistoryEntry[] = [],
 	): Promise<ComplianceScore> {
 		const results = await this.getAllComplianceResults(business, filingHistory);
 
@@ -53,7 +57,10 @@ export class GuyanaComplianceOrchestrator {
 		};
 
 		let weightedScore = 0;
-		const byAgency: Record<GuyanaAgency, number> = {} as any;
+		const byAgency: Record<GuyanaAgency, number> = {} as Record<
+			GuyanaAgency,
+			number
+		>;
 
 		results.forEach((result) => {
 			const weight = weights[result.agency] || 0;
@@ -62,7 +69,7 @@ export class GuyanaComplianceOrchestrator {
 		});
 
 		// Determine overall compliance level
-		let level: any = "COMPLIANT";
+		let level: ComplianceLevel = "COMPLIANT";
 		const criticalIssues = results.filter((r) => r.level === "CRITICAL").length;
 
 		if (criticalIssues > 0) {
@@ -87,7 +94,7 @@ export class GuyanaComplianceOrchestrator {
 	 */
 	async getAllComplianceResults(
 		business: GuyanaBusinessProfile,
-		filingHistory: any[] = [],
+		filingHistory: FilingHistoryEntry[] = [],
 	): Promise<ComplianceResult[]> {
 		return [
 			assessGRACompliance(business, filingHistory),
@@ -142,13 +149,8 @@ export class GuyanaComplianceOrchestrator {
 	 */
 	async getComplianceActionPlan(
 		business: GuyanaBusinessProfile,
-		filingHistory: any[] = [],
-	): Promise<{
-		criticalActions: string[];
-		upcomingDeadlines: FilingDeadline[];
-		recommendations: string[];
-		estimatedCosts: number;
-	}> {
+		filingHistory: FilingHistoryEntry[] = [],
+	): Promise<ComplianceActionPlan> {
 		const results = await this.getAllComplianceResults(business, filingHistory);
 		const deadlines = await this.getUpcomingDeadlines(business);
 
@@ -191,11 +193,9 @@ export class GuyanaComplianceOrchestrator {
 	/**
 	 * Validate business setup for compliance
 	 */
-	async validateBusinessSetup(business: GuyanaBusinessProfile): Promise<{
-		isValid: boolean;
-		missingRequirements: string[];
-		nextSteps: string[];
-	}> {
+	async validateBusinessSetup(
+		business: GuyanaBusinessProfile,
+	): Promise<BusinessValidationResult> {
 		const missingRequirements: string[] = [];
 		const nextSteps: string[] = [];
 
@@ -234,14 +234,14 @@ export class GuyanaComplianceOrchestrator {
 	 */
 	async generateComplianceReport(
 		business: GuyanaBusinessProfile,
-		filingHistory: any[] = [],
+		filingHistory: FilingHistoryEntry[] = [],
 	): Promise<{
 		business: GuyanaBusinessProfile;
 		complianceScore: ComplianceScore;
 		agencyResults: ComplianceResult[];
 		upcomingDeadlines: FilingDeadline[];
-		actionPlan: Awaited<ReturnType<typeof this.getComplianceActionPlan>>;
-		validationResults: Awaited<ReturnType<typeof this.validateBusinessSetup>>;
+		actionPlan: ComplianceActionPlan;
+		validationResults: BusinessValidationResult;
 		generatedAt: Date;
 	}> {
 		const [

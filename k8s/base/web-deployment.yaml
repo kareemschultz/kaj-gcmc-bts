@@ -1,0 +1,205 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcmc-kaj-web
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: web
+    tier: frontend
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: gcmc-kaj-web
+      component: web
+  template:
+    metadata:
+      labels:
+        app: gcmc-kaj-web
+        component: web
+        tier: frontend
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3001"
+        prometheus.io/path: "/api/metrics"
+    spec:
+      containers:
+      - name: web
+        image: ghcr.io/your-org/gcmc-kaj/web:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3001
+          name: http
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "3001"
+        - name: HOSTNAME
+          value: "0.0.0.0"
+        - name: NEXT_PUBLIC_API_URL
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: NEXT_PUBLIC_API_URL
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: DATABASE_URL
+        - name: BETTER_AUTH_URL
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: BETTER_AUTH_URL
+        - name: BETTER_AUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: gcmc-kaj-secrets
+              key: BETTER_AUTH_SECRET
+        - name: NEXT_TELEMETRY_DISABLED
+          valueFrom:
+            configMapKeyRef:
+              name: gcmc-kaj-config
+              key: NEXT_TELEMETRY_DISABLED
+        - name: NODE_OPTIONS
+          valueFrom:
+            configMapKeyRef:
+              name: gcmc-kaj-config
+              key: NODE_OPTIONS
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3001
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 20
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3001
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        securityContext:
+          runAsUser: 1001
+          runAsGroup: 1001
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: var-tmp
+          mountPath: /var/tmp
+        - name: nextjs-cache
+          mountPath: /app/.next/cache
+      volumes:
+      - name: tmp
+        emptyDir:
+          sizeLimit: 1Gi
+      - name: var-tmp
+        emptyDir:
+          sizeLimit: 1Gi
+      - name: nextjs-cache
+        emptyDir:
+          sizeLimit: 2Gi
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 1001
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - gcmc-kaj-web
+              topologyKey: kubernetes.io/hostname
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gcmc-kaj-web
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: web
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3001
+    targetPort: 3001
+    protocol: TCP
+    name: http
+  selector:
+    app: gcmc-kaj-web
+    component: web
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gcmc-kaj-web-hpa
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: web
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gcmc-kaj-web
+  minReplicas: 3
+  maxReplicas: 15
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 20
+        periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 30
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 60

@@ -1,0 +1,164 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gcmc-kaj-config
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: config
+data:
+  # Database Configuration
+  DATABASE_HOST: "postgres"
+  DATABASE_NAME: "gcmc_kaj"
+  DATABASE_PORT: "5432"
+
+  # Redis Configuration
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+
+  # MinIO Configuration
+  MINIO_ENDPOINT: "minio"
+  MINIO_PORT: "9000"
+  MINIO_USE_SSL: "false"
+  MINIO_REGION: "us-east-1"
+
+  # Application Configuration
+  NODE_ENV: "production"
+  NEXT_TELEMETRY_DISABLED: "1"
+
+  # Ports
+  API_PORT: "3000"
+  WEB_PORT: "3001"
+  PORTAL_PORT: "3002"
+  WORKER_HEALTH_PORT: "3004"
+
+  # Health Check Configuration
+  HEALTH_CHECK_TIMEOUT: "10s"
+  HEALTH_CHECK_INTERVAL: "30s"
+
+  # Performance Configuration
+  NODE_OPTIONS: "--max-old-space-size=2048"
+
+  # Monitoring Configuration
+  METRICS_ENABLED: "true"
+  LOG_LEVEL: "info"
+  LOG_FORMAT: "json"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: nginx
+data:
+  nginx.conf: |
+    events {
+        worker_connections 1024;
+    }
+
+    http {
+        include       /etc/nginx/mime.types;
+        default_type  application/octet-stream;
+
+        # Logging
+        log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_forwarded_for"';
+
+        access_log /var/log/nginx/access.log main;
+        error_log /var/log/nginx/error.log warn;
+
+        # Basic settings
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+
+        # Rate limiting
+        limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
+        limit_req_zone $binary_remote_addr zone=web:10m rate=50r/s;
+
+        # Upstream servers
+        upstream api_servers {
+            server gcmc-kaj-api:3000 max_fails=3 fail_timeout=30s;
+        }
+
+        upstream web_servers {
+            server gcmc-kaj-web:3001 max_fails=3 fail_timeout=30s;
+        }
+
+        upstream portal_servers {
+            server gcmc-kaj-portal:3002 max_fails=3 fail_timeout=30s;
+        }
+
+        # Main server block
+        server {
+            listen 80;
+            server_name _;
+
+            # Security headers
+            add_header X-Frame-Options "SAMEORIGIN" always;
+            add_header X-XSS-Protection "1; mode=block" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header Referrer-Policy "no-referrer-when-downgrade" always;
+            add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'" always;
+
+            # API routes
+            location /api/ {
+                limit_req zone=api burst=20 nodelay;
+                proxy_pass http://api_servers;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_cache_bypass $http_upgrade;
+                proxy_read_timeout 86400;
+            }
+
+            # Web application
+            location /web/ {
+                limit_req zone=web burst=100 nodelay;
+                proxy_pass http://web_servers/;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_cache_bypass $http_upgrade;
+            }
+
+            # Client portal
+            location /portal/ {
+                limit_req zone=web burst=100 nodelay;
+                proxy_pass http://portal_servers/;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_cache_bypass $http_upgrade;
+            }
+
+            # Health check endpoint
+            location /health {
+                access_log off;
+                return 200 "healthy\n";
+                add_header Content-Type text/plain;
+            }
+
+            # Root redirect
+            location / {
+                return 301 /web/;
+            }
+        }
+    }

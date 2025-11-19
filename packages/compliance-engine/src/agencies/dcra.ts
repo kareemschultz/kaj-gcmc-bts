@@ -12,8 +12,10 @@
 import { addMonths, addYears, isBefore } from "date-fns";
 import type {
 	BusinessType,
+	ComplianceLevel,
 	ComplianceResult,
 	FilingDeadline,
+	FilingHistoryEntry,
 	GuyanaBusinessProfile,
 } from "../types";
 
@@ -39,12 +41,28 @@ export const DCRA_REQUIREMENTS = {
 			dueMonths: 12,
 			lateFee: 2000,
 		},
+		COOPERATIVE: {
+			fee: 10000, // GYD 10,000
+			dueMonths: 12,
+			lateFee: 3000,
+		},
+		BRANCH: {
+			fee: 15000, // GYD 15,000
+			dueMonths: 12,
+			lateFee: 5000,
+		},
+		SUBSIDIARY: {
+			fee: 15000, // GYD 15,000
+			dueMonths: 12,
+			lateFee: 5000,
+		},
 	},
 
 	REGISTRATION_FEES: {
 		CORPORATION: 25000, // GYD 25,000
 		PARTNERSHIP: 15000, // GYD 15,000
 		SOLE_PROPRIETORSHIP: 10000, // GYD 10,000
+		COOPERATIVE: 15000, // GYD 15,000
 		BRANCH: 30000, // GYD 30,000
 		SUBSIDIARY: 25000, // GYD 25,000
 	},
@@ -110,13 +128,13 @@ export function calculateDCRADeadlines(
  */
 export function assessDCRACompliance(
 	business: GuyanaBusinessProfile,
-	filingHistory: any[] = [],
+	filingHistory: FilingHistoryEntry[] = [],
 ): ComplianceResult {
 	const deadlines = calculateDCRADeadlines(business);
 	const overdueFilings = deadlines.filter((d) => d.isOverdue);
 
 	let score = 100;
-	let level: any = "COMPLIANT";
+	let level: ComplianceLevel = "COMPLIANT";
 	const notes: string[] = [];
 
 	// Check if business is properly registered
@@ -164,9 +182,10 @@ export function assessDCRACompliance(
 		(d) => !d.isOverdue && d.daysUntilDue <= 30,
 	);
 	if (upcomingDeadlines.length > 0) {
-		notes.push(
-			`Annual return due in ${upcomingDeadlines[0].daysUntilDue} days`,
-		);
+		const nextDeadline = upcomingDeadlines[0];
+		if (nextDeadline) {
+			notes.push(`Annual return due in ${nextDeadline.daysUntilDue} days`);
+		}
 	}
 
 	return {
@@ -215,10 +234,20 @@ export function getDCRAForms(businessType: BusinessType) {
 			"Form 12: Business Name Registration",
 			"Form 13: Proprietor Details",
 		],
+		COOPERATIVE: [
+			"Form 17: Cooperative Registration",
+			"Form 18: Cooperative Bylaws Filing",
+			"Form 19: Member Changes",
+		],
 		BRANCH: [
 			"Form 14: Branch Registration",
 			"Form 15: Power of Attorney Filing",
 			"Form 16: Parent Company Details",
+		],
+		SUBSIDIARY: [
+			"Form 20: Subsidiary Registration",
+			"Form 21: Parent Company Filing",
+			"Form 22: Subsidiary Details",
 		],
 	};
 
@@ -285,11 +314,23 @@ export function getDCRAComplianceChecklist(
 			"Provide proprietor identification",
 			"Establish business address",
 		],
+		COOPERATIVE: [
+			"Draft cooperative bylaws",
+			"Register minimum 7 founding members",
+			"Establish share capital structure",
+			"Conduct founding members meeting",
+		],
 		BRANCH: [
 			"File certified copy of parent company incorporation",
 			"Provide power of attorney to local agent",
 			"Submit parent company financial statements",
 			"Appoint local representative",
+		],
+		SUBSIDIARY: [
+			"File certified copy of parent company incorporation",
+			"Submit subsidiary formation documents",
+			"Provide parent company board resolution",
+			"Appoint local directors",
 		],
 	};
 
@@ -342,11 +383,16 @@ export function validateBusinessName(
 	const requiredSuffixes = {
 		CORPORATION: ["Inc.", "Corp.", "Limited", "Ltd."],
 		PARTNERSHIP: ["Partnership", "Partners", "& Co."],
+		SOLE_PROPRIETORSHIP: [], // No required suffix for sole proprietorships
+		COOPERATIVE: ["Cooperative", "Co-op"],
+		BRANCH: ["Branch", "Br."],
+		SUBSIDIARY: ["Inc.", "Corp.", "Limited", "Ltd."],
 	};
 
 	if (requiredSuffixes[businessType]) {
-		const hasRequiredSuffix = requiredSuffixes[businessType].some((suffix) =>
-			proposedName.toLowerCase().includes(suffix.toLowerCase()),
+		const hasRequiredSuffix = requiredSuffixes[businessType].some(
+			(suffix: string) =>
+				proposedName.toLowerCase().includes(suffix.toLowerCase()),
 		);
 
 		if (!hasRequiredSuffix) {

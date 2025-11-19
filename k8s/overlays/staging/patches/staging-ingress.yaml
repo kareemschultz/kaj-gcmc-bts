@@ -1,0 +1,62 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gcmc-kaj-ingress
+  namespace: gcmc-kaj-staging
+spec:
+  tls:
+  - hosts:
+    - staging-api.gcmc-kaj.example.com
+    - staging-app.gcmc-kaj.example.com
+    - staging-portal.gcmc-kaj.example.com
+    - staging-admin.gcmc-kaj.example.com
+    secretName: gcmc-kaj-staging-tls
+
+  rules:
+  # Staging API Server
+  - host: staging-api.gcmc-kaj.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: staging-gcmc-kaj-api
+            port:
+              number: 3000
+
+  # Staging Web Application (Admin Dashboard)
+  - host: staging-app.gcmc-kaj.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: staging-gcmc-kaj-web
+            port:
+              number: 3001
+
+  # Alternative staging admin domain
+  - host: staging-admin.gcmc-kaj.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: staging-gcmc-kaj-web
+            port:
+              number: 3001
+
+  # Staging Client Portal
+  - host: staging-portal.gcmc-kaj.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: staging-gcmc-kaj-portal
+            port:
+              number: 3002

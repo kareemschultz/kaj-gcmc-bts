@@ -2,7 +2,7 @@
  * API Package Integration Test Setup
  */
 
-import { db } from "@GCMC-KAJ/db";
+import prisma from "@GCMC-KAJ/db";
 import { afterAll, beforeAll } from "vitest";
 
 beforeAll(async () => {
@@ -14,23 +14,25 @@ beforeAll(async () => {
 	// Ensure test database is clean before running integration tests
 	try {
 		// Clean up any existing test data
-		await db.generatedReport.deleteMany({ where: { tenantId: { gt: 99999 } } }); // Test tenant IDs > 99999
-		await db.client.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.taxFiling.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.businessRegistration.deleteMany({
+		await prisma.generatedReport.deleteMany({
+			where: { tenantId: { gt: 99999 } },
+		}); // Test tenant IDs > 99999
+		await prisma.client.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.taxFiling.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.businessRegistration.deleteMany({
 			where: { tenantId: { gt: 99999 } },
 		});
-		await db.penalty.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.deadline.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.rolePermission.deleteMany({
+		await prisma.penalty.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.deadline.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.rolePermission.deleteMany({
 			where: { role: { tenantId: { gt: 99999 } } },
 		});
-		await db.userRole.deleteMany({
+		await prisma.userRole.deleteMany({
 			where: { user: { tenantId: { gt: 99999 } } },
 		});
-		await db.role.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.user.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.tenant.deleteMany({ where: { id: { gt: 99999 } } });
+		await prisma.role.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.user.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.tenant.deleteMany({ where: { id: { gt: 99999 } } });
 	} catch (error) {
 		console.warn("Could not clean test database:", error);
 	}
@@ -39,26 +41,28 @@ beforeAll(async () => {
 afterAll(async () => {
 	// Clean up test data after all tests
 	try {
-		await db.generatedReport.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.client.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.taxFiling.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.businessRegistration.deleteMany({
+		await prisma.generatedReport.deleteMany({
 			where: { tenantId: { gt: 99999 } },
 		});
-		await db.penalty.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.deadline.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.rolePermission.deleteMany({
+		await prisma.client.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.taxFiling.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.businessRegistration.deleteMany({
+			where: { tenantId: { gt: 99999 } },
+		});
+		await prisma.penalty.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.deadline.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.rolePermission.deleteMany({
 			where: { role: { tenantId: { gt: 99999 } } },
 		});
-		await db.userRole.deleteMany({
+		await prisma.userRole.deleteMany({
 			where: { user: { tenantId: { gt: 99999 } } },
 		});
-		await db.role.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.user.deleteMany({ where: { tenantId: { gt: 99999 } } });
-		await db.tenant.deleteMany({ where: { id: { gt: 99999 } } });
+		await prisma.role.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.user.deleteMany({ where: { tenantId: { gt: 99999 } } });
+		await prisma.tenant.deleteMany({ where: { id: { gt: 99999 } } });
 	} catch (error) {
 		console.warn("Could not clean test database after tests:", error);
 	} finally {
-		await db.$disconnect();
+		await prisma.$disconnect();
 	}
 });

@@ -6,6 +6,7 @@
  */
 
 import type { Context } from "@GCMC-KAJ/api/context";
+import type { UserRole } from "@GCMC-KAJ/types";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { SecureSchemas } from "./input-validation";
@@ -16,7 +17,7 @@ import { hasPermission, type RbacContext } from "./rbac-guard";
  */
 export interface ApiSecurityContext extends Context {
 	tenantId: number;
-	role: string;
+	role: UserRole;
 }
 
 /**
@@ -85,17 +86,27 @@ export function requirePermission(module: string, action: string) {
 	return async (context: Context, resourceId?: string | number) => {
 		const secureContext = await requireAuth()(context);
 
+		const userId = secureContext.user?.id;
+		if (!userId) {
+			throw new TRPCError({
+				code: "UNAUTHORIZED",
+				message: "User ID is required",
+			});
+		}
+
 		const rbacContext: RbacContext = {
-			userId: secureContext.user?.id,
+			userId,
 			tenantId: secureContext.tenantId,
-			role: secureContext.role as any,
+			role: secureContext.role,
 		};
 
-		const allowed = await hasPermission(rbacContext, {
+		const permission = {
 			module,
 			action,
-			resourceId,
-		});
+			...(resourceId !== undefined && { resourceId }),
+		};
+
+		const allowed = await hasPermission(rbacContext, permission);
 
 		if (!allowed) {
 			throw new TRPCError({
@@ -405,8 +416,9 @@ export function handleSecurityError(error: any, context?: Context): TRPCError {
 }
 
 // Re-export validation functions for use in other modules
-import {
-	sanitizeFileName,
-	validateResourceTenantAccess,
-} from "./tenant-isolation";
-export { sanitizeFileName, validateResourceTenantAccess };
+import { validateResourceTenantAccess } from "./tenant-isolation";
+export { validateResourceTenantAccess };
+
+// Import sanitizeFileName from input-validation to avoid conflicts
+import { sanitizeFileName } from "./input-validation";
+export { sanitizeFileName };

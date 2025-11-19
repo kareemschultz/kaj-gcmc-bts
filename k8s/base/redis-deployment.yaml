@@ -1,0 +1,160 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: cache
+    tier: data
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: redis
+      component: cache
+  template:
+    metadata:
+      labels:
+        app: redis
+        component: cache
+        tier: data
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
+          name: redis
+        command:
+        - redis-server
+        - /etc/redis/redis.conf
+        volumeMounts:
+        - name: redis-config
+          mountPath: /etc/redis
+        - name: redis-data
+          mountPath: /data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        securityContext:
+          runAsUser: 999
+          runAsGroup: 999
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+      volumes:
+      - name: redis-config
+        configMap:
+          name: redis-config
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: redis-pvc
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 999
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: cache
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+    name: redis
+  selector:
+    app: redis
+    component: cache
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: cache
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp2  # AWS EBS GP2, adjust for your cloud provider
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: cache
+data:
+  redis.conf: |
+    # Redis configuration for production
+    bind 0.0.0.0
+    port 6379
+    protected-mode no
+
+    # Persistence
+    save 900 1
+    save 300 10
+    save 60 10000
+
+    # Memory management
+    maxmemory 384mb
+    maxmemory-policy allkeys-lru
+
+    # Performance
+    tcp-keepalive 300
+    tcp-backlog 511
+    timeout 0
+    databases 16
+
+    # Logging
+    loglevel notice
+    logfile ""
+
+    # Security
+    # requirepass PLACEHOLDER_REDIS_PASSWORD  # Uncomment for password protection
+
+    # Disable dangerous commands
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+    rename-command SHUTDOWN ""
+    rename-command CONFIG ""
+    rename-command EVAL ""

@@ -1,0 +1,63 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: gcmc-kaj-staging
+
+# Reference to base
+resources:
+  - ../../base
+
+# Override namespace for staging
+namespace: gcmc-kaj-staging
+
+# Staging-specific labels
+commonLabels:
+  environment: staging
+  tier: staging
+
+# Staging-specific annotations
+commonAnnotations:
+  environment: staging
+  deployment-time: "placeholder"
+
+# Name prefix for staging resources
+namePrefix: staging-
+
+# Resource patches for staging environment
+patchesStrategicMerge:
+  - patches/staging-config.yaml
+  - patches/staging-secrets.yaml
+  - patches/staging-resources.yaml
+  - patches/staging-ingress.yaml
+
+# ConfigMap for staging environment
+configMapGenerator:
+  - name: env-config
+    literals:
+      - NODE_ENV=staging
+      - LOG_LEVEL=info
+      - DEBUG_MODE=false
+      - METRICS_ENABLED=true
+
+# Staging-specific replicas (production-like but smaller)
+replicas:
+  - name: gcmc-kaj-api
+    count: 2
+  - name: gcmc-kaj-web
+    count: 2
+  - name: gcmc-kaj-portal
+    count: 1
+  - name: gcmc-kaj-worker
+    count: 1
+
+# Staging-specific images
+images:
+  - name: ghcr.io/your-org/gcmc-kaj/web
+    newTag: staging-latest
+  - name: ghcr.io/your-org/gcmc-kaj/server
+    newTag: staging-latest
+  - name: ghcr.io/your-org/gcmc-kaj/worker
+    newTag: staging-latest
+  - name: ghcr.io/your-org/gcmc-kaj/portal
+    newTag: staging-latest

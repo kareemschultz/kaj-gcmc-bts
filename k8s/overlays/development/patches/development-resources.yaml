@@ -1,0 +1,181 @@
+# Development resource patches for reduced resource requirements
+
+# API Deployment patch
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcmc-kaj-api
+  namespace: gcmc-kaj-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: api
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        env:
+        - name: LOG_LEVEL
+          value: "debug"
+        - name: DEBUG_MODE
+          value: "true"
+
+---
+# Web Deployment patch
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcmc-kaj-web
+  namespace: gcmc-kaj-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: web
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+
+---
+# Portal Deployment patch
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcmc-kaj-portal
+  namespace: gcmc-kaj-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: portal
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+
+---
+# Worker Deployment patch
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcmc-kaj-worker
+  namespace: gcmc-kaj-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: worker
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+
+---
+# PostgreSQL development patch
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: gcmc-kaj-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: postgres
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+
+---
+# Redis development patch
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: gcmc-kaj-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: redis
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+
+---
+# MinIO development patch
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: gcmc-kaj-dev
+spec:
+  template:
+    spec:
+      containers:
+      - name: minio
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+
+---
+# PostgreSQL PVC patch (smaller storage for dev)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: gcmc-kaj-dev
+spec:
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+# Redis PVC patch (smaller storage for dev)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+  namespace: gcmc-kaj-dev
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+# MinIO PVC patch (smaller storage for dev)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio-pvc
+  namespace: gcmc-kaj-dev
+spec:
+  resources:
+    requests:
+      storage: 50Gi

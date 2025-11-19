@@ -1,0 +1,167 @@
+# Production security enhancements
+
+# Pod Security Policy for API
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: gcmc-kaj-api-psp
+  namespace: gcmc-kaj
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  requiredDropCapabilities:
+    - ALL
+  volumes:
+    - 'configMap'
+    - 'emptyDir'
+    - 'projected'
+    - 'secret'
+    - 'downwardAPI'
+    - 'persistentVolumeClaim'
+  runAsUser:
+    rule: 'MustRunAsNonRoot'
+  seLinux:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'
+  readOnlyRootFilesystem: true
+
+---
+# Network Policy for stricter production security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: gcmc-kaj-production-policy
+  namespace: gcmc-kaj
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+
+  ingress:
+  # Only allow ingress from ingress controller and monitoring
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 3000  # metrics
+  # Allow inter-pod communication within namespace
+  - from:
+    - podSelector: {}
+
+  egress:
+  # DNS resolution
+  - to: []
+    ports:
+    - protocol: UDP
+      port: 53
+  # HTTPS for external API calls only
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+  # Inter-pod communication
+  - to:
+    - podSelector: {}
+  # Database connections
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 5432  # PostgreSQL
+    - protocol: TCP
+      port: 6379  # Redis
+
+---
+# Service Account with limited permissions
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gcmc-kaj-api
+  namespace: gcmc-kaj
+
+---
+# Role with minimal required permissions
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: gcmc-kaj
+  name: gcmc-kaj-api-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "endpoints"]
+  verbs: ["get", "list", "watch"]
+
+---
+# Role binding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gcmc-kaj-api-binding
+  namespace: gcmc-kaj
+subjects:
+- kind: ServiceAccount
+  name: gcmc-kaj-api
+  namespace: gcmc-kaj
+roleRef:
+  kind: Role
+  name: gcmc-kaj-api-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# Pod Disruption Budget for API
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gcmc-kaj-api-pdb
+  namespace: gcmc-kaj
+spec:
+  minAvailable: 3
+  selector:
+    matchLabels:
+      app: gcmc-kaj-api
+
+---
+# Pod Disruption Budget for Web
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gcmc-kaj-web-pdb
+  namespace: gcmc-kaj
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: gcmc-kaj-web
+
+---
+# Pod Disruption Budget for Portal
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gcmc-kaj-portal-pdb
+  namespace: gcmc-kaj
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: gcmc-kaj-portal
+
+---
+# Pod Disruption Budget for Worker
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gcmc-kaj-worker-pdb
+  namespace: gcmc-kaj
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: gcmc-kaj-worker

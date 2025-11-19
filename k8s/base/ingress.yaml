@@ -1,0 +1,235 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gcmc-kaj-ingress
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: ingress
+  annotations:
+    # NGINX Ingress Controller
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+    # Rate limiting
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-burst-multiplier: "5"
+
+    # Security headers
+    nginx.ingress.kubernetes.io/custom-http-errors: "404,500,502,503,504"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      add_header X-Frame-Options "SAMEORIGIN" always;
+      add_header X-XSS-Protection "1; mode=block" always;
+      add_header X-Content-Type-Options "nosniff" always;
+      add_header Referrer-Policy "no-referrer-when-downgrade" always;
+      add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'" always;
+      add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    # Load balancing
+    nginx.ingress.kubernetes.io/load-balance: "round_robin"
+    nginx.ingress.kubernetes.io/upstream-keepalive-connections: "32"
+
+    # Timeouts
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+
+    # Body size
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+
+    # Certificate management (cert-manager)
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    acme.cert-manager.io/http01-edit-in-place: "true"
+
+spec:
+  tls:
+  - hosts:
+    - api.gcmc-kaj.example.com
+    - app.gcmc-kaj.example.com
+    - portal.gcmc-kaj.example.com
+    - admin.gcmc-kaj.example.com
+    secretName: gcmc-kaj-tls
+
+  rules:
+  # API Server
+  - host: api.gcmc-kaj.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gcmc-kaj-api
+            port:
+              number: 3000
+
+  # Web Application (Admin Dashboard)
+  - host: app.gcmc-kaj.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gcmc-kaj-web
+            port:
+              number: 3001
+
+  # Alternative admin domain
+  - host: admin.gcmc-kaj.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gcmc-kaj-web
+            port:
+              number: 3001
+
+  # Client Portal
+  - host: portal.gcmc-kaj.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: gcmc-kaj-portal
+            port:
+              number: 3002
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gcmc-kaj-internal-ingress
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: internal-ingress
+  annotations:
+    # Internal-only ingress for monitoring, admin tools
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/auth-type: "basic"
+    nginx.ingress.kubernetes.io/auth-secret: "internal-auth"
+    nginx.ingress.kubernetes.io/auth-realm: "GCMC-KAJ Internal Access"
+
+    # Whitelist internal IPs only
+    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
+spec:
+  tls:
+  - hosts:
+    - minio.gcmc-kaj.internal
+    - worker.gcmc-kaj.internal
+    secretName: gcmc-kaj-internal-tls
+
+  rules:
+  # MinIO Console (Admin only)
+  - host: minio.gcmc-kaj.internal
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: minio
+            port:
+              number: 9001
+
+  # Worker Health Dashboard
+  - host: worker.gcmc-kaj.internal
+    http:
+      paths:
+      - path: /health
+        pathType: Prefix
+        backend:
+          service:
+            name: gcmc-kaj-worker
+            port:
+              number: 3004
+
+---
+# Basic auth secret for internal access
+apiVersion: v1
+kind: Secret
+metadata:
+  name: internal-auth
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: auth
+type: Opaque
+stringData:
+  # admin:admin123 (change in production)
+  auth: YWRtaW46JGFwcjEkSE42L1h2V00kMTdPQnZXVGFBdndWUXBlRi9PSkVLLwoK
+
+---
+# Network Policy for enhanced security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: gcmc-kaj-network-policy
+  namespace: gcmc-kaj
+  labels:
+    app: gcmc-kaj-business-tax-services
+    component: security
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+
+  ingress:
+  # Allow ingress traffic from ingress controller
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+  # Allow inter-pod communication within namespace
+  - from:
+    - podSelector: {}
+  # Allow health checks from kube-system
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+    ports:
+    - protocol: TCP
+      port: 3000
+    - protocol: TCP
+      port: 3001
+    - protocol: TCP
+      port: 3002
+    - protocol: TCP
+      port: 3004
+
+  egress:
+  # Allow DNS resolution
+  - to: []
+    ports:
+    - protocol: UDP
+      port: 53
+  # Allow HTTPS outbound (for external API calls, etc.)
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+  # Allow HTTP outbound (if needed)
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 80
+  # Allow inter-pod communication within namespace
+  - to:
+    - podSelector: {}
+  # Allow connection to external databases if needed
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 5432  # PostgreSQL
+    - protocol: TCP
+      port: 6379  # Redis

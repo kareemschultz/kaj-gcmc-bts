@@ -4,22 +4,11 @@
  * Comprehensive input validation to prevent injection attacks and data corruption
  * Follows OWASP Input Validation guidelines
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SecureSchemas = exports.ValidationPatterns = void 0;
-exports.sanitizeHtml = sanitizeHtml;
-exports.sanitizeText = sanitizeText;
-exports.sanitizeFileName = sanitizeFileName;
-exports.validateJsonInput = validateJsonInput;
-exports.escapeSqlIdentifier = escapeSqlIdentifier;
-exports.escapeLdapFilter = escapeLdapFilter;
-exports.validateCommandArgument = validateCommandArgument;
-exports.generateCsrfToken = generateCsrfToken;
-exports.validateCsrfToken = validateCsrfToken;
-var validator_1 = require("validator");
-var xss_1 = require("xss");
-var zod_1 = require("zod");
+import validator from "validator";
+import xss from "xss";
+import { z } from "zod";
 // Common validation patterns
-exports.ValidationPatterns = {
+export const ValidationPatterns = {
 	// Alphanumeric with basic punctuation
 	SAFE_TEXT: /^[a-zA-Z0-9\s\-_.,:;!?()]+$/,
 	// Business names (more permissive)
@@ -36,8 +25,8 @@ exports.ValidationPatterns = {
 /**
  * Sanitize HTML content to prevent XSS attacks
  */
-function sanitizeHtml(input) {
-	return (0, xss_1.default)(input, {
+export function sanitizeHtml(input) {
+	return xss(input, {
 		whiteList: {
 			// Allow only safe HTML tags
 			p: [],
@@ -63,14 +52,14 @@ function sanitizeHtml(input) {
 /**
  * Sanitize plain text input
  */
-function sanitizeText(input) {
-	return validator_1.default.escape(input.trim());
+export function sanitizeText(input) {
+	return validator.escape(input.trim());
 }
 /**
  * Validate and sanitize file name to prevent path traversal
  */
-function sanitizeFileName(fileName) {
-	var errors = [];
+export function sanitizeFileName(fileName) {
+	const errors = [];
 	// Check for null bytes
 	if (fileName.includes("\0")) {
 		errors.push("File name contains null bytes");
@@ -96,73 +85,67 @@ function sanitizeFileName(fileName) {
 		errors.push("File name must have a valid extension");
 	}
 	if (errors.length > 0) {
-		return { isValid: false, errors: errors };
+		return { isValid: false, errors };
 	}
 	// Sanitize the file name
-	var sanitized = fileName
+	const sanitized = fileName
 		.replace(/[^\w\-_. ]/g, "") // Remove special characters
 		.replace(/\s+/g, "_") // Replace spaces with underscores
 		.replace(/_{2,}/g, "_") // Replace multiple underscores with single
 		.toLowerCase();
-	return { isValid: true, sanitized: sanitized };
+	return { isValid: true, sanitized };
 }
 /**
  * Enhanced Zod schemas for common validation patterns
  */
-exports.SecureSchemas = {
-	email: zod_1.z
+export const SecureSchemas = {
+	email: z
 		.string()
 		.email()
 		.transform((email) => email.toLowerCase().trim()),
-	password: zod_1.z
+	password: z
 		.string()
 		.min(12, "Password must be at least 12 characters")
 		.regex(/[A-Z]/, "Password must contain uppercase letter")
 		.regex(/[a-z]/, "Password must contain lowercase letter")
 		.regex(/\d/, "Password must contain number")
 		.regex(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain special character"),
-	safeText: zod_1.z
+	safeText: z
 		.string()
 		.max(1000, "Text too long")
-		.regex(
-			exports.ValidationPatterns.SAFE_TEXT,
-			"Text contains invalid characters",
-		)
+		.regex(ValidationPatterns.SAFE_TEXT, "Text contains invalid characters")
 		.transform(sanitizeText),
-	businessName: zod_1.z
+	businessName: z
 		.string()
 		.min(1, "Business name required")
 		.max(100, "Business name too long")
 		.regex(
-			exports.ValidationPatterns.BUSINESS_NAME,
+			ValidationPatterns.BUSINESS_NAME,
 			"Business name contains invalid characters",
 		)
 		.transform(sanitizeText),
-	fileName: zod_1.z
+	fileName: z
 		.string()
 		.refine((name) => sanitizeFileName(name).isValid, {
 			message: "Invalid file name",
 		})
 		.transform((name) => sanitizeFileName(name).sanitized),
-	phoneNumber: zod_1.z
+	phoneNumber: z
 		.string()
-		.regex(exports.ValidationPatterns.PHONE, "Invalid phone number format")
+		.regex(ValidationPatterns.PHONE, "Invalid phone number format")
 		.transform((phone) => phone.replace(/\D/g, "")), // Remove non-digits
-	postalCode: zod_1.z
+	postalCode: z
 		.string()
-		.regex(exports.ValidationPatterns.POSTAL_CODE, "Invalid postal code format")
+		.regex(ValidationPatterns.POSTAL_CODE, "Invalid postal code format")
 		.transform((code) => code.toUpperCase().trim()),
-	htmlContent: zod_1.z
+	htmlContent: z
 		.string()
 		.max(10000, "Content too long")
 		.transform(sanitizeHtml),
-	sqlIdentifier: zod_1.z
+	sqlIdentifier: z
 		.string()
-		.regex(
-			exports.ValidationPatterns.SQL_IDENTIFIER,
-			"Invalid identifier format",
-		),
-	tenantCode: zod_1.z
+		.regex(ValidationPatterns.SQL_IDENTIFIER, "Invalid identifier format"),
+	tenantCode: z
 		.string()
 		.min(3, "Tenant code must be at least 3 characters")
 		.max(50, "Tenant code too long")
@@ -171,21 +154,19 @@ exports.SecureSchemas = {
 			"Tenant code can only contain lowercase letters, numbers, and hyphens",
 		)
 		.transform((code) => code.toLowerCase().trim()),
-	ipAddress: zod_1.z
-		.string()
-		.refine(validator_1.default.isIP, "Invalid IP address"),
-	url: zod_1.z
+	ipAddress: z.string().refine(validator.isIP, "Invalid IP address"),
+	url: z
 		.string()
 		.url("Invalid URL format")
 		.refine((url) => {
-			var parsed = new URL(url);
+			const parsed = new URL(url);
 			return ["http:", "https:"].includes(parsed.protocol);
 		}, "URL must use HTTP or HTTPS protocol"),
 };
 /**
  * Validate JSON input to prevent JSON injection
  */
-function validateJsonInput(input) {
+export function validateJsonInput(input) {
 	try {
 		// Check for suspicious patterns
 		if (
@@ -198,7 +179,7 @@ function validateJsonInput(input) {
 				error: "JSON contains potentially dangerous properties",
 			};
 		}
-		var parsed = JSON.parse(input);
+		const parsed = JSON.parse(input);
 		// Additional checks for prototype pollution
 		if (typeof parsed === "object" && parsed !== null) {
 			if (
@@ -212,7 +193,7 @@ function validateJsonInput(input) {
 				};
 			}
 		}
-		return { isValid: true, parsed: parsed };
+		return { isValid: true, parsed };
 	} catch (_error) {
 		return { isValid: false, error: "Invalid JSON format" };
 	}
@@ -220,18 +201,18 @@ function validateJsonInput(input) {
 /**
  * SQL injection prevention for dynamic queries
  */
-function escapeSqlIdentifier(identifier) {
+export function escapeSqlIdentifier(identifier) {
 	// Only allow alphanumeric characters and underscores for SQL identifiers
-	if (!exports.ValidationPatterns.SQL_IDENTIFIER.test(identifier)) {
+	if (!ValidationPatterns.SQL_IDENTIFIER.test(identifier)) {
 		throw new Error("Invalid SQL identifier");
 	}
 	// Escape with double quotes for PostgreSQL
-	return '"'.concat(identifier.replace(/"/g, '""'), '"');
+	return `"${identifier.replace(/"/g, '""')}"`;
 }
 /**
  * LDAP injection prevention
  */
-function escapeLdapFilter(input) {
+export function escapeLdapFilter(input) {
 	return input
 		.replace(/\\/g, "\\5c")
 		.replace(/\*/g, "\\2a")
@@ -242,9 +223,9 @@ function escapeLdapFilter(input) {
 /**
  * Command injection prevention
  */
-function validateCommandArgument(arg) {
+export function validateCommandArgument(arg) {
 	// Disallow dangerous characters
-	var dangerousChars = /[;&|`$(){}[\]<>]/;
+	const dangerousChars = /[;&|`$(){}[\]<>]/;
 	if (dangerousChars.test(arg)) {
 		return { isValid: false, error: "Argument contains dangerous characters" };
 	}
@@ -261,16 +242,16 @@ function validateCommandArgument(arg) {
 /**
  * Cross-Site Request Forgery (CSRF) token validation
  */
-function generateCsrfToken() {
-	var crypto = require("node:crypto");
+export function generateCsrfToken() {
+	const crypto = require("node:crypto");
 	return crypto.randomBytes(32).toString("hex");
 }
-function validateCsrfToken(token, expectedToken) {
+export function validateCsrfToken(token, expectedToken) {
 	if (!token || !expectedToken) return false;
 	// Use constant-time comparison to prevent timing attacks
-	var crypto = require("node:crypto");
-	var tokenBuffer = Buffer.from(token, "hex");
-	var expectedBuffer = Buffer.from(expectedToken, "hex");
+	const crypto = require("node:crypto");
+	const tokenBuffer = Buffer.from(token, "hex");
+	const expectedBuffer = Buffer.from(expectedToken, "hex");
 	if (tokenBuffer.length !== expectedBuffer.length) return false;
 	return crypto.timingSafeEqual(tokenBuffer, expectedBuffer);
 }

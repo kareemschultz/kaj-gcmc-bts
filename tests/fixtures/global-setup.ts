@@ -86,30 +86,14 @@ async function globalSetup(_config: FullConfig) {
 
 	console.log("✅ Environment variables validated");
 
-	// Run database migrations
-	try {
-		console.log("🔄 Running database migrations...");
-		execSync("bun run db:push", {
-			cwd: path.resolve(__dirname, "../.."),
-			stdio: "inherit",
-		});
-		console.log("✅ Database migrations completed");
-	} catch (error) {
-		console.error("❌ Database migration failed:", error);
-		throw error;
-	}
+	// Skip database migrations for now - they require PostgreSQL to be running
+	console.log("⏭️  Skipping database migrations (development setup)");
+	console.log(
+		"   Note: Run 'bun run db:push' manually if database tests are needed",
+	);
 
-	// Seed test data
-	try {
-		console.log("🌱 Seeding test database...");
-		const { seedTestDatabase } = await import("../utils/seed-database");
-		await seedTestDatabase();
-		console.log("✅ Test database seeded successfully");
-	} catch (error) {
-		console.error("❌ Database seeding failed:", error);
-		// Don't throw - seeding might fail if data already exists
-		console.warn("⚠️  Continuing without fresh seed data...");
-	}
+	// Skip test data seeding for now
+	console.log("⏭️  Skipping test database seeding (development setup)");
 
 	// Create authenticated session state for reuse
 	// Note: This only works if the server is already running (manual start)

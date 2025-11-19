@@ -1,0 +1,67 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: gcmc-kaj-base
+
+# Base resources
+resources:
+  - namespace.yaml
+  - configmap.yaml
+  - secrets.yaml
+  - postgres-deployment.yaml
+  - redis-deployment.yaml
+  - minio-deployment.yaml
+  - api-deployment.yaml
+  - web-deployment.yaml
+  - portal-deployment.yaml
+  - worker-deployment.yaml
+  - ingress.yaml
+
+# Common labels applied to all resources
+commonLabels:
+  app: gcmc-kaj-business-tax-services
+  version: v1.0.0
+
+# Common annotations
+commonAnnotations:
+  managed-by: kustomize
+  contact: devops@gcmc-kaj.example.com
+
+# Namespace for all resources
+namespace: gcmc-kaj
+
+# Images to be used (will be overridden in overlays)
+images:
+  - name: ghcr.io/your-org/gcmc-kaj/web
+    newTag: latest
+  - name: ghcr.io/your-org/gcmc-kaj/server
+    newTag: latest
+  - name: ghcr.io/your-org/gcmc-kaj/worker
+    newTag: latest
+  - name: ghcr.io/your-org/gcmc-kaj/portal
+    newTag: latest
+
+# Resource name prefix
+namePrefix: ""
+
+# ConfigMap generators (can be used for environment-specific configs)
+configMapGenerator: []
+
+# Secret generators
+secretGenerator: []
+
+# Patches and transformations
+patchesStrategicMerge: []
+patchesJson6902: []
+
+# Replicas (will be overridden in overlays)
+replicas:
+  - name: gcmc-kaj-api
+    count: 3
+  - name: gcmc-kaj-web
+    count: 3
+  - name: gcmc-kaj-portal
+    count: 2
+  - name: gcmc-kaj-worker
+    count: 2

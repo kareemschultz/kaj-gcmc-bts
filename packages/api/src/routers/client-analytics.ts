@@ -27,7 +27,8 @@ export const clientAnalyticsRouter = router({
 		.use(
 			cacheMiddleware({
 				ttl: 300, // 5 minutes cache
-				keyBuilder: (input, ctx) => CacheKeys.clientProfile(ctx.tenant?.id, input),
+				keyBuilder: (input, ctx) =>
+					CacheKeys.clientProfile(ctx.tenant?.id, input),
 				tags: [CacheKeys.tags.clients, CacheKeys.tags.dashboard],
 			}),
 		)
@@ -65,7 +66,8 @@ export const clientAnalyticsRouter = router({
 		.use(
 			cacheMiddleware({
 				ttl: 180, // 3 minutes cache
-				keyBuilder: (input, ctx) => CacheKeys.clientCompliance(ctx.tenant?.id, input),
+				keyBuilder: (input, ctx) =>
+					CacheKeys.clientCompliance(ctx.tenant?.id, input),
 				tags: [CacheKeys.tags.compliance, CacheKeys.tags.clients],
 			}),
 		)
@@ -167,7 +169,8 @@ export const clientAnalyticsRouter = router({
 		.use(
 			cacheMiddleware({
 				ttl: 300, // 5 minutes cache
-				keyBuilder: (input, ctx) => CacheKeys.clientDocuments(ctx.tenant?.id, input),
+				keyBuilder: (input, ctx) =>
+					CacheKeys.clientDocuments(ctx.tenant?.id, input),
 				tags: [CacheKeys.tags.documents, CacheKeys.tags.clients],
 			}),
 		)
@@ -199,7 +202,9 @@ export const clientAnalyticsRouter = router({
 
 			// Get status breakdown
 			const now = new Date();
-			const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+			const thirtyDaysFromNow = new Date(
+				now.getTime() + 30 * 24 * 60 * 60 * 1000,
+			);
 
 			const [valid, expiringSoon, expired] = await Promise.all([
 				prisma.document.count({
@@ -254,7 +259,10 @@ export const clientAnalyticsRouter = router({
 			const formattedExpiring = expiring.map((doc) => ({
 				...doc,
 				daysUntilExpiry: doc.expiryDate
-					? Math.ceil((doc.expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+					? Math.ceil(
+							(doc.expiryDate.getTime() - now.getTime()) /
+								(1000 * 60 * 60 * 24),
+						)
 					: 0,
 			}));
 
@@ -279,7 +287,8 @@ export const clientAnalyticsRouter = router({
 		.use(
 			cacheMiddleware({
 				ttl: 180, // 3 minutes cache
-				keyBuilder: (input, ctx) => CacheKeys.clientFilings(ctx.tenant?.id, input),
+				keyBuilder: (input, ctx) =>
+					CacheKeys.clientFilings(ctx.tenant?.id, input),
 				tags: [CacheKeys.tags.filings, CacheKeys.tags.clients],
 			}),
 		)
@@ -336,7 +345,9 @@ export const clientAnalyticsRouter = router({
 					? `${filing.periodStart.toISOString().split("T")[0]} - ${filing.periodEnd.toISOString().split("T")[0]}`
 					: filing.periodEnd.toISOString().split("T")[0],
 				dueDate: filing.periodEnd.toISOString().split("T")[0],
-				daysUntilDue: Math.ceil((filing.periodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)),
+				daysUntilDue: Math.ceil(
+					(filing.periodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+				),
 				status: filing.status,
 			}));
 
@@ -361,7 +372,8 @@ export const clientAnalyticsRouter = router({
 		.use(
 			cacheMiddleware({
 				ttl: 300, // 5 minutes cache
-				keyBuilder: (input, ctx) => CacheKeys.clientServices(ctx.tenant?.id, input),
+				keyBuilder: (input, ctx) =>
+					CacheKeys.clientServices(ctx.tenant?.id, input),
 				tags: [CacheKeys.tags.services, CacheKeys.tags.clients],
 			}),
 		)
@@ -450,7 +462,8 @@ export const clientAnalyticsRouter = router({
 		.use(
 			cacheMiddleware({
 				ttl: 120, // 2 minutes cache
-				keyBuilder: (input, ctx) => CacheKeys.clientActivity(ctx.tenant?.id, input),
+				keyBuilder: (input, ctx) =>
+					CacheKeys.clientActivity(ctx.tenant?.id, input),
 				tags: [CacheKeys.tags.clients, CacheKeys.tags.activity],
 			}),
 		)
@@ -533,13 +546,13 @@ export const clientAnalyticsRouter = router({
 					type: "penalty",
 					timestamp: penalty.createdAt.toISOString(),
 				})),
-			].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+			].sort(
+				(a, b) =>
+					new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+			);
 
 			return {
 				activities: activities.slice(0, 20),
 			};
 		}),
 });
-
-// Export the router
-export { clientAnalyticsRouter };

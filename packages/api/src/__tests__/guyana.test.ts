@@ -4,7 +4,7 @@
 
 import type { PrismaClient } from "@GCMC-KAJ/db";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createCallerFactory } from "../../trpc";
+import { createCallerFactory } from "..";
 import { guyanaRouter } from "../routers/guyana";
 
 // Mock database

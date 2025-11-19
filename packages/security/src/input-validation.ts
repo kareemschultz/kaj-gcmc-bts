@@ -198,7 +198,7 @@ export const SecureSchemas = {
  */
 export function validateJsonInput(input: string): {
 	isValid: boolean;
-	parsed?: any;
+	parsed?: unknown;
 	error?: string;
 } {
 	try {

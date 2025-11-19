@@ -1,28 +1,28 @@
 "use client";
 
 import {
-	AreaChart,
 	Area,
-	BarChart,
+	AreaChart,
 	Bar,
-	LineChart,
-	Line,
-	PieChart,
-	Pie,
+	BarChart,
+	CartesianGrid,
 	Cell,
+	Legend,
+	Line,
+	LineChart,
+	Pie,
+	PieChart,
+	PolarAngleAxis,
+	PolarGrid,
+	PolarRadiusAxis,
+	Radar,
+	RadarChart,
 	ResponsiveContainer,
+	Scatter,
+	ScatterChart,
 	Tooltip,
 	XAxis,
 	YAxis,
-	CartesianGrid,
-	Legend,
-	ScatterChart,
-	Scatter,
-	RadarChart,
-	PolarGrid,
-	PolarAngleAxis,
-	PolarRadiusAxis,
-	Radar,
 } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -135,7 +135,11 @@ export function BusinessMetricsVisualization({
 	];
 
 	// Business performance trends
-	const trendData = generateBusinessTrends(complianceData, filingsData, servicesData);
+	const trendData = generateBusinessTrends(
+		complianceData,
+		filingsData,
+		servicesData,
+	);
 
 	// Cost-benefit analysis
 	const costBenefitData = calculateCostBenefitAnalysis(
@@ -146,7 +150,7 @@ export function BusinessMetricsVisualization({
 	return (
 		<div className="space-y-6">
 			<Tabs defaultValue="overview" className="space-y-4">
-				<TabsList className="grid grid-cols-5 w-full">
+				<TabsList className="grid w-full grid-cols-5">
 					<TabsTrigger value="overview">Overview</TabsTrigger>
 					<TabsTrigger value="correlations">Correlations</TabsTrigger>
 					<TabsTrigger value="trends">Trends</TabsTrigger>
@@ -200,8 +204,10 @@ export function BusinessMetricsVisualization({
 							</CardHeader>
 							<CardContent className="space-y-4">
 								<div className="space-y-3">
-									<div className="flex justify-between items-center">
-										<span className="text-sm font-medium">Compliance Efficiency</span>
+									<div className="flex items-center justify-between">
+										<span className="font-medium text-sm">
+											Compliance Efficiency
+										</span>
 										<Badge variant="default">
 											{businessKPIs.complianceEfficiency.score}%
 										</Badge>
@@ -210,8 +216,10 @@ export function BusinessMetricsVisualization({
 								</div>
 
 								<div className="space-y-3">
-									<div className="flex justify-between items-center">
-										<span className="text-sm font-medium">Document Management</span>
+									<div className="flex items-center justify-between">
+										<span className="font-medium text-sm">
+											Document Management
+										</span>
 										<Badge variant="secondary">
 											{businessKPIs.documentManagement.score}%
 										</Badge>
@@ -220,8 +228,10 @@ export function BusinessMetricsVisualization({
 								</div>
 
 								<div className="space-y-3">
-									<div className="flex justify-between items-center">
-										<span className="text-sm font-medium">Filing Performance</span>
+									<div className="flex items-center justify-between">
+										<span className="font-medium text-sm">
+											Filing Performance
+										</span>
 										<Badge variant="default">
 											{businessKPIs.filingPerformance.score}%
 										</Badge>
@@ -230,8 +240,8 @@ export function BusinessMetricsVisualization({
 								</div>
 
 								<div className="space-y-3">
-									<div className="flex justify-between items-center">
-										<span className="text-sm font-medium">Service Quality</span>
+									<div className="flex items-center justify-between">
+										<span className="font-medium text-sm">Service Quality</span>
 										<Badge variant="default">
 											{businessKPIs.serviceQuality.score}%
 										</Badge>
@@ -270,10 +280,7 @@ export function BusinessMetricsVisualization({
 											domain={[0, 100]}
 										/>
 										<Tooltip cursor={{ strokeDasharray: "3 3" }} />
-										<Scatter
-											dataKey="size"
-											fill={BUSINESS_COLORS.compliance}
-										/>
+										<Scatter dataKey="size" fill={BUSINESS_COLORS.compliance} />
 									</ScatterChart>
 								</ResponsiveContainer>
 							</CardContent>
@@ -290,8 +297,8 @@ export function BusinessMetricsVisualization({
 							<CardContent className="space-y-4">
 								{correlationData.map((item, index) => (
 									<div key={index} className="space-y-2">
-										<div className="flex justify-between items-center">
-											<span className="text-sm font-medium">{item.metric}</span>
+										<div className="flex items-center justify-between">
+											<span className="font-medium text-sm">{item.metric}</span>
 											<Badge
 												variant={
 													Math.abs(item.correlation) > 0.8
@@ -392,9 +399,7 @@ export function BusinessMetricsVisualization({
 						<Card className="col-span-1">
 							<CardHeader>
 								<CardTitle>Return on Investment</CardTitle>
-								<CardDescription>
-									Efficiency and value metrics
-								</CardDescription>
+								<CardDescription>Efficiency and value metrics</CardDescription>
 							</CardHeader>
 							<CardContent className="space-y-4">
 								<div className="grid gap-2">
@@ -477,7 +482,11 @@ function calculateEfficiencyScore(servicesData: any, filingsData: any) {
 	return Math.round((serviceEfficiency + filingEfficiency) / 2);
 }
 
-function generateBusinessTrends(complianceData: any, filingsData: any, servicesData: any) {
+function generateBusinessTrends(
+	complianceData: any,
+	filingsData: any,
+	servicesData: any,
+) {
 	// Mock trend data - in real app, this would come from historical data
 	return [
 		{ month: "Jan", compliance: 78, efficiency: 82, satisfaction: 85 },
@@ -515,21 +524,31 @@ function BusinessInsightsView({
 	const insights = [
 		{
 			title: "Compliance Excellence",
-			description: "Your compliance score of " + businessKPIs.complianceEfficiency.score + "% exceeds industry standards by 15%.",
+			description:
+				"Your compliance score of " +
+				businessKPIs.complianceEfficiency.score +
+				"% exceeds industry standards by 15%.",
 			impact: "High",
-			recommendation: "Maintain current practices and consider becoming a compliance benchmark client.",
+			recommendation:
+				"Maintain current practices and consider becoming a compliance benchmark client.",
 		},
 		{
 			title: "Document Management Optimization",
-			description: "Strong document management with " + businessKPIs.documentManagement.score + "% efficiency.",
+			description:
+				"Strong document management with " +
+				businessKPIs.documentManagement.score +
+				"% efficiency.",
 			impact: "Medium",
-			recommendation: "Implement automated document renewal alerts to reach 95%+ efficiency.",
+			recommendation:
+				"Implement automated document renewal alerts to reach 95%+ efficiency.",
 		},
 		{
 			title: "Service Quality Leadership",
-			description: "Outstanding service completion rate demonstrates operational excellence.",
+			description:
+				"Outstanding service completion rate demonstrates operational excellence.",
 			impact: "High",
-			recommendation: "Share best practices with other clients in similar industries.",
+			recommendation:
+				"Share best practices with other clients in similar industries.",
 		},
 	];
 
@@ -538,7 +557,7 @@ function BusinessInsightsView({
 			{insights.map((insight, index) => (
 				<Card key={index}>
 					<CardHeader>
-						<div className="flex justify-between items-start">
+						<div className="flex items-start justify-between">
 							<CardTitle className="text-lg">{insight.title}</CardTitle>
 							<Badge
 								variant={
@@ -554,8 +573,8 @@ function BusinessInsightsView({
 						</div>
 					</CardHeader>
 					<CardContent>
-						<p className="text-muted-foreground mb-3">{insight.description}</p>
-						<div className="p-3 bg-muted rounded-lg">
+						<p className="mb-3 text-muted-foreground">{insight.description}</p>
+						<div className="rounded-lg bg-muted p-3">
 							<p className="text-sm">
 								<strong>Recommendation:</strong> {insight.recommendation}
 							</p>

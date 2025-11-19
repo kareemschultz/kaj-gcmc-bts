@@ -31,7 +31,15 @@ export class RedisCache {
 	private isConnected = false;
 
 	constructor(config: CacheConfig) {
-		const redisConfig = {
+		const redisConfig: {
+			host: string;
+			port: number;
+			db: number;
+			keyPrefix: string;
+			maxRetriesPerRequest: number;
+			lazyConnect: boolean;
+			password?: string;
+		} = {
 			host: config.host,
 			port: config.port,
 			db: config.db || 0,

@@ -107,10 +107,34 @@ export interface FilingDeadline {
 	};
 }
 
+export interface FilingHistoryEntry {
+	agency: GuyanaAgency;
+	requirementId: string;
+	filedDate: Date;
+	dueDate: Date;
+	status: "FILED" | "LATE" | "PENDING";
+	penalties?: number;
+	filingType: FilingType;
+	metadata?: Record<string, unknown>;
+}
+
 export interface ComplianceScore {
 	overall: number; // 0-100
 	byAgency: Record<GuyanaAgency, number>;
 	level: ComplianceLevel;
 	criticalIssues: number;
 	lastCalculated: Date;
+}
+
+export interface ComplianceActionPlan {
+	criticalActions: string[];
+	upcomingDeadlines: FilingDeadline[];
+	recommendations: string[];
+	estimatedCosts: number;
+}
+
+export interface BusinessValidationResult {
+	isValid: boolean;
+	missingRequirements: string[];
+	nextSteps: string[];
 }

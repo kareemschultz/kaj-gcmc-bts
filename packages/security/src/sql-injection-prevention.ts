@@ -36,7 +36,7 @@ const SQL_INJECTION_PATTERNS = [
 /**
  * Characters that should not appear in SQL identifiers
  */
-const _DANGEROUS_SQL_CHARS = /[;'"`\\/*\-+=<>()]/;
+// Unused constant removed - const DANGEROUS_SQL_CHARS = /[;'"`\\/*\-+=<>()]/;
 
 /**
  * Detect potential SQL injection in user input
@@ -206,6 +206,7 @@ export function validateOrderBy(
 	if (parts.length === 0 || parts.length > 2) return null;
 
 	const column = parts[0];
+	if (!column) return null;
 	const direction = (parts[1]?.toUpperCase() as "ASC" | "DESC") || "ASC";
 
 	// Validate direction
@@ -264,10 +265,10 @@ export const SqlSafeSchemas = {
  */
 export class SafeQueryBuilder {
 	private conditions: string[] = [];
-	private parameters: any[] = [];
+	private parameters: unknown[] = [];
 	private parameterIndex = 1;
 
-	addCondition(column: string, operator: string, value: any): this {
+	addCondition(column: string, operator: string, value: unknown): this {
 		const columnValidation = validateSqlIdentifier(column);
 		if (!columnValidation.isValid) {
 			throw new Error(`Invalid column name: ${columnValidation.error}`);
@@ -313,7 +314,7 @@ export class SafeQueryBuilder {
 		return this;
 	}
 
-	addRawCondition(condition: string, ...parameters: any[]): this {
+	addRawCondition(condition: string, ...parameters: unknown[]): this {
 		// Only allow if condition doesn't contain user input
 		// This should only be used for trusted, hardcoded conditions
 		console.warn("Raw condition added to query builder. Ensure this is safe!");
@@ -322,7 +323,7 @@ export class SafeQueryBuilder {
 		return this;
 	}
 
-	build(): { whereClause: string; parameters: any[] } {
+	build(): { whereClause: string; parameters: unknown[] } {
 		const whereClause =
 			this.conditions.length > 0
 				? `WHERE ${this.conditions.join(" AND ")}`
@@ -345,11 +346,11 @@ export class SafeQueryBuilder {
 /**
  * Validate Prisma where clause for security
  */
-export function validatePrismaWhere(whereClause: any): boolean {
+export function validatePrismaWhere(whereClause: unknown): boolean {
 	if (!whereClause || typeof whereClause !== "object") return true;
 
 	// Recursively check all values in the where clause
-	function checkValue(value: any): boolean {
+	function checkValue(value: unknown): boolean {
 		if (typeof value === "string") {
 			const detection = detectSqlInjection(value);
 			return !detection.isMalicious;

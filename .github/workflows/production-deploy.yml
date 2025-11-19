@@ -1,0 +1,374 @@
+name: Production Deploy
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deployment environment"
+        required: true
+        type: choice
+        options:
+          - production
+          - staging
+        default: staging
+      force_deploy:
+        description: "Force deployment (skip checks)"
+        required: false
+        type: boolean
+        default: false
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ${{ github.repository }}
+  KUBECONFIG_FILE: ${{ secrets.KUBECONFIG }}
+
+concurrency:
+  group: deploy-${{ github.event.inputs.environment || 'production' }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # Pre-deployment validation
+  validate-deployment:
+    name: Validate Deployment
+    runs-on: ubuntu-latest
+    if: github.event.inputs.force_deploy != 'true'
+    outputs:
+      environment: ${{ steps.env-check.outputs.environment }}
+      deploy_tag: ${{ steps.env-check.outputs.deploy_tag }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Determine environment and tag
+        id: env-check
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+            echo "deploy_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "environment=staging" >> $GITHUB_OUTPUT
+            echo "deploy_tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            echo "environment=production" >> $GITHUB_OUTPUT
+            echo "deploy_tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Invalid deployment trigger"
+            exit 1
+          fi
+
+      - name: Wait for CI to pass
+        uses: lewagon/wait-on-check-action@v1.3.1
+        with:
+          ref: ${{ github.sha }}
+          check-name: "CI Summary"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 30
+
+  # Security scanning
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    needs: [validate-deployment]
+    if: always() && (needs.validate-deployment.result == 'success' || github.event.inputs.force_deploy == 'true')
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          languages: typescript
+
+      - name: OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: 'https://api.gcmc-kaj.example.com'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fail-action: false
+
+  # Build and push Docker images
+  build-and-push:
+    name: Build & Push Images
+    runs-on: ubuntu-latest
+    needs: [validate-deployment, security-scan]
+    if: always() && (needs.security-scan.result == 'success' || github.event.inputs.force_deploy == 'true')
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+    strategy:
+      matrix:
+        app: [web, server, worker, portal]
+        include:
+          - app: web
+            dockerfile: ./apps/web/Dockerfile
+            context: .
+          - app: server
+            dockerfile: ./apps/server/Dockerfile
+            context: .
+          - app: worker
+            dockerfile: ./apps/worker/Dockerfile
+            context: .
+          - app: portal
+            dockerfile: ./apps/portal/Dockerfile
+            context: .
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/${{ matrix.app }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=${{ needs.validate-deployment.outputs.deploy_tag }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            NODE_ENV=production
+            NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+
+      - name: Scan image for vulnerabilities
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}/${{ matrix.app }}:${{ needs.validate-deployment.outputs.deploy_tag }}
+          format: 'sarif'
+          output: '${{ matrix.app }}-image-scan.sarif'
+
+      - name: Upload image scan results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: '${{ matrix.app }}-image-scan.sarif'
+
+  # Deploy to Kubernetes
+  deploy-kubernetes:
+    name: Deploy to Kubernetes
+    runs-on: ubuntu-latest
+    needs: [validate-deployment, build-and-push]
+    environment: ${{ needs.validate-deployment.outputs.environment }}
+    if: always() && needs.build-and-push.result == 'success'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure kubectl
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Verify cluster connection
+        run: |
+          kubectl cluster-info
+          kubectl get nodes
+
+      - name: Install Kustomize
+        run: |
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          sudo mv kustomize /usr/local/bin/
+
+      - name: Deploy to staging
+        if: needs.validate-deployment.outputs.environment == 'staging'
+        run: |
+          cd k8s/overlays/staging
+          kustomize edit set image \
+            ghcr.io/${{ env.IMAGE_PREFIX }}/web:${{ needs.validate-deployment.outputs.deploy_tag }} \
+            ghcr.io/${{ env.IMAGE_PREFIX }}/server:${{ needs.validate-deployment.outputs.deploy_tag }} \
+            ghcr.io/${{ env.IMAGE_PREFIX }}/worker:${{ needs.validate-deployment.outputs.deploy_tag }} \
+            ghcr.io/${{ env.IMAGE_PREFIX }}/portal:${{ needs.validate-deployment.outputs.deploy_tag }}
+
+          kubectl apply -k .
+
+          # Wait for rollout
+          kubectl rollout status deployment/gcmc-kaj-api -n gcmc-kaj-staging --timeout=600s
+          kubectl rollout status deployment/gcmc-kaj-web -n gcmc-kaj-staging --timeout=600s
+          kubectl rollout status deployment/gcmc-kaj-portal -n gcmc-kaj-staging --timeout=600s
+          kubectl rollout status deployment/gcmc-kaj-worker -n gcmc-kaj-staging --timeout=600s
+
+      - name: Deploy to production
+        if: needs.validate-deployment.outputs.environment == 'production'
+        run: |
+          cd k8s/overlays/production
+          kustomize edit set image \
+            ghcr.io/${{ env.IMAGE_PREFIX }}/web:${{ needs.validate-deployment.outputs.deploy_tag }} \
+            ghcr.io/${{ env.IMAGE_PREFIX }}/server:${{ needs.validate-deployment.outputs.deploy_tag }} \
+            ghcr.io/${{ env.IMAGE_PREFIX }}/worker:${{ needs.validate-deployment.outputs.deploy_tag }} \
+            ghcr.io/${{ env.IMAGE_PREFIX }}/portal:${{ needs.validate-deployment.outputs.deploy_tag }}
+
+          kubectl apply -k .
+
+          # Wait for rollout with longer timeout for production
+          kubectl rollout status deployment/gcmc-kaj-api -n gcmc-kaj --timeout=900s
+          kubectl rollout status deployment/gcmc-kaj-web -n gcmc-kaj --timeout=900s
+          kubectl rollout status deployment/gcmc-kaj-portal -n gcmc-kaj --timeout=900s
+          kubectl rollout status deployment/gcmc-kaj-worker -n gcmc-kaj --timeout=900s
+
+      - name: Verify deployment health
+        run: |
+          namespace="${{ needs.validate-deployment.outputs.environment == 'production' && 'gcmc-kaj' || 'gcmc-kaj-staging' }}"
+
+          echo "🔍 Checking pod status..."
+          kubectl get pods -n $namespace
+
+          echo "🔍 Checking service endpoints..."
+          kubectl get endpoints -n $namespace
+
+          echo "🔍 Running health checks..."
+          kubectl wait --for=condition=ready pod -l app=gcmc-kaj-api -n $namespace --timeout=300s
+          kubectl wait --for=condition=ready pod -l app=gcmc-kaj-web -n $namespace --timeout=300s
+          kubectl wait --for=condition=ready pod -l app=gcmc-kaj-portal -n $namespace --timeout=300s
+          kubectl wait --for=condition=ready pod -l app=gcmc-kaj-worker -n $namespace --timeout=300s
+
+  # Post-deployment testing
+  smoke-tests:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    needs: [validate-deployment, deploy-kubernetes]
+    if: always() && needs.deploy-kubernetes.result == 'success'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.2"
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright
+        run: bunx playwright install --with-deps chromium
+
+      - name: Run smoke tests
+        env:
+          BASE_URL: ${{ needs.validate-deployment.outputs.environment == 'production' && 'https://app.gcmc-kaj.example.com' || 'https://staging-app.gcmc-kaj.example.com' }}
+          API_URL: ${{ needs.validate-deployment.outputs.environment == 'production' && 'https://api.gcmc-kaj.example.com' || 'https://staging-api.gcmc-kaj.example.com' }}
+        run: |
+          echo "Running smoke tests against $BASE_URL"
+
+          # API Health Check
+          curl -f $API_URL/health || exit 1
+
+          # Run basic E2E smoke tests
+          bunx playwright test tests/e2e/smoke --reporter=line
+
+        continue-on-error: false
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-test-results-${{ needs.validate-deployment.outputs.environment }}
+          path: |
+            playwright-report/
+            test-results/
+
+  # Deployment notification
+  notify-deployment:
+    name: Deployment Notification
+    runs-on: ubuntu-latest
+    needs: [validate-deployment, deploy-kubernetes, smoke-tests]
+    if: always()
+    steps:
+      - name: Deployment Summary
+        run: |
+          ENV="${{ needs.validate-deployment.outputs.environment }}"
+          TAG="${{ needs.validate-deployment.outputs.deploy_tag }}"
+
+          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: $ENV" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tag/Commit**: $TAG" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [[ "${{ needs.deploy-kubernetes.result }}" == "success" ]]; then
+            echo "✅ **Deployment Status**: SUCCESS" >> $GITHUB_STEP_SUMMARY
+            if [[ "$ENV" == "production" ]]; then
+              echo "🌐 **Production URLs**:" >> $GITHUB_STEP_SUMMARY
+              echo "- Admin: https://app.gcmc-kaj.example.com" >> $GITHUB_STEP_SUMMARY
+              echo "- Portal: https://portal.gcmc-kaj.example.com" >> $GITHUB_STEP_SUMMARY
+              echo "- API: https://api.gcmc-kaj.example.com" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "🧪 **Staging URLs**:" >> $GITHUB_STEP_SUMMARY
+              echo "- Admin: https://staging-app.gcmc-kaj.example.com" >> $GITHUB_STEP_SUMMARY
+              echo "- Portal: https://staging-portal.gcmc-kaj.example.com" >> $GITHUB_STEP_SUMMARY
+              echo "- API: https://staging-api.gcmc-kaj.example.com" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "❌ **Deployment Status**: FAILED" >> $GITHUB_STEP_SUMMARY
+            echo "Check the workflow logs for details." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      # Optional: Slack/Discord notification
+      # - name: Notify Slack
+      #   uses: slackapi/slack-github-action@v1
+      #   if: always()
+      #   with:
+      #     payload: |
+      #       {
+      #         "text": "${{ needs.deploy-kubernetes.result == 'success' && '✅' || '❌' }} Deployment ${{ needs.deploy-kubernetes.result }} for GCMC-KAJ ${{ needs.validate-deployment.outputs.environment }}",
+      #         "blocks": [
+      #           {
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": "*GCMC-KAJ Deployment ${{ needs.deploy-kubernetes.result }}*\n\n*Environment:* ${{ needs.validate-deployment.outputs.environment }}\n*Tag:* ${{ needs.validate-deployment.outputs.deploy_tag }}\n*Triggered by:* ${{ github.actor }}"
+      #             }
+      #           }
+      #         ]
+      #       }
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

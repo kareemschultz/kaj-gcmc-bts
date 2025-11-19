@@ -3,6 +3,7 @@
  */
 
 import type {
+	ComplianceLevel,
 	ComplianceResult,
 	FilingDeadline,
 	GuyanaBusinessProfile,
@@ -14,7 +15,7 @@ export function assessImmigrationCompliance(
 	business: GuyanaBusinessProfile,
 ): ComplianceResult {
 	const score = 100;
-	const level: any = "COMPLIANT";
+	const level: ComplianceLevel = "COMPLIANT";
 	const notes: string[] = [];
 
 	// Foreign worker compliance
