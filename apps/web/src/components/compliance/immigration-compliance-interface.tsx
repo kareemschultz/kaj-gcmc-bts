@@ -13,7 +13,7 @@ import {
 	FileText,
 	Globe,
 	MapPin,
-	Passport,
+	IdCard as Passport,
 	Plane,
 	Plus,
 	Shield,

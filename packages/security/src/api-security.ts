@@ -5,7 +5,7 @@
  * Implements input validation, rate limiting, and security controls
  */
 
-import type { Context } from "@GCMC-KAJ/api/context";
+import { type Context } from "@GCMC-KAJ/api/context";
 import type { UserRole } from "@GCMC-KAJ/types";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";

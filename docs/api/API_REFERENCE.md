@@ -1,11 +1,13 @@
-# KAJ-GCMC BTS Platform - Complete API Reference
+# GCMC-KAJ Digital Transformation Platform - Complete API Reference
 
-> **Version:** 1.0.0
+> **Version:** 1.2.0
 > **Protocol:** tRPC
 > **Authentication:** Better-Auth Session-based
-> **Last Updated:** 2025-11-18
+> **GRA Integration:** OPTIMAL Revenue Management System
+> **NIS Integration:** Electronic Schedule Submission
+> **Last Updated:** 2025-11-19
 
-The KAJ-GCMC Business Tax Services platform provides a comprehensive tRPC API for managing compliance operations, client relationships, and business processes. This reference documents all available endpoints with authentication requirements, request/response schemas, and interactive examples.
+The GCMC-KAJ Digital Transformation Platform provides a comprehensive tRPC API for managing compliance operations, client relationships, business processes, GRA/NIS eServices integration, and dynamic service package management. This reference documents all available endpoints with authentication requirements, request/response schemas, and interactive examples.
 
 ---
 
@@ -21,6 +23,8 @@ The KAJ-GCMC Business Tax Services platform provides a comprehensive tRPC API fo
   - [Document Management](#document-management)
   - [Filing Management](#filing-management)
   - [Service Management](#service-management)
+  - [Dynamic Service Packages](#dynamic-service-packages)
+  - [GRA/NIS Integration](#grinis-integration)
   - [Compliance Engine](#compliance-engine)
   - [Analytics & Reporting](#analytics--reporting)
   - [Notifications](#notifications)
@@ -620,6 +624,334 @@ const request = await trpc.serviceRequests.create.mutate({
   requirements: ['Business plan', 'Articles of incorporation'],
   dueDate: new Date('2024-12-31'),
 });
+```
+
+---
+
+## 📦 Dynamic Service Packages
+
+### `dynamicServices.setupStandardPackages`
+
+**Description:** Set up standard service packages for a new practice
+**Permission:** `services:create`
+
+```typescript
+const result = await trpc.dynamicServices.setupStandardPackages.mutate();
+```
+
+**Response:**
+```typescript
+{
+  success: boolean;
+  packages: ServicePackage[];
+  message: string;
+}
+```
+
+### `dynamicServices.getServicePackages`
+
+**Description:** Get all service packages for the practice
+**Permission:** `services:view`
+
+```typescript
+const packages = await trpc.dynamicServices.getServicePackages.query();
+```
+
+**Response:**
+```typescript
+Array<{
+  id: string;
+  name: string;
+  description: string | null;
+  includesGRA: boolean;
+  includesNIS: boolean;
+  includesDCRA: boolean;
+  includesImmig: boolean;
+  graVAT: boolean;
+  graPAYE: boolean;
+  graIncomeTax: boolean;
+  graCorporateTax: boolean;
+  nisMonthlyReturns: boolean;
+  nisAnnualReturns: boolean;
+  nisEmployerReg: boolean;
+  nisEmployeeReg: boolean;
+  dcraBusinessReg: boolean;
+  dcraCompanyIncorp: boolean;
+  dcraAnnualReturns: boolean;
+  dcraNameReserv: boolean;
+  monthlyFee: number | null;
+  perFilingFee: number | null;
+  setupFee: number | null;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}>
+```
+
+### `dynamicServices.createCustomPackage`
+
+**Description:** Create custom service package
+**Permission:** `services:create`
+
+```typescript
+const package = await trpc.dynamicServices.createCustomPackage.mutate({
+  name: 'Premium GRA Package',
+  description: 'Complete GRA compliance for large businesses',
+  includesGRA: true,
+  graVAT: true,
+  graPAYE: true,
+  graIncomeTax: true,
+  graCorporateTax: true,
+  monthlyFee: 25000.00,
+  perFilingFee: 2500.00,
+  setupFee: 10000.00
+});
+```
+
+### `dynamicServices.subscribeClient`
+
+**Description:** Subscribe client to a service package
+**Permission:** `services:create`
+
+```typescript
+const subscription = await trpc.dynamicServices.subscribeClient.mutate({
+  clientId: 'client-123',
+  packageId: 'package-456',
+  customServices: {
+    gra: {
+      vatFrequency: 'monthly',
+      payeEmployeeCount: 50
+    },
+    nis: {
+      employeeCount: 50
+    }
+  },
+  customPricing: {
+    monthlyFee: 20000.00,
+    discountPercent: 10
+  }
+});
+```
+
+### `dynamicServices.getClientSubscriptions`
+
+**Description:** Get client service subscriptions
+**Permission:** `services:view`
+
+```typescript
+const subscriptions = await trpc.dynamicServices.getClientSubscriptions.query({
+  clientId: 'client-123'
+});
+```
+
+---
+
+## 🏛️ GRA/NIS Integration
+
+### GRA eServices Integration
+
+#### `graIntegration.authenticateClient`
+
+**Description:** Authenticate with GRA eServices using client credentials
+**Permission:** `gra:authenticate`
+
+```typescript
+const auth = await trpc.graIntegration.authenticateClient.mutate({
+  clientId: 'client-123',
+  graUsername: 'client-gra-username',
+  graPassword: 'client-gra-password'
+});
+```
+
+**Response:**
+```typescript
+{
+  success: boolean;
+  accessToken: string;
+  expiresAt: Date;
+  taxpayerInfo: {
+    tin: string;
+    name: string;
+    status: string;
+    registrations: string[];
+  };
+}
+```
+
+#### `graIntegration.submitVATReturn`
+
+**Description:** Submit VAT return to GRA OPTIMAL system
+**Permission:** `gra:submit`
+
+```typescript
+const submission = await trpc.graIntegration.submitVATReturn.mutate({
+  clientId: 'client-123',
+  period: '2024-Q4',
+  vatData: {
+    totalSales: 1500000.00,
+    totalVAT: 202500.00,
+    totalPurchases: 800000.00,
+    inputVAT: 108000.00,
+    netVATPayable: 94500.00
+  },
+  supporting_documents: ['receipt-123.pdf', 'invoice-456.pdf']
+});
+```
+
+**Response:**
+```typescript
+{
+  submissionId: string;
+  referenceNumber: string;
+  status: 'submitted' | 'processing' | 'accepted' | 'rejected';
+  submittedAt: Date;
+  assessmentAmount?: number;
+  dueDate?: Date;
+  confirmationUrl?: string;
+}
+```
+
+#### `graIntegration.submitPAYEReturn`
+
+**Description:** Submit PAYE return to GRA
+**Permission:** `gra:submit`
+
+```typescript
+const submission = await trpc.graIntegration.submitPAYEReturn.mutate({
+  clientId: 'client-123',
+  period: '2024-11',
+  payeData: {
+    totalEmployees: 25,
+    totalGrossWages: 2500000.00,
+    totalPAYE: 350000.00,
+    employeeSchedule: [
+      {
+        name: 'John Doe',
+        nin: 'NIN123456789',
+        grossWage: 100000.00,
+        paye: 14000.00
+      }
+      // ... more employees
+    ]
+  }
+});
+```
+
+#### `graIntegration.getSubmissionStatus`
+
+**Description:** Check status of GRA submission
+**Permission:** `gra:view`
+
+```typescript
+const status = await trpc.graIntegration.getSubmissionStatus.query({
+  submissionId: 'sub-123',
+  clientId: 'client-123'
+});
+```
+
+### NIS Electronic Schedule Integration
+
+#### `nisIntegration.authenticateEmployer`
+
+**Description:** Authenticate employer with NIS esched system
+**Permission:** `nis:authenticate`
+
+```typescript
+const auth = await trpc.nisIntegration.authenticateEmployer.mutate({
+  clientId: 'client-123',
+  employerNumber: 'EMP123456',
+  nisPassword: 'employer-password'
+});
+```
+
+#### `nisIntegration.submitMonthlySchedule`
+
+**Description:** Submit monthly employee contribution schedule
+**Permission:** `nis:submit`
+
+```typescript
+const submission = await trpc.nisIntegration.submitMonthlySchedule.mutate({
+  clientId: 'client-123',
+  period: '2024-11',
+  scheduleData: {
+    employerNumber: 'EMP123456',
+    totalEmployees: 25,
+    totalWages: 2500000.00,
+    totalContributions: 375000.00,
+    employeeSchedule: [
+      {
+        nin: 'NIN123456789',
+        name: 'John Doe',
+        wages: 100000.00,
+        employeeContribution: 7000.00,
+        employerContribution: 8000.00
+      }
+      // ... more employees
+    ]
+  }
+});
+```
+
+**Response:**
+```typescript
+{
+  submissionId: string;
+  referenceNumber: string;
+  status: 'submitted' | 'processing' | 'accepted' | 'rejected';
+  submittedAt: Date;
+  dueDate: Date;
+  totalAmount: number;
+  confirmationNumber?: string;
+}
+```
+
+#### `nisIntegration.getEmployeeContributionHistory`
+
+**Description:** Get employee contribution history from NIS
+**Permission:** `nis:view`
+
+```typescript
+const history = await trpc.nisIntegration.getEmployeeContributionHistory.query({
+  nin: 'NIN123456789',
+  fromPeriod: '2024-01',
+  toPeriod: '2024-11'
+});
+```
+
+### Cross-Agency Compliance Workflows
+
+#### `complianceAutomation.syncAllAgencies`
+
+**Description:** Synchronize compliance status across GRA, NIS, and other agencies
+**Permission:** `compliance:sync`
+
+```typescript
+const syncResult = await trpc.complianceAutomation.syncAllAgencies.mutate({
+  clientId: 'client-123'
+});
+```
+
+**Response:**
+```typescript
+{
+  gra: {
+    status: 'compliant' | 'pending' | 'overdue';
+    lastSync: Date;
+    pendingSubmissions: number;
+  };
+  nis: {
+    status: 'compliant' | 'pending' | 'overdue';
+    lastSync: Date;
+    pendingSchedules: number;
+  };
+  dcra: {
+    status: 'compliant' | 'pending' | 'overdue';
+    lastSync: Date;
+    pendingReturns: number;
+  };
+  overallComplianceScore: number;
+  lastUpdated: Date;
+}
 ```
 
 ---

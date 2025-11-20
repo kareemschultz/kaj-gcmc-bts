@@ -20,11 +20,12 @@ import {
 	Settings,
 	Share2,
 	Smartphone,
+	Tablet,
 	Upload,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type React from "react";
-import { useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { FormAnalytics as FormAnalyticsComponent } from "@/components/form-builder/FormAnalytics";
 
@@ -65,7 +66,7 @@ import type {
 	FormConfiguration,
 } from "@/lib/form-builder/types";
 
-export default function FormBuilderPage() {
+function FormBuilderPageContent() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 
@@ -690,5 +691,13 @@ export default function FormBuilderPage() {
 				</DialogContent>
 			</Dialog>
 		</div>
+	);
+}
+
+export default function FormBuilderPage() {
+	return (
+		<Suspense fallback={<div>Loading...</div>}>
+			<FormBuilderPageContent />
+		</Suspense>
 	);
 }

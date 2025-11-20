@@ -24,7 +24,7 @@ import {
 	Move,
 	Phone,
 	Radio,
-	Separator as SeparatorIcon,
+	SeparatorVertical as SeparatorIcon,
 	Settings,
 	Star,
 	Trash2,

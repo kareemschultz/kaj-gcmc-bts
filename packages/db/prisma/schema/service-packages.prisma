@@ -1,0 +1,135 @@
+// Service Packages - Dynamic client service subscriptions
+// Replaces physical client folders with different service needs
+
+model ServicePackage {
+  id          Int      @id @default(autoincrement())
+  tenantId    Int
+  name        String   // "Basic GRA", "Full Compliance", "Business Only", etc.
+  description String?
+  isActive    Boolean  @default(true)
+
+  // Service inclusions
+  includesGRA      Boolean @default(false)
+  includesNIS      Boolean @default(false)
+  includesDCRA     Boolean @default(false)
+  includesImmig    Boolean @default(false)
+
+  // GRA specific services
+  graVAT           Boolean @default(false)
+  graPAYE          Boolean @default(false)
+  graIncomeTax     Boolean @default(false)
+  graCorporateTax  Boolean @default(false)
+
+  // NIS specific services
+  nisMonthlyReturns   Boolean @default(false)
+  nisAnnualReturns    Boolean @default(false)
+  nisEmployerReg      Boolean @default(false)
+  nisEmployeeReg      Boolean @default(false)
+
+  // DCRA specific services
+  dcraBusinessReg     Boolean @default(false)
+  dcraCompanyIncorp   Boolean @default(false)
+  dcraAnnualReturns   Boolean @default(false)
+  dcraNameReserv      Boolean @default(false)
+
+  // Pricing and billing
+  monthlyFee      Decimal? @db.Decimal(10, 2)
+  perFilingFee    Decimal? @db.Decimal(10, 2)
+  setupFee        Decimal? @db.Decimal(10, 2)
+
+  // Client subscriptions
+  clientSubscriptions ClientServiceSubscription[]
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String?
+
+  // Relations
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("service_packages")
+  @@index([tenantId])
+}
+
+model ClientServiceSubscription {
+  id              Int      @id @default(autoincrement())
+  tenantId        Int
+  clientId        Int
+  packageId       Int
+
+  // Subscription details
+  isActive        Boolean  @default(true)
+  startDate       DateTime @default(now())
+  endDate         DateTime?
+  autoRenew       Boolean  @default(true)
+
+  // Custom service modifications for this client
+  customGRAServices    Json? // Custom GRA service selections
+  customNISServices    Json? // Custom NIS service selections
+  customDCRAServices   Json? // Custom DCRA service selections
+  customImmigServices  Json? // Custom Immigration services
+
+  // Billing overrides
+  customMonthlyFee     Decimal? @db.Decimal(10, 2)
+  customPerFilingFee   Decimal? @db.Decimal(10, 2)
+  discountPercent      Int?     @default(0)
+
+  // Status and notes
+  status              SubscriptionStatus @default(ACTIVE)
+  notes               String?
+  lastBillingDate     DateTime?
+  nextBillingDate     DateTime?
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String?
+
+  // Relations
+  tenant         Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  client         Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  package        ServicePackage @relation(fields: [packageId], references: [id])
+
+  @@map("client_service_subscriptions")
+  @@unique([clientId, packageId])
+  @@index([tenantId])
+  @@index([clientId])
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+  EXPIRED
+  PENDING_ACTIVATION
+}
+
+// Dynamic service requirements based on client type
+model ClientTypeTemplate {
+  id          String   @id @default(cuid())
+  tenantId    String
+  name        String   // "Individual", "Small Business", "Corporation", etc.
+  description String?
+
+  // Default service requirements
+  requiredServices     Json // Array of required services
+  recommendedServices  Json // Array of recommended services
+  optionalServices     Json // Array of optional services
+
+  // Workflow templates
+  onboardingSteps      Json // Custom onboarding workflow
+  complianceChecklist  Json // Regular compliance requirements
+  documentRequirements Json // Required documents
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  clients   Client[] @relation("ClientTypeTemplateRelation")
+
+  @@map("client_type_templates")
+  @@index([tenantId])
+}

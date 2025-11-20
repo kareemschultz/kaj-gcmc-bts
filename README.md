@@ -15,9 +15,9 @@
 [![Vitest](https://img.shields.io/badge/tests-vitest-729b1b?style=for-the-badge&logo=vitest)](#)
 [![License](https://img.shields.io/badge/license-MIT-3b82f6?style=for-the-badge)](#)
 
-End‑to‑end **regulatory compliance & client management** platform for KAJ/GCMC, built as a modern **Better‑T‑style monorepo** with full **multi‑tenant support**, **RBAC**, **document workflows**, **filings**, **analytics**, and **PDF reporting**.
+End‑to‑end **digital transformation platform** for accounting practices in Guyana, featuring complete **GRA/NIS eServices integration**, **hybrid physical-to-digital migration workflows**, **dynamic service package management**, and **enterprise-grade compliance automation**. Built as a modern **Better‑T‑style monorepo** with full **multi‑tenant support**, **RBAC**, **advanced document workflows**, **real-time filings**, **business intelligence**, and **comprehensive PDF reporting**.
 
-> 🎉 **Latest Update (Nov 19, 2025)**: **COMPLETE PLATFORM TRANSFORMATION!** All "super slick" features from the original super prompt have been implemented including modern animated dashboard, comprehensive client portal, wizard-based workflows, advanced modal systems, client profiles with history tracking, data visualization components, complete Guyanese agency system (29 authorities), smart document upload with AI categorization, agency compliance tracking, micro-interactions & animations, and modern form builder with regulatory validation. Platform is now fully feature-complete and production-ready!
+> 🎉 **Latest Update (Nov 19, 2025)**: **COMPLETE DIGITAL TRANSFORMATION PLATFORM!** All "super slick" features implemented including modern animated dashboard, comprehensive client portal, wizard-based workflows, advanced modal systems, client profiles with history tracking, data visualization components, complete Guyanese agency system (29 authorities), smart document upload with AI categorization, agency compliance tracking, micro-interactions & animations, modern form builder with regulatory validation, **GRA eServices integration** (eservices.gra.gov.gy), **NIS Electronic Schedule Submission** (esched.nis.org.gy), **hybrid physical-to-digital file migration workflows**, and **dynamic service package management**. Platform is now fully feature-complete and production-ready!
 
 > 🔧 **Authentication & Infrastructure Update**: Fixed all authentication issues and server connectivity problems. Platform now runs smoothly with working credentials, proper server configuration, and all services operational. CSP middleware temporarily disabled for development. All major platform components tested and verified functional.
 
@@ -68,20 +68,24 @@ End‑to‑end **regulatory compliance & client management** platform for KAJ/GC
 
 ## 🚀 Overview
 
-This repository contains the **KAJ‑GCMC SaaS platform** – a multi‑tenant system for:
+This repository contains the **GCMC-KAJ Digital Transformation Platform** – a comprehensive multi‑tenant system for:
 
-- Managing **clients & client businesses**
-- Tracking **documents**, **filings**, **services**, and **tasks**
-- Enforcing **compliance rules** and **requirement bundles** (e.g. GRA, NIS, Deeds, GO‑Invest)
-- Providing **dashboards, analytics, and PDF reports**
-- Running **background jobs** for compliance refresh, expiry notifications, and filing reminders
+- **Digital Migration**: Converting traditional physical file cabinets to organized digital workflows
+- **GRA/NIS Integration**: Direct integration with Guyana Revenue Authority's OPTIMAL system (eservices.gra.gov.gy) and NIS Electronic Schedule Submission (esched.nis.org.gy)
+- **Dynamic Service Packages**: Flexible client service management with GRA VAT/PAYE, NIS contributions, DCRA registrations, and immigration compliance
+- **Hybrid Workflows**: Seamless transition from physical documents to digital compliance management
+- **Enterprise Analytics**: Real-time business intelligence with compliance tracking across all 29 Guyanese regulatory authorities
+- **Automated Compliance**: Background jobs for GRA/NIS filing deadlines, document expiry notifications, and regulatory compliance monitoring
+- **Client Portal**: Professional client-facing interface with document management, communication, and compliance status tracking
 
-The legacy implementation lived in a **Next.js monolith**. It has been fully migrated into a **modern monorepo** with:
+The platform has evolved from traditional file-based accounting practices into a **modern digital ecosystem** with:
 
-- Clear separation of concerns (web / api / worker / shared packages)
-- Strong **type safety** via TypeScript, tRPC, and Prisma
-- Production‑ready **Docker** setup
-- Rich **PDF reporting** for client files, documents, filings, services, and compliance
+- **Hybrid Migration Architecture**: Seamless transition from physical file cabinets to digital workflows
+- **GRA/NIS API Integration**: Direct connectivity with Guyana's tax and insurance systems
+- **Dynamic Service Management**: Flexible client service packages with real-time pricing and compliance tracking
+- **Enterprise Security**: Multi-tenant isolation, RBAC, and audit logging for compliance requirements
+- **Production‑ready Infrastructure**: Docker containerization, Kubernetes deployment, and comprehensive monitoring
+- **Advanced PDF Reporting**: Client files, GRA submissions, NIS schedules, compliance reports, and business analytics
 
 ---
 
@@ -140,13 +144,31 @@ The legacy implementation lived in a **Next.js monolith**. It has been fully mig
 - **Mobile-optimized chart viewers** with responsive design
 - **Advanced Chart Library** with correlation analysis
 
-#### **🏛️ Complete Guyanese Agency System (29 Authorities)**
-- **GRA (Guyana Revenue Authority)** tax workflows and calculations
-- **NIS (National Insurance Scheme)** contribution tracking and validation
-- **DCRA (Deeds and Commercial Registry Authority)** business registration
-- **Immigration Department** compliance and documentation workflows
-- **All 29 regulatory authorities** with specific validation rules and workflows
-- **Cross-agency workflow coordination** and compliance monitoring
+#### **🏛️ Complete Guyanese Agency System & eServices Integration**
+
+##### **GRA (Guyana Revenue Authority) Integration**
+- **Direct OPTIMAL System Integration**: Connected to GRA's modern revenue management system
+- **eServices Portal**: Full integration with [eservices.gra.gov.gy](https://eservices.gra.gov.gy)
+- **VAT & PAYE Electronic Submissions**: Automated filing of tax returns and payments
+- **Tax Calculation Engines**: Built-in VAT, PAYE, Income Tax, and Corporate Tax calculations
+- **Real-time Filing Status**: Live updates on submission status and payment confirmations
+- **GRA Compliance Dashboard**: Comprehensive tracking of all tax obligations and deadlines
+
+##### **NIS (National Insurance Scheme) Integration**
+- **Electronic Schedule Submission**: Direct integration with [esched.nis.org.gy](https://esched.nis.org.gy)
+- **Monthly & Weekly Schedules**: Automated submission of employee contribution schedules
+- **Contribution Calculations**: Built-in NIS contribution rate calculations and validations
+- **Employer Registration Management**: Complete NIS employer registration and compliance workflows
+- **Deadline Tracking**: Automated reminders for 15th-of-month submission deadlines
+- **Employee Management**: Comprehensive employee NIS registration and contribution tracking
+
+##### **Complete Regulatory Framework (29 Authorities)**
+- **DCRA (Deeds and Commercial Registry Authority)** business registration and annual returns
+- **Immigration Department** work permit and compliance documentation workflows
+- **EPA (Environmental Protection Agency)** environmental compliance and permitting
+- **All 29 regulatory authorities** with specific validation rules and automated workflows
+- **Cross-agency workflow coordination** and integrated compliance monitoring
+- **Unified compliance dashboard** with real-time status across all agencies
 
 #### **📋 Smart Document Upload System**
 - **AI-powered document categorization** and classification
@@ -175,6 +197,24 @@ The legacy implementation lived in a **Next.js monolith**. It has been fully mig
 - **Real-time validation** with regulatory compliance checking
 - **Tax and NIS calculation engines** with automated computations
 - **Mobile-responsive form rendering** with accessibility support
+
+#### **📁 Hybrid Physical-to-Digital Migration Workflows**
+- **Digital File Cabinet Organization**: Systematic migration from physical filing systems
+- **Document Digitization Workflows**: Streamlined scanning, categorization, and indexing
+- **Client Onboarding Migration**: Step-by-step transition from paper-based to digital processes
+- **Legacy Data Integration**: Import existing client data and historical compliance records
+- **Dual-Mode Operations**: Support for both digital and traditional workflows during transition
+- **Progress Tracking**: Real-time migration status and completion analytics
+- **Training Modules**: Built-in guidance for staff transitioning to digital workflows
+
+#### **📦 Dynamic Service Package Management**
+- **Flexible Service Packages**: Customizable client service bundles (GRA, NIS, DCRA, Immigration)
+- **Real-time Pricing Engine**: Dynamic pricing based on service complexity and compliance requirements
+- **Client Subscription Management**: Monthly, quarterly, and annual service agreements
+- **Service Performance Tracking**: Monitor service delivery and client satisfaction metrics
+- **Automated Billing Integration**: Seamless invoicing and payment processing
+- **Compliance Service Automation**: Automated filing and submission workflows
+- **Mobile App "Padna" Integration**: Client mobile access to service status and documents
 
 ---
 
@@ -334,6 +374,14 @@ MINIO_BUCKET_PREFIX=gcmc
 AUTH_SECRET=your-long-random-secret
 AUTH_URL=http://localhost:3001
 
+# GRA/NIS Integration (Production)
+GRA_ESERVICES_API_URL=https://eservices.gra.gov.gy/api
+GRA_OPTIMAL_SYSTEM_URL=https://optimal.gra.gov.gy
+NIS_ESCHED_API_URL=https://esched.nis.org.gy/api
+GRA_CLIENT_ID=your-gra-client-id
+GRA_CLIENT_SECRET=your-gra-client-secret
+NIS_API_KEY=your-nis-api-key
+
 # App
 NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
@@ -419,9 +467,32 @@ This will start:
 - `gcmc-kaj-minio` – MinIO
 - `gcmc-kaj-api` – Hono + tRPC API
 - `gcmc-kaj-web` – Next.js web app
+- `gcmc-kaj-portal` – Client portal
 - `gcmc-kaj-worker` – BullMQ worker
 
-### 4. Helpful Scripts
+### 4. Production Deployment
+
+For production deployment with Docker Compose:
+
+```bash
+# Production environment with secure settings
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+
+# Or using Docker Swarm for high availability
+docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml gcmc-kaj
+
+# Scale services for production load
+docker compose up -d --scale api=3 --scale web=2 --scale worker=2
+```
+
+For Kubernetes deployment see [DEPLOYMENT.md](./DEPLOYMENT.md) for complete production setup instructions including:
+- Kubernetes manifests and Helm charts
+- SSL/TLS certificate configuration
+- High availability database setup
+- Monitoring and logging configuration
+- Backup and disaster recovery procedures
+
+### 5. Helpful Scripts
 
 In `package.json` (root), you will typically find scripts like:
 

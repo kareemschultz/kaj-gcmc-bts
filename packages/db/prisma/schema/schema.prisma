@@ -147,6 +147,9 @@ model Tenant {
   agencyFormTemplates     AgencyFormTemplate[]
   agencySubmissions        AgencySubmission[]
   agencyIntegrationConfigs AgencyIntegrationConfig[]
+  servicePackages         ServicePackage[]
+  clientServiceSubscriptions ClientServiceSubscription[]
+  clientTypeTemplates     ClientTypeTemplate[]
 
   @@map("tenants")
 }
@@ -244,6 +247,7 @@ model Client {
   complianceAlerts        ComplianceAlert[]
   agencySubmissions       AgencySubmission[]
   workflowExecutions      WorkflowExecution[]
+  serviceSubscriptions    ClientServiceSubscription[]
 
   @@index([tenantId])
   @@index([tenantId, type])
@@ -337,6 +341,24 @@ model Document {
   authority        String?
   tags             String[]
   latestVersionId  Int?     @unique
+
+  // Enhanced migration tracking
+  sourceType              String?   @default("digital") // physical, digital, scanned, imported
+  physicalLocation        String?   // Original physical location if scanned
+  migrationDate           DateTime? // When this was digitized/migrated
+  migrationQualityScore   Float?    // Quality score from migration process
+  migrationNotes          String?   // Notes from migration process
+
+  // OCR and AI enhancements
+  ocrConfidenceScore      Float?    // Overall OCR confidence
+  aiClassification        Json?     // AI-powered document classification results
+  extractedEntities       Json?     // Named entities extracted from document
+  complianceFlags         Json?     // GRA/NIS compliance markers
+
+  // Version control enhancements
+  isLatestPhysicalVersion Boolean   @default(true)
+  physicalVersionNotes    String?
+
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -350,6 +372,9 @@ model Document {
   // Enhanced Agency System Relations
   agencyRequirementStatuses AgencyRequirementStatus[]
   workflowExecutions       WorkflowExecution[]
+  // Migration tracking relations
+  physicalRecords         PhysicalDocumentRecord[]
+  syncStatus              DocumentSyncStatus[]
 
   @@index([tenantId])
   @@index([clientId])
@@ -361,6 +386,8 @@ model Document {
   @@index([clientId, status])
   @@index([createdAt])
   @@index([tenantId, documentTypeId, status])
+  @@index([sourceType]) // New index for migration tracking
+  @@index([migrationDate]) // New index for migration queries
   @@map("documents")
 }
 
@@ -1630,4 +1657,784 @@ model AgencyIntegrationConfig {
   @@index([isHealthy])
   @@index([lastHealthCheck])
   @@map("agency_integration_configs")
+}
+
+// ============================================================================
+// DYNAMIC SERVICE PACKAGES - DIGITIZED CLIENT FOLDERS
+// Service Packages - Dynamic client service subscriptions
+// Replaces physical client folders with different service needs
+// ============================================================================
+
+model ServicePackage {
+  id          Int      @id @default(autoincrement())
+  tenantId    Int
+  name        String   // "Basic GRA", "Full Compliance", "Business Only", etc.
+  description String?
+  isActive    Boolean  @default(true)
+
+  // Service inclusions
+  includesGRA      Boolean @default(false)
+  includesNIS      Boolean @default(false)
+  includesDCRA     Boolean @default(false)
+  includesImmig    Boolean @default(false)
+
+  // GRA specific services
+  graVAT           Boolean @default(false)
+  graPAYE          Boolean @default(false)
+  graIncomeTax     Boolean @default(false)
+  graCorporateTax  Boolean @default(false)
+
+  // NIS specific services
+  nisMonthlyReturns   Boolean @default(false)
+  nisAnnualReturns    Boolean @default(false)
+  nisEmployerReg      Boolean @default(false)
+  nisEmployeeReg      Boolean @default(false)
+
+  // DCRA specific services
+  dcraBusinessReg     Boolean @default(false)
+  dcraCompanyIncorp   Boolean @default(false)
+  dcraAnnualReturns   Boolean @default(false)
+  dcraNameReserv      Boolean @default(false)
+
+  // Pricing and billing
+  monthlyFee      Decimal? @db.Decimal(10, 2)
+  perFilingFee    Decimal? @db.Decimal(10, 2)
+  setupFee        Decimal? @db.Decimal(10, 2)
+
+  // Client subscriptions
+  clientSubscriptions ClientServiceSubscription[]
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String?
+
+  // Relations
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@map("service_packages")
+  @@index([tenantId])
+}
+
+model ClientServiceSubscription {
+  id              Int      @id @default(autoincrement())
+  tenantId        Int
+  clientId        Int
+  packageId       Int
+
+  // Subscription details
+  isActive        Boolean  @default(true)
+  startDate       DateTime @default(now())
+  endDate         DateTime?
+  autoRenew       Boolean  @default(true)
+
+  // Custom service modifications for this client
+  customGRAServices    Json? // Custom GRA service selections
+  customNISServices    Json? // Custom NIS service selections
+  customDCRAServices   Json? // Custom DCRA service selections
+  customImmigServices  Json? // Custom Immigration services
+
+  // Billing overrides
+  customMonthlyFee     Decimal? @db.Decimal(10, 2)
+  customPerFilingFee   Decimal? @db.Decimal(10, 2)
+  discountPercent      Int?     @default(0)
+
+  // Status and notes
+  status              SubscriptionStatus @default(ACTIVE)
+  notes               String?
+  lastBillingDate     DateTime?
+  nextBillingDate     DateTime?
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String?
+
+  // Relations
+  tenant         Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  client         Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  package        ServicePackage @relation(fields: [packageId], references: [id])
+
+  @@map("client_service_subscriptions")
+  @@unique([clientId, packageId])
+  @@index([tenantId])
+  @@index([clientId])
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+  EXPIRED
+  PENDING_ACTIVATION
+}
+
+// Dynamic service requirements based on client type
+model ClientTypeTemplate {
+  id          String   @id @default(cuid())
+  tenantId    Int
+  name        String   // "Individual", "Small Business", "Corporation", etc.
+  description String?
+
+  // Default service requirements
+  requiredServices     Json // Array of required services
+  recommendedServices  Json // Array of recommended services
+  optionalServices     Json // Array of optional services
+
+  // Workflow templates
+  onboardingSteps      Json // Custom onboarding workflow
+  complianceChecklist  Json // Regular compliance requirements
+  documentRequirements Json // Required documents
+
+  // Audit fields
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  clients   Client[] @relation("ClientTypeTemplateRelation")
+
+  @@map("client_type_templates")
+  @@index([tenantId])
+}
+
+// ============================================================================
+// HYBRID PHYSICAL-DIGITAL DOCUMENT MIGRATION SYSTEM
+// ============================================================================
+
+// Document Migration Projects - Track physical to digital conversion projects
+model DocumentMigrationProject {
+  id                Int       @id @default(autoincrement())
+  tenantId          Int
+  clientId          Int?      // Optional: client-specific migration
+  name              String
+  description       String?
+  status            String    // planning, in_progress, quality_review, completed, cancelled
+
+  // Physical inventory details
+  totalPhysicalFiles     Int      @default(0)
+  scannedFiles          Int      @default(0)
+  processedFiles        Int      @default(0)
+  qualityApprovedFiles  Int      @default(0)
+
+  // Estimated metrics
+  estimatedDuration     Int?     // in days
+  estimatedFileCount    Int?
+  estimatedCompletionDate DateTime?
+
+  // Progress tracking
+  startDate             DateTime?
+  completionDate        DateTime?
+  lastActivity          DateTime @default(now())
+
+  // Configuration
+  scanSettings          Json     // resolution, color mode, OCR settings
+  organizationRules     Json     // folder structure, naming conventions
+  qualityStandards      Json     // minimum quality requirements
+
+  // Priority and resources
+  priority              String   @default("medium") // low, medium, high, urgent
+  assignedTeam          String[]
+  estimatedCost         Decimal? @db.Decimal(10, 2)
+
+  // Metadata
+  metadata              Json?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  createdBy             String?
+
+  // Relations
+  tenant                Tenant                    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  client                Client?                   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  physicalDocuments     PhysicalDocumentRecord[]
+  migrationTasks        DocumentMigrationTask[]
+  progressLogs          MigrationProgressLog[]
+
+  @@map("document_migration_projects")
+  @@index([tenantId])
+  @@index([clientId])
+  @@index([status])
+  @@index([tenantId, status])
+}
+
+// Physical Document Records - Track physical documents before/during digitization
+model PhysicalDocumentRecord {
+  id                    Int       @id @default(autoincrement())
+  tenantId              Int
+  migrationProjectId    Int
+  clientId              Int?
+
+  // Physical location tracking
+  physicalLocation      String    // Cabinet, Drawer, Folder location
+  fileNumber            String?   // Physical file numbering system
+  category              String    // Document category/type
+  description           String
+
+  // Physical characteristics
+  documentCount         Int       @default(1)
+  estimatedPages        Int?
+  condition             String    @default("good") // excellent, good, fair, poor
+  specialHandling       Boolean   @default(false)
+
+  // Migration status tracking
+  migrationStatus       String    @default("pending") // pending, scanning, processing, completed, failed
+  digitalDocumentId     Int?      // Link to digital document once created
+  scanDate              DateTime?
+  processedDate         DateTime?
+  qualityCheckDate      DateTime?
+
+  // Quality and notes
+  qualityScore          Float?    // 0-100 quality score
+  scanNotes             String?
+  processingNotes       String?
+  qualityNotes          String?
+
+  // Disposal tracking
+  disposalScheduled     Boolean   @default(false)
+  disposalDate          DateTime?
+  disposalMethod        String?   // return_to_client, secure_destruction, archive
+  disposalApprovalBy    String?
+
+  // Metadata
+  metadata              Json?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  scannedBy             String?
+  processedBy           String?
+  qualityCheckedBy      String?
+
+  // Relations
+  tenant                Tenant                  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  migrationProject      DocumentMigrationProject @relation(fields: [migrationProjectId], references: [id], onDelete: Cascade)
+  client                Client?                 @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  digitalDocument       Document?               @relation(fields: [digitalDocumentId], references: [id], onDelete: SetNull)
+  migrationTasks        DocumentMigrationTask[] @relation("DocumentMigrationTasks")
+  syncStatuses          DocumentSyncStatus[]
+
+  @@map("physical_document_records")
+  @@index([tenantId])
+  @@index([migrationProjectId])
+  @@index([clientId])
+  @@index([migrationStatus])
+  @@index([physicalLocation])
+  @@index([tenantId, migrationStatus])
+}
+
+// Document Migration Tasks - Track specific migration activities
+model DocumentMigrationTask {
+  id                    Int       @id @default(autoincrement())
+  tenantId              Int
+  migrationProjectId    Int
+  physicalDocumentId    Int?
+
+  // Task details
+  title                 String
+  description           String?
+  taskType              String    // scanning, ocr_processing, quality_review, data_entry, filing
+  status                String    @default("pending") // pending, in_progress, completed, failed, cancelled
+  priority              String    @default("medium") // low, medium, high, urgent
+
+  // Assignment and timing
+  assignedTo            String?
+  estimatedDuration     Int?      // in minutes
+  startedAt             DateTime?
+  completedAt           DateTime?
+  dueDate               DateTime?
+
+  // Dependencies and prerequisites
+  dependencies          String[]  // IDs of other tasks this depends on
+  prerequisites         Json?     // Required conditions before starting
+
+  // Progress and quality
+  progressPercentage    Int       @default(0)
+  qualityScore          Float?    // 0-100 quality score
+  failureReason         String?
+  retryCount            Int       @default(0)
+
+  // Notes and metadata
+  notes                 String?
+  metadata              Json?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  // Relations
+  tenant                Tenant                    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  migrationProject      DocumentMigrationProject  @relation(fields: [migrationProjectId], references: [id], onDelete: Cascade)
+  physicalDocument      PhysicalDocumentRecord?   @relation(fields: [physicalDocumentId], references: [id], onDelete: SetNull, name: "DocumentMigrationTasks")
+
+  @@map("document_migration_tasks")
+  @@index([tenantId])
+  @@index([migrationProjectId])
+  @@index([status])
+  @@index([assignedTo])
+  @@index([tenantId, status])
+  @@index([dueDate])
+}
+
+// Migration Progress Logs - Detailed activity tracking
+model MigrationProgressLog {
+  id                    Int       @id @default(autoincrement())
+  tenantId              Int
+  migrationProjectId    Int
+
+  // Event details
+  eventType             String    // scan_started, scan_completed, quality_check, etc.
+  eventDescription      String
+  eventData             Json?     // Additional event-specific data
+
+  // Metrics snapshot
+  filesScanned          Int?
+  filesProcessed        Int?
+  filesApproved         Int?
+  qualityScore          Float?
+
+  // Actor and timing
+  actorId               String?   // User who performed the action
+  timestamp             DateTime  @default(now())
+
+  // Metadata
+  metadata              Json?
+
+  // Relations
+  tenant                Tenant                    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  migrationProject      DocumentMigrationProject  @relation(fields: [migrationProjectId], references: [id], onDelete: Cascade)
+  actor                 User?                     @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@map("migration_progress_logs")
+  @@index([tenantId])
+  @@index([migrationProjectId])
+  @@index([timestamp])
+  @@index([eventType])
+}
+
+// Document Sync Status - Track sync between physical and digital versions
+model DocumentSyncStatus {
+  id                    Int       @id @default(autoincrement())
+  tenantId              Int
+  digitalDocumentId     Int
+  physicalDocumentId    Int?
+
+  // Sync status
+  syncStatus            String    @default("pending") // synced, pending, conflict, failed
+  lastSyncDate          DateTime?
+  syncVersion           Int       @default(1)
+
+  // Version tracking
+  digitalVersion        String?   // Version identifier for digital document
+  physicalVersion       String?   // Version identifier for physical document
+
+  // Conflict resolution
+  conflictType          String?   // version_mismatch, content_difference, metadata_conflict
+  conflictDescription   String?
+  conflictResolution    String?   // manual_review, prefer_digital, prefer_physical
+  resolvedBy            String?
+  resolvedAt            DateTime?
+
+  // Notifications
+  clientNotified        Boolean   @default(false)
+  clientNotifiedAt      DateTime?
+  notificationMethod    String?   // email, sms, portal_message
+
+  // Metadata
+  metadata              Json?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  // Relations
+  tenant                Tenant                  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  digitalDocument       Document                @relation(fields: [digitalDocumentId], references: [id], onDelete: Cascade)
+  physicalDocument      PhysicalDocumentRecord? @relation(fields: [physicalDocumentId], references: [id], onDelete: SetNull)
+
+  @@unique([tenantId, digitalDocumentId])
+  @@map("document_sync_status")
+  @@index([tenantId])
+  @@index([syncStatus])
+  @@index([digitalDocumentId])
+}
+
+// Legacy Data Import Jobs - Track bulk data migration from legacy systems
+model LegacyDataImportJob {
+  id                    Int       @id @default(autoincrement())
+  tenantId              Int
+
+  // Import job details
+  name                  String
+  description           String?
+  sourceSystem          String    // quickbooks, excel, paper_records, etc.
+  sourceLocation        String?   // File path or system identifier
+
+  // Status and progress
+  status                String    @default("pending") // pending, running, completed, failed, cancelled
+  totalRecords          Int?      // Total records to import
+  processedRecords      Int       @default(0)
+  successfulRecords     Int       @default(0)
+  failedRecords         Int       @default(0)
+
+  // Data mapping configuration
+  fieldMapping          Json      // Source field to target field mappings
+  transformationRules   Json      // Data transformation and validation rules
+  dataFilters           Json?     // Filters to apply during import
+
+  // Import settings
+  batchSize             Int       @default(100)
+  validateData          Boolean   @default(true)
+  skipDuplicates        Boolean   @default(true)
+  updateExisting        Boolean   @default(false)
+
+  // Quality control
+  qualityThreshold      Float     @default(0.95) // Minimum quality score to accept
+  manualReviewRequired  Boolean   @default(false)
+
+  // Timing
+  scheduledStartTime    DateTime?
+  actualStartTime       DateTime?
+  completionTime        DateTime?
+  estimatedDuration     Int?      // in minutes
+
+  // Results and logs
+  importSummary         Json?     // Summary of import results
+  errorLog              Json?     // Detailed error information
+  warningLog            Json?     // Warning messages
+
+  // Metadata
+  metadata              Json?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  createdBy             String?
+
+  // Relations
+  tenant                Tenant                    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  importRecords         LegacyDataImportRecord[]
+
+  @@map("legacy_data_import_jobs")
+  @@index([tenantId])
+  @@index([status])
+  @@index([tenantId, status])
+  @@index([sourceSystem])
+}
+
+// Legacy Data Import Records - Individual record import tracking
+model LegacyDataImportRecord {
+  id                    Int       @id @default(autoincrement())
+  tenantId              Int
+  importJobId           Int
+
+  // Record identification
+  sourceRecordId        String?   // ID in source system
+  recordType            String    // client, document, transaction, etc.
+
+  // Import status
+  status                String    @default("pending") // pending, imported, failed, skipped, duplicate
+  importedEntityId      Int?      // ID of created entity in target system
+  importedEntityType    String?   // Table/model name of imported entity
+
+  // Source data
+  sourceData            Json      // Original data from source system
+  transformedData       Json?     // Data after transformation rules
+
+  // Quality and validation
+  qualityScore          Float?    // 0-1 quality score
+  validationErrors      String[]  // Validation error messages
+  validationWarnings    String[]  // Validation warning messages
+
+  // Conflict resolution
+  isDuplicate           Boolean   @default(false)
+  duplicateOf           Int?      // ID of existing record this duplicates
+  conflictResolution    String?   // skip, merge, replace, manual_review
+
+  // Processing details
+  processedAt           DateTime?
+  processingDuration    Int?      // in milliseconds
+  retryCount            Int       @default(0)
+  lastError             String?
+
+  // Metadata
+  metadata              Json?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  // Relations
+  tenant                Tenant                @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  importJob             LegacyDataImportJob   @relation(fields: [importJobId], references: [id], onDelete: Cascade)
+
+  @@map("legacy_data_import_records")
+  @@index([tenantId])
+  @@index([importJobId])
+  @@index([status])
+  @@index([recordType])
+  @@index([sourceRecordId])
+  @@index([tenantId, status])
+}
+
+// Transition Workflow Templates - Predefined workflows for migration
+model TransitionWorkflowTemplate {
+  id                    Int       @id @default(autoincrement())
+  tenantId              Int
+
+  // Template details
+  name                  String
+  description           String?
+  workflowType          String    // client_onboarding, document_migration, system_training
+  clientTypes           String[]  // Which client types this applies to
+
+  // Workflow definition
+  steps                 Json      // Ordered list of workflow steps
+  estimatedDuration     Int?      // Total estimated duration in days
+  requiredSkills        String[]  // Skills needed to execute this workflow
+
+  // Configuration
+  isActive              Boolean   @default(true)
+  version               String    @default("1.0")
+  checklistItems        Json?     // Quality checkpoints
+  successCriteria       Json?     // Criteria for successful completion
+
+  // Usage tracking
+  timesUsed             Int       @default(0)
+  averageDuration       Int?      // in days
+  successRate           Float?    // 0-1 success rate
+
+  // Metadata
+  metadata              Json?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  createdBy             String?
+
+  // Relations
+  tenant                Tenant                        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  workflowExecutions    TransitionWorkflowExecution[]
+
+  @@map("transition_workflow_templates")
+  @@index([tenantId])
+  @@index([workflowType])
+  @@index([isActive])
+  @@index([tenantId, workflowType])
+}
+
+// Transition Workflow Executions - Active workflow instances
+model TransitionWorkflowExecution {
+  id                    Int       @id @default(autoincrement())
+  tenantId              Int
+  templateId            Int
+  clientId              Int?
+  migrationProjectId    Int?
+
+  // Execution details
+  name                  String
+  status                String    @default("pending") // pending, active, completed, cancelled, failed
+  currentStepIndex      Int       @default(0)
+
+  // Progress tracking
+  totalSteps            Int
+  completedSteps        Int       @default(0)
+  progressPercentage    Int       @default(0)
+
+  // Timing
+  startedAt             DateTime?
+  scheduledCompletion   DateTime?
+  actualCompletion      DateTime?
+  totalDuration         Int?      // in days
+
+  // Assignment
+  assignedTo            String?
+  supervisorId          String?
+
+  // Step execution tracking
+  stepStatuses          Json      // Array of step completion statuses
+  stepNotes             Json?     // Notes for each step
+  checkpointResults     Json?     // Quality checkpoint results
+
+  // Client interaction
+  clientFeedback        String?
+  clientSatisfaction    Float?    // 0-5 satisfaction rating
+
+  // Metadata
+  metadata              Json?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  // Relations
+  tenant                Tenant                      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  template              TransitionWorkflowTemplate  @relation(fields: [templateId], references: [id], onDelete: Restrict)
+  client                Client?                     @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  migrationProject      DocumentMigrationProject?   @relation(fields: [migrationProjectId], references: [id], onDelete: SetNull)
+
+  @@map("transition_workflow_executions")
+  @@index([tenantId])
+  @@index([templateId])
+  @@index([clientId])
+  @@index([status])
+  @@index([tenantId, status])
+  @@index([assignedTo])
+}
+
+// Enhanced models with migration support
+
+// Add migration relations to existing models
+model Client {
+  id        Int      @id @default(autoincrement())
+  tenantId  Int
+  name      String
+  type      String // individual/company/partnership
+  email     String?
+  phone     String?
+  address   String?
+  tin       String?
+  nisNumber String?
+  sector    String?
+  riskLevel String? // low/medium/high
+  notes     String?
+
+  // Migration preferences and status
+  migrationStatus         String?   @default("not_started") // not_started, planning, in_progress, completed
+  migrationPreferences    Json?     // Client preferences for migration process
+  legacySystemInfo        Json?     // Information about client's legacy systems
+  transitionStartDate     DateTime? // When transition process began
+  transitionCompleteDate  DateTime? // When transition was completed
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tenant           Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  businesses       ClientBusiness[]
+  documents        Document[]
+  filings          Filing[]
+  serviceRequests  ServiceRequest[]
+  complianceScores ComplianceScore[]
+  tasks            Task[]
+  clientTasks      ClientTask[]
+  conversations    Conversation[]
+  auditLogs        AuditLog[]
+  recurringFilings RecurringFiling[]
+  portalAccesses   ClientPortalAccess[]
+  generatedReports GeneratedReport[]
+  // Enhanced Agency System Relations
+  agencyComplianceStatuses AgencyComplianceStatus[]
+  agencyDeadlines         AgencyDeadline[]
+  agencyOverdueItems      AgencyOverdueItem[]
+  complianceAlerts        ComplianceAlert[]
+  agencySubmissions       AgencySubmission[]
+  workflowExecutions      WorkflowExecution[]
+  serviceSubscriptions    ClientServiceSubscription[]
+  // Migration relations
+  migrationProjects       DocumentMigrationProject[]
+  physicalDocuments       PhysicalDocumentRecord[]
+  transitionWorkflows     TransitionWorkflowExecution[]
+
+  @@index([tenantId])
+  @@index([tenantId, type])
+  @@index([tenantId, riskLevel])
+  @@index([tenantId, sector])
+  @@index([createdAt])
+  @@index([tenantId, createdAt])
+  @@index([migrationStatus]) // New index for migration tracking
+  @@map("clients")
+}
+
+// Add migration relations to existing models
+model Tenant {
+  id          Int      @id @default(autoincrement())
+  name        String
+  code        String   @unique
+  contactInfo Json?
+  settings    Json?
+
+  // Migration configuration
+  migrationSettings       Json?     // Global migration preferences and settings
+  legacySystemConfigs     Json?     // Configuration for legacy system integrations
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenantUsers             TenantUser[]
+  roles                   Role[]
+  clients                 Client[]
+  clientBusinesses        ClientBusiness[]
+  documentTypes           DocumentType[]
+  filingTypes             FilingType[]
+  services                Service[]
+  recurringFilings        RecurringFiling[]
+  notifications           Notification[]
+  auditLogs               AuditLog[]
+  subscriptions           Subscription[]
+  complianceRuleSets      ComplianceRuleSet[]
+  conversations           Conversation[]
+  tasks                   Task[]
+  clientTasks             ClientTask[]
+  serviceRequestTemplates ServiceRequestTemplate[]
+  serviceRequests         ServiceRequest[]
+  filings                 Filing[]
+  documents               Document[]
+  complianceScores        ComplianceScore[]
+  requirementBundles      RequirementBundle[]
+  portalClientAccesses    ClientPortalAccess[]
+  generatedReports        GeneratedReport[]
+  // Enhanced Agency System
+  agencyInfos             AgencyInfo[]
+  agencyDocumentRequirements AgencyDocumentRequirement[]
+  agencyComplianceStatuses AgencyComplianceStatus[]
+  agencyDeadlines         AgencyDeadline[]
+  agencyOverdueItems      AgencyOverdueItem[]
+  complianceAlerts        ComplianceAlert[]
+  documentWorkflows       DocumentWorkflow[]
+  workflowExecutions      WorkflowExecution[]
+  agencyFormTemplates     AgencyFormTemplate[]
+  agencySubmissions        AgencySubmission[]
+  agencyIntegrationConfigs AgencyIntegrationConfig[]
+  servicePackages         ServicePackage[]
+  clientServiceSubscriptions ClientServiceSubscription[]
+  clientTypeTemplates     ClientTypeTemplate[]
+  // Migration relations
+  migrationProjects       DocumentMigrationProject[]
+  physicalDocuments       PhysicalDocumentRecord[]
+  migrationTasks          DocumentMigrationTask[]
+  migrationProgressLogs   MigrationProgressLog[]
+  documentSyncStatuses    DocumentSyncStatus[]
+  legacyImportJobs        LegacyDataImportJob[]
+  legacyImportRecords     LegacyDataImportRecord[]
+  transitionWorkflowTemplates TransitionWorkflowTemplate[]
+  transitionWorkflowExecutions TransitionWorkflowExecution[]
+
+  @@map("tenants")
+}
+
+// Add migration relations to existing User model
+model User {
+  id            String   @id @default(cuid()) @map("_id")
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  phone         String?
+  avatarUrl     String?
+
+  // Migration and training tracking
+  migrationTrainingCompleted Boolean   @default(false)
+  migrationTrainingDate      DateTime?
+  legacySystemExperience     Json?     // Experience with legacy systems
+  digitalProficiency         String?   @default("beginner") // beginner, intermediate, advanced
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions             Session[]
+  accounts             Account[]
+  tenantUsers          TenantUser[]
+  portalClientAccesses ClientPortalAccess[]
+  messages             Message[]            @relation("MessageAuthor")
+  tasks                Task[]               @relation("TaskAssignee")
+  notifications        Notification[]       @relation("NotificationRecipient")
+  auditLogs            AuditLog[]           @relation("AuditActor")
+  // Enhanced Agency System Relations
+  agencyDeadlinesAssigned AgencyDeadline[]
+  complianceAlertsAcknowledged ComplianceAlert[]
+  submissionsSubmitted AgencySubmission[]   @relation("SubmissionSubmitter")
+  submissionsProcessed AgencySubmission[]   @relation("SubmissionProcessor")
+  submissionEventsActed SubmissionEvent[]   @relation("EventActor")
+  // Migration relations
+  migrationProgressLogs MigrationProgressLog[]
+
+  @@index([email])
+  @@index([createdAt])
+  @@index([migrationTrainingCompleted]) // New index for training tracking
+  @@map("user")
 }

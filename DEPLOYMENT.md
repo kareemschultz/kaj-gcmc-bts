@@ -1,19 +1,25 @@
-# GCMC-KAJ Business Tax Services - Production Deployment Guide
+# GCMC-KAJ Digital Transformation Platform - Production Deployment Guide
 
 ## Overview
 
-This document provides comprehensive instructions for deploying the GCMC-KAJ Business Tax Services platform to production using Kubernetes, Docker, and automated CI/CD pipelines.
+This document provides comprehensive instructions for deploying the GCMC-KAJ Digital Transformation Platform to production. The platform features complete GRA/NIS eServices integration, hybrid physical-to-digital migration workflows, dynamic service package management, and enterprise-grade compliance automation.
 
-## Architecture
+## Platform Architecture
 
-The platform consists of the following services:
-- **Web Application**: Next.js admin dashboard
-- **Portal Application**: Next.js client portal
-- **API Server**: Hono + tRPC backend services
-- **Worker**: BullMQ background job processor
-- **PostgreSQL**: Primary database
-- **Redis**: Cache and job queue
-- **MinIO**: S3-compatible object storage
+### Core Services
+- **Web Application**: Next.js admin dashboard with business intelligence
+- **Portal Application**: Next.js client portal with document management
+- **API Server**: Hono + tRPC backend with GRA/NIS integration
+- **Worker**: BullMQ background job processor for compliance automation
+- **PostgreSQL**: Primary database with multi-tenant isolation
+- **Redis**: Cache, job queue, and session storage
+- **MinIO**: S3-compatible object storage for documents
+
+### Integration Services
+- **GRA eServices**: Direct integration with [eservices.gra.gov.gy](https://eservices.gra.gov.gy) OPTIMAL system
+- **NIS Electronic Schedules**: Integration with [esched.nis.org.gy](https://esched.nis.org.gy)
+- **Dynamic Service Management**: Flexible client service packages and pricing
+- **Compliance Automation**: Real-time filing and submission workflows
 
 ## Prerequisites
 
@@ -114,7 +120,40 @@ sed -i "s/PLACEHOLDER_SMTP_USER/your-smtp-user/g" k8s/base/secrets.yaml
 sed -i "s/PLACEHOLDER_SMTP_PASSWORD/your-smtp-password/g" k8s/base/secrets.yaml
 ```
 
-### 4. Domain and DNS Configuration
+### 4. GRA/NIS Integration Setup
+
+#### GRA eServices Configuration
+```bash
+# Register your application with GRA eServices
+# Contact: eservices@gra.gov.gy or optimal@gra.gov.gy
+# Obtain production API credentials
+
+# Update secrets with GRA credentials
+sed -i "s/PLACEHOLDER_GRA_CLIENT_ID/your-gra-client-id/g" k8s/base/secrets.yaml
+sed -i "s/PLACEHOLDER_GRA_CLIENT_SECRET/your-gra-client-secret/g" k8s/base/secrets.yaml
+sed -i "s/PLACEHOLDER_GRA_API_URL/https:\/\/eservices.gra.gov.gy\/api/g" k8s/base/secrets.yaml
+```
+
+#### NIS Electronic Schedule Configuration
+```bash
+# Register your application with NIS esched system
+# Contact: support@nis.org.gy
+# Obtain NIS API credentials
+
+# Update secrets with NIS credentials
+sed -i "s/PLACEHOLDER_NIS_API_KEY/your-nis-api-key/g" k8s/base/secrets.yaml
+sed -i "s/PLACEHOLDER_NIS_API_URL/https:\/\/esched.nis.org.gy\/api/g" k8s/base/secrets.yaml
+```
+
+#### Government Integration Compliance
+```bash
+# Ensure compliance with Government IT Security Requirements
+# Configure TLS certificates for government API communication
+# Set up API rate limiting according to GRA/NIS guidelines
+# Configure audit logging for all government API interactions
+```
+
+### 5. Domain and DNS Configuration
 
 Update the following files with your actual domains:
 - `k8s/base/secrets.yaml` - Update all URL references
@@ -158,7 +197,7 @@ kubectl rollout status deployment/gcmc-kaj-portal -n gcmc-kaj
 kubectl rollout status deployment/gcmc-kaj-worker -n gcmc-kaj
 ```
 
-3. **Database Migration**
+3. **Database Migration & Initial Setup**
 ```bash
 # Run database migrations (from a temporary pod)
 kubectl run migration-job --rm -i --tty \
@@ -167,6 +206,22 @@ kubectl run migration-job --rm -i --tty \
   --restart=Never \
   --env="DATABASE_URL=postgresql://postgres:$DB_PASSWORD@postgres:5432/gcmc_kaj" \
   -- bun --cwd packages/db db:migrate:deploy
+
+# Initialize GRA/NIS integration data
+kubectl run setup-integration-job --rm -i --tty \
+  --image=ghcr.io/your-org/gcmc-kaj/server:v1.0.0 \
+  --namespace=gcmc-kaj \
+  --restart=Never \
+  --env="DATABASE_URL=postgresql://postgres:$DB_PASSWORD@postgres:5432/gcmc_kaj" \
+  -- bun run setup-gra-nis-integration.js
+
+# Create default service packages
+kubectl run setup-services-job --rm -i --tty \
+  --image=ghcr.io/your-org/gcmc-kaj/server:v1.0.0 \
+  --namespace=gcmc-kaj \
+  --restart=Never \
+  --env="DATABASE_URL=postgresql://postgres:$DB_PASSWORD@postgres:5432/gcmc_kaj" \
+  -- bun run setup-default-service-packages.js
 ```
 
 ### Staging Deployment
@@ -220,6 +275,9 @@ kubectl apply -f k8s/monitoring/elasticsearch.yaml
 2. **Web Application**: `https://app.gcmc-kaj.example.com/api/health`
 3. **Portal**: `https://portal.gcmc-kaj.example.com/api/health`
 4. **Worker**: Internal health check on port 3004
+5. **GRA Integration**: `https://api.gcmc-kaj.example.com/health/gra-integration`
+6. **NIS Integration**: `https://api.gcmc-kaj.example.com/health/nis-integration`
+7. **Dynamic Services**: `https://api.gcmc-kaj.example.com/health/dynamic-services`
 
 ### Verification Commands
 
@@ -243,6 +301,23 @@ kubectl exec -it deployment/postgres -n gcmc-kaj -- psql -U postgres -d gcmc_kaj
 
 # Test Redis connectivity
 kubectl exec -it deployment/redis -n gcmc-kaj -- redis-cli ping
+
+# Test GRA eServices integration
+kubectl exec -it deployment/gcmc-kaj-api -n gcmc-kaj -- \
+  curl -H "Authorization: Bearer $GRA_API_TOKEN" \
+  https://eservices.gra.gov.gy/api/health
+
+# Test NIS Electronic Schedule integration
+kubectl exec -it deployment/gcmc-kaj-api -n gcmc-kaj -- \
+  curl -H "X-API-Key: $NIS_API_KEY" \
+  https://esched.nis.org.gy/api/health
+
+# Verify dynamic service packages are loaded
+kubectl exec -it deployment/gcmc-kaj-api -n gcmc-kaj -- \
+  curl http://localhost:3000/api/trpc/dynamicServices.getServicePackages
+
+# Test compliance automation worker
+kubectl logs -f deployment/gcmc-kaj-worker -n gcmc-kaj | grep "compliance-refresh"
 ```
 
 ## Scaling and Performance

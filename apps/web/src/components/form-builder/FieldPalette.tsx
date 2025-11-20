@@ -25,7 +25,7 @@ import {
 	Percent,
 	Phone,
 	Radio,
-	Separator,
+	SeparatorVertical as Separator,
 	Type,
 	Upload,
 	Users,

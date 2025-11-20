@@ -1,7 +1,8 @@
 "use client";
 
 import React, { memo, useEffect } from "react";
-import { ModalProvider, ModalRenderer } from "./modal-context";
+import { ModalProvider } from "./modal-context";
+import { ModalRenderer } from "./modal-renderer";
 import { OptimizedModalRenderer, useModalPreloader } from "./optimized-modal";
 import { ResponsiveModalRenderer } from "./responsive-modal";
 

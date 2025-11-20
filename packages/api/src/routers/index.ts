@@ -28,6 +28,7 @@ import { tasksRouter } from "./tasks";
 import { tenantsRouter } from "./tenants";
 import { usersRouter } from "./users";
 import { wizardsRouter } from "./wizards";
+import { dynamicServicesRouter } from "./dynamic-services";
 
 export const appRouter = router({
 	// System health check
@@ -67,6 +68,7 @@ export const appRouter = router({
 	// Service management
 	services: servicesRouter,
 	serviceRequests: serviceRequestsRouter,
+	dynamicServices: dynamicServicesRouter,
 
 	// Operational workflows
 	tasks: tasksRouter,
