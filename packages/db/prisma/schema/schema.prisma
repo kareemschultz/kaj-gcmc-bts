@@ -42,6 +42,7 @@ model User {
   submissionsSubmitted AgencySubmission[]   @relation("SubmissionSubmitter")
   submissionsProcessed AgencySubmission[]   @relation("SubmissionProcessor")
   submissionEventsActed SubmissionEvent[]   @relation("EventActor")
+  migrationProgressLogs MigrationProgressLog[]
 
   @@index([email])
   @@index([createdAt])
@@ -150,6 +151,16 @@ model Tenant {
   servicePackages         ServicePackage[]
   clientServiceSubscriptions ClientServiceSubscription[]
   clientTypeTemplates     ClientTypeTemplate[]
+  // Enhanced migration system relations
+  documentMigrationProjects DocumentMigrationProject[]
+  physicalDocumentRecords PhysicalDocumentRecord[]
+  documentMigrationTasks DocumentMigrationTask[]
+  migrationProgressLogs  MigrationProgressLog[]
+  documentSyncStatuses   DocumentSyncStatus[]
+  legacyDataImportJobs   LegacyDataImportJob[]
+  legacyDataImportRecords LegacyDataImportRecord[]
+  transitionWorkflowTemplates TransitionWorkflowTemplate[]
+  transitionWorkflowExecutions TransitionWorkflowExecution[]
 
   @@map("tenants")
 }
@@ -248,6 +259,10 @@ model Client {
   agencySubmissions       AgencySubmission[]
   workflowExecutions      WorkflowExecution[]
   serviceSubscriptions    ClientServiceSubscription[]
+  // Enhanced migration system relations
+  documentMigrationProjects DocumentMigrationProject[]
+  physicalDocumentRecords PhysicalDocumentRecord[]
+  transitionWorkflowExecutions TransitionWorkflowExecution[]
 
   @@index([tenantId])
   @@index([tenantId, type])
@@ -1792,7 +1807,7 @@ model ClientTypeTemplate {
 
   // Relations
   tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  clients   Client[] @relation("ClientTypeTemplateRelation")
+  // NOTE: This relation is defined in Client model as clientTypeTemplate
 
   @@map("client_type_templates")
   @@index([tenantId])
@@ -1849,6 +1864,7 @@ model DocumentMigrationProject {
   physicalDocuments     PhysicalDocumentRecord[]
   migrationTasks        DocumentMigrationTask[]
   progressLogs          MigrationProgressLog[]
+  transitionWorkflowExecutions TransitionWorkflowExecution[]
 
   @@map("document_migration_projects")
   @@index([tenantId])
@@ -2269,172 +2285,3 @@ model TransitionWorkflowExecution {
 
 // Enhanced models with migration support
 
-// Add migration relations to existing models
-model Client {
-  id        Int      @id @default(autoincrement())
-  tenantId  Int
-  name      String
-  type      String // individual/company/partnership
-  email     String?
-  phone     String?
-  address   String?
-  tin       String?
-  nisNumber String?
-  sector    String?
-  riskLevel String? // low/medium/high
-  notes     String?
-
-  // Migration preferences and status
-  migrationStatus         String?   @default("not_started") // not_started, planning, in_progress, completed
-  migrationPreferences    Json?     // Client preferences for migration process
-  legacySystemInfo        Json?     // Information about client's legacy systems
-  transitionStartDate     DateTime? // When transition process began
-  transitionCompleteDate  DateTime? // When transition was completed
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  tenant           Tenant               @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  businesses       ClientBusiness[]
-  documents        Document[]
-  filings          Filing[]
-  serviceRequests  ServiceRequest[]
-  complianceScores ComplianceScore[]
-  tasks            Task[]
-  clientTasks      ClientTask[]
-  conversations    Conversation[]
-  auditLogs        AuditLog[]
-  recurringFilings RecurringFiling[]
-  portalAccesses   ClientPortalAccess[]
-  generatedReports GeneratedReport[]
-  // Enhanced Agency System Relations
-  agencyComplianceStatuses AgencyComplianceStatus[]
-  agencyDeadlines         AgencyDeadline[]
-  agencyOverdueItems      AgencyOverdueItem[]
-  complianceAlerts        ComplianceAlert[]
-  agencySubmissions       AgencySubmission[]
-  workflowExecutions      WorkflowExecution[]
-  serviceSubscriptions    ClientServiceSubscription[]
-  // Migration relations
-  migrationProjects       DocumentMigrationProject[]
-  physicalDocuments       PhysicalDocumentRecord[]
-  transitionWorkflows     TransitionWorkflowExecution[]
-
-  @@index([tenantId])
-  @@index([tenantId, type])
-  @@index([tenantId, riskLevel])
-  @@index([tenantId, sector])
-  @@index([createdAt])
-  @@index([tenantId, createdAt])
-  @@index([migrationStatus]) // New index for migration tracking
-  @@map("clients")
-}
-
-// Add migration relations to existing models
-model Tenant {
-  id          Int      @id @default(autoincrement())
-  name        String
-  code        String   @unique
-  contactInfo Json?
-  settings    Json?
-
-  // Migration configuration
-  migrationSettings       Json?     // Global migration preferences and settings
-  legacySystemConfigs     Json?     // Configuration for legacy system integrations
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  tenantUsers             TenantUser[]
-  roles                   Role[]
-  clients                 Client[]
-  clientBusinesses        ClientBusiness[]
-  documentTypes           DocumentType[]
-  filingTypes             FilingType[]
-  services                Service[]
-  recurringFilings        RecurringFiling[]
-  notifications           Notification[]
-  auditLogs               AuditLog[]
-  subscriptions           Subscription[]
-  complianceRuleSets      ComplianceRuleSet[]
-  conversations           Conversation[]
-  tasks                   Task[]
-  clientTasks             ClientTask[]
-  serviceRequestTemplates ServiceRequestTemplate[]
-  serviceRequests         ServiceRequest[]
-  filings                 Filing[]
-  documents               Document[]
-  complianceScores        ComplianceScore[]
-  requirementBundles      RequirementBundle[]
-  portalClientAccesses    ClientPortalAccess[]
-  generatedReports        GeneratedReport[]
-  // Enhanced Agency System
-  agencyInfos             AgencyInfo[]
-  agencyDocumentRequirements AgencyDocumentRequirement[]
-  agencyComplianceStatuses AgencyComplianceStatus[]
-  agencyDeadlines         AgencyDeadline[]
-  agencyOverdueItems      AgencyOverdueItem[]
-  complianceAlerts        ComplianceAlert[]
-  documentWorkflows       DocumentWorkflow[]
-  workflowExecutions      WorkflowExecution[]
-  agencyFormTemplates     AgencyFormTemplate[]
-  agencySubmissions        AgencySubmission[]
-  agencyIntegrationConfigs AgencyIntegrationConfig[]
-  servicePackages         ServicePackage[]
-  clientServiceSubscriptions ClientServiceSubscription[]
-  clientTypeTemplates     ClientTypeTemplate[]
-  // Migration relations
-  migrationProjects       DocumentMigrationProject[]
-  physicalDocuments       PhysicalDocumentRecord[]
-  migrationTasks          DocumentMigrationTask[]
-  migrationProgressLogs   MigrationProgressLog[]
-  documentSyncStatuses    DocumentSyncStatus[]
-  legacyImportJobs        LegacyDataImportJob[]
-  legacyImportRecords     LegacyDataImportRecord[]
-  transitionWorkflowTemplates TransitionWorkflowTemplate[]
-  transitionWorkflowExecutions TransitionWorkflowExecution[]
-
-  @@map("tenants")
-}
-
-// Add migration relations to existing User model
-model User {
-  id            String   @id @default(cuid()) @map("_id")
-  name          String
-  email         String   @unique
-  emailVerified Boolean  @default(false)
-  image         String?
-  phone         String?
-  avatarUrl     String?
-
-  // Migration and training tracking
-  migrationTrainingCompleted Boolean   @default(false)
-  migrationTrainingDate      DateTime?
-  legacySystemExperience     Json?     // Experience with legacy systems
-  digitalProficiency         String?   @default("beginner") // beginner, intermediate, advanced
-
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  sessions             Session[]
-  accounts             Account[]
-  tenantUsers          TenantUser[]
-  portalClientAccesses ClientPortalAccess[]
-  messages             Message[]            @relation("MessageAuthor")
-  tasks                Task[]               @relation("TaskAssignee")
-  notifications        Notification[]       @relation("NotificationRecipient")
-  auditLogs            AuditLog[]           @relation("AuditActor")
-  // Enhanced Agency System Relations
-  agencyDeadlinesAssigned AgencyDeadline[]
-  complianceAlertsAcknowledged ComplianceAlert[]
-  submissionsSubmitted AgencySubmission[]   @relation("SubmissionSubmitter")
-  submissionsProcessed AgencySubmission[]   @relation("SubmissionProcessor")
-  submissionEventsActed SubmissionEvent[]   @relation("EventActor")
-  // Migration relations
-  migrationProgressLogs MigrationProgressLog[]
-
-  @@index([email])
-  @@index([createdAt])
-  @@index([migrationTrainingCompleted]) // New index for training tracking
-  @@map("user")
-}

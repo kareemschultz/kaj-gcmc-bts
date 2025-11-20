@@ -11,9 +11,24 @@ This document provides comprehensive instructions for deploying the GCMC-KAJ Dig
 - **Portal Application**: Next.js client portal with document management
 - **API Server**: Hono + tRPC backend with GRA/NIS integration
 - **Worker**: BullMQ background job processor for compliance automation
-- **PostgreSQL**: Primary database with multi-tenant isolation
-- **Redis**: Cache, job queue, and session storage
-- **MinIO**: S3-compatible object storage for documents
+- **PostgreSQL**: Primary database with multi-tenant isolation (external port 5433, internal port 5432)
+- **Redis**: Cache, job queue, and session storage (external port 6380, internal port 6379)
+- **MinIO**: S3-compatible object storage for documents (external ports 9000-9001, internal ports 9000-9001)
+
+### Port Configuration
+
+#### Local Development
+- **PostgreSQL**: `localhost:5433` (avoids conflicts with system PostgreSQL on 5432)
+- **Redis**: `localhost:6380` (avoids conflicts with system Redis on 6379)
+- **API Server**: `localhost:3003`
+- **Web Application**: `localhost:3001`
+- **MinIO**: `localhost:9000` (console: `localhost:9001`)
+
+#### Kubernetes Deployment
+- **PostgreSQL**: Internal service port `5432` (ClusterIP)
+- **Redis**: Internal service port `6379` (ClusterIP)
+- **API/Web**: External LoadBalancer or Ingress controller
+- **MinIO**: Internal service ports `9000-9001`
 
 ### Integration Services
 - **GRA eServices**: Direct integration with [eservices.gra.gov.gy](https://eservices.gra.gov.gy) OPTIMAL system

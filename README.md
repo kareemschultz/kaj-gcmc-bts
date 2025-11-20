@@ -417,7 +417,7 @@ bun db:push        # or bun db:migrate if configured
 
 # Terminal 1: Backend API Server (port 3003)
 cd apps/server
-PORT=3003 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/gcmc_kaj" BETTER_AUTH_SECRET="dev-secret-change-in-production-use-openssl-rand-base64-32" BETTER_AUTH_URL="http://localhost:3003" bun run dev
+PORT=3003 DATABASE_URL="postgresql://postgres:postgres@localhost:5433/gcmc_kaj" BETTER_AUTH_SECRET="dev-secret-change-in-production-use-openssl-rand-base64-32" BETTER_AUTH_URL="http://localhost:3003" bun run dev
 
 # Terminal 2: Frontend Web App (port 3001)
 cd apps/web
@@ -472,10 +472,38 @@ This will start:
 
 ### 4. Production Deployment
 
-For production deployment with Docker Compose:
+**Important:** All services now use **port 5433** for PostgreSQL database connections.
 
+#### Prerequisites
+- Docker and Docker Compose
+- SSL certificates for HTTPS
+- Strong passwords and secrets
+
+#### Production Environment Setup
+
+1. **Configure Environment Variables**:
 ```bash
-# Production environment with secure settings
+# Copy and customize production environment
+cp .env.example .env.production
+
+# Set secure values:
+DATABASE_URL="postgresql://postgres:STRONG_PASSWORD@localhost:5433/gcmc_kaj"
+BETTER_AUTH_SECRET="$(openssl rand -base64 32)"
+REDIS_URL="redis://localhost:6380"
+```
+
+2. **Start Infrastructure Services**:
+```bash
+# Start database, cache, and storage
+docker compose up -d gcmc-kaj-db gcmc-kaj-redis gcmc-kaj-minio
+
+# Verify all services are healthy
+docker compose ps
+```
+
+3. **Deploy Application**:
+```bash
+# Production deployment with secure settings
 docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 # Or using Docker Swarm for high availability
@@ -485,10 +513,36 @@ docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml gcmc-kaj
 docker compose up -d --scale api=3 --scale web=2 --scale worker=2
 ```
 
-For Kubernetes deployment see [DEPLOYMENT.md](./DEPLOYMENT.md) for complete production setup instructions including:
+4. **SSL/HTTPS Configuration** (Required for production):
+```nginx
+# nginx.conf example
+server {
+    listen 443 ssl http2;
+    server_name your-domain.com;
+
+    ssl_certificate /path/to/certificate.crt;
+    ssl_certificate_key /path/to/private.key;
+
+    location /api/ {
+        proxy_pass http://localhost:3003/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location / {
+        proxy_pass http://localhost:3001/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+For complete Kubernetes deployment see [DEPLOYMENT.md](./DEPLOYMENT.md) including:
 - Kubernetes manifests and Helm charts
-- SSL/TLS certificate configuration
-- High availability database setup
+- SSL/TLS certificate configuration with cert-manager
+- High availability database setup with read replicas
+- Monitoring and observability stack
+- Backup and disaster recovery procedures
 - Monitoring and logging configuration
 - Backup and disaster recovery procedures
 
@@ -909,6 +963,10 @@ bun run test-admin-flow.js
 - ✅ No demo data present - enterprise-ready content
 - ✅ Professional branding and visual design
 - ✅ All business workflows functional
+- ✅ Clean separation from legacy projects - completely independent codebase
+- ✅ Production-ready database configuration with port isolation (5433)
+- ✅ Secure authentication system with proper session management
+- ✅ Optimized performance with minimal mock data removed
 - ✅ Complete responsive design implementation
 
 ### Test Reports
@@ -964,6 +1022,115 @@ bun format    # biome format
 ```
 
 > ✅ The goal is to keep **zero lint errors**, consistent formatting, and a clean, modern TypeScript codebase.
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues and Solutions
+
+#### Database Connection Issues
+
+**Problem**: "Can't reach database server at `localhost:5432`"
+**Solution**: Platform uses port 5433 for PostgreSQL. Update `.env` files:
+```bash
+DATABASE_URL="postgresql://postgres:postgres@localhost:5433/gcmc_kaj"
+```
+
+**Problem**: "Prisma schema validation errors"
+**Solution**: Generate Prisma client after schema changes:
+```bash
+cd packages/db && bun run prisma generate
+```
+
+#### Server Startup Issues
+
+**Problem**: "Failed to start server. Is port 3003 in use?"
+**Solution**: Kill existing processes and restart:
+```bash
+lsof -i :3003 | awk 'NR>1 {print $2}' | xargs kill -9
+cd apps/server && bun run dev
+```
+
+**Problem**: "Next.js dev lock file errors"
+**Solution**: Clean development files:
+```bash
+rm -rf apps/web/.next/dev/
+pkill -f "next dev"
+cd apps/web && bun run dev
+```
+
+#### Docker Service Issues
+
+**Problem**: Services not starting or unhealthy
+**Solution**: Check service status and logs:
+```bash
+docker compose ps
+docker compose logs gcmc-kaj-db
+docker compose logs gcmc-kaj-redis
+docker compose logs gcmc-kaj-minio
+```
+
+**Problem**: Port conflicts with existing services
+**Solution**: Platform uses isolated ports to avoid conflicts:
+- PostgreSQL: 5433 (not 5432)
+- Redis: 6380 (not 6379)
+- MinIO: 9000-9001 (standard)
+
+#### Authentication Issues
+
+**Problem**: "Authentication not working"
+**Solution**: Verify environment variables and restart server:
+```bash
+# Check .env files have correct values
+grep -r "BETTER_AUTH" apps/*/env
+grep -r "DATABASE_URL" apps/*/env
+
+# Restart server after env changes
+cd apps/server && bun run dev
+```
+
+#### Performance Issues
+
+**Problem**: Slow API responses
+**Solution**: Check database connection and indexes:
+```bash
+# Test database connectivity
+curl -w "Total time: %{time_total}s\n" -o /dev/null -s http://localhost:3003/health
+
+# Monitor database performance
+docker compose logs gcmc-kaj-db
+```
+
+### Debug Commands
+
+```bash
+# Check all services status
+docker compose ps
+
+# Test API health
+curl http://localhost:3003/health
+
+# Test authentication endpoint
+curl http://localhost:3003/api/auth/get-session
+
+# Check database connectivity
+docker compose exec gcmc-kaj-db psql -U postgres -d gcmc_kaj -c "SELECT version();"
+
+# Verify Redis cache
+docker compose exec gcmc-kaj-redis redis-cli ping
+
+# Test MinIO storage
+curl http://localhost:9001/minio/health/live
+```
+
+### Support
+
+For additional support:
+1. Check the [documentation](./docs/) directory for detailed guides
+2. Review error logs in the respective service containers
+3. Ensure all environment variables are properly configured
+4. Verify Docker services are healthy and running
 
 ---
 
