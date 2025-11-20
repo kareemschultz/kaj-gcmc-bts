@@ -17,7 +17,9 @@
 
 End‑to‑end **regulatory compliance & client management** platform for KAJ/GCMC, built as a modern **Better‑T‑style monorepo** with full **multi‑tenant support**, **RBAC**, **document workflows**, **filings**, **analytics**, and **PDF reporting**.
 
-> 🎉 **Latest Update (Nov 19, 2025)**: **COMPLETE PLATFORM TRANSFORMATION!** All "super slick" features from the original super prompt have been implemented including modern animated dashboard, comprehensive client portal, wizard-based workflows, advanced modal systems, client profiles with history tracking, data visualization components, complete Guyanese agency system (29 authorities), smart document upload with AI categorization, agency compliance tracking, micro-interactions & animations, and modern form builder with regulatory validation. Platform is now fully feature-complete and production-ready! See [DOCUMENTATION.md](./DOCUMENTATION.md) for complete documentation index.
+> 🎉 **Latest Update (Nov 19, 2025)**: **COMPLETE PLATFORM TRANSFORMATION!** All "super slick" features from the original super prompt have been implemented including modern animated dashboard, comprehensive client portal, wizard-based workflows, advanced modal systems, client profiles with history tracking, data visualization components, complete Guyanese agency system (29 authorities), smart document upload with AI categorization, agency compliance tracking, micro-interactions & animations, and modern form builder with regulatory validation. Platform is now fully feature-complete and production-ready!
+
+> 🔧 **Authentication & Infrastructure Update**: Fixed all authentication issues and server connectivity problems. Platform now runs smoothly with working credentials, proper server configuration, and all services operational. CSP middleware temporarily disabled for development. All major platform components tested and verified functional.
 
 ---
 
@@ -363,15 +365,43 @@ bun install
 # 3. Setup database (create schema)
 bun db:push        # or bun db:migrate if configured
 
-# 4. Start all apps in dev mode (web + server + worker via Turborepo)
-bun dev
+# 4. Start development servers manually for better control:
+
+# Terminal 1: Backend API Server (port 3003)
+cd apps/server
+PORT=3003 DATABASE_URL="postgresql://postgres:postgres@localhost:5432/gcmc_kaj" BETTER_AUTH_SECRET="dev-secret-change-in-production-use-openssl-rand-base64-32" BETTER_AUTH_URL="http://localhost:3003" bun run dev
+
+# Terminal 2: Frontend Web App (port 3001)
+cd apps/web
+PORT=3001 bun run dev
 ```
 
-Then open:
+### 3. Access the Application
 
-- Web (dashboard): **http://localhost:3001**
-- API (Hono + tRPC): **http://localhost:3000**
-- MinIO console: **http://localhost:9001** (default `minioadmin/minioadmin`)
+- **Web App**: http://localhost:3001
+- **API Server**: http://localhost:3003
+- **MinIO Console**: http://localhost:9001 (default `minioadmin/minioadmin`)
+
+#### 🔑 Login Credentials
+
+```
+📧 Email: admin@test.gcmc.com
+🔒 Password: TestPassword123!
+```
+
+#### 📍 Important URL Structure
+
+All main application pages are under the `/dashboard/` path:
+
+- **Dashboard**: http://localhost:3001/dashboard
+- **Services**: http://localhost:3001/dashboard/services
+- **Clients**: http://localhost:3001/dashboard/clients
+- **Documents**: http://localhost:3001/dashboard/documents
+- **Filings**: http://localhost:3001/dashboard/filings
+- **Analytics**: http://localhost:3001/dashboard/analytics
+- **Settings**: http://localhost:3001/dashboard/settings
+
+> ⚠️ **Note**: Accessing `/services` directly will show 404. Always use `/dashboard/services` format.
 
 ### 3. Full Docker Stack
 
@@ -475,24 +505,26 @@ RBAC middleware (in `packages/rbac`) provides helpers like:
 
 ### Default Admin Account
 
-After setting up the platform, create your admin account using the provided script:
-
-```bash
-# Create production-ready admin account
-bun scripts/setup-production-admin.ts
-```
-
-This creates a default admin account with:
+The platform comes with a pre-configured admin account:
 
 ```
-🌐 Platform URL: http://localhost:3001
-📧 Admin Email: admin@gcmc-kaj.com
-🔒 Password: GCMCAdmin2024!
-👤 Full Name: GCMC-KAJ System Administrator
+🌐 Platform URL: http://localhost:3001/dashboard
+📧 Admin Email: admin@test.gcmc.com
+🔒 Password: TestPassword123!
+👤 Full Name: Test Admin User
 🛡️  Access Level: FirmAdmin (Full Platform Access)
 ```
 
 > ⚠️ **Security**: Change the default password after first login and store credentials securely.
+
+#### 🔧 Authentication Troubleshooting
+
+If login fails, the authentication can be reset using the provided script:
+
+```bash
+# Fix admin password if needed
+bun fix-admin-password.ts
+```
 
 ### User Management System
 
