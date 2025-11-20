@@ -1,1 +1,39 @@
-{"uuid":"395b0e88-55f4-49dc-b010-4400617e48b4","name":"should handle pagination correctly @functional","historyId":"a6a3c6005a6dbd134f2a43ce14595de8:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.clients-management.spec.ts"},{"name":"titlePath","value":" > chromium > crud/clients-management.spec.ts > Clients Management - Pagination and Sorting"},{"name":"tag","value":"functional"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"crud/clients-management.spec.ts"},{"name":"subSuite","value":"Clients Management - Pagination and Sorting"}],"links":[],"start":1763549757504,"testCaseId":"a6a3c6005a6dbd134f2a43ce14595de8","fullName":"crud/clients-management.spec.ts:350:3","titlePath":["crud","clients-management.spec.ts","Clients Management - Pagination and Sorting"],"stop":1763549757504}
+{
+	"uuid": "395b0e88-55f4-49dc-b010-4400617e48b4",
+	"name": "should handle pagination correctly @functional",
+	"historyId": "a6a3c6005a6dbd134f2a43ce14595de8:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.clients-management.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > crud/clients-management.spec.ts > Clients Management - Pagination and Sorting"
+		},
+		{ "name": "tag", "value": "functional" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "crud/clients-management.spec.ts" },
+		{
+			"name": "subSuite",
+			"value": "Clients Management - Pagination and Sorting"
+		}
+	],
+	"links": [],
+	"start": 1763549757504,
+	"testCaseId": "a6a3c6005a6dbd134f2a43ce14595de8",
+	"fullName": "crud/clients-management.spec.ts:350:3",
+	"titlePath": [
+		"crud",
+		"clients-management.spec.ts",
+		"Clients Management - Pagination and Sorting"
+	],
+	"stop": 1763549757504
+}

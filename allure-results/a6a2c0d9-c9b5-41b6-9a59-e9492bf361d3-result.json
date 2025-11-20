@@ -1,1 +1,32 @@
-{"uuid":"a6a2c0d9-c9b5-41b6-9a59-e9492bf361d3","name":"should update client @api-functional","historyId":"8dd364fb559b6f3a157b7548edc05c47:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"api.api-endpoints.spec.ts"},{"name":"titlePath","value":" > tablet > api/api-endpoints.spec.ts > API Endpoints - Clients CRUD"},{"name":"tag","value":"api-functional"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"api/api-endpoints.spec.ts"},{"name":"subSuite","value":"API Endpoints - Clients CRUD"}],"links":[],"start":1763549757697,"testCaseId":"8dd364fb559b6f3a157b7548edc05c47","fullName":"api/api-endpoints.spec.ts:220:3","titlePath":["api","api-endpoints.spec.ts","API Endpoints - Clients CRUD"],"stop":1763549757697}
+{
+	"uuid": "a6a2c0d9-c9b5-41b6-9a59-e9492bf361d3",
+	"name": "should update client @api-functional",
+	"historyId": "8dd364fb559b6f3a157b7548edc05c47:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "api.api-endpoints.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > api/api-endpoints.spec.ts > API Endpoints - Clients CRUD"
+		},
+		{ "name": "tag", "value": "api-functional" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "api/api-endpoints.spec.ts" },
+		{ "name": "subSuite", "value": "API Endpoints - Clients CRUD" }
+	],
+	"links": [],
+	"start": 1763549757697,
+	"testCaseId": "8dd364fb559b6f3a157b7548edc05c47",
+	"fullName": "api/api-endpoints.spec.ts:220:3",
+	"titlePath": ["api", "api-endpoints.spec.ts", "API Endpoints - Clients CRUD"],
+	"stop": 1763549757697
+}

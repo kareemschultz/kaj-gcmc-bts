@@ -1,1 +1,31 @@
-{"uuid":"b84656f6-1cfb-415b-950a-2ddd0cbd2f94","name":"should paginate services","historyId":"bf5c8e1a20c8827501fcbc181b316936:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.services.spec.ts"},{"name":"titlePath","value":" > firefox > crud/services.spec.ts > Services CRUD"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"crud/services.spec.ts"},{"name":"subSuite","value":"Services CRUD"}],"links":[],"start":1763549819607,"testCaseId":"bf5c8e1a20c8827501fcbc181b316936","fullName":"crud/services.spec.ts:155:2","titlePath":["crud","services.spec.ts","Services CRUD"],"stop":1763549819607}
+{
+	"uuid": "b84656f6-1cfb-415b-950a-2ddd0cbd2f94",
+	"name": "should paginate services",
+	"historyId": "bf5c8e1a20c8827501fcbc181b316936:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.services.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > crud/services.spec.ts > Services CRUD"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "crud/services.spec.ts" },
+		{ "name": "subSuite", "value": "Services CRUD" }
+	],
+	"links": [],
+	"start": 1763549819607,
+	"testCaseId": "bf5c8e1a20c8827501fcbc181b316936",
+	"fullName": "crud/services.spec.ts:155:2",
+	"titlePath": ["crud", "services.spec.ts", "Services CRUD"],
+	"stop": 1763549819607
+}

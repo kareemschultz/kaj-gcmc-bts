@@ -1,1 +1,31 @@
-{"uuid":"b7bd7f59-c5ac-4408-a425-28a44d16d259","name":"should render consistently on Pixel5","historyId":"9ef39855c0c932e246c336a5dda34a53:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > firefox > mobile/responsive.spec.ts > Cross-Device Consistency"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Cross-Device Consistency"}],"links":[],"start":1763549819614,"testCaseId":"9ef39855c0c932e246c336a5dda34a53","fullName":"mobile/responsive.spec.ts:290:3","titlePath":["mobile","responsive.spec.ts","Cross-Device Consistency"],"stop":1763549819614}
+{
+	"uuid": "b7bd7f59-c5ac-4408-a425-28a44d16d259",
+	"name": "should render consistently on Pixel5",
+	"historyId": "9ef39855c0c932e246c336a5dda34a53:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > mobile/responsive.spec.ts > Cross-Device Consistency"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Cross-Device Consistency" }
+	],
+	"links": [],
+	"start": 1763549819614,
+	"testCaseId": "9ef39855c0c932e246c336a5dda34a53",
+	"fullName": "mobile/responsive.spec.ts:290:3",
+	"titlePath": ["mobile", "responsive.spec.ts", "Cross-Device Consistency"],
+	"stop": 1763549819614
+}

@@ -1,75 +1,75 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
-  Camera,
-  Scan,
-  Square,
-  Circle,
-  RotateCcw,
-  FlipHorizontal,
-  FlipVertical,
-  Zap,
-  Grid,
-  Sun,
-  Moon,
-  Focus,
-  Image as ImageIcon,
-  FileText,
-  Download,
-  Upload,
-  X,
-  Check,
   AlertCircle,
-  RefreshCw,
-  Crop,
-  Contrast,
-  Sliders,
-  Eye,
-  EyeOff,
-  Volume2,
-  VolumeX,
-  Settings,
-  Info,
-  ChevronUp,
+  Camera,
+  Check,
   ChevronDown,
-  ZoomIn,
-  ZoomOut,
-  Move,
+  ChevronUp,
+  Circle,
+  Contrast,
+  Copy,
   CornerDownLeft,
   CornerDownRight,
   CornerUpLeft,
   CornerUpRight,
+  Crop,
+  Crosshair,
+  Download,
+  Edit3,
+  Eye,
+  EyeOff,
+  FileText,
+  Filter,
+  FlipHorizontal,
+  FlipVertical,
+  Focus,
+  Grid,
+  Image as ImageIcon,
+  Info,
+  Layers,
   Maximize2,
   Minimize2,
+  Moon,
+  Move,
+  RefreshCw,
+  RotateCcw,
   Save,
+  Scan,
+  ScanLine, 
+  Settings,
   Share2,
-  Trash2,
-  Edit3,
-  Copy,
-  Layers,
-  Filter,
+  Sliders,
+  Square,
+  Sun,
   Target,
-  Crosshair,
-  ScanLine
+  Trash2,
+  Upload,
+  Volume2,
+  VolumeX,
+  X,
+  Zap,
+  ZoomIn,
+  ZoomOut
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { brandColors, gcmcKajBrand } from '@/styles/brand';
-import { Button } from '@/components/ui/button';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
-import { Progress } from '@/components/ui/progress';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+import { brandColors, gcmcKajBrand } from '@/styles/brand';
 
 // Types
 interface CapturedDocument {
@@ -428,27 +428,27 @@ export function MobileDocumentScanner({
   }, [settings.autoCapture, isInitialized, viewMode, capturePhoto]);
 
   return (
-    <div className={cn("flex flex-col h-full bg-black text-white relative", className)}>
+    <div className={cn("relative flex h-full flex-col bg-black text-white", className)}>
       {/* Camera View */}
       {viewMode === 'camera' && (
-        <div className="flex-1 relative overflow-hidden">
+        <div className="relative flex-1 overflow-hidden">
           <video
             ref={videoRef}
             autoPlay
             playsInline
             muted
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
             style={{ transform: `scale(${zoomLevel})` }}
           />
 
           <canvas ref={canvasRef} className="hidden" />
 
           {/* Camera Overlay */}
-          <div className="absolute inset-0 pointer-events-none">
+          <div className="pointer-events-none absolute inset-0">
             {/* Grid overlay */}
             {showGrid && (
               <div className="absolute inset-0">
-                <svg className="w-full h-full">
+                <svg className="h-full w-full">
                   <defs>
                     <pattern id="grid" width="33.333%" height="33.333%" patternUnits="objectBoundingBox">
                       <path d="M 0 0 L 0 1 M 0 0 L 1 0" stroke="rgba(255,255,255,0.3)" strokeWidth="0.5" />
@@ -469,20 +469,20 @@ export function MobileDocumentScanner({
                   }}
                   transition={{
                     duration: 2,
-                    repeat: Infinity,
+                    repeat: Number.POSITIVE_INFINITY,
                     ease: "easeInOut"
                   }}
-                  className="w-4/5 h-3/5 border-2 border-white rounded-lg relative"
+                  className="relative h-3/5 w-4/5 rounded-lg border-2 border-white"
                 >
                   {/* Corner indicators */}
-                  <CornerUpLeft className="absolute -top-2 -left-2 w-6 h-6 text-white" />
-                  <CornerUpRight className="absolute -top-2 -right-2 w-6 h-6 text-white" />
-                  <CornerDownLeft className="absolute -bottom-2 -left-2 w-6 h-6 text-white" />
-                  <CornerDownRight className="absolute -bottom-2 -right-2 w-6 h-6 text-white" />
+                  <CornerUpLeft className="-top-2 -left-2 absolute h-6 w-6 text-white" />
+                  <CornerUpRight className="-top-2 -right-2 absolute h-6 w-6 text-white" />
+                  <CornerDownLeft className="-bottom-2 -left-2 absolute h-6 w-6 text-white" />
+                  <CornerDownRight className="-bottom-2 -right-2 absolute h-6 w-6 text-white" />
 
                   {/* Center crosshair */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <Crosshair className="w-8 h-8 text-white opacity-50" />
+                    <Crosshair className="h-8 w-8 text-white opacity-50" />
                   </div>
                 </motion.div>
               </div>
@@ -493,30 +493,30 @@ export function MobileDocumentScanner({
               <div className="absolute top-4 left-4">
                 <motion.div
                   animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                  className="flex items-center gap-2 bg-black bg-opacity-50 rounded-lg px-3 py-2"
+                  transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY }}
+                  className="flex items-center gap-2 rounded-lg bg-black bg-opacity-50 px-3 py-2"
                 >
-                  <Target className="w-4 h-4 text-green-400" />
+                  <Target className="h-4 w-4 text-green-400" />
                   <span className="text-sm">Auto-capture active</span>
                 </motion.div>
-              )}
+              </div>
             )}
 
             {/* Processing indicator */}
             {isProcessing && (
-              <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70">
                 <Card className="bg-white text-black">
                   <CardContent className="p-6 text-center">
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      className="w-8 h-8 mx-auto mb-4"
+                      transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                      className="mx-auto mb-4 h-8 w-8"
                     >
-                      <ScanLine className="w-full h-full text-blue-600" />
+                      <ScanLine className="h-full w-full text-blue-600" />
                     </motion.div>
-                    <p className="font-medium mb-2">Processing Document</p>
-                    <Progress value={processingProgress} className="w-48 mx-auto" />
-                    <p className="text-sm text-gray-600 mt-2">
+                    <p className="mb-2 font-medium">Processing Document</p>
+                    <Progress value={processingProgress} className="mx-auto w-48" />
+                    <p className="mt-2 text-gray-600 text-sm">
                       {Math.round(processingProgress)}% complete
                     </p>
                   </CardContent>
@@ -526,7 +526,7 @@ export function MobileDocumentScanner({
           </div>
 
           {/* Top Controls */}
-          <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-auto">
+          <div className="pointer-events-auto absolute top-4 right-4 left-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
@@ -534,7 +534,7 @@ export function MobileDocumentScanner({
                 onClick={onClose}
                 className="bg-black bg-opacity-50 text-white hover:bg-opacity-70"
               >
-                <X className="w-5 h-5" />
+                <X className="h-5 w-5" />
               </Button>
 
               <Badge variant="secondary" className="bg-black bg-opacity-50 text-white">
@@ -562,7 +562,7 @@ export function MobileDocumentScanner({
                           flashEnabled && "bg-yellow-600 bg-opacity-80"
                         )}
                       >
-                        {flashEnabled ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                        {flashEnabled ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -581,7 +581,7 @@ export function MobileDocumentScanner({
                   showGrid && "bg-blue-600 bg-opacity-80"
                 )}
               >
-                <Grid className="w-5 h-5" />
+                <Grid className="h-5 w-5" />
               </Button>
 
               <Button
@@ -590,16 +590,16 @@ export function MobileDocumentScanner({
                 onClick={() => setSoundEnabled(!soundEnabled)}
                 className="bg-black bg-opacity-50 text-white hover:bg-opacity-70"
               >
-                {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+                {soundEnabled ? <Volume2 className="h-5 w-5" /> : <VolumeX className="h-5 w-5" />}
               </Button>
             </div>
           </div>
 
           {/* Bottom Controls */}
-          <div className="absolute bottom-8 left-4 right-4 flex items-center justify-between pointer-events-auto">
+          <div className="pointer-events-auto absolute right-4 bottom-8 left-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
               {/* Mode selector */}
-              <div className="flex bg-black bg-opacity-50 rounded-lg p-1">
+              <div className="flex rounded-lg bg-black bg-opacity-50 p-1">
                 {(['single', 'batch', 'continuous'] as ScanMode[]).map((mode) => (
                   <Button
                     key={mode}
@@ -624,13 +624,13 @@ export function MobileDocumentScanner({
                 onClick={capturePhoto}
                 disabled={isCapturing || isProcessing}
                 className={cn(
-                  "w-16 h-16 rounded-full border-4 border-white bg-white bg-opacity-20",
+                  "h-16 w-16 rounded-full border-4 border-white bg-white bg-opacity-20",
                   "flex items-center justify-center transition-all",
                   "hover:bg-opacity-30 disabled:opacity-50",
                   isCapturing && "animate-pulse"
                 )}
               >
-                <div className="w-12 h-12 rounded-full bg-white" />
+                <div className="h-12 w-12 rounded-full bg-white" />
               </motion.button>
             </div>
 
@@ -641,12 +641,12 @@ export function MobileDocumentScanner({
                   variant="ghost"
                   size="icon"
                   onClick={() => setViewMode('preview')}
-                  className="bg-black bg-opacity-50 text-white hover:bg-opacity-70 relative"
+                  className="relative bg-black bg-opacity-50 text-white hover:bg-opacity-70"
                 >
-                  <ImageIcon className="w-5 h-5" />
+                  <ImageIcon className="h-5 w-5" />
                   <Badge
                     variant="secondary"
-                    className="absolute -top-2 -right-2 bg-green-600 text-white text-xs px-1 min-w-[1.25rem]"
+                    className="-top-2 -right-2 absolute min-w-[1.25rem] bg-green-600 px-1 text-white text-xs"
                   >
                     {capturedDocuments.length}
                   </Badge>
@@ -661,7 +661,7 @@ export function MobileDocumentScanner({
                   onClick={switchCamera}
                   className="bg-black bg-opacity-50 text-white hover:bg-opacity-70"
                 >
-                  <RefreshCw className="w-5 h-5" />
+                  <RefreshCw className="h-5 w-5" />
                 </Button>
               )}
 
@@ -678,8 +678,8 @@ export function MobileDocumentScanner({
 
           {/* Zoom control */}
           {cameraCapabilities.hasZoom && (
-            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-auto">
-              <div className="bg-black bg-opacity-50 rounded-lg p-2">
+            <div className="-translate-y-1/2 pointer-events-auto absolute top-1/2 right-4 transform">
+              <div className="rounded-lg bg-black bg-opacity-50 p-2">
                 <Slider
                   value={[zoomLevel]}
                   onValueChange={(value) => setZoomLevel(value[0])}
@@ -764,7 +764,7 @@ function ScannerSettings({
         onClick={() => setIsOpen(!isOpen)}
         className="bg-black bg-opacity-50 text-white hover:bg-opacity-70"
       >
-        <Settings className="w-5 h-5" />
+        <Settings className="h-5 w-5" />
       </Button>
 
       <AnimatePresence>
@@ -773,14 +773,14 @@ function ScannerSettings({
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute bottom-full mb-2 right-0 w-80 bg-white text-black rounded-lg shadow-xl border overflow-hidden"
+            className="absolute right-0 bottom-full mb-2 w-80 overflow-hidden rounded-lg border bg-white text-black shadow-xl"
           >
-            <div className="p-4 border-b bg-gray-50">
+            <div className="border-b bg-gray-50 p-4">
               <h3 className="font-semibold">Scanner Settings</h3>
             </div>
 
             <ScrollArea className="max-h-96">
-              <div className="p-4 space-y-4">
+              <div className="space-y-4 p-4">
                 <div className="space-y-2">
                   <Label>Quality</Label>
                   <Select value={settings.quality} onValueChange={(value) => updateSetting('quality', value as any)}>
@@ -874,7 +874,7 @@ function ScannerSettings({
               </div>
             </ScrollArea>
 
-            <div className="p-3 border-t bg-gray-50 flex justify-end">
+            <div className="flex justify-end border-t bg-gray-50 p-3">
               <Button onClick={() => setIsOpen(false)} size="sm">
                 Done
               </Button>
@@ -907,16 +907,16 @@ function DocumentGallery({
   onSaveDocuments
 }: DocumentGalleryProps) {
   return (
-    <div className="flex flex-col h-full bg-white text-black">
+    <div className="flex h-full flex-col bg-white text-black">
       {/* Header */}
-      <div className="p-4 border-b flex items-center justify-between">
+      <div className="flex items-center justify-between border-b p-4">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={onBackToCamera}>
-            <Camera className="w-5 h-5" />
+            <Camera className="h-5 w-5" />
           </Button>
           <div>
             <h2 className="font-semibold">Captured Documents</h2>
-            <p className="text-sm text-gray-600">{documents.length} documents</p>
+            <p className="text-gray-600 text-sm">{documents.length} documents</p>
           </div>
         </div>
 
@@ -925,7 +925,7 @@ function DocumentGallery({
             onClick={() => onSaveDocuments(documents)}
             disabled={documents.length === 0}
           >
-            <Upload className="w-4 h-4 mr-2" />
+            <Upload className="mr-2 h-4 w-4" />
             Save All
           </Button>
         </div>
@@ -933,8 +933,8 @@ function DocumentGallery({
 
       <div className="flex flex-1">
         {/* Document List */}
-        <div className="w-48 border-r bg-gray-50 overflow-y-auto">
-          <div className="p-2 space-y-2">
+        <div className="w-48 overflow-y-auto border-r bg-gray-50">
+          <div className="space-y-2 p-2">
             {documents.map((document, index) => (
               <motion.div
                 key={document.id}
@@ -943,26 +943,26 @@ function DocumentGallery({
                 transition={{ delay: index * 0.1 }}
                 onClick={() => onDocumentSelect(document)}
                 className={cn(
-                  "p-2 rounded-lg cursor-pointer transition-colors relative",
+                  "relative cursor-pointer rounded-lg p-2 transition-colors",
                   selectedDocument?.id === document.id
-                    ? "bg-blue-100 border border-blue-500"
-                    : "bg-white border hover:bg-gray-50"
+                    ? "border border-blue-500 bg-blue-100"
+                    : "border bg-white hover:bg-gray-50"
                 )}
               >
-                <div className="aspect-[3/4] bg-gray-100 rounded overflow-hidden mb-2">
+                <div className="mb-2 aspect-[3/4] overflow-hidden rounded bg-gray-100">
                   <img
                     src={document.processedImage || document.originalImage}
                     alt={`Document ${index + 1}`}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                   />
                 </div>
                 <div className="text-center">
-                  <p className="text-xs font-medium">Doc {index + 1}</p>
-                  <p className="text-xs text-gray-500">
+                  <p className="font-medium text-xs">Doc {index + 1}</p>
+                  <p className="text-gray-500 text-xs">
                     {new Date(document.timestamp).toLocaleTimeString()}
                   </p>
                   {document.metadata.quality && (
-                    <Badge variant="outline" className="text-xs mt-1">
+                    <Badge variant="outline" className="mt-1 text-xs">
                       {document.metadata.quality}
                     </Badge>
                   )}
@@ -977,37 +977,37 @@ function DocumentGallery({
                   }}
                   className="absolute top-1 right-1 h-6 w-6"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="h-3 w-3" />
                 </Button>
               </motion.div>
             ))}
 
             {documents.length === 0 && (
-              <div className="text-center py-8">
-                <FileText className="w-12 h-12 mx-auto text-gray-300 mb-2" />
-                <p className="text-sm text-gray-500">No documents captured</p>
+              <div className="py-8 text-center">
+                <FileText className="mx-auto mb-2 h-12 w-12 text-gray-300" />
+                <p className="text-gray-500 text-sm">No documents captured</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Document Preview */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex flex-1 flex-col">
           {selectedDocument ? (
             <>
               {/* Preview */}
-              <div className="flex-1 bg-gray-100 flex items-center justify-center p-4">
-                <div className="max-w-2xl max-h-full bg-white rounded-lg shadow-lg overflow-hidden">
+              <div className="flex flex-1 items-center justify-center bg-gray-100 p-4">
+                <div className="max-h-full max-w-2xl overflow-hidden rounded-lg bg-white shadow-lg">
                   <img
                     src={selectedDocument.processedImage || selectedDocument.originalImage}
                     alt="Document preview"
-                    className="w-full h-auto"
+                    className="h-auto w-full"
                   />
                 </div>
               </div>
 
               {/* Controls */}
-              <div className="p-4 border-t bg-white">
+              <div className="border-t bg-white p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Badge variant="outline">
@@ -1025,11 +1025,11 @@ function DocumentGallery({
 
                   <div className="flex items-center gap-2">
                     <Button variant="outline" onClick={onEditDocument}>
-                      <Edit3 className="w-4 h-4 mr-2" />
+                      <Edit3 className="mr-2 h-4 w-4" />
                       Edit
                     </Button>
                     <Button onClick={() => onSaveDocuments([selectedDocument])}>
-                      <Save className="w-4 h-4 mr-2" />
+                      <Save className="mr-2 h-4 w-4" />
                       Save
                     </Button>
                   </div>
@@ -1037,10 +1037,10 @@ function DocumentGallery({
               </div>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center">
+            <div className="flex flex-1 items-center justify-center">
               <div className="text-center">
-                <FileText className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-                <p className="text-lg font-medium text-gray-600">No document selected</p>
+                <FileText className="mx-auto mb-4 h-16 w-16 text-gray-300" />
+                <p className="font-medium text-gray-600 text-lg">No document selected</p>
                 <p className="text-gray-500">Choose a document to preview</p>
               </div>
             </div>
@@ -1072,23 +1072,23 @@ function DocumentEditor({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white text-black">
+    <div className="flex h-full flex-col bg-white text-black">
       {/* Header */}
-      <div className="p-4 border-b flex items-center justify-between">
+      <div className="flex items-center justify-between border-b p-4">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="icon" onClick={onBackToGallery}>
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="h-5 w-5" />
           </Button>
           <h2 className="font-semibold">Edit Document</h2>
         </div>
 
         <div className="flex items-center gap-2">
           <Button variant="outline">
-            <Eye className="w-4 h-4 mr-2" />
+            <Eye className="mr-2 h-4 w-4" />
             Reset
           </Button>
           <Button onClick={() => onSaveDocument(document)}>
-            <Save className="w-4 h-4 mr-2" />
+            <Save className="mr-2 h-4 w-4" />
             Save
           </Button>
         </div>
@@ -1096,12 +1096,12 @@ function DocumentEditor({
 
       <div className="flex flex-1">
         {/* Preview */}
-        <div className="flex-1 bg-gray-100 flex items-center justify-center p-4">
-          <div className="max-w-2xl max-h-full bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="flex flex-1 items-center justify-center bg-gray-100 p-4">
+          <div className="max-h-full max-w-2xl overflow-hidden rounded-lg bg-white shadow-lg">
             <img
               src={document.processedImage || document.originalImage}
               alt="Document preview"
-              className="w-full h-auto"
+              className="h-auto w-full"
               style={{
                 filter: `
                   brightness(${100 + processingOptions.brightness}%)
@@ -1115,7 +1115,7 @@ function DocumentEditor({
         </div>
 
         {/* Controls */}
-        <div className="w-80 border-l bg-gray-50 overflow-y-auto">
+        <div className="w-80 overflow-y-auto border-l bg-gray-50">
           <Tabs defaultValue="adjust" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="adjust">Adjust</TabsTrigger>
@@ -1123,7 +1123,7 @@ function DocumentEditor({
               <TabsTrigger value="filters">Filters</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="adjust" className="p-4 space-y-6">
+            <TabsContent value="adjust" className="space-y-6 p-4">
               <div className="space-y-4">
                 <div>
                   <Label>Brightness: {processingOptions.brightness}%</Label>
@@ -1177,8 +1177,8 @@ function DocumentEditor({
 
             <TabsContent value="crop" className="p-4">
               <div className="text-center">
-                <Crop className="w-12 h-12 mx-auto text-gray-400 mb-2" />
-                <p className="text-sm text-gray-600">Crop functionality coming soon</p>
+                <Crop className="mx-auto mb-2 h-12 w-12 text-gray-400" />
+                <p className="text-gray-600 text-sm">Crop functionality coming soon</p>
               </div>
             </TabsContent>
 
@@ -1197,7 +1197,7 @@ function DocumentEditor({
                         updateOption('filters', filters);
                       }}
                       className={cn(
-                        processingOptions.filters.includes(filter) && "bg-blue-100 border-blue-500"
+                        processingOptions.filters.includes(filter) && "border-blue-500 bg-blue-100"
                       )}
                     >
                       {filter}

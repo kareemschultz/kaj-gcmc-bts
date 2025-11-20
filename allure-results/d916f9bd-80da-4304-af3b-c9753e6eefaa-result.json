@@ -1,1 +1,32 @@
-{"uuid":"d916f9bd-80da-4304-af3b-c9753e6eefaa","name":"should load login page within performance budget @performance","historyId":"813c6be3d099432a18526adc534bf97e:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.enhanced-login.spec.ts"},{"name":"titlePath","value":" > chromium > auth/enhanced-login.spec.ts > Login Flow - Performance"},{"name":"tag","value":"performance"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/enhanced-login.spec.ts"},{"name":"subSuite","value":"Login Flow - Performance"}],"links":[],"start":1763549757498,"testCaseId":"813c6be3d099432a18526adc534bf97e","fullName":"auth/enhanced-login.spec.ts:349:3","titlePath":["auth","enhanced-login.spec.ts","Login Flow - Performance"],"stop":1763549757498}
+{
+	"uuid": "d916f9bd-80da-4304-af3b-c9753e6eefaa",
+	"name": "should load login page within performance budget @performance",
+	"historyId": "813c6be3d099432a18526adc534bf97e:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.enhanced-login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/enhanced-login.spec.ts > Login Flow - Performance"
+		},
+		{ "name": "tag", "value": "performance" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/enhanced-login.spec.ts" },
+		{ "name": "subSuite", "value": "Login Flow - Performance" }
+	],
+	"links": [],
+	"start": 1763549757498,
+	"testCaseId": "813c6be3d099432a18526adc534bf97e",
+	"fullName": "auth/enhanced-login.spec.ts:349:3",
+	"titlePath": ["auth", "enhanced-login.spec.ts", "Login Flow - Performance"],
+	"stop": 1763549757498
+}

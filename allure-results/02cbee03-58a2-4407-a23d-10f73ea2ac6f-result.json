@@ -1,1 +1,36 @@
-{"uuid":"02cbee03-58a2-4407-a23d-10f73ea2ac6f","name":"should provide status information @api-health","historyId":"cf9d2f340e39fa87b3627e49ff4b98f5:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"api.api-endpoints.spec.ts"},{"name":"titlePath","value":" > firefox > api/api-endpoints.spec.ts > API Endpoints - Health and Status"},{"name":"tag","value":"api-health"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"api/api-endpoints.spec.ts"},{"name":"subSuite","value":"API Endpoints - Health and Status"}],"links":[],"start":1763549819593,"testCaseId":"cf9d2f340e39fa87b3627e49ff4b98f5","fullName":"api/api-endpoints.spec.ts:388:3","titlePath":["api","api-endpoints.spec.ts","API Endpoints - Health and Status"],"stop":1763549819593}
+{
+	"uuid": "02cbee03-58a2-4407-a23d-10f73ea2ac6f",
+	"name": "should provide status information @api-health",
+	"historyId": "cf9d2f340e39fa87b3627e49ff4b98f5:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "api.api-endpoints.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > api/api-endpoints.spec.ts > API Endpoints - Health and Status"
+		},
+		{ "name": "tag", "value": "api-health" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "api/api-endpoints.spec.ts" },
+		{ "name": "subSuite", "value": "API Endpoints - Health and Status" }
+	],
+	"links": [],
+	"start": 1763549819593,
+	"testCaseId": "cf9d2f340e39fa87b3627e49ff4b98f5",
+	"fullName": "api/api-endpoints.spec.ts:388:3",
+	"titlePath": [
+		"api",
+		"api-endpoints.spec.ts",
+		"API Endpoints - Health and Status"
+	],
+	"stop": 1763549819593
+}

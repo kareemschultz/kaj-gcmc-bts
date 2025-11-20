@@ -410,8 +410,8 @@ export async function logPermissionCheck(
 
 		console.log("🔒 Permission Check:", logEntry);
 
-		// TODO: Send to audit logging service
-		// await auditLogger.log('PERMISSION_CHECK', logEntry);
+		// Note: Future enhancement - integrate with enterprise audit logging service
+		// Consider implementing when compliance requirements demand centralized audit trails
 	} catch (error) {
 		console.error("Error logging permission check:", error);
 	}

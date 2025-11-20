@@ -1,1 +1,31 @@
-{"uuid":"9d843708-9bd3-4458-a09a-8d9aaae6754e","name":"should allow access when authenticated","historyId":"fe816bdc2c200313308357949f0d0070:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"navigation.routes.spec.ts"},{"name":"titlePath","value":" > chromium > navigation/routes.spec.ts > Protected Routes"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"navigation/routes.spec.ts"},{"name":"subSuite","value":"Protected Routes"}],"links":[],"start":1763549757520,"testCaseId":"fe816bdc2c200313308357949f0d0070","fullName":"navigation/routes.spec.ts:125:2","titlePath":["navigation","routes.spec.ts","Protected Routes"],"stop":1763549757520}
+{
+	"uuid": "9d843708-9bd3-4458-a09a-8d9aaae6754e",
+	"name": "should allow access when authenticated",
+	"historyId": "fe816bdc2c200313308357949f0d0070:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "navigation.routes.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > navigation/routes.spec.ts > Protected Routes"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "navigation/routes.spec.ts" },
+		{ "name": "subSuite", "value": "Protected Routes" }
+	],
+	"links": [],
+	"start": 1763549757520,
+	"testCaseId": "fe816bdc2c200313308357949f0d0070",
+	"fullName": "navigation/routes.spec.ts:125:2",
+	"titlePath": ["navigation", "routes.spec.ts", "Protected Routes"],
+	"stop": 1763549757520
+}

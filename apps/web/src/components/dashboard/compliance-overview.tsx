@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import {
 	Card,
@@ -8,10 +9,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { ComplianceGauge, DashboardComplianceOverview } from "@/components/ui/compliance-gauge";
+import {
+	ComplianceGauge,
+	DashboardComplianceOverview,
+} from "@/components/ui/compliance-gauge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { trpc } from "@/utils/trpc";
-import { motion } from "framer-motion";
 
 const COMPLIANCE_SKELETON_KEYS = [
 	"compliance-skeleton-0",
@@ -49,9 +52,13 @@ export function ComplianceOverview() {
 	const total = data.total;
 
 	// Calculate overall compliance score
-	const overallScore = total > 0
-		? ((data.byLevel.high * 100 + data.byLevel.medium * 70 + data.byLevel.low * 30) / total)
-		: 0;
+	const overallScore =
+		total > 0
+			? (data.byLevel.high * 100 +
+					data.byLevel.medium * 70 +
+					data.byLevel.low * 30) /
+				total
+			: 0;
 
 	const levels = [
 		{
@@ -82,23 +89,23 @@ export function ComplianceOverview() {
 		{
 			name: "GRA (Guyana Revenue Authority)",
 			score: 85,
-			requirements: { total: 12, completed: 10, overdue: 1 }
+			requirements: { total: 12, completed: 10, overdue: 1 },
 		},
 		{
 			name: "DCRA (Deeds & Commercial Registry)",
 			score: 92,
-			requirements: { total: 8, completed: 8, overdue: 0 }
+			requirements: { total: 8, completed: 8, overdue: 0 },
 		},
 		{
 			name: "NIS (National Insurance Scheme)",
 			score: 78,
-			requirements: { total: 6, completed: 5, overdue: 1 }
+			requirements: { total: 6, completed: 5, overdue: 1 },
 		},
 		{
 			name: "EPA (Environmental Protection)",
 			score: 95,
-			requirements: { total: 4, completed: 4, overdue: 0 }
-		}
+			requirements: { total: 4, completed: 4, overdue: 0 },
+		},
 	];
 
 	if (total === 0) {
@@ -108,10 +115,7 @@ export function ComplianceOverview() {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 0.3 }}
 			>
-				<DashboardComplianceOverview
-					overallScore={0}
-					agencies={agencies}
-				/>
+				<DashboardComplianceOverview overallScore={0} agencies={agencies} />
 			</motion.div>
 		);
 	}
@@ -134,12 +138,10 @@ export function ComplianceOverview() {
 							</CardDescription>
 						</div>
 						<div className="text-right">
-							<div className="text-2xl font-bold text-green-600">
+							<div className="font-bold text-2xl text-green-600">
 								{overallScore.toFixed(0)}%
 							</div>
-							<div className="text-sm text-muted-foreground">
-								Overall Score
-							</div>
+							<div className="text-muted-foreground text-sm">Overall Score</div>
 						</div>
 					</div>
 				</CardHeader>
@@ -147,7 +149,7 @@ export function ComplianceOverview() {
 					<div className="grid gap-6 md:grid-cols-2">
 						{/* Overall Compliance Gauge */}
 						<div className="flex flex-col items-center">
-							<h3 className="text-lg font-medium text-gray-700 mb-4">
+							<h3 className="mb-4 font-medium text-gray-700 text-lg">
 								Portfolio Health
 							</h3>
 							<ComplianceGauge score={overallScore} size="lg" />
@@ -155,7 +157,7 @@ export function ComplianceOverview() {
 
 						{/* Client Distribution */}
 						<div className="space-y-4">
-							<h3 className="text-lg font-medium text-gray-700 mb-4">
+							<h3 className="mb-4 font-medium text-gray-700 text-lg">
 								Client Distribution
 							</h3>
 							{levels.map((level, index) => (
@@ -169,7 +171,7 @@ export function ComplianceOverview() {
 									<div className="flex items-center justify-between">
 										<div className="flex items-center gap-2">
 											<Badge variant={level.variant} className="min-w-fit">
-												{level.label.split(' (')[0]}
+												{level.label.split(" (")[0]}
 											</Badge>
 											<span className="text-muted-foreground text-sm">
 												{level.count} client{level.count !== 1 ? "s" : ""}
@@ -179,7 +181,7 @@ export function ComplianceOverview() {
 											{level.percentage.toFixed(1)}%
 										</span>
 									</div>
-									<div className="h-3 w-full rounded-full bg-gray-100 overflow-hidden">
+									<div className="h-3 w-full overflow-hidden rounded-full bg-gray-100">
 										<motion.div
 											className={`${level.color} h-3 rounded-full`}
 											initial={{ width: 0 }}
@@ -200,7 +202,7 @@ export function ComplianceOverview() {
 							transition={{ delay: 0.4, duration: 0.3 }}
 							className="mt-8 border-t pt-6"
 						>
-							<h4 className="mb-4 font-semibold text-gray-900 flex items-center gap-2">
+							<h4 className="mb-4 flex items-center gap-2 font-semibold text-gray-900">
 								Recent Client Scores
 								<Badge variant="outline" className="text-xs">
 									{data.recentScores.length} total
@@ -215,7 +217,7 @@ export function ComplianceOverview() {
 											initial={{ opacity: 0, y: 10 }}
 											animate={{ opacity: 1, y: 0 }}
 											transition={{ delay: index * 0.05, duration: 0.2 }}
-											className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+											className="flex items-center justify-between rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100"
 										>
 											<span className="font-medium text-gray-900 text-sm">
 												{score.client.name}

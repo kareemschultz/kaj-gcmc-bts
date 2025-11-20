@@ -196,12 +196,13 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 
 	// Filter invoices
 	const filteredInvoices = invoices.filter((invoice) => {
-		const matchesSearch = invoice.description
-			.toLowerCase()
-			.includes(searchTerm.toLowerCase()) ||
+		const matchesSearch =
+			invoice.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
 			invoice.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase());
-		const matchesStatus = statusFilter === "all" || invoice.status === statusFilter;
-		const matchesCategory = categoryFilter === "all" || invoice.category === categoryFilter;
+		const matchesStatus =
+			statusFilter === "all" || invoice.status === statusFilter;
+		const matchesCategory =
+			categoryFilter === "all" || invoice.category === categoryFilter;
 		return matchesSearch && matchesStatus && matchesCategory;
 	});
 
@@ -238,7 +239,9 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 			{/* Header */}
 			<div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
 				<div>
-					<h1 className="font-bold text-3xl tracking-tight">Payments & Invoicing</h1>
+					<h1 className="font-bold text-3xl tracking-tight">
+						Payments & Invoicing
+					</h1>
 					<p className="text-muted-foreground">
 						Manage your invoices, payments, and billing information
 					</p>
@@ -273,7 +276,9 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-muted-foreground text-sm">Total Paid</p>
-								<p className="font-bold text-2xl">{formatCurrency(totalPaid)}</p>
+								<p className="font-bold text-2xl">
+									{formatCurrency(totalPaid)}
+								</p>
 							</div>
 							<div className="rounded-full bg-green-100 p-3">
 								<DollarSign className="h-6 w-6 text-green-600" />
@@ -288,14 +293,17 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-muted-foreground text-sm">Pending</p>
-								<p className="font-bold text-2xl">{formatCurrency(totalPending)}</p>
+								<p className="font-bold text-2xl">
+									{formatCurrency(totalPending)}
+								</p>
 							</div>
 							<div className="rounded-full bg-yellow-100 p-3">
 								<Wallet className="h-6 w-6 text-yellow-600" />
 							</div>
 						</div>
 						<p className="text-muted-foreground text-xs">
-							{invoices.filter((inv) => inv.status === "pending").length} invoice(s)
+							{invoices.filter((inv) => inv.status === "pending").length}{" "}
+							invoice(s)
 						</p>
 					</CardContent>
 				</Card>
@@ -305,14 +313,17 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-muted-foreground text-sm">Overdue</p>
-								<p className="font-bold text-2xl">{formatCurrency(totalOverdue)}</p>
+								<p className="font-bold text-2xl">
+									{formatCurrency(totalOverdue)}
+								</p>
 							</div>
 							<div className="rounded-full bg-red-100 p-3">
 								<Calendar className="h-6 w-6 text-red-600" />
 							</div>
 						</div>
 						<p className="text-muted-foreground text-xs">
-							{invoices.filter((inv) => inv.status === "overdue").length} invoice(s)
+							{invoices.filter((inv) => inv.status === "overdue").length}{" "}
+							invoice(s)
 						</p>
 					</CardContent>
 				</Card>
@@ -322,7 +333,9 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-muted-foreground text-sm">Payment Methods</p>
-								<p className="font-bold text-2xl">{mockPaymentMethods.length}</p>
+								<p className="font-bold text-2xl">
+									{mockPaymentMethods.length}
+								</p>
 							</div>
 							<div className="rounded-full bg-blue-100 p-3">
 								<CreditCard className="h-6 w-6 text-blue-600" />
@@ -348,7 +361,7 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 					<div className="flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0">
 						<div className="flex-1">
 							<div className="relative">
-								<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+								<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
 								<Input
 									placeholder="Search invoices..."
 									value={searchTerm}
@@ -400,7 +413,9 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 									>
 										<div className="space-y-2">
 											<div className="flex items-center space-x-3">
-												<h3 className="font-semibold">{invoice.invoiceNumber}</h3>
+												<h3 className="font-semibold">
+													{invoice.invoiceNumber}
+												</h3>
 												<Badge className={statusColors[invoice.status]}>
 													{invoice.status}
 												</Badge>
@@ -408,10 +423,11 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 											<p className="text-muted-foreground text-sm">
 												{invoice.description}
 											</p>
-											<div className="flex items-center space-x-4 text-sm text-muted-foreground">
+											<div className="flex items-center space-x-4 text-muted-foreground text-sm">
 												<span>Category: {invoice.category}</span>
 												<span>
-													Issued: {new Date(invoice.issueDate).toLocaleDateString()}
+													Issued:{" "}
+													{new Date(invoice.issueDate).toLocaleDateString()}
 												</span>
 												<span>
 													Due: {new Date(invoice.dueDate).toLocaleDateString()}
@@ -424,19 +440,21 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 											</div>
 											{invoice.paidDate && (
 												<p className="text-green-600 text-sm">
-													Paid on {new Date(invoice.paidDate).toLocaleDateString()}
-													{invoice.paymentMethod && ` via ${invoice.paymentMethod}`}
+													Paid on{" "}
+													{new Date(invoice.paidDate).toLocaleDateString()}
+													{invoice.paymentMethod &&
+														` via ${invoice.paymentMethod}`}
 												</p>
 											)}
 										</div>
 
 										<div className="text-right">
-											<p className="font-bold text-lg">{formatCurrency(invoice.total)}</p>
+											<p className="font-bold text-lg">
+												{formatCurrency(invoice.total)}
+											</p>
 											<div className="flex items-center space-x-2">
 												{invoice.status === "pending" && (
-													<Button size="sm">
-														Pay Now
-													</Button>
+													<Button size="sm">Pay Now</Button>
 												)}
 												<DropdownMenu>
 													<DropdownMenuTrigger asChild>
@@ -548,7 +566,10 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 										<XAxis dataKey="month" />
 										<YAxis />
 										<Tooltip
-											formatter={(value) => [formatCurrency(value as number), "Amount"]}
+											formatter={(value) => [
+												formatCurrency(value as number),
+												"Amount",
+											]}
 										/>
 										<Line
 											type="monotone"
@@ -576,7 +597,10 @@ export function ClientPayments({ user }: ClientPaymentsProps) {
 										<XAxis dataKey="category" />
 										<YAxis />
 										<Tooltip
-											formatter={(value) => [formatCurrency(value as number), "Amount"]}
+											formatter={(value) => [
+												formatCurrency(value as number),
+												"Amount",
+											]}
 										/>
 										<Bar dataKey="amount" fill="#3b82f6" />
 									</BarChart>

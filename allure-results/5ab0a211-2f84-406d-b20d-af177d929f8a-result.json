@@ -1,1 +1,31 @@
-{"uuid":"5ab0a211-2f84-406d-b20d-af177d929f8a","name":"should load /dashboard/clients","historyId":"2ed9dad43650e60ab202998b6ab97af7:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"navigation.routes.spec.ts"},{"name":"titlePath","value":" > webkit > navigation/routes.spec.ts > Route Discovery"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"navigation/routes.spec.ts"},{"name":"subSuite","value":"Route Discovery"}],"links":[],"start":1763549819656,"testCaseId":"2ed9dad43650e60ab202998b6ab97af7","fullName":"navigation/routes.spec.ts:26:3","titlePath":["navigation","routes.spec.ts","Route Discovery"],"stop":1763549819656}
+{
+	"uuid": "5ab0a211-2f84-406d-b20d-af177d929f8a",
+	"name": "should load /dashboard/clients",
+	"historyId": "2ed9dad43650e60ab202998b6ab97af7:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "navigation.routes.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > navigation/routes.spec.ts > Route Discovery"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "navigation/routes.spec.ts" },
+		{ "name": "subSuite", "value": "Route Discovery" }
+	],
+	"links": [],
+	"start": 1763549819656,
+	"testCaseId": "2ed9dad43650e60ab202998b6ab97af7",
+	"fullName": "navigation/routes.spec.ts:26:3",
+	"titlePath": ["navigation", "routes.spec.ts", "Route Discovery"],
+	"stop": 1763549819656
+}

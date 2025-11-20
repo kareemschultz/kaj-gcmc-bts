@@ -1,1 +1,35 @@
-{"uuid":"b7e7ca72-d6b0-4a30-8ac5-301535d9ff76","name":"headings should have proper hierarchy","historyId":"dae8f1f12a659d1cfe3d07937276ed0e:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"accessibility.wcag-compliance.spec.ts"},{"name":"titlePath","value":" > tablet > accessibility/wcag-compliance.spec.ts > Screen Reader Support"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"accessibility/wcag-compliance.spec.ts"},{"name":"subSuite","value":"Screen Reader Support"}],"links":[],"start":1763549757692,"testCaseId":"dae8f1f12a659d1cfe3d07937276ed0e","fullName":"accessibility/wcag-compliance.spec.ts:88:2","titlePath":["accessibility","wcag-compliance.spec.ts","Screen Reader Support"],"stop":1763549757693}
+{
+	"uuid": "b7e7ca72-d6b0-4a30-8ac5-301535d9ff76",
+	"name": "headings should have proper hierarchy",
+	"historyId": "dae8f1f12a659d1cfe3d07937276ed0e:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "accessibility.wcag-compliance.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > accessibility/wcag-compliance.spec.ts > Screen Reader Support"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "accessibility/wcag-compliance.spec.ts" },
+		{ "name": "subSuite", "value": "Screen Reader Support" }
+	],
+	"links": [],
+	"start": 1763549757692,
+	"testCaseId": "dae8f1f12a659d1cfe3d07937276ed0e",
+	"fullName": "accessibility/wcag-compliance.spec.ts:88:2",
+	"titlePath": [
+		"accessibility",
+		"wcag-compliance.spec.ts",
+		"Screen Reader Support"
+	],
+	"stop": 1763549757693
+}

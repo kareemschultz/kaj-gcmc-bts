@@ -5,21 +5,22 @@ import {
 	ArrowRight,
 	CheckCircle2,
 	Clock,
+	Download,
+	Eye,
+	Filter,
 	GitBranch,
 	Network,
-	PlayCircle,
 	PauseCircle,
+	PlayCircle,
+	Plus,
 	RefreshCw,
 	Route,
 	Shuffle,
 	Users,
 	Workflow,
-	Eye,
-	Download,
-	Filter,
-	Plus,
 	Zap,
 } from "lucide-react";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,7 +31,6 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
 	Select,
 	SelectContent,
@@ -38,8 +38,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 /**
  * Cross-Agency Workflow Viewer
@@ -59,10 +59,10 @@ interface CrossAgencyWorkflowProps {
 
 interface WorkflowStep {
 	id: string;
-	agency: 'GRA' | 'NIS' | 'DCRA' | 'Immigration';
+	agency: "GRA" | "NIS" | "DCRA" | "Immigration";
 	stepName: string;
 	description: string;
-	status: 'pending' | 'in_progress' | 'completed' | 'blocked' | 'failed';
+	status: "pending" | "in_progress" | "completed" | "blocked" | "failed";
 	estimatedDuration: number;
 	actualDuration?: number;
 	dependencies: string[];
@@ -75,12 +75,17 @@ interface CrossAgencyWorkflow {
 	id: string;
 	workflowName: string;
 	clientName: string;
-	workflowType: 'Business Setup' | 'Employee Onboarding' | 'Investment Application' | 'Compliance Audit' | 'License Renewal';
+	workflowType:
+		| "Business Setup"
+		| "Employee Onboarding"
+		| "Investment Application"
+		| "Compliance Audit"
+		| "License Renewal";
 	startDate: string;
 	estimatedCompletion: string;
 	actualCompletion?: string;
-	status: 'draft' | 'active' | 'completed' | 'paused' | 'cancelled';
-	priority: 'low' | 'medium' | 'high' | 'critical';
+	status: "draft" | "active" | "completed" | "paused" | "cancelled";
+	priority: "low" | "medium" | "high" | "critical";
 	overallProgress: number;
 	steps: WorkflowStep[];
 	blockers: number;
@@ -91,108 +96,108 @@ interface WorkflowDependency {
 	id: string;
 	fromAgency: string;
 	toAgency: string;
-	dependencyType: 'document' | 'approval' | 'payment' | 'registration';
+	dependencyType: "document" | "approval" | "payment" | "registration";
 	description: string;
-	status: 'waiting' | 'resolved' | 'blocked';
+	status: "waiting" | "resolved" | "blocked";
 }
 
 const mockWorkflows: CrossAgencyWorkflow[] = [
 	{
-		id: '1',
-		workflowName: 'New Business Complete Setup',
-		clientName: 'Tech Innovations Ltd',
-		workflowType: 'Business Setup',
-		startDate: '2024-11-15',
-		estimatedCompletion: '2024-12-30',
-		status: 'active',
-		priority: 'high',
+		id: "1",
+		workflowName: "New Business Complete Setup",
+		clientName: "Tech Innovations Ltd",
+		workflowType: "Business Setup",
+		startDate: "2024-11-15",
+		estimatedCompletion: "2024-12-30",
+		status: "active",
+		priority: "high",
 		overallProgress: 65,
 		blockers: 1,
 		dependencies: 3,
 		steps: [
 			{
-				id: '1a',
-				agency: 'DCRA',
-				stepName: 'Business Registration',
-				description: 'Register new company with DCRA',
-				status: 'completed',
+				id: "1a",
+				agency: "DCRA",
+				stepName: "Business Registration",
+				description: "Register new company with DCRA",
+				status: "completed",
 				estimatedDuration: 7,
 				actualDuration: 5,
 				dependencies: [],
-				assignee: 'DCRA Officer',
-				dueDate: '2024-11-22',
-				completedDate: '2024-11-20',
+				assignee: "DCRA Officer",
+				dueDate: "2024-11-22",
+				completedDate: "2024-11-20",
 			},
 			{
-				id: '1b',
-				agency: 'GRA',
-				stepName: 'Tax Registration',
-				description: 'Register for GRA tax obligations',
-				status: 'completed',
+				id: "1b",
+				agency: "GRA",
+				stepName: "Tax Registration",
+				description: "Register for GRA tax obligations",
+				status: "completed",
 				estimatedDuration: 5,
 				actualDuration: 3,
-				dependencies: ['1a'],
-				assignee: 'GRA Officer',
-				dueDate: '2024-11-27',
-				completedDate: '2024-11-23',
+				dependencies: ["1a"],
+				assignee: "GRA Officer",
+				dueDate: "2024-11-27",
+				completedDate: "2024-11-23",
 			},
 			{
-				id: '1c',
-				agency: 'NIS',
-				stepName: 'Employer Registration',
-				description: 'Register as employer with NIS',
-				status: 'in_progress',
+				id: "1c",
+				agency: "NIS",
+				stepName: "Employer Registration",
+				description: "Register as employer with NIS",
+				status: "in_progress",
 				estimatedDuration: 3,
-				dependencies: ['1a'],
-				assignee: 'NIS Officer',
-				dueDate: '2024-11-25',
+				dependencies: ["1a"],
+				assignee: "NIS Officer",
+				dueDate: "2024-11-25",
 			},
 			{
-				id: '1d',
-				agency: 'Immigration',
-				stepName: 'Work Permit Processing',
-				description: 'Process work permits for foreign employees',
-				status: 'blocked',
+				id: "1d",
+				agency: "Immigration",
+				stepName: "Work Permit Processing",
+				description: "Process work permits for foreign employees",
+				status: "blocked",
 				estimatedDuration: 14,
-				dependencies: ['1a', '1b'],
-				assignee: 'Immigration Officer',
-				dueDate: '2024-12-10',
+				dependencies: ["1a", "1b"],
+				assignee: "Immigration Officer",
+				dueDate: "2024-12-10",
 			},
 		],
 	},
 	{
-		id: '2',
-		workflowName: 'Foreign Employee Onboarding',
-		clientName: 'ABC Trading Ltd',
-		workflowType: 'Employee Onboarding',
-		startDate: '2024-11-20',
-		estimatedCompletion: '2024-12-20',
-		status: 'active',
-		priority: 'medium',
+		id: "2",
+		workflowName: "Foreign Employee Onboarding",
+		clientName: "ABC Trading Ltd",
+		workflowType: "Employee Onboarding",
+		startDate: "2024-11-20",
+		estimatedCompletion: "2024-12-20",
+		status: "active",
+		priority: "medium",
 		overallProgress: 25,
 		blockers: 0,
 		dependencies: 2,
 		steps: [
 			{
-				id: '2a',
-				agency: 'Immigration',
-				stepName: 'Work Permit Application',
-				description: 'Submit work permit application',
-				status: 'in_progress',
+				id: "2a",
+				agency: "Immigration",
+				stepName: "Work Permit Application",
+				description: "Submit work permit application",
+				status: "in_progress",
 				estimatedDuration: 14,
 				dependencies: [],
-				assignee: 'Immigration Officer',
-				dueDate: '2024-12-04',
+				assignee: "Immigration Officer",
+				dueDate: "2024-12-04",
 			},
 			{
-				id: '2b',
-				agency: 'NIS',
-				stepName: 'Employee Registration',
-				description: 'Register employee with NIS',
-				status: 'pending',
+				id: "2b",
+				agency: "NIS",
+				stepName: "Employee Registration",
+				description: "Register employee with NIS",
+				status: "pending",
 				estimatedDuration: 2,
-				dependencies: ['2a'],
-				dueDate: '2024-12-06',
+				dependencies: ["2a"],
+				dueDate: "2024-12-06",
 			},
 		],
 	},
@@ -200,52 +205,63 @@ const mockWorkflows: CrossAgencyWorkflow[] = [
 
 const mockDependencies: WorkflowDependency[] = [
 	{
-		id: '1',
-		fromAgency: 'DCRA',
-		toAgency: 'GRA',
-		dependencyType: 'document',
-		description: 'Business registration certificate required for tax registration',
-		status: 'resolved',
+		id: "1",
+		fromAgency: "DCRA",
+		toAgency: "GRA",
+		dependencyType: "document",
+		description:
+			"Business registration certificate required for tax registration",
+		status: "resolved",
 	},
 	{
-		id: '2',
-		fromAgency: 'GRA',
-		toAgency: 'Immigration',
-		dependencyType: 'document',
-		description: 'Tax registration number required for work permit',
-		status: 'resolved',
+		id: "2",
+		fromAgency: "GRA",
+		toAgency: "Immigration",
+		dependencyType: "document",
+		description: "Tax registration number required for work permit",
+		status: "resolved",
 	},
 	{
-		id: '3',
-		fromAgency: 'Immigration',
-		toAgency: 'NIS',
-		dependencyType: 'document',
-		description: 'Work permit approval required for NIS registration',
-		status: 'waiting',
+		id: "3",
+		fromAgency: "Immigration",
+		toAgency: "NIS",
+		dependencyType: "document",
+		description: "Work permit approval required for NIS registration",
+		status: "waiting",
 	},
 ];
 
-export function CrossAgencyWorkflowViewer({ className }: CrossAgencyWorkflowProps) {
-	const [selectedWorkflow, setSelectedWorkflow] = useState<string>('all');
-	const [viewMode, setViewMode] = useState<'list' | 'diagram' | 'timeline'>('list');
+export function CrossAgencyWorkflowViewer({
+	className,
+}: CrossAgencyWorkflowProps) {
+	const [selectedWorkflow, setSelectedWorkflow] = useState<string>("all");
+	const [viewMode, setViewMode] = useState<"list" | "diagram" | "timeline">(
+		"list",
+	);
 
-	const activeWorkflows = mockWorkflows.filter(w => w.status === 'active').length;
+	const activeWorkflows = mockWorkflows.filter(
+		(w) => w.status === "active",
+	).length;
 	const totalBlockers = mockWorkflows.reduce((sum, w) => sum + w.blockers, 0);
-	const avgProgress = mockWorkflows.reduce((sum, w) => sum + w.overallProgress, 0) / mockWorkflows.length;
-	const pendingDependencies = mockDependencies.filter(d => d.status === 'waiting').length;
+	const avgProgress =
+		mockWorkflows.reduce((sum, w) => sum + w.overallProgress, 0) /
+		mockWorkflows.length;
+	const pendingDependencies = mockDependencies.filter(
+		(d) => d.status === "waiting",
+	).length;
 
 	return (
 		<div className={cn("space-y-6", className)}>
 			{/* Header */}
 			<div className="flex items-center justify-between">
 				<div>
-					<h2 className="font-bold text-3xl tracking-tight flex items-center gap-3">
-						<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-white text-sm font-semibold">
+					<h2 className="flex items-center gap-3 font-bold text-3xl tracking-tight">
+						<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 font-semibold text-sm text-white">
 							<Network className="h-6 w-6" />
 						</div>
 						Cross-Agency Workflows
 					</h2>
-					<p className="text-muted-foreground text-lg">
+					<p className="text-lg text-muted-foreground">
 						Visualize and manage complex workflows across multiple agencies
 					</p>
 				</div>
@@ -296,26 +312,34 @@ export function CrossAgencyWorkflowViewer({ className }: CrossAgencyWorkflowProp
 					<CardContent>
 						<div className="font-bold text-2xl">{avgProgress.toFixed(1)}%</div>
 						<Progress value={avgProgress} className="mt-2 h-2" />
-						<p className="text-muted-foreground text-xs">Across all workflows</p>
+						<p className="text-muted-foreground text-xs">
+							Across all workflows
+						</p>
 					</CardContent>
 				</Card>
 
-				<Card className={cn(
-					"border-l-4",
-					totalBlockers > 0 ? "border-l-destructive" : "border-l-success"
-				)}>
+				<Card
+					className={cn(
+						"border-l-4",
+						totalBlockers > 0 ? "border-l-destructive" : "border-l-success",
+					)}
+				>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="font-medium text-sm">
 							Current Blockers
 						</CardTitle>
-						<AlertTriangle className={cn(
-							"h-4 w-4",
-							totalBlockers > 0 ? "text-destructive" : "text-success"
-						)} />
+						<AlertTriangle
+							className={cn(
+								"h-4 w-4",
+								totalBlockers > 0 ? "text-destructive" : "text-success",
+							)}
+						/>
 					</CardHeader>
 					<CardContent>
 						<div className="font-bold text-2xl">{totalBlockers}</div>
-						<p className="text-muted-foreground text-xs">Requiring intervention</p>
+						<p className="text-muted-foreground text-xs">
+							Requiring intervention
+						</p>
 						{totalBlockers > 0 && (
 							<Badge variant="destructive" className="mt-2">
 								Action Required
@@ -324,18 +348,22 @@ export function CrossAgencyWorkflowViewer({ className }: CrossAgencyWorkflowProp
 					</CardContent>
 				</Card>
 
-				<Card className={cn(
-					"border-l-4",
-					pendingDependencies > 0 ? "border-l-warning" : "border-l-success"
-				)}>
+				<Card
+					className={cn(
+						"border-l-4",
+						pendingDependencies > 0 ? "border-l-warning" : "border-l-success",
+					)}
+				>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="font-medium text-sm">
 							Pending Dependencies
 						</CardTitle>
-						<GitBranch className={cn(
-							"h-4 w-4",
-							pendingDependencies > 0 ? "text-warning" : "text-success"
-						)} />
+						<GitBranch
+							className={cn(
+								"h-4 w-4",
+								pendingDependencies > 0 ? "text-warning" : "text-success",
+							)}
+						/>
 					</CardHeader>
 					<CardContent>
 						<div className="font-bold text-2xl">{pendingDependencies}</div>
@@ -353,9 +381,9 @@ export function CrossAgencyWorkflowViewer({ className }: CrossAgencyWorkflowProp
 				</TabsList>
 
 				<TabsContent value="overview" className="space-y-6">
-					{viewMode === 'list' && <WorkflowListView />}
-					{viewMode === 'diagram' && <WorkflowDiagramView />}
-					{viewMode === 'timeline' && <WorkflowTimelineView />}
+					{viewMode === "list" && <WorkflowListView />}
+					{viewMode === "diagram" && <WorkflowDiagramView />}
+					{viewMode === "timeline" && <WorkflowTimelineView />}
 				</TabsContent>
 
 				<TabsContent value="dependencies" className="space-y-6">
@@ -390,26 +418,46 @@ function WorkflowCard({ workflow }: { workflow: CrossAgencyWorkflow }) {
 			<CardHeader>
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-3">
-						<Badge variant={
-							workflow.status === 'completed' ? 'success' :
-							workflow.status === 'active' ? 'info' :
-							workflow.status === 'paused' ? 'warning' :
-							workflow.status === 'cancelled' ? 'destructive' : 'outline'
-						}>
-							{workflow.status.charAt(0).toUpperCase() + workflow.status.slice(1)}
+						<Badge
+							variant={
+								workflow.status === "completed"
+									? "success"
+									: workflow.status === "active"
+										? "info"
+										: workflow.status === "paused"
+											? "warning"
+											: workflow.status === "cancelled"
+												? "destructive"
+												: "outline"
+							}
+						>
+							{workflow.status.charAt(0).toUpperCase() +
+								workflow.status.slice(1)}
 						</Badge>
 						<div>
-							<CardTitle className="text-base">{workflow.workflowName}</CardTitle>
-							<CardDescription>{workflow.clientName} - {workflow.workflowType}</CardDescription>
+							<CardTitle className="text-base">
+								{workflow.workflowName}
+							</CardTitle>
+							<CardDescription>
+								{workflow.clientName} - {workflow.workflowType}
+							</CardDescription>
 						</div>
 					</div>
 					<div className="flex items-center gap-2">
-						<Badge variant={
-							workflow.priority === 'critical' ? 'destructive' :
-							workflow.priority === 'high' ? 'warning' :
-							workflow.priority === 'medium' ? 'info' : 'outline'
-						}>
-							{workflow.priority.charAt(0).toUpperCase() + workflow.priority.slice(1)} Priority
+						<Badge
+							variant={
+								workflow.priority === "critical"
+									? "destructive"
+									: workflow.priority === "high"
+										? "warning"
+										: workflow.priority === "medium"
+											? "info"
+											: "outline"
+							}
+						>
+							{workflow.priority.charAt(0).toUpperCase() +
+								workflow.priority.slice(1)}{" "}
+							Priority
 						</Badge>
 						<Button variant="outline" size="sm">
 							<Eye className="h-4 w-4" />
@@ -421,12 +469,12 @@ function WorkflowCard({ workflow }: { workflow: CrossAgencyWorkflow }) {
 				<div className="space-y-4">
 					{/* Progress Overview */}
 					<div>
-						<div className="flex justify-between text-sm mb-2">
+						<div className="mb-2 flex justify-between text-sm">
 							<span>Overall Progress</span>
 							<span className="font-medium">{workflow.overallProgress}%</span>
 						</div>
 						<Progress value={workflow.overallProgress} className="h-3" />
-						<div className="flex justify-between text-xs text-muted-foreground mt-1">
+						<div className="mt-1 flex justify-between text-muted-foreground text-xs">
 							<span>Started: {workflow.startDate}</span>
 							<span>Est. Completion: {workflow.estimatedCompletion}</span>
 						</div>
@@ -437,7 +485,11 @@ function WorkflowCard({ workflow }: { workflow: CrossAgencyWorkflow }) {
 						<h4 className="font-medium text-sm">Workflow Steps</h4>
 						<div className="grid gap-2">
 							{workflow.steps.map((step, index) => (
-								<WorkflowStepItem key={step.id} step={step} isLast={index === workflow.steps.length - 1} />
+								<WorkflowStepItem
+									key={step.id}
+									step={step}
+									isLast={index === workflow.steps.length - 1}
+								/>
 							))}
 						</div>
 					</div>
@@ -448,7 +500,10 @@ function WorkflowCard({ workflow }: { workflow: CrossAgencyWorkflow }) {
 							{workflow.blockers > 0 && (
 								<div className="flex items-center gap-1 text-destructive">
 									<AlertTriangle className="h-3 w-3" />
-									<span>{workflow.blockers} blocker{workflow.blockers !== 1 ? 's' : ''}</span>
+									<span>
+										{workflow.blockers} blocker
+										{workflow.blockers !== 1 ? "s" : ""}
+									</span>
 								</div>
 							)}
 							{workflow.dependencies > 0 && (
@@ -465,46 +520,69 @@ function WorkflowCard({ workflow }: { workflow: CrossAgencyWorkflow }) {
 	);
 }
 
-function WorkflowStepItem({ step, isLast }: { step: WorkflowStep; isLast: boolean }) {
+function WorkflowStepItem({
+	step,
+	isLast,
+}: {
+	step: WorkflowStep;
+	isLast: boolean;
+}) {
 	const agencyColors = {
-		GRA: 'bg-emerald-100 text-emerald-700',
-		NIS: 'bg-blue-100 text-blue-700',
-		DCRA: 'bg-amber-100 text-amber-700',
-		Immigration: 'bg-purple-100 text-purple-700',
+		GRA: "bg-emerald-100 text-emerald-700",
+		NIS: "bg-blue-100 text-blue-700",
+		DCRA: "bg-amber-100 text-amber-700",
+		Immigration: "bg-purple-100 text-purple-700",
 	};
 
 	return (
 		<div className="flex items-center gap-3">
 			<div className="flex flex-col items-center">
-				<div className={cn(
-					"h-3 w-3 rounded-full",
-					step.status === 'completed' ? "bg-success" :
-					step.status === 'in_progress' ? "bg-info" :
-					step.status === 'blocked' ? "bg-destructive" :
-					step.status === 'failed' ? "bg-destructive" : "bg-muted"
-				)} />
-				{!isLast && <div className="h-8 w-px bg-muted mt-1" />}
+				<div
+					className={cn(
+						"h-3 w-3 rounded-full",
+						step.status === "completed"
+							? "bg-success"
+							: step.status === "in_progress"
+								? "bg-info"
+								: step.status === "blocked"
+									? "bg-destructive"
+									: step.status === "failed"
+										? "bg-destructive"
+										: "bg-muted",
+					)}
+				/>
+				{!isLast && <div className="mt-1 h-8 w-px bg-muted" />}
 			</div>
-			<div className="flex-1 min-w-0">
+			<div className="min-w-0 flex-1">
 				<div className="flex items-center gap-2">
-					<span className={cn(
-						"px-2 py-1 rounded text-xs font-medium",
-						agencyColors[step.agency]
-					)}>
+					<span
+						className={cn(
+							"rounded px-2 py-1 font-medium text-xs",
+							agencyColors[step.agency],
+						)}
+					>
 						{step.agency}
 					</span>
 					<span className="font-medium text-sm">{step.stepName}</span>
-					<Badge variant={
-						step.status === 'completed' ? 'success' :
-						step.status === 'in_progress' ? 'info' :
-						step.status === 'blocked' ? 'destructive' :
-						step.status === 'failed' ? 'destructive' : 'outline'
-					} className="text-xs">
-						{step.status.replace('_', ' ')}
+					<Badge
+						variant={
+							step.status === "completed"
+								? "success"
+								: step.status === "in_progress"
+									? "info"
+									: step.status === "blocked"
+										? "destructive"
+										: step.status === "failed"
+											? "destructive"
+											: "outline"
+						}
+						className="text-xs"
+					>
+						{step.status.replace("_", " ")}
 					</Badge>
 				</div>
 				<p className="text-muted-foreground text-xs">{step.description}</p>
-				<div className="flex gap-4 text-xs text-muted-foreground mt-1">
+				<div className="mt-1 flex gap-4 text-muted-foreground text-xs">
 					<span>Due: {step.dueDate}</span>
 					{step.assignee && <span>Assignee: {step.assignee}</span>}
 					{step.actualDuration && (
@@ -530,8 +608,9 @@ function WorkflowDiagramView() {
 					<div className="text-center">
 						<Network className="mx-auto h-16 w-16 text-muted-foreground" />
 						<p className="mt-4 text-muted-foreground">
-							Interactive workflow diagram would be implemented here using a library like
-							React Flow or D3.js to show agency relationships, dependencies, and process flow.
+							Interactive workflow diagram would be implemented here using a
+							library like React Flow or D3.js to show agency relationships,
+							dependencies, and process flow.
 						</p>
 					</div>
 				</div>
@@ -552,21 +631,31 @@ function WorkflowTimelineView() {
 			<CardContent>
 				<div className="space-y-6">
 					{mockWorkflows.map((workflow) => (
-						<div key={workflow.id} className="border-l-2 border-muted pl-4">
-							<div className="flex items-center gap-2 mb-2">
+						<div key={workflow.id} className="border-muted border-l-2 pl-4">
+							<div className="mb-2 flex items-center gap-2">
 								<h4 className="font-medium">{workflow.workflowName}</h4>
 								<Badge variant="outline">{workflow.clientName}</Badge>
 							</div>
 							<div className="space-y-2">
 								{workflow.steps.map((step) => (
-									<div key={step.id} className="flex items-center gap-2 text-sm">
-										<div className={cn(
-											"h-2 w-2 rounded-full",
-											step.status === 'completed' ? "bg-success" :
-											step.status === 'in_progress' ? "bg-info" : "bg-muted"
-										)} />
+									<div
+										key={step.id}
+										className="flex items-center gap-2 text-sm"
+									>
+										<div
+											className={cn(
+												"h-2 w-2 rounded-full",
+												step.status === "completed"
+													? "bg-success"
+													: step.status === "in_progress"
+														? "bg-info"
+														: "bg-muted",
+											)}
+										/>
 										<span>{step.stepName}</span>
-										<span className="text-muted-foreground">({step.agency})</span>
+										<span className="text-muted-foreground">
+											({step.agency})
+										</span>
 										{step.completedDate && (
 											<span className="text-muted-foreground text-xs">
 												- Completed {step.completedDate}
@@ -605,7 +694,7 @@ function DependencyManager() {
 
 function DependencyCard({ dependency }: { dependency: WorkflowDependency }) {
 	return (
-		<div className="flex items-center gap-4 p-4 rounded-lg border">
+		<div className="flex items-center gap-4 rounded-lg border p-4">
 			<div className="flex items-center gap-2">
 				<Badge variant="outline">{dependency.fromAgency}</Badge>
 				<ArrowRight className="h-4 w-4 text-muted-foreground" />
@@ -614,13 +703,20 @@ function DependencyCard({ dependency }: { dependency: WorkflowDependency }) {
 			<div className="flex-1">
 				<p className="font-medium text-sm">{dependency.description}</p>
 				<p className="text-muted-foreground text-xs">
-					Type: {dependency.dependencyType.charAt(0).toUpperCase() + dependency.dependencyType.slice(1)}
+					Type:{" "}
+					{dependency.dependencyType.charAt(0).toUpperCase() +
+						dependency.dependencyType.slice(1)}
 				</p>
 			</div>
-			<Badge variant={
-				dependency.status === 'resolved' ? 'success' :
-				dependency.status === 'blocked' ? 'destructive' : 'warning'
-			}>
+			<Badge
+				variant={
+					dependency.status === "resolved"
+						? "success"
+						: dependency.status === "blocked"
+							? "destructive"
+							: "warning"
+				}
+			>
 				{dependency.status.charAt(0).toUpperCase() + dependency.status.slice(1)}
 			</Badge>
 		</div>
@@ -638,18 +734,31 @@ function PerformanceAnalytics() {
 				<CardContent>
 					<div className="space-y-4">
 						{[
-							{ agency: 'DCRA', avgTime: 5.2, target: 7, trend: 'improving' },
-							{ agency: 'GRA', avgTime: 3.8, target: 5, trend: 'stable' },
-							{ agency: 'NIS', avgTime: 2.1, target: 3, trend: 'improving' },
-							{ agency: 'Immigration', avgTime: 18.5, target: 14, trend: 'declining' },
+							{ agency: "DCRA", avgTime: 5.2, target: 7, trend: "improving" },
+							{ agency: "GRA", avgTime: 3.8, target: 5, trend: "stable" },
+							{ agency: "NIS", avgTime: 2.1, target: 3, trend: "improving" },
+							{
+								agency: "Immigration",
+								avgTime: 18.5,
+								target: 14,
+								trend: "declining",
+							},
 						].map((item) => (
-							<div key={item.agency} className="flex items-center justify-between">
+							<div
+								key={item.agency}
+								className="flex items-center justify-between"
+							>
 								<div className="flex items-center gap-2">
 									<span className="font-medium">{item.agency}</span>
-									<Badge variant={
-										item.trend === 'improving' ? 'success' :
-										item.trend === 'declining' ? 'destructive' : 'outline'
-									}>
+									<Badge
+										variant={
+											item.trend === "improving"
+												? "success"
+												: item.trend === "declining"
+													? "destructive"
+													: "outline"
+										}
+									>
 										{item.trend}
 									</Badge>
 								</div>
@@ -673,24 +782,50 @@ function PerformanceAnalytics() {
 				<CardContent>
 					<div className="space-y-3">
 						{[
-							{ issue: 'Document verification delays', frequency: 'High', impact: 'Medium' },
-							{ issue: 'Inter-agency communication gaps', frequency: 'Medium', impact: 'High' },
-							{ issue: 'Missing documentation', frequency: 'High', impact: 'Low' },
-							{ issue: 'Approval process delays', frequency: 'Low', impact: 'High' },
+							{
+								issue: "Document verification delays",
+								frequency: "High",
+								impact: "Medium",
+							},
+							{
+								issue: "Inter-agency communication gaps",
+								frequency: "Medium",
+								impact: "High",
+							},
+							{
+								issue: "Missing documentation",
+								frequency: "High",
+								impact: "Low",
+							},
+							{
+								issue: "Approval process delays",
+								frequency: "Low",
+								impact: "High",
+							},
 						].map((item, index) => (
 							<div key={index} className="flex items-center justify-between">
 								<span className="text-sm">{item.issue}</span>
 								<div className="flex gap-2">
-									<Badge variant={
-										item.frequency === 'High' ? 'destructive' :
-										item.frequency === 'Medium' ? 'warning' : 'outline'
-									}>
+									<Badge
+										variant={
+											item.frequency === "High"
+												? "destructive"
+												: item.frequency === "Medium"
+													? "warning"
+													: "outline"
+										}
+									>
 										{item.frequency}
 									</Badge>
-									<Badge variant={
-										item.impact === 'High' ? 'destructive' :
-										item.impact === 'Medium' ? 'warning' : 'outline'
-									}>
+									<Badge
+										variant={
+											item.impact === "High"
+												? "destructive"
+												: item.impact === "Medium"
+													? "warning"
+													: "outline"
+										}
+									>
 										{item.impact} Impact
 									</Badge>
 								</div>
@@ -716,44 +851,59 @@ function OptimizationRecommendations() {
 				<div className="space-y-4">
 					{[
 						{
-							title: 'Parallel Processing Opportunity',
-							description: 'GRA and NIS registrations can be processed simultaneously after DCRA approval',
-							impact: 'High',
-							effort: 'Low',
-							savings: '3-5 days',
+							title: "Parallel Processing Opportunity",
+							description:
+								"GRA and NIS registrations can be processed simultaneously after DCRA approval",
+							impact: "High",
+							effort: "Low",
+							savings: "3-5 days",
 						},
 						{
-							title: 'Document Pre-validation',
-							description: 'Implement automated document checking before submission to reduce rejections',
-							impact: 'Medium',
-							effort: 'Medium',
-							savings: '2-3 days',
+							title: "Document Pre-validation",
+							description:
+								"Implement automated document checking before submission to reduce rejections",
+							impact: "Medium",
+							effort: "Medium",
+							savings: "2-3 days",
 						},
 						{
-							title: 'API Integration',
-							description: 'Direct system integration between agencies to reduce manual data entry',
-							impact: 'High',
-							effort: 'High',
-							savings: '7-10 days',
+							title: "API Integration",
+							description:
+								"Direct system integration between agencies to reduce manual data entry",
+							impact: "High",
+							effort: "High",
+							savings: "7-10 days",
 						},
 					].map((rec, index) => (
-						<div key={index} className="p-4 rounded-lg border">
+						<div key={index} className="rounded-lg border p-4">
 							<div className="flex items-start justify-between">
 								<div className="flex-1">
 									<h4 className="font-medium">{rec.title}</h4>
-									<p className="text-muted-foreground text-sm mt-1">{rec.description}</p>
-									<div className="flex gap-2 mt-2">
-										<Badge variant={rec.impact === 'High' ? 'success' : 'info'}>
+									<p className="mt-1 text-muted-foreground text-sm">
+										{rec.description}
+									</p>
+									<div className="mt-2 flex gap-2">
+										<Badge variant={rec.impact === "High" ? "success" : "info"}>
 											{rec.impact} Impact
 										</Badge>
-										<Badge variant={rec.effort === 'Low' ? 'success' : rec.effort === 'Medium' ? 'warning' : 'destructive'}>
+										<Badge
+											variant={
+												rec.effort === "Low"
+													? "success"
+													: rec.effort === "Medium"
+														? "warning"
+														: "destructive"
+											}
+										>
 											{rec.effort} Effort
 										</Badge>
 									</div>
 								</div>
 								<div className="text-right">
 									<div className="font-medium text-success">-{rec.savings}</div>
-									<div className="text-muted-foreground text-xs">time savings</div>
+									<div className="text-muted-foreground text-xs">
+										time savings
+									</div>
 								</div>
 							</div>
 						</div>

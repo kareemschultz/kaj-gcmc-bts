@@ -1,1 +1,31 @@
-{"uuid":"2976ecf9-70be-4d74-8ce1-c5bfe4fc2e03","name":"should not have console errors on /dashboard/services","historyId":"2e3b6f9b0a2e9c2ecb320047cfe01d24:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"navigation.routes.spec.ts"},{"name":"titlePath","value":" > tablet > navigation/routes.spec.ts > Route Discovery"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"navigation/routes.spec.ts"},{"name":"subSuite","value":"Route Discovery"}],"links":[],"start":1763549757719,"testCaseId":"2e3b6f9b0a2e9c2ecb320047cfe01d24","fullName":"navigation/routes.spec.ts:37:3","titlePath":["navigation","routes.spec.ts","Route Discovery"],"stop":1763549757719}
+{
+	"uuid": "2976ecf9-70be-4d74-8ce1-c5bfe4fc2e03",
+	"name": "should not have console errors on /dashboard/services",
+	"historyId": "2e3b6f9b0a2e9c2ecb320047cfe01d24:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "navigation.routes.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > navigation/routes.spec.ts > Route Discovery"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "navigation/routes.spec.ts" },
+		{ "name": "subSuite", "value": "Route Discovery" }
+	],
+	"links": [],
+	"start": 1763549757719,
+	"testCaseId": "2e3b6f9b0a2e9c2ecb320047cfe01d24",
+	"fullName": "navigation/routes.spec.ts:37:3",
+	"titlePath": ["navigation", "routes.spec.ts", "Route Discovery"],
+	"stop": 1763549757719
+}

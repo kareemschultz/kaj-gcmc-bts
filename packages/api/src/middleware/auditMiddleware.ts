@@ -5,10 +5,15 @@
  * Integrates with tRPC procedures to track all database changes
  */
 
-import { TRPCError } from '@trpc/server';
-import type { ProcedureBuilderDef } from '@trpc/server/dist/declarations/src/internals/procedureBuilder';
-import type { Context } from '../context';
-import { AuditService, AuditActions, EntityTypes, type AuditLogEntry } from '../application/services/AuditService';
+import { TRPCError } from "@trpc/server";
+import type { ProcedureBuilderDef } from "@trpc/server/dist/declarations/src/internals/procedureBuilder";
+import {
+	AuditActions,
+	type AuditLogEntry,
+	type AuditService,
+	EntityTypes,
+} from "../application/services/AuditService";
+import type { Context } from "../context";
 
 export interface AuditMiddlewareOptions {
 	entityType: string;
@@ -41,12 +46,15 @@ export function createAuditMiddleware(options: AuditMiddlewareOptions) {
 			return next();
 		}
 
-		let before: any = null;
+		const before: any = null;
 		let entityId: number | string | null = null;
 
 		try {
 			// For update/delete operations, fetch the current state first
-			if (options.action.includes('update') || options.action.includes('delete')) {
+			if (
+				options.action.includes("update") ||
+				options.action.includes("delete")
+			) {
 				if (options.extractEntityId && input) {
 					entityId = options.extractEntityId(input);
 					// You would implement entity fetching here based on your repository pattern
@@ -79,10 +87,11 @@ export function createAuditMiddleware(options: AuditMiddlewareOptions) {
 				entityId: entityId || 0,
 				action: options.action,
 				changes,
-				ipAddress: ctx.req?.headers?.['x-forwarded-for'] as string ||
-						   ctx.req?.headers?.['x-real-ip'] as string ||
-						   ctx.req?.connection?.remoteAddress,
-				userAgent: ctx.req?.headers?.['user-agent'] as string,
+				ipAddress:
+					(ctx.req?.headers?.["x-forwarded-for"] as string) ||
+					(ctx.req?.headers?.["x-real-ip"] as string) ||
+					ctx.req?.connection?.remoteAddress,
+				userAgent: ctx.req?.headers?.["user-agent"] as string,
 			};
 
 			// Log the audit entry (fire and forget to not affect main operation)
@@ -100,13 +109,14 @@ export function createAuditMiddleware(options: AuditMiddlewareOptions) {
 					entityId: entityId,
 					action: `${options.action}.failed`,
 					changes: {
-						error: error instanceof Error ? error.message : 'Unknown error',
-						input: input
+						error: error instanceof Error ? error.message : "Unknown error",
+						input: input,
 					},
-					ipAddress: ctx.req?.headers?.['x-forwarded-for'] as string ||
-							   ctx.req?.headers?.['x-real-ip'] as string ||
-							   ctx.req?.connection?.remoteAddress,
-					userAgent: ctx.req?.headers?.['user-agent'] as string,
+					ipAddress:
+						(ctx.req?.headers?.["x-forwarded-for"] as string) ||
+						(ctx.req?.headers?.["x-real-ip"] as string) ||
+						ctx.req?.connection?.remoteAddress,
+					userAgent: ctx.req?.headers?.["user-agent"] as string,
 				};
 
 				await ctx.auditService.log(failedEntry);
@@ -199,7 +209,7 @@ export const auditMiddlewares = {
 		extractEntityId: (input) => input.id,
 		extractChanges: (input) => ({
 			submittedAt: new Date(),
-			status: 'submitted'
+			status: "submitted",
 		}),
 		clientId: (input) => input.clientId,
 	}),
@@ -269,7 +279,7 @@ export const auditMiddlewares = {
  * Usage: @Audit(auditOptions)
  */
 export function Audit(options: AuditMiddlewareOptions) {
-	return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+	return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
 		const originalMethod = descriptor.value;
 
 		descriptor.value = async function (...args: any[]) {
@@ -307,14 +317,16 @@ export const auditHelpers = {
 		userId: string | null,
 		success: boolean,
 		ipAddress?: string,
-		userAgent?: string
+		userAgent?: string,
 	) => {
 		await auditService.log({
 			tenantId,
 			actorUserId: userId,
 			entityType: EntityTypes.USER,
-			entityId: userId || 'anonymous',
-			action: success ? AuditActions.USER_LOGIN : AuditActions.SECURITY_LOGIN_ATTEMPT,
+			entityId: userId || "anonymous",
+			action: success
+				? AuditActions.USER_LOGIN
+				: AuditActions.SECURITY_LOGIN_ATTEMPT,
 			changes: { success, timestamp: new Date() },
 			ipAddress,
 			userAgent,
@@ -329,13 +341,13 @@ export const auditHelpers = {
 		tenantId: number,
 		action: string,
 		details: any,
-		actorUserId?: string
+		actorUserId?: string,
 	) => {
 		await auditService.log({
 			tenantId,
 			actorUserId,
 			entityType: EntityTypes.SYSTEM,
-			entityId: 'system',
+			entityId: "system",
 			action,
 			changes: details,
 		});
@@ -350,14 +362,16 @@ export const auditHelpers = {
 		actorUserId: string,
 		targetUserId: string,
 		permission: string,
-		granted: boolean
+		granted: boolean,
 	) => {
 		await auditService.log({
 			tenantId,
 			actorUserId,
 			entityType: EntityTypes.PERMISSION,
 			entityId: targetUserId,
-			action: granted ? AuditActions.SECURITY_PERMISSION_GRANT : AuditActions.SECURITY_PERMISSION_REVOKE,
+			action: granted
+				? AuditActions.SECURITY_PERMISSION_GRANT
+				: AuditActions.SECURITY_PERMISSION_REVOKE,
 			changes: { permission, granted, targetUserId },
 		});
 	},

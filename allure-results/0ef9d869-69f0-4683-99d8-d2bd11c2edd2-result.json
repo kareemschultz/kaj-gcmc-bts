@@ -1,1 +1,35 @@
-{"uuid":"0ef9d869-69f0-4683-99d8-d2bd11c2edd2","name":"tables should be scrollable on tablet","historyId":"99ba4baa9a7d27257f65717489b2db1b:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > tablet > mobile/responsive.spec.ts > Mobile Responsiveness - Tablet"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Mobile Responsiveness - Tablet"}],"links":[],"start":1763549757717,"testCaseId":"99ba4baa9a7d27257f65717489b2db1b","fullName":"mobile/responsive.spec.ts:132:2","titlePath":["mobile","responsive.spec.ts","Mobile Responsiveness - Tablet"],"stop":1763549757717}
+{
+	"uuid": "0ef9d869-69f0-4683-99d8-d2bd11c2edd2",
+	"name": "tables should be scrollable on tablet",
+	"historyId": "99ba4baa9a7d27257f65717489b2db1b:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > mobile/responsive.spec.ts > Mobile Responsiveness - Tablet"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Mobile Responsiveness - Tablet" }
+	],
+	"links": [],
+	"start": 1763549757717,
+	"testCaseId": "99ba4baa9a7d27257f65717489b2db1b",
+	"fullName": "mobile/responsive.spec.ts:132:2",
+	"titlePath": [
+		"mobile",
+		"responsive.spec.ts",
+		"Mobile Responsiveness - Tablet"
+	],
+	"stop": 1763549757717
+}

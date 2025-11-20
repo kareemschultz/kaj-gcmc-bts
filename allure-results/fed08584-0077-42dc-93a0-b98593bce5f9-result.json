@@ -1,1 +1,31 @@
-{"uuid":"fed08584-0077-42dc-93a0-b98593bce5f9","name":"should display login form","historyId":"649408efa8e8c681e7a2ab6bdd90464a:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > chromium > auth/login.spec.ts > Login Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login Flow"}],"links":[],"start":1763549757498,"testCaseId":"649408efa8e8c681e7a2ab6bdd90464a","fullName":"auth/login.spec.ts:14:2","titlePath":["auth","login.spec.ts","Login Flow"],"stop":1763549757498}
+{
+	"uuid": "fed08584-0077-42dc-93a0-b98593bce5f9",
+	"name": "should display login form",
+	"historyId": "649408efa8e8c681e7a2ab6bdd90464a:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/login.spec.ts > Login Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login Flow" }
+	],
+	"links": [],
+	"start": 1763549757498,
+	"testCaseId": "649408efa8e8c681e7a2ab6bdd90464a",
+	"fullName": "auth/login.spec.ts:14:2",
+	"titlePath": ["auth", "login.spec.ts", "Login Flow"],
+	"stop": 1763549757498
+}

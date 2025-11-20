@@ -1,1 +1,36 @@
-{"uuid":"5dde6a68-ce63-4931-8dee-dca5a40a07f8","name":"should support keyboard navigation @accessibility","historyId":"8c6ea69d0e3a4760f066513e550a620a:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.clients-management.spec.ts"},{"name":"titlePath","value":" > mobile-safari > crud/clients-management.spec.ts > Clients Management - Accessibility"},{"name":"tag","value":"accessibility"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"crud/clients-management.spec.ts"},{"name":"subSuite","value":"Clients Management - Accessibility"}],"links":[],"start":1763549819725,"testCaseId":"8c6ea69d0e3a4760f066513e550a620a","fullName":"crud/clients-management.spec.ts:503:3","titlePath":["crud","clients-management.spec.ts","Clients Management - Accessibility"],"stop":1763549819725}
+{
+	"uuid": "5dde6a68-ce63-4931-8dee-dca5a40a07f8",
+	"name": "should support keyboard navigation @accessibility",
+	"historyId": "8c6ea69d0e3a4760f066513e550a620a:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.clients-management.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > crud/clients-management.spec.ts > Clients Management - Accessibility"
+		},
+		{ "name": "tag", "value": "accessibility" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "crud/clients-management.spec.ts" },
+		{ "name": "subSuite", "value": "Clients Management - Accessibility" }
+	],
+	"links": [],
+	"start": 1763549819725,
+	"testCaseId": "8c6ea69d0e3a4760f066513e550a620a",
+	"fullName": "crud/clients-management.spec.ts:503:3",
+	"titlePath": [
+		"crud",
+		"clients-management.spec.ts",
+		"Clients Management - Accessibility"
+	],
+	"stop": 1763549819725
+}

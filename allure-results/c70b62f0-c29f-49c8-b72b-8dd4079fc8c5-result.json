@@ -1,1 +1,35 @@
-{"uuid":"c70b62f0-c29f-49c8-b72b-8dd4079fc8c5","name":"workflow: track service request progress","historyId":"6224fb8abee6634630bc0a6de93833ac:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"workflows.client-service-request.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > workflows/client-service-request.spec.ts > Client Service Request Workflow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"workflows/client-service-request.spec.ts"},{"name":"subSuite","value":"Client Service Request Workflow"}],"links":[],"start":1763549819704,"testCaseId":"6224fb8abee6634630bc0a6de93833ac","fullName":"workflows/client-service-request.spec.ts:94:2","titlePath":["workflows","client-service-request.spec.ts","Client Service Request Workflow"],"stop":1763549819704}
+{
+	"uuid": "c70b62f0-c29f-49c8-b72b-8dd4079fc8c5",
+	"name": "workflow: track service request progress",
+	"historyId": "6224fb8abee6634630bc0a6de93833ac:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "workflows.client-service-request.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > workflows/client-service-request.spec.ts > Client Service Request Workflow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "workflows/client-service-request.spec.ts" },
+		{ "name": "subSuite", "value": "Client Service Request Workflow" }
+	],
+	"links": [],
+	"start": 1763549819704,
+	"testCaseId": "6224fb8abee6634630bc0a6de93833ac",
+	"fullName": "workflows/client-service-request.spec.ts:94:2",
+	"titlePath": [
+		"workflows",
+		"client-service-request.spec.ts",
+		"Client Service Request Workflow"
+	],
+	"stop": 1763549819704
+}

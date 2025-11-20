@@ -14,10 +14,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 const navigationItems = [
 	{
@@ -109,10 +109,10 @@ export function ClientPortalNav() {
 								<Button
 									variant={isActive ? "default" : "ghost"}
 									className={cn(
-										"w-full justify-start h-auto p-3 text-left transition-all duration-200",
+										"h-auto w-full justify-start p-3 text-left transition-all duration-200",
 										isActive
 											? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg"
-											: "hover:bg-blue-50 dark:hover:bg-slate-800"
+											: "hover:bg-blue-50 dark:hover:bg-slate-800",
 									)}
 								>
 									<div className="flex w-full items-center justify-between">
@@ -122,7 +122,7 @@ export function ClientPortalNav() {
 													"h-5 w-5 transition-colors",
 													isActive
 														? "text-white"
-														: "text-slate-600 dark:text-slate-400"
+														: "text-slate-600 dark:text-slate-400",
 												)}
 											/>
 											<div className="flex flex-col">
@@ -131,7 +131,7 @@ export function ClientPortalNav() {
 														"font-medium text-sm",
 														isActive
 															? "text-white"
-															: "text-slate-900 dark:text-slate-100"
+															: "text-slate-900 dark:text-slate-100",
 													)}
 												>
 													{item.title}
@@ -141,7 +141,7 @@ export function ClientPortalNav() {
 														"text-xs",
 														isActive
 															? "text-blue-100"
-															: "text-slate-500 dark:text-slate-400"
+															: "text-slate-500 dark:text-slate-400",
 													)}
 												>
 													{item.description}
@@ -155,7 +155,7 @@ export function ClientPortalNav() {
 													"ml-auto h-6 w-6 rounded-full p-0 text-xs",
 													isActive
 														? "bg-white/20 text-white"
-														: "bg-blue-100 text-blue-600"
+														: "bg-blue-100 text-blue-600",
 												)}
 											>
 												{item.badge}
@@ -176,7 +176,9 @@ export function ClientPortalNav() {
 						<div className="h-8 w-8 rounded-full bg-gradient-to-r from-green-400 to-emerald-500" />
 						<div className="flex-1">
 							<p className="font-medium text-sm">Online</p>
-							<p className="text-muted-foreground text-xs">All systems operational</p>
+							<p className="text-muted-foreground text-xs">
+								All systems operational
+							</p>
 						</div>
 					</div>
 					<Button size="icon" variant="ghost" className="h-8 w-8">

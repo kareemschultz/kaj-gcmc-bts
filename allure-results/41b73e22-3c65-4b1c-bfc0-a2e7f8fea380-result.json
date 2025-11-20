@@ -1,1 +1,35 @@
-{"uuid":"41b73e22-3c65-4b1c-bfc0-a2e7f8fea380","name":"dashboard at 1366x768","historyId":"acdadf621058078fdc01983cddcdd123:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"visual.dashboard.spec.ts"},{"name":"titlePath","value":" > webkit > visual/dashboard.spec.ts > Dashboard Visual - Different Viewports"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"visual/dashboard.spec.ts"},{"name":"subSuite","value":"Dashboard Visual - Different Viewports"}],"links":[],"start":1763549819662,"testCaseId":"acdadf621058078fdc01983cddcdd123","fullName":"visual/dashboard.spec.ts:120:2","titlePath":["visual","dashboard.spec.ts","Dashboard Visual - Different Viewports"],"stop":1763549819662}
+{
+	"uuid": "41b73e22-3c65-4b1c-bfc0-a2e7f8fea380",
+	"name": "dashboard at 1366x768",
+	"historyId": "acdadf621058078fdc01983cddcdd123:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "visual.dashboard.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > visual/dashboard.spec.ts > Dashboard Visual - Different Viewports"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "visual/dashboard.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard Visual - Different Viewports" }
+	],
+	"links": [],
+	"start": 1763549819662,
+	"testCaseId": "acdadf621058078fdc01983cddcdd123",
+	"fullName": "visual/dashboard.spec.ts:120:2",
+	"titlePath": [
+		"visual",
+		"dashboard.spec.ts",
+		"Dashboard Visual - Different Viewports"
+	],
+	"stop": 1763549819662
+}

@@ -1,1 +1,545 @@
-{"uuid":"770310b7-9646-4caf-9b88-8be65d0d6701","name":"should login successfully with valid admin credentials @critical","historyId":"c00bc0682cba896fc6fb331868dd1cfe:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"failed","statusDetails":{"message":"Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n","trace":"Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n\n    at DashboardPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at DashboardPage.verifyDashboardDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/dashboard-page.ts:206:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:61:7"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Launch browser","start":1763550208795,"uuid":"486dc59a-c7a6-4bea-aa36-17692db88da2","stop":1763550208831}],"attachments":[],"parameters":[],"name":"Fixture \"browser\"","start":1763550208793,"uuid":"a2674368-c1a5-4a53-a4e4-6acd6cb79627","stop":1763550208832},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create context","start":1763550208834,"uuid":"52282034-7df0-4652-b765-757355de8959","stop":1763550208839}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550208833,"uuid":"94e1e0b0-b4b3-45cc-ac35-7e5ec228bb64","stop":1763550208840},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create page","start":1763550208841,"uuid":"23ed84ab-6bfa-4d33-ba44-9352f0272fd2","stop":1763550208862}],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550208840,"uuid":"76451fdc-c346-4648-8201-57d7a2d5d771","stop":1763550208863},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550208869,"uuid":"e90530ca-9820-4623-8b37-edcd730fef6e","stop":1763550208869},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550208871,"uuid":"81ccaaa2-8096-4edb-9148-7f361710e0be","stop":1763550208871},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550208872,"uuid":"8eb7911a-4bbc-43cd-9b9c-c59e58b4efb6","stop":1763550208872}],"attachments":[],"parameters":[],"name":"beforeEach hook","start":1763550208786,"uuid":"f42a9a06-2d22-4710-8551-a30ee9885605","stop":1763550208872},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550208873,"uuid":"b7982dbf-2e01-457a-a180-450ad2f65bfa","stop":1763550208873},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"dashboardPage\"","start":1763550208873,"uuid":"f540785e-19c2-4770-9cd4-bd19c90baf3a","stop":1763550208874},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"navigation\"","start":1763550208874,"uuid":"2aa66629-89c2-4d2b-9f27-5f78008abfd4","stop":1763550208874}],"attachments":[],"parameters":[],"name":"Before Hooks","start":1763550208785,"uuid":"e68d11bc-3257-47a0-9b68-f5d5ecb07d99","stop":1763550208874},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550208879,"name":"Navigate to \"/login\"","uuid":"2fccca1e-9735-486e-964b-f4ce7a0c2673","stop":1763550209094},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209095,"name":"Wait for load state \"networkidle\"","uuid":"8e227272-ade2-455d-9b52-7ba84a023302","stop":1763550209744},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209745,"name":"Wait for load state \"domcontentloaded\"","uuid":"dd46e61d-dab8-402b-9a34-dce82712d232","stop":1763550209745},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209746,"name":"Wait for load state \"networkidle\"","uuid":"5c8a5ca5-b125-4933-adf3-ffe807a09f52","stop":1763550209746},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209747,"name":"Wait for load state \"domcontentloaded\"","uuid":"d4763421-2dd9-4fab-839b-ab4a920b0d22","stop":1763550209747},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209749,"name":"Wait for selector locator('input[name=\"email\"], input[type=\"email\"], #email')","uuid":"83d91b8a-791a-41fe-b858-717d023fceef","stop":1763550209768},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209769,"name":"Wait for selector locator('input[name=\"password\"], input[type=\"password\"], #password')","uuid":"6537fbfa-be2d-4e03-aecb-7863b29a0150","stop":1763550209771},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209772,"name":"Wait for selector locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')","uuid":"4b578672-1b27-45c6-bee4-b20e542f3f04","stop":1763550209777}],"attachments":[],"parameters":[],"start":1763550208875,"name":"Navigate to login page","uuid":"7d1c818d-c5e4-41c1-b160-e43e13e11518","stop":1763550209778},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209779,"name":"Clear locator('input[name=\"email\"], input[type=\"email\"], #email')","uuid":"664472a6-0070-43a0-a97e-cbf2b64f27b7","stop":1763550209788},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209789,"name":"Fill \"admin@gcmc-kaj.com\" locator('input[name=\"email\"], input[type=\"email\"], #email')","uuid":"a96dbd8b-64db-44cd-b74c-c6dc0ae24764","stop":1763550209802},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209803,"name":"Clear locator('input[name=\"password\"], input[type=\"password\"], #password')","uuid":"144ddfba-4ca6-465a-9038-dfe7ed48c8ba","stop":1763550209812},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209813,"name":"Fill \"AdminPassword123\" locator('input[name=\"password\"], input[type=\"password\"], #password')","uuid":"5152243b-a076-4e1f-a7b9-80c953a2b7b7","stop":1763550209822}],"attachments":[],"parameters":[],"start":1763550209778,"name":"Enter admin credentials","uuid":"61ee9ed3-26b8-4bd2-88bf-5d3d1b1bc88b","stop":1763550209822},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209824,"name":"Click locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')","uuid":"30c872c2-6a16-4885-841c-fbc3169c3fed","stop":1763550209882}],"attachments":[],"parameters":[],"start":1763550209823,"name":"Submit login form","uuid":"b26c2a92-be1e-4091-8772-ae1c855a50aa","stop":1763550209882},{"status":"failed","statusDetails":{"message":"Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n","trace":"Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n\n    at DashboardPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at DashboardPage.verifyDashboardDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/dashboard-page.ts:206:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:61:7"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550209884,"name":"Expect \"not toHaveURL\"","uuid":"f69dc0c9-2936-4a17-be2c-4af63a151ca8","stop":1763550210253},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550210255,"name":"Expect \"toHaveURL\"","uuid":"9ffd9027-7e2f-43f3-aa6d-c3463cca344f","stop":1763550210258},{"status":"failed","statusDetails":{"message":"Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n","trace":"Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n\n    at DashboardPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at DashboardPage.verifyDashboardDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/dashboard-page.ts:206:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:61:7"},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550210259,"name":"Expect \"toBeVisible\"","uuid":"e96d2de7-a869-4986-990d-e11ecbef752a","stop":1763550215260}],"attachments":[],"parameters":[],"start":1763550209883,"name":"Verify successful login","uuid":"4c1b0413-a79e-4e4f-a734-109cac5583e0","stop":1763550215261},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"navigation\"","start":1763550215294,"uuid":"f478f980-21b5-4146-9b7d-205143c3fbd9","stop":1763550215294},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"dashboardPage\"","start":1763550215295,"uuid":"cb29eac3-fd88-4a4b-a06d-82fe7299a550","stop":1763550215295},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550215295,"uuid":"4c48331d-c616-43f8-a02d-f337d6828069","stop":1763550215295},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550215295,"uuid":"ca46920e-6eb4-4f1c-be67-e2e916c81ed0","stop":1763550215295},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Close context","start":1763550215311,"uuid":"989f0651-3bf9-49aa-80b4-4ebbc41b6872","stop":1763550215320}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550215295,"uuid":"cb1f4ab0-939a-4b06-a98a-6c9118d07e5d","stop":1763550215322}],"attachments":[],"parameters":[],"name":"After Hooks","start":1763550215261,"uuid":"2a697ca9-e335-4dd4-b985-a99486f3da68","stop":1763550215326}],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.enhanced-login.spec.ts"},{"name":"titlePath","value":" > chromium > auth/enhanced-login.spec.ts > Enhanced Login Flow"},{"name":"tag","value":"critical"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-24537-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/enhanced-login.spec.ts"},{"name":"subSuite","value":"Enhanced Login Flow"},{"name":"epic","value":"Authentication"},{"name":"feature","value":"Login"},{"name":"story","value":"User Login Flow"}],"links":[],"start":1763550208784,"testCaseId":"c00bc0682cba896fc6fb331868dd1cfe","fullName":"auth/enhanced-login.spec.ts:41:3","titlePath":["auth","enhanced-login.spec.ts","Enhanced Login Flow"],"stop":1763550215271}
+{
+	"uuid": "770310b7-9646-4caf-9b88-8be65d0d6701",
+	"name": "should login successfully with valid admin credentials @critical",
+	"historyId": "c00bc0682cba896fc6fb331868dd1cfe:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "failed",
+	"statusDetails": {
+		"message": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n",
+		"trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n\n    at DashboardPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at DashboardPage.verifyDashboardDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/dashboard-page.ts:206:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:61:7"
+	},
+	"stage": "finished",
+	"steps": [
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Launch browser",
+									"start": 1763550208795,
+									"uuid": "486dc59a-c7a6-4bea-aa36-17692db88da2",
+									"stop": 1763550208831
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"browser\"",
+							"start": 1763550208793,
+							"uuid": "a2674368-c1a5-4a53-a4e4-6acd6cb79627",
+							"stop": 1763550208832
+						},
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Create context",
+									"start": 1763550208834,
+									"uuid": "52282034-7df0-4652-b765-757355de8959",
+									"stop": 1763550208839
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"context\"",
+							"start": 1763550208833,
+							"uuid": "94e1e0b0-b4b3-45cc-ac35-7e5ec228bb64",
+							"stop": 1763550208840
+						},
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Create page",
+									"start": 1763550208841,
+									"uuid": "23ed84ab-6bfa-4d33-ba44-9352f0272fd2",
+									"stop": 1763550208862
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"page\"",
+							"start": 1763550208840,
+							"uuid": "76451fdc-c346-4648-8201-57d7a2d5d771",
+							"stop": 1763550208863
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550208869,
+							"uuid": "e90530ca-9820-4623-8b37-edcd730fef6e",
+							"stop": 1763550208869
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550208871,
+							"uuid": "81ccaaa2-8096-4edb-9148-7f361710e0be",
+							"stop": 1763550208871
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550208872,
+							"uuid": "8eb7911a-4bbc-43cd-9b9c-c59e58b4efb6",
+							"stop": 1763550208872
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "beforeEach hook",
+					"start": 1763550208786,
+					"uuid": "f42a9a06-2d22-4710-8551-a30ee9885605",
+					"stop": 1763550208872
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550208873,
+					"uuid": "b7982dbf-2e01-457a-a180-450ad2f65bfa",
+					"stop": 1763550208873
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"dashboardPage\"",
+					"start": 1763550208873,
+					"uuid": "f540785e-19c2-4770-9cd4-bd19c90baf3a",
+					"stop": 1763550208874
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"navigation\"",
+					"start": 1763550208874,
+					"uuid": "2aa66629-89c2-4d2b-9f27-5f78008abfd4",
+					"stop": 1763550208874
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "Before Hooks",
+			"start": 1763550208785,
+			"uuid": "e68d11bc-3257-47a0-9b68-f5d5ecb07d99",
+			"stop": 1763550208874
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550208879,
+					"name": "Navigate to \"/login\"",
+					"uuid": "2fccca1e-9735-486e-964b-f4ce7a0c2673",
+					"stop": 1763550209094
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209095,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "8e227272-ade2-455d-9b52-7ba84a023302",
+					"stop": 1763550209744
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209745,
+					"name": "Wait for load state \"domcontentloaded\"",
+					"uuid": "dd46e61d-dab8-402b-9a34-dce82712d232",
+					"stop": 1763550209745
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209746,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "5c8a5ca5-b125-4933-adf3-ffe807a09f52",
+					"stop": 1763550209746
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209747,
+					"name": "Wait for load state \"domcontentloaded\"",
+					"uuid": "d4763421-2dd9-4fab-839b-ab4a920b0d22",
+					"stop": 1763550209747
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209749,
+					"name": "Wait for selector locator('input[name=\"email\"], input[type=\"email\"], #email')",
+					"uuid": "83d91b8a-791a-41fe-b858-717d023fceef",
+					"stop": 1763550209768
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209769,
+					"name": "Wait for selector locator('input[name=\"password\"], input[type=\"password\"], #password')",
+					"uuid": "6537fbfa-be2d-4e03-aecb-7863b29a0150",
+					"stop": 1763550209771
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209772,
+					"name": "Wait for selector locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')",
+					"uuid": "4b578672-1b27-45c6-bee4-b20e542f3f04",
+					"stop": 1763550209777
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550208875,
+			"name": "Navigate to login page",
+			"uuid": "7d1c818d-c5e4-41c1-b160-e43e13e11518",
+			"stop": 1763550209778
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209779,
+					"name": "Clear locator('input[name=\"email\"], input[type=\"email\"], #email')",
+					"uuid": "664472a6-0070-43a0-a97e-cbf2b64f27b7",
+					"stop": 1763550209788
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209789,
+					"name": "Fill \"admin@gcmc-kaj.com\" locator('input[name=\"email\"], input[type=\"email\"], #email')",
+					"uuid": "a96dbd8b-64db-44cd-b74c-c6dc0ae24764",
+					"stop": 1763550209802
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209803,
+					"name": "Clear locator('input[name=\"password\"], input[type=\"password\"], #password')",
+					"uuid": "144ddfba-4ca6-465a-9038-dfe7ed48c8ba",
+					"stop": 1763550209812
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209813,
+					"name": "Fill \"AdminPassword123\" locator('input[name=\"password\"], input[type=\"password\"], #password')",
+					"uuid": "5152243b-a076-4e1f-a7b9-80c953a2b7b7",
+					"stop": 1763550209822
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550209778,
+			"name": "Enter admin credentials",
+			"uuid": "61ee9ed3-26b8-4bd2-88bf-5d3d1b1bc88b",
+			"stop": 1763550209822
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209824,
+					"name": "Click locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')",
+					"uuid": "30c872c2-6a16-4885-841c-fbc3169c3fed",
+					"stop": 1763550209882
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550209823,
+			"name": "Submit login form",
+			"uuid": "b26c2a92-be1e-4091-8772-ae1c855a50aa",
+			"stop": 1763550209882
+		},
+		{
+			"status": "failed",
+			"statusDetails": {
+				"message": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n",
+				"trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n\n    at DashboardPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at DashboardPage.verifyDashboardDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/dashboard-page.ts:206:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:61:7"
+			},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550209884,
+					"name": "Expect \"not toHaveURL\"",
+					"uuid": "f69dc0c9-2936-4a17-be2c-4af63a151ca8",
+					"stop": 1763550210253
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550210255,
+					"name": "Expect \"toHaveURL\"",
+					"uuid": "9ffd9027-7e2f-43f3-aa6d-c3463cca344f",
+					"stop": 1763550210258
+				},
+				{
+					"status": "failed",
+					"statusDetails": {
+						"message": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n",
+						"trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for locator('[data-testid=\"sidebar\"], .sidebar, nav[role=\"navigation\"]')\n\n    at DashboardPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at DashboardPage.verifyDashboardDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/dashboard-page.ts:206:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:61:7"
+					},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550210259,
+					"name": "Expect \"toBeVisible\"",
+					"uuid": "e96d2de7-a869-4986-990d-e11ecbef752a",
+					"stop": 1763550215260
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550209883,
+			"name": "Verify successful login",
+			"uuid": "4c1b0413-a79e-4e4f-a734-109cac5583e0",
+			"stop": 1763550215261
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"navigation\"",
+					"start": 1763550215294,
+					"uuid": "f478f980-21b5-4146-9b7d-205143c3fbd9",
+					"stop": 1763550215294
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"dashboardPage\"",
+					"start": 1763550215295,
+					"uuid": "cb29eac3-fd88-4a4b-a06d-82fe7299a550",
+					"stop": 1763550215295
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550215295,
+					"uuid": "4c48331d-c616-43f8-a02d-f337d6828069",
+					"stop": 1763550215295
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"page\"",
+					"start": 1763550215295,
+					"uuid": "ca46920e-6eb4-4f1c-be67-e2e916c81ed0",
+					"stop": 1763550215295
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Close context",
+							"start": 1763550215311,
+							"uuid": "989f0651-3bf9-49aa-80b4-4ebbc41b6872",
+							"stop": 1763550215320
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"context\"",
+					"start": 1763550215295,
+					"uuid": "cb1f4ab0-939a-4b06-a98a-6c9118d07e5d",
+					"stop": 1763550215322
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "After Hooks",
+			"start": 1763550215261,
+			"uuid": "2a697ca9-e335-4dd4-b985-a99486f3da68",
+			"stop": 1763550215326
+		}
+	],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.enhanced-login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/enhanced-login.spec.ts > Enhanced Login Flow"
+		},
+		{ "name": "tag", "value": "critical" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-24537-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/enhanced-login.spec.ts" },
+		{ "name": "subSuite", "value": "Enhanced Login Flow" },
+		{ "name": "epic", "value": "Authentication" },
+		{ "name": "feature", "value": "Login" },
+		{ "name": "story", "value": "User Login Flow" }
+	],
+	"links": [],
+	"start": 1763550208784,
+	"testCaseId": "c00bc0682cba896fc6fb331868dd1cfe",
+	"fullName": "auth/enhanced-login.spec.ts:41:3",
+	"titlePath": ["auth", "enhanced-login.spec.ts", "Enhanced Login Flow"],
+	"stop": 1763550215271
+}

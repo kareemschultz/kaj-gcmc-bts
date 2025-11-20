@@ -1,1 +1,31 @@
-{"uuid":"86f7aa2b-7e4b-470f-af74-0c60910cbef8","name":"should display correctly on mobile","historyId":"56c59d964d79500dfe9d97530c8630a2:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > chromium > auth/login.spec.ts > Login - Mobile"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login - Mobile"}],"links":[],"start":1763549757500,"testCaseId":"56c59d964d79500dfe9d97530c8630a2","fullName":"auth/login.spec.ts:132:2","titlePath":["auth","login.spec.ts","Login - Mobile"],"stop":1763549757500}
+{
+	"uuid": "86f7aa2b-7e4b-470f-af74-0c60910cbef8",
+	"name": "should display correctly on mobile",
+	"historyId": "56c59d964d79500dfe9d97530c8630a2:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/login.spec.ts > Login - Mobile"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login - Mobile" }
+	],
+	"links": [],
+	"start": 1763549757500,
+	"testCaseId": "56c59d964d79500dfe9d97530c8630a2",
+	"fullName": "auth/login.spec.ts:132:2",
+	"titlePath": ["auth", "login.spec.ts", "Login - Mobile"],
+	"stop": 1763549757500
+}

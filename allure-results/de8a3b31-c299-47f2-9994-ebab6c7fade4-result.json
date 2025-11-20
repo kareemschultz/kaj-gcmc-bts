@@ -1,1 +1,32 @@
-{"uuid":"de8a3b31-c299-47f2-9994-ebab6c7fade4","name":"should handle copy-paste credentials @usability","historyId":"1d5a86f85ee81f412e921fca1753bf81:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.enhanced-login.spec.ts"},{"name":"titlePath","value":" > chromium > auth/enhanced-login.spec.ts > Login Flow - Edge Cases"},{"name":"tag","value":"usability"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/enhanced-login.spec.ts"},{"name":"subSuite","value":"Login Flow - Edge Cases"}],"links":[],"start":1763549757497,"testCaseId":"1d5a86f85ee81f412e921fca1753bf81","fullName":"auth/enhanced-login.spec.ts:316:3","titlePath":["auth","enhanced-login.spec.ts","Login Flow - Edge Cases"],"stop":1763549757497}
+{
+	"uuid": "de8a3b31-c299-47f2-9994-ebab6c7fade4",
+	"name": "should handle copy-paste credentials @usability",
+	"historyId": "1d5a86f85ee81f412e921fca1753bf81:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.enhanced-login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/enhanced-login.spec.ts > Login Flow - Edge Cases"
+		},
+		{ "name": "tag", "value": "usability" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/enhanced-login.spec.ts" },
+		{ "name": "subSuite", "value": "Login Flow - Edge Cases" }
+	],
+	"links": [],
+	"start": 1763549757497,
+	"testCaseId": "1d5a86f85ee81f412e921fca1753bf81",
+	"fullName": "auth/enhanced-login.spec.ts:316:3",
+	"titlePath": ["auth", "enhanced-login.spec.ts", "Login Flow - Edge Cases"],
+	"stop": 1763549757497
+}

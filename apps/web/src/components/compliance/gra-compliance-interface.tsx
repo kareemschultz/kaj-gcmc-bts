@@ -8,19 +8,20 @@ import {
 	CheckCircle2,
 	Clock,
 	DollarSign,
+	Download,
+	Eye,
 	FileText,
+	Filter,
+	Plus,
 	Receipt,
+	Search,
 	TrendingDown,
 	TrendingUp,
+	Upload,
 	Users,
 	Wallet,
-	Download,
-	Upload,
-	Eye,
-	Plus,
-	Filter,
-	Search,
 } from "lucide-react";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,10 +31,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 import {
 	Select,
 	SelectContent,
@@ -41,8 +41,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 /**
  * GRA (Guyana Revenue Authority) Compliance Interface
@@ -62,15 +62,15 @@ interface GRAComplianceProps {
 
 interface TaxFiling {
 	id: string;
-	type: 'VAT' | 'Income Tax' | 'Corporation Tax' | 'PAYE' | 'Withholding Tax';
+	type: "VAT" | "Income Tax" | "Corporation Tax" | "PAYE" | "Withholding Tax";
 	period: string;
 	dueDate: string;
-	status: 'pending' | 'submitted' | 'approved' | 'rejected' | 'overdue';
+	status: "pending" | "submitted" | "approved" | "rejected" | "overdue";
 	clientName: string;
 	clientId: string;
 	amount?: number;
 	penaltyAmount?: number;
-	priority: 'high' | 'medium' | 'low';
+	priority: "high" | "medium" | "low";
 }
 
 interface VATReturn {
@@ -82,81 +82,84 @@ interface VATReturn {
 	vatCollected: number;
 	vatPaid: number;
 	netVAT: number;
-	status: 'draft' | 'submitted' | 'approved';
+	status: "draft" | "submitted" | "approved";
 	dueDate: string;
 }
 
 const mockFilings: TaxFiling[] = [
 	{
-		id: '1',
-		type: 'VAT',
-		period: 'December 2024',
-		dueDate: '2024-12-15',
-		status: 'pending',
-		clientName: 'ABC Trading Ltd',
-		clientId: 'GRA001',
+		id: "1",
+		type: "VAT",
+		period: "December 2024",
+		dueDate: "2024-12-15",
+		status: "pending",
+		clientName: "ABC Trading Ltd",
+		clientId: "GRA001",
 		amount: 45000,
-		priority: 'high',
+		priority: "high",
 	},
 	{
-		id: '2',
-		type: 'Corporation Tax',
-		period: 'Q4 2024',
-		dueDate: '2024-12-31',
-		status: 'submitted',
-		clientName: 'XYZ Corp',
-		clientId: 'GRA002',
+		id: "2",
+		type: "Corporation Tax",
+		period: "Q4 2024",
+		dueDate: "2024-12-31",
+		status: "submitted",
+		clientName: "XYZ Corp",
+		clientId: "GRA002",
 		amount: 125000,
-		priority: 'medium',
+		priority: "medium",
 	},
 	{
-		id: '3',
-		type: 'PAYE',
-		period: 'November 2024',
-		dueDate: '2024-12-10',
-		status: 'overdue',
-		clientName: 'DEF Services',
-		clientId: 'GRA003',
+		id: "3",
+		type: "PAYE",
+		period: "November 2024",
+		dueDate: "2024-12-10",
+		status: "overdue",
+		clientName: "DEF Services",
+		clientId: "GRA003",
 		amount: 32000,
 		penaltyAmount: 1600,
-		priority: 'high',
+		priority: "high",
 	},
 ];
 
 const mockVATReturns: VATReturn[] = [
 	{
-		id: '1',
-		period: 'November 2024',
-		clientName: 'ABC Trading Ltd',
+		id: "1",
+		period: "November 2024",
+		clientName: "ABC Trading Ltd",
 		salesAmount: 500000,
 		purchaseAmount: 300000,
 		vatCollected: 75000,
 		vatPaid: 45000,
 		netVAT: 30000,
-		status: 'draft',
-		dueDate: '2024-12-15',
+		status: "draft",
+		dueDate: "2024-12-15",
 	},
 	{
-		id: '2',
-		period: 'October 2024',
-		clientName: 'XYZ Corp',
+		id: "2",
+		period: "October 2024",
+		clientName: "XYZ Corp",
 		salesAmount: 800000,
 		purchaseAmount: 500000,
 		vatCollected: 120000,
 		vatPaid: 75000,
 		netVAT: 45000,
-		status: 'approved',
-		dueDate: '2024-11-15',
+		status: "approved",
+		dueDate: "2024-11-15",
 	},
 ];
 
 export function GRAComplianceInterface({ className }: GRAComplianceProps) {
-	const [selectedPeriod, setSelectedPeriod] = useState('current');
-	const [searchTerm, setSearchTerm] = useState('');
+	const [selectedPeriod, setSelectedPeriod] = useState("current");
+	const [searchTerm, setSearchTerm] = useState("");
 
-	const totalPending = mockFilings.filter(f => f.status === 'pending').length;
-	const totalOverdue = mockFilings.filter(f => f.status === 'overdue').length;
-	const totalPenalties = mockFilings.reduce((sum, f) => sum + (f.penaltyAmount || 0), 0);
+	const totalPending = mockFilings.filter((f) => f.status === "pending").length;
+	const totalOverdue = mockFilings.filter((f) => f.status === "overdue").length;
+	const totalPenalties = mockFilings.reduce(
+		(sum, f) => sum + (f.penaltyAmount || 0),
+		0,
+	);
 	const complianceScore = 87;
 
 	return (
@@ -164,13 +167,13 @@ export function GRAComplianceInterface({ className }: GRAComplianceProps) {
 			{/* Header */}
 			<div className="flex items-center justify-between">
 				<div>
-					<h2 className="font-bold text-3xl tracking-tight flex items-center gap-3">
-						<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 text-sm font-semibold">
+					<h2 className="flex items-center gap-3 font-bold text-3xl tracking-tight">
+						<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 font-semibold text-emerald-700 text-sm">
 							GRA
 						</div>
 						GRA Tax Compliance
 					</h2>
-					<p className="text-muted-foreground text-lg">
+					<p className="text-lg text-muted-foreground">
 						Guyana Revenue Authority filing and payment management
 					</p>
 				</div>
@@ -205,18 +208,22 @@ export function GRAComplianceInterface({ className }: GRAComplianceProps) {
 					</CardContent>
 				</Card>
 
-				<Card className={cn(
-					"border-l-4",
-					totalPending > 0 ? "border-l-warning" : "border-l-success"
-				)}>
+				<Card
+					className={cn(
+						"border-l-4",
+						totalPending > 0 ? "border-l-warning" : "border-l-success",
+					)}
+				>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="font-medium text-sm">
 							Pending Filings
 						</CardTitle>
-						<Clock className={cn(
-							"h-4 w-4",
-							totalPending > 0 ? "text-warning" : "text-success"
-						)} />
+						<Clock
+							className={cn(
+								"h-4 w-4",
+								totalPending > 0 ? "text-warning" : "text-success",
+							)}
+						/>
 					</CardHeader>
 					<CardContent>
 						<div className="font-bold text-2xl">{totalPending}</div>
@@ -229,18 +236,22 @@ export function GRAComplianceInterface({ className }: GRAComplianceProps) {
 					</CardContent>
 				</Card>
 
-				<Card className={cn(
-					"border-l-4",
-					totalOverdue > 0 ? "border-l-destructive" : "border-l-success"
-				)}>
+				<Card
+					className={cn(
+						"border-l-4",
+						totalOverdue > 0 ? "border-l-destructive" : "border-l-success",
+					)}
+				>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="font-medium text-sm">
 							Overdue Returns
 						</CardTitle>
-						<AlertTriangle className={cn(
-							"h-4 w-4",
-							totalOverdue > 0 ? "text-destructive" : "text-success"
-						)} />
+						<AlertTriangle
+							className={cn(
+								"h-4 w-4",
+								totalOverdue > 0 ? "text-destructive" : "text-success",
+							)}
+						/>
 					</CardHeader>
 					<CardContent>
 						<div className="font-bold text-2xl">{totalOverdue}</div>
@@ -253,18 +264,22 @@ export function GRAComplianceInterface({ className }: GRAComplianceProps) {
 					</CardContent>
 				</Card>
 
-				<Card className={cn(
-					"border-l-4",
-					totalPenalties > 0 ? "border-l-warning" : "border-l-success"
-				)}>
+				<Card
+					className={cn(
+						"border-l-4",
+						totalPenalties > 0 ? "border-l-warning" : "border-l-success",
+					)}
+				>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="font-medium text-sm">
 							Total Penalties
 						</CardTitle>
-						<DollarSign className={cn(
-							"h-4 w-4",
-							totalPenalties > 0 ? "text-warning" : "text-success"
-						)} />
+						<DollarSign
+							className={cn(
+								"h-4 w-4",
+								totalPenalties > 0 ? "text-warning" : "text-success",
+							)}
+						/>
 					</CardHeader>
 					<CardContent>
 						<div className="font-bold text-2xl">
@@ -347,7 +362,9 @@ export function GRAComplianceInterface({ className }: GRAComplianceProps) {
 						<Card className="lg:col-span-3">
 							<CardHeader>
 								<CardTitle>Recent Filing Activity</CardTitle>
-								<CardDescription>Latest submissions and updates</CardDescription>
+								<CardDescription>
+									Latest submissions and updates
+								</CardDescription>
 							</CardHeader>
 							<CardContent>
 								<RecentActivity />
@@ -382,10 +399,10 @@ export function GRAComplianceInterface({ className }: GRAComplianceProps) {
 
 function FilingStatusChart() {
 	const statuses = [
-		{ label: 'Submitted', count: 12, color: 'bg-success', percentage: 40 },
-		{ label: 'Pending', count: 8, color: 'bg-warning', percentage: 27 },
-		{ label: 'In Review', count: 6, color: 'bg-info', percentage: 20 },
-		{ label: 'Overdue', count: 4, color: 'bg-destructive', percentage: 13 },
+		{ label: "Submitted", count: 12, color: "bg-success", percentage: 40 },
+		{ label: "Pending", count: 8, color: "bg-warning", percentage: 27 },
+		{ label: "In Review", count: 6, color: "bg-info", percentage: 20 },
+		{ label: "Overdue", count: 4, color: "bg-destructive", percentage: 13 },
 	];
 
 	return (
@@ -396,7 +413,9 @@ function FilingStatusChart() {
 					<div className="flex-1">
 						<div className="flex items-center justify-between text-sm">
 							<span className="font-medium">{status.label}</span>
-							<span className="text-muted-foreground">{status.count} filings</span>
+							<span className="text-muted-foreground">
+								{status.count} filings
+							</span>
 						</div>
 						<Progress value={status.percentage} className="mt-1 h-2" />
 					</div>
@@ -410,33 +429,38 @@ function FilingStatusChart() {
 function RecentActivity() {
 	const activities = [
 		{
-			type: 'VAT Return Submitted',
-			client: 'ABC Trading Ltd',
-			time: '2 hours ago',
-			status: 'success',
+			type: "VAT Return Submitted",
+			client: "ABC Trading Ltd",
+			time: "2 hours ago",
+			status: "success",
 		},
 		{
-			type: 'PAYE Payment Overdue',
-			client: 'DEF Services',
-			time: '1 day ago',
-			status: 'error',
+			type: "PAYE Payment Overdue",
+			client: "DEF Services",
+			time: "1 day ago",
+			status: "error",
 		},
 		{
-			type: 'Corporation Tax Filed',
-			client: 'XYZ Corp',
-			time: '3 days ago',
-			status: 'success',
+			type: "Corporation Tax Filed",
+			client: "XYZ Corp",
+			time: "3 days ago",
+			status: "success",
 		},
 	];
 
 	return (
 		<div className="space-y-3">
 			{activities.map((activity, index) => (
-				<div key={index} className="flex items-center gap-3 border-l-2 border-l-muted pl-3">
-					<div className={cn(
-						"h-2 w-2 rounded-full",
-						activity.status === 'success' ? "bg-success" : "bg-destructive"
-					)} />
+				<div
+					key={index}
+					className="flex items-center gap-3 border-l-2 border-l-muted pl-3"
+				>
+					<div
+						className={cn(
+							"h-2 w-2 rounded-full",
+							activity.status === "success" ? "bg-success" : "bg-destructive",
+						)}
+					/>
 					<div className="flex-1">
 						<p className="font-medium text-sm">{activity.type}</p>
 						<p className="text-muted-foreground text-xs">{activity.client}</p>
@@ -461,8 +485,8 @@ function TaxFilingsManager() {
 					</div>
 					<div className="flex gap-2">
 						<div className="relative">
-							<Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-							<Input placeholder="Search filings..." className="pl-9 w-64" />
+							<Search className="absolute top-3 left-3 h-4 w-4 text-muted-foreground" />
+							<Input placeholder="Search filings..." className="w-64 pl-9" />
 						</div>
 						<Select defaultValue="all">
 							<SelectTrigger className="w-32">
@@ -492,11 +516,11 @@ function TaxFilingsManager() {
 
 function FilingCard({ filing }: { filing: TaxFiling }) {
 	const statusConfig = {
-		pending: { color: 'warning', icon: Clock, label: 'Pending' },
-		submitted: { color: 'info', icon: CheckCircle2, label: 'Submitted' },
-		approved: { color: 'success', icon: CheckCircle2, label: 'Approved' },
-		rejected: { color: 'destructive', icon: AlertTriangle, label: 'Rejected' },
-		overdue: { color: 'destructive', icon: AlertTriangle, label: 'Overdue' },
+		pending: { color: "warning", icon: Clock, label: "Pending" },
+		submitted: { color: "info", icon: CheckCircle2, label: "Submitted" },
+		approved: { color: "success", icon: CheckCircle2, label: "Approved" },
+		rejected: { color: "destructive", icon: AlertTriangle, label: "Rejected" },
+		overdue: { color: "destructive", icon: AlertTriangle, label: "Overdue" },
 	};
 
 	const config = statusConfig[filing.status];
@@ -511,7 +535,9 @@ function FilingCard({ filing }: { filing: TaxFiling }) {
 						<Badge variant={config.color as any}>{config.label}</Badge>
 					</div>
 					<div>
-						<p className="font-medium">{filing.type} - {filing.period}</p>
+						<p className="font-medium">
+							{filing.type} - {filing.period}
+						</p>
 						<p className="text-muted-foreground text-sm">{filing.clientName}</p>
 					</div>
 				</div>
@@ -565,12 +591,20 @@ function VATReturnCard({ vatReturn }: { vatReturn: VATReturn }) {
 			<div className="grid gap-4 md:grid-cols-4">
 				<div>
 					<p className="font-medium">{vatReturn.period}</p>
-					<p className="text-muted-foreground text-sm">{vatReturn.clientName}</p>
-					<Badge variant={
-						vatReturn.status === 'approved' ? 'success' :
-						vatReturn.status === 'submitted' ? 'info' : 'warning'
-					}>
-						{vatReturn.status.charAt(0).toUpperCase() + vatReturn.status.slice(1)}
+					<p className="text-muted-foreground text-sm">
+						{vatReturn.clientName}
+					</p>
+					<Badge
+						variant={
+							vatReturn.status === "approved"
+								? "success"
+								: vatReturn.status === "submitted"
+									? "info"
+									: "warning"
+						}
+					>
+						{vatReturn.status.charAt(0).toUpperCase() +
+							vatReturn.status.slice(1)}
 					</Badge>
 				</div>
 				<div className="space-y-1 text-sm">
@@ -598,7 +632,9 @@ function VATReturnCard({ vatReturn }: { vatReturn: VATReturn }) {
 						${vatReturn.netVAT.toLocaleString()}
 					</div>
 					<p className="text-muted-foreground text-sm">Net VAT</p>
-					<p className="text-muted-foreground text-xs">Due: {vatReturn.dueDate}</p>
+					<p className="text-muted-foreground text-xs">
+						Due: {vatReturn.dueDate}
+					</p>
 				</div>
 			</div>
 		</div>

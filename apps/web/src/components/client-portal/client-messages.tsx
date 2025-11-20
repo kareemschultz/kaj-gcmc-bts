@@ -11,7 +11,7 @@ import {
 	Star,
 	User,
 } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -96,9 +96,7 @@ const mockConversations: Conversation[] = [
 		lastMessage: "The renewal application has been submitted successfully.",
 		timestamp: "2024-11-18T10:15:00Z",
 		unreadCount: 0,
-		participants: [
-			{ name: "Mike Chen", avatar: "", role: "Legal Consultant" },
-		],
+		participants: [{ name: "Mike Chen", avatar: "", role: "Legal Consultant" }],
 		priority: "medium",
 		status: "closed",
 	},
@@ -120,21 +118,24 @@ const mockMessages: Record<number, Message[]> = {
 	1: [
 		{
 			id: 1,
-			content: "Hi! I need help with my Q4 tax filing. I have all the documents ready.",
+			content:
+				"Hi! I need help with my Q4 tax filing. I have all the documents ready.",
 			timestamp: "2024-11-19T09:00:00Z",
 			sender: { name: "You", role: "client" },
 			read: true,
 		},
 		{
 			id: 2,
-			content: "Hello! I'd be happy to help you with your Q4 tax filing. Could you please upload the following documents: 1. Income statements 2. Expense receipts 3. Previous tax returns",
+			content:
+				"Hello! I'd be happy to help you with your Q4 tax filing. Could you please upload the following documents: 1. Income statements 2. Expense receipts 3. Previous tax returns",
 			timestamp: "2024-11-19T09:15:00Z",
 			sender: { name: "Sarah Johnson", role: "advisor" },
 			read: true,
 		},
 		{
 			id: 3,
-			content: "I've uploaded all the required documents. Please let me know if you need anything else.",
+			content:
+				"I've uploaded all the required documents. Please let me know if you need anything else.",
 			timestamp: "2024-11-19T10:30:00Z",
 			sender: { name: "You", role: "client" },
 			read: true,
@@ -145,7 +146,8 @@ const mockMessages: Record<number, Message[]> = {
 		},
 		{
 			id: 4,
-			content: "Perfect! I've reviewed your documents and have a few questions about some expense categories. Could we schedule a call to discuss?",
+			content:
+				"Perfect! I've reviewed your documents and have a few questions about some expense categories. Could we schedule a call to discuss?",
 			timestamp: "2024-11-19T14:30:00Z",
 			sender: { name: "Sarah Johnson", role: "advisor" },
 			read: false,
@@ -153,7 +155,8 @@ const mockMessages: Record<number, Message[]> = {
 		},
 		{
 			id: 5,
-			content: "I've also prepared a preliminary calculation that shows potential savings. Please review the attached document.",
+			content:
+				"I've also prepared a preliminary calculation that shows potential savings. Please review the attached document.",
 			timestamp: "2024-11-19T14:32:00Z",
 			sender: { name: "Sarah Johnson", role: "advisor" },
 			read: false,
@@ -183,7 +186,7 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 	const filteredConversations = conversations.filter(
 		(conv) =>
 			conv.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-			conv.lastMessage.toLowerCase().includes(searchTerm.toLowerCase())
+			conv.lastMessage.toLowerCase().includes(searchTerm.toLowerCase()),
 	);
 
 	const currentMessages = messages[selectedConversation] || [];
@@ -213,8 +216,8 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 							lastMessage: newMessage,
 							timestamp: new Date().toISOString(),
 						}
-					: conv
-			)
+					: conv,
+			),
 		);
 
 		setNewMessage("");
@@ -223,13 +226,16 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 	const formatTime = (timestamp: string) => {
 		const date = new Date(timestamp);
 		const now = new Date();
-		const diffInHours = Math.abs(now.getTime() - date.getTime()) / (1000 * 60 * 60);
+		const diffInHours =
+			Math.abs(now.getTime() - date.getTime()) / (1000 * 60 * 60);
 
 		if (diffInHours < 24) {
-			return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-		} else {
-			return date.toLocaleDateString([], { month: "short", day: "numeric" });
+			return date.toLocaleTimeString([], {
+				hour: "2-digit",
+				minute: "2-digit",
+			});
 		}
+		return date.toLocaleDateString([], { month: "short", day: "numeric" });
 	};
 
 	const getPriorityColor = (priority: string) => {
@@ -258,14 +264,14 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 		<div className="flex h-[calc(100vh-12rem)] space-x-6">
 			{/* Conversations List */}
 			<div className="w-80 flex-shrink-0">
-				<Card className="h-full flex flex-col">
+				<Card className="flex h-full flex-col">
 					<CardHeader className="pb-4">
 						<CardTitle className="flex items-center gap-2">
 							<MessageCircle className="h-5 w-5" />
 							Messages
 						</CardTitle>
 						<div className="relative">
-							<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+							<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
 							<Input
 								placeholder="Search conversations..."
 								value={searchTerm}
@@ -283,7 +289,7 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 										onClick={() => setSelectedConversation(conversation.id)}
 										className={`cursor-pointer rounded-lg border p-4 transition-all hover:shadow-md ${
 											selectedConversation === conversation.id
-												? "bg-primary/10 border-primary"
+												? "border-primary bg-primary/10"
 												: "hover:bg-muted/50"
 										}`}
 									>
@@ -294,10 +300,16 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 														{conversation.title}
 													</h4>
 													<div className="mt-1 flex items-center space-x-2">
-														<Badge className={getPriorityColor(conversation.priority)}>
+														<Badge
+															className={getPriorityColor(
+																conversation.priority,
+															)}
+														>
 															{conversation.priority}
 														</Badge>
-														<Badge className={getStatusColor(conversation.status)}>
+														<Badge
+															className={getStatusColor(conversation.status)}
+														>
 															{conversation.status}
 														</Badge>
 													</div>
@@ -309,7 +321,7 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 												)}
 											</div>
 
-											<p className="text-muted-foreground text-sm line-clamp-2">
+											<p className="line-clamp-2 text-muted-foreground text-sm">
 												{conversation.lastMessage}
 											</p>
 
@@ -345,20 +357,27 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 
 			{/* Messages Area */}
 			<div className="flex-1">
-				<Card className="h-full flex flex-col">
+				<Card className="flex h-full flex-col">
 					{/* Chat Header */}
 					<CardHeader className="border-b">
 						<div className="flex items-center justify-between">
 							<div>
 								<CardTitle className="text-lg">
-									{conversations.find((c) => c.id === selectedConversation)?.title}
+									{
+										conversations.find((c) => c.id === selectedConversation)
+											?.title
+									}
 								</CardTitle>
 								<CardDescription>
-									{conversations.find((c) => c.id === selectedConversation)
-										?.participants[0]?.name}{" "}
+									{
+										conversations.find((c) => c.id === selectedConversation)
+											?.participants[0]?.name
+									}{" "}
 									•{" "}
-									{conversations.find((c) => c.id === selectedConversation)
-										?.participants[0]?.role}
+									{
+										conversations.find((c) => c.id === selectedConversation)
+											?.participants[0]?.role
+									}
 								</CardDescription>
 							</div>
 							<DropdownMenu>
@@ -443,7 +462,7 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 															>
 																<Paperclip className="h-4 w-4" />
 																<div className="flex-1">
-																	<p className="text-xs font-medium">
+																	<p className="font-medium text-xs">
 																		{attachment.name}
 																	</p>
 																	<p className="text-muted-foreground text-xs">
@@ -456,7 +475,7 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 												)}
 											</div>
 
-											<div className="flex items-center space-x-2 text-xs text-muted-foreground">
+											<div className="flex items-center space-x-2 text-muted-foreground text-xs">
 												<span>{formatTime(message.timestamp)}</span>
 												{message.sender.role === "client" && (
 													<div className="flex items-center">
@@ -506,7 +525,7 @@ export function ClientMessages({ user }: ClientMessagesProps) {
 								</Button>
 							</div>
 						</div>
-						<div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+						<div className="mt-2 flex items-center justify-between text-muted-foreground text-xs">
 							<span>Press Enter to send, Shift+Enter for new line</span>
 							<span>Online now</span>
 						</div>

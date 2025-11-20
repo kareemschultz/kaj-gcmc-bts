@@ -1,1 +1,31 @@
-{"uuid":"01db840e-0973-43c8-a97c-cf83dd783eeb","name":"should validate required fields","historyId":"e7f98c4f43dc9e8067b75fc4db4599a9:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.services.spec.ts"},{"name":"titlePath","value":" > tablet > crud/services.spec.ts > Services CRUD"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"crud/services.spec.ts"},{"name":"subSuite","value":"Services CRUD"}],"links":[],"start":1763549757711,"testCaseId":"e7f98c4f43dc9e8067b75fc4db4599a9","fullName":"crud/services.spec.ts:118:2","titlePath":["crud","services.spec.ts","Services CRUD"],"stop":1763549757711}
+{
+	"uuid": "01db840e-0973-43c8-a97c-cf83dd783eeb",
+	"name": "should validate required fields",
+	"historyId": "e7f98c4f43dc9e8067b75fc4db4599a9:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.services.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > crud/services.spec.ts > Services CRUD"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "crud/services.spec.ts" },
+		{ "name": "subSuite", "value": "Services CRUD" }
+	],
+	"links": [],
+	"start": 1763549757711,
+	"testCaseId": "e7f98c4f43dc9e8067b75fc4db4599a9",
+	"fullName": "crud/services.spec.ts:118:2",
+	"titlePath": ["crud", "services.spec.ts", "Services CRUD"],
+	"stop": 1763549757711
+}

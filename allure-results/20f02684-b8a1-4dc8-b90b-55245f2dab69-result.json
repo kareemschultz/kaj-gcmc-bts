@@ -1,1 +1,36 @@
-{"uuid":"20f02684-b8a1-4dc8-b90b-55245f2dab69","name":"should display clients page correctly @smoke","historyId":"6a06008cf295f016fafc18cc8059b3c0:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.clients-management.spec.ts"},{"name":"titlePath","value":" > firefox > crud/clients-management.spec.ts > Clients Management - CRUD Operations"},{"name":"tag","value":"smoke"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"crud/clients-management.spec.ts"},{"name":"subSuite","value":"Clients Management - CRUD Operations"}],"links":[],"start":1763549819601,"testCaseId":"6a06008cf295f016fafc18cc8059b3c0","fullName":"crud/clients-management.spec.ts:19:3","titlePath":["crud","clients-management.spec.ts","Clients Management - CRUD Operations"],"stop":1763549819601}
+{
+	"uuid": "20f02684-b8a1-4dc8-b90b-55245f2dab69",
+	"name": "should display clients page correctly @smoke",
+	"historyId": "6a06008cf295f016fafc18cc8059b3c0:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.clients-management.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > crud/clients-management.spec.ts > Clients Management - CRUD Operations"
+		},
+		{ "name": "tag", "value": "smoke" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "crud/clients-management.spec.ts" },
+		{ "name": "subSuite", "value": "Clients Management - CRUD Operations" }
+	],
+	"links": [],
+	"start": 1763549819601,
+	"testCaseId": "6a06008cf295f016fafc18cc8059b3c0",
+	"fullName": "crud/clients-management.spec.ts:19:3",
+	"titlePath": [
+		"crud",
+		"clients-management.spec.ts",
+		"Clients Management - CRUD Operations"
+	],
+	"stop": 1763549819601
+}

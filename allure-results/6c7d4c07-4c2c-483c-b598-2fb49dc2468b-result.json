@@ -1,1 +1,32 @@
-{"uuid":"6c7d4c07-4c2c-483c-b598-2fb49dc2468b","name":"should filter filings by client @api-functional","historyId":"795a63a1068b4c30f8bcb0708a8676bc:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"api.api-endpoints.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > api/api-endpoints.spec.ts > API Endpoints - Filings"},{"name":"tag","value":"api-functional"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"api/api-endpoints.spec.ts"},{"name":"subSuite","value":"API Endpoints - Filings"}],"links":[],"start":1763549819674,"testCaseId":"795a63a1068b4c30f8bcb0708a8676bc","fullName":"api/api-endpoints.spec.ts:309:3","titlePath":["api","api-endpoints.spec.ts","API Endpoints - Filings"],"stop":1763549819674}
+{
+	"uuid": "6c7d4c07-4c2c-483c-b598-2fb49dc2468b",
+	"name": "should filter filings by client @api-functional",
+	"historyId": "795a63a1068b4c30f8bcb0708a8676bc:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "api.api-endpoints.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > api/api-endpoints.spec.ts > API Endpoints - Filings"
+		},
+		{ "name": "tag", "value": "api-functional" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "api/api-endpoints.spec.ts" },
+		{ "name": "subSuite", "value": "API Endpoints - Filings" }
+	],
+	"links": [],
+	"start": 1763549819674,
+	"testCaseId": "795a63a1068b4c30f8bcb0708a8676bc",
+	"fullName": "api/api-endpoints.spec.ts:309:3",
+	"titlePath": ["api", "api-endpoints.spec.ts", "API Endpoints - Filings"],
+	"stop": 1763549819674
+}

@@ -1,0 +1,376 @@
+"use client";
+
+import type {
+	ClientAnalytics,
+	ClientProfile,
+	ClientProfileStatus,
+	RiskLevel,
+} from "@gcmc-kaj/types";
+import {
+	Badge,
+	Building,
+	Calendar,
+	Clock,
+	Edit,
+	ExternalLink,
+	Globe,
+	Mail,
+	MapPin,
+	Phone,
+	Star,
+	TrendingUp,
+	User,
+	Users,
+} from "lucide-react";
+import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarInitials } from "@/components/ui/avatar";
+import { Badge as UIBadge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+
+interface ClientProfileHeaderProps {
+	client: ClientProfile;
+	analytics?: ClientAnalytics;
+	onEdit?: () => void;
+	onStatusChange?: (status: ClientProfileStatus) => void;
+}
+
+const getStatusColor = (status: ClientProfileStatus): string => {
+	switch (status) {
+		case "active":
+			return "bg-green-100 text-green-800 border-green-200";
+		case "inactive":
+			return "bg-gray-100 text-gray-800 border-gray-200";
+		case "suspended":
+			return "bg-red-100 text-red-800 border-red-200";
+		case "archived":
+			return "bg-yellow-100 text-yellow-800 border-yellow-200";
+		default:
+			return "bg-gray-100 text-gray-800 border-gray-200";
+	}
+};
+
+const getRiskLevelColor = (level: RiskLevel): string => {
+	switch (level) {
+		case "low":
+			return "bg-green-500";
+		case "medium":
+			return "bg-yellow-500";
+		case "high":
+			return "bg-red-500";
+		default:
+			return "bg-gray-500";
+	}
+};
+
+export function ClientProfileHeader({
+	client,
+	analytics,
+	onEdit,
+	onStatusChange,
+}: ClientProfileHeaderProps) {
+	const [isEditing, setIsEditing] = useState(false);
+
+	const getClientInitials = (name: string): string => {
+		return name
+			.split(" ")
+			.map((word) => word.charAt(0))
+			.join("")
+			.toUpperCase()
+			.slice(0, 2);
+	};
+
+	const formatCurrency = (amount: number): string => {
+		return new Intl.NumberFormat("en-US", {
+			style: "currency",
+			currency: "USD",
+		}).format(amount);
+	};
+
+	const formatDate = (date?: Date): string => {
+		if (!date) return "N/A";
+		return new Intl.DateTimeFormat("en-US", {
+			year: "numeric",
+			month: "short",
+			day: "numeric",
+		}).format(new Date(date));
+	};
+
+	const getTimeSinceLastActivity = (lastActivity?: Date): string => {
+		if (!lastActivity) return "No recent activity";
+
+		const now = new Date();
+		const diff = now.getTime() - new Date(lastActivity).getTime();
+		const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+		if (days === 0) return "Active today";
+		if (days === 1) return "Active yesterday";
+		if (days < 7) return `Active ${days} days ago`;
+		if (days < 30) return `Active ${Math.floor(days / 7)} weeks ago`;
+		return `Active ${Math.floor(days / 30)} months ago`;
+	};
+
+	return (
+		<Card className="border-0 shadow-lg">
+			<CardContent className="p-0">
+				{/* Header Banner */}
+				<div className="relative h-32 rounded-t-lg bg-gradient-to-r from-blue-600 to-purple-600">
+					<div className="absolute inset-0 rounded-t-lg bg-black/20" />
+					<div className="absolute top-4 right-4">
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<Button
+										variant="ghost"
+										size="icon"
+										className="h-8 w-8 text-white hover:bg-white/20"
+										onClick={onEdit}
+									>
+										<Edit className="h-4 w-4" />
+									</Button>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Edit client profile</p>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
+					</div>
+				</div>
+
+				{/* Profile Section */}
+				<div className="relative px-6 pb-6">
+					{/* Avatar and Basic Info */}
+					<div className="-mt-12 flex items-start gap-6">
+						<Avatar className="h-24 w-24 border-4 border-white bg-white shadow-lg">
+							<AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 font-semibold text-lg text-white">
+								{getClientInitials(client.name)}
+							</AvatarFallback>
+						</Avatar>
+
+						<div className="mt-12 flex-1">
+							<div className="flex items-start justify-between">
+								<div>
+									<h1 className="flex items-center gap-2 font-bold text-2xl text-gray-900">
+										{client.name}
+										{client.type === "company" ? (
+											<Building className="h-5 w-5 text-gray-500" />
+										) : (
+											<User className="h-5 w-5 text-gray-500" />
+										)}
+									</h1>
+									<p className="mt-1 text-gray-600">{client.email}</p>
+									<div className="mt-2 flex items-center gap-4">
+										<UIBadge
+											variant="secondary"
+											className={cn("text-xs", getStatusColor(client.status))}
+										>
+											{client.status.toUpperCase()}
+										</UIBadge>
+										<UIBadge variant="outline" className="text-xs capitalize">
+											{client.type}
+										</UIBadge>
+										{client.sector && (
+											<UIBadge variant="outline" className="text-xs">
+												{client.sector}
+											</UIBadge>
+										)}
+									</div>
+								</div>
+
+								<div className="flex items-center gap-4">
+									{/* Risk Level Indicator */}
+									<div className="text-right">
+										<div className="mb-1 text-gray-500 text-sm">Risk Level</div>
+										<div className="flex items-center gap-2">
+											<div
+												className={cn(
+													"h-3 w-3 rounded-full",
+													getRiskLevelColor(client.riskLevel),
+												)}
+											/>
+											<span className="font-medium text-sm capitalize">
+												{client.riskLevel}
+											</span>
+										</div>
+									</div>
+
+									{/* Compliance Score */}
+									{analytics && (
+										<div className="text-right">
+											<div className="mb-1 text-gray-500 text-sm">
+												Compliance Score
+											</div>
+											<div className="flex items-center gap-2">
+												<Progress
+													value={analytics.complianceScore}
+													className="h-2 w-16"
+												/>
+												<span className="font-medium text-sm">
+													{analytics.complianceScore}%
+												</span>
+											</div>
+										</div>
+									)}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{/* Contact Information */}
+					<div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+						{client.phone && (
+							<div className="flex items-center gap-2 text-gray-600 text-sm">
+								<Phone className="h-4 w-4" />
+								<span>{client.phone}</span>
+							</div>
+						)}
+
+						{client.website && (
+							<div className="flex items-center gap-2 text-gray-600 text-sm">
+								<Globe className="h-4 w-4" />
+								<a
+									href={client.website}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="flex items-center gap-1 text-blue-600 hover:underline"
+								>
+									{client.website}
+									<ExternalLink className="h-3 w-3" />
+								</a>
+							</div>
+						)}
+
+						{client.address && (
+							<div className="flex items-center gap-2 text-gray-600 text-sm">
+								<MapPin className="h-4 w-4" />
+								<span>
+									{[
+										client.address.city,
+										client.address.state,
+										client.address.country,
+									]
+										.filter(Boolean)
+										.join(", ")}
+								</span>
+							</div>
+						)}
+
+						<div className="flex items-center gap-2 text-gray-600 text-sm">
+							<Clock className="h-4 w-4" />
+							<span>{getTimeSinceLastActivity(client.lastActivity)}</span>
+						</div>
+					</div>
+
+					{/* Additional Details */}
+					<div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+						{client.incorporationDate && (
+							<div className="text-sm">
+								<span className="text-gray-500">Incorporated:</span>
+								<span className="ml-2 font-medium">
+									{formatDate(client.incorporationDate)}
+								</span>
+							</div>
+						)}
+
+						{client.employeeCount && (
+							<div className="text-sm">
+								<span className="text-gray-500">Employees:</span>
+								<span className="ml-2 font-medium">
+									{client.employeeCount.toLocaleString()}
+								</span>
+							</div>
+						)}
+
+						{client.annualRevenue && (
+							<div className="text-sm">
+								<span className="text-gray-500">Annual Revenue:</span>
+								<span className="ml-2 font-medium">
+									{formatCurrency(client.annualRevenue)}
+								</span>
+							</div>
+						)}
+					</div>
+
+					{/* Quick Stats */}
+					{analytics && (
+						<>
+							<Separator className="my-6" />
+							<div className="grid grid-cols-2 gap-4 md:grid-cols-5">
+								<div className="text-center">
+									<div className="font-bold text-2xl text-blue-600">
+										{analytics.totalDocuments}
+									</div>
+									<div className="text-gray-500 text-sm">Documents</div>
+								</div>
+								<div className="text-center">
+									<div className="font-bold text-2xl text-green-600">
+										{analytics.totalFilings}
+									</div>
+									<div className="text-gray-500 text-sm">Filings</div>
+								</div>
+								<div className="text-center">
+									<div className="font-bold text-2xl text-purple-600">
+										{analytics.totalServiceRequests}
+									</div>
+									<div className="text-gray-500 text-sm">Services</div>
+								</div>
+								<div className="text-center">
+									<div className="font-bold text-2xl text-orange-600">
+										{formatCurrency(analytics.revenueGenerated)}
+									</div>
+									<div className="text-gray-500 text-sm">Revenue</div>
+								</div>
+								<div className="text-center">
+									<div className="font-bold text-2xl text-red-600">
+										{analytics.outstandingFees > 0
+											? formatCurrency(analytics.outstandingFees)
+											: "—"}
+									</div>
+									<div className="text-gray-500 text-sm">Outstanding</div>
+								</div>
+							</div>
+						</>
+					)}
+
+					{/* Tags */}
+					{client.tags && client.tags.length > 0 && (
+						<>
+							<Separator className="my-6" />
+							<div className="flex flex-wrap gap-2">
+								{client.tags.map((tag) => (
+									<UIBadge
+										key={tag.id}
+										variant="secondary"
+										className="text-xs"
+										style={{
+											backgroundColor: `${tag.color}20`,
+											color: tag.color,
+											borderColor: `${tag.color}40`,
+										}}
+									>
+										{tag.name}
+									</UIBadge>
+								))}
+							</div>
+						</>
+					)}
+				</div>
+			</CardContent>
+		</Card>
+	);
+}

@@ -5,6 +5,7 @@ import {
 	ArrowRight,
 	Calendar,
 	CheckCircle,
+	Clock,
 	CreditCard,
 	FileText,
 	MessageCircle,
@@ -12,7 +13,6 @@ import {
 	TrendingUp,
 	Upload,
 	Users,
-	Clock,
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -185,13 +185,13 @@ export function ClientDashboard({ user }: ClientDashboardProps) {
 							<div
 								className={cn(
 									"rounded-xl p-4 text-center",
-									getComplianceBg(mockData.complianceScore)
+									getComplianceBg(mockData.complianceScore),
 								)}
 							>
 								<div
 									className={cn(
 										"font-bold text-3xl",
-										getComplianceColor(mockData.complianceScore)
+										getComplianceColor(mockData.complianceScore),
 									)}
 								>
 									{mockData.complianceScore}%
@@ -204,8 +204,8 @@ export function ClientDashboard({ user }: ClientDashboardProps) {
 					</div>
 				</div>
 				{/* Decorative Elements */}
-				<div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10" />
-				<div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-white/10" />
+				<div className="-right-10 -top-10 absolute h-40 w-40 rounded-full bg-white/10" />
+				<div className="-bottom-10 -left-10 absolute h-32 w-32 rounded-full bg-white/10" />
 			</div>
 
 			{/* Quick Stats */}
@@ -222,7 +222,10 @@ export function ClientDashboard({ user }: ClientDashboardProps) {
 							</div>
 						</div>
 						<div className="mt-4 flex items-center text-sm">
-							<Badge variant="secondary" className="bg-orange-50 text-orange-700">
+							<Badge
+								variant="secondary"
+								className="bg-orange-50 text-orange-700"
+							>
 								3 high priority
 							</Badge>
 						</div>
@@ -234,7 +237,9 @@ export function ClientDashboard({ user }: ClientDashboardProps) {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-muted-foreground text-sm">Deadlines</p>
-								<p className="font-bold text-2xl">{mockData.upcomingDeadlines}</p>
+								<p className="font-bold text-2xl">
+									{mockData.upcomingDeadlines}
+								</p>
 							</div>
 							<div className="rounded-full bg-red-100 p-3">
 								<Calendar className="h-6 w-6 text-red-600" />
@@ -310,9 +315,23 @@ export function ClientDashboard({ user }: ClientDashboardProps) {
 								<ResponsiveContainer width="100%" height={200}>
 									<AreaChart data={mockData.complianceHistory}>
 										<defs>
-											<linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
-												<stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-												<stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+											<linearGradient
+												id="colorScore"
+												x1="0"
+												y1="0"
+												x2="0"
+												y2="1"
+											>
+												<stop
+													offset="5%"
+													stopColor="#3b82f6"
+													stopOpacity={0.3}
+												/>
+												<stop
+													offset="95%"
+													stopColor="#3b82f6"
+													stopOpacity={0}
+												/>
 											</linearGradient>
 										</defs>
 										<XAxis dataKey="month" />

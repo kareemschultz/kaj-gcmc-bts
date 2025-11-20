@@ -1,1 +1,36 @@
-{"uuid":"71bd76cd-e91b-4470-8b45-e1b2ad8b29f5","name":"should handle logout correctly @functional","historyId":"bb89824c092b0697b2b2c84adb34015c:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"dashboard.dashboard-functionality.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > dashboard/dashboard-functionality.spec.ts > Dashboard Functionality"},{"name":"tag","value":"functional"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"dashboard/dashboard-functionality.spec.ts"},{"name":"subSuite","value":"Dashboard Functionality"}],"links":[],"start":1763549819690,"testCaseId":"bb89824c092b0697b2b2c84adb34015c","fullName":"dashboard/dashboard-functionality.spec.ts:219:3","titlePath":["dashboard","dashboard-functionality.spec.ts","Dashboard Functionality"],"stop":1763549819690}
+{
+	"uuid": "71bd76cd-e91b-4470-8b45-e1b2ad8b29f5",
+	"name": "should handle logout correctly @functional",
+	"historyId": "bb89824c092b0697b2b2c84adb34015c:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "dashboard.dashboard-functionality.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > dashboard/dashboard-functionality.spec.ts > Dashboard Functionality"
+		},
+		{ "name": "tag", "value": "functional" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "dashboard/dashboard-functionality.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard Functionality" }
+	],
+	"links": [],
+	"start": 1763549819690,
+	"testCaseId": "bb89824c092b0697b2b2c84adb34015c",
+	"fullName": "dashboard/dashboard-functionality.spec.ts:219:3",
+	"titlePath": [
+		"dashboard",
+		"dashboard-functionality.spec.ts",
+		"Dashboard Functionality"
+	],
+	"stop": 1763549819690
+}

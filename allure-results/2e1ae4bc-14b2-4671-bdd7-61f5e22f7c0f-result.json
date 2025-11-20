@@ -1,1 +1,31 @@
-{"uuid":"2e1ae4bc-14b2-4671-bdd7-61f5e22f7c0f","name":"should toggle password visibility","historyId":"1f41aabf94aa375f58550ba83f37f799:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > firefox > auth/login.spec.ts > Login Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login Flow"}],"links":[],"start":1763549819598,"testCaseId":"1f41aabf94aa375f58550ba83f37f799","fullName":"auth/login.spec.ts:73:2","titlePath":["auth","login.spec.ts","Login Flow"],"stop":1763549819598}
+{
+	"uuid": "2e1ae4bc-14b2-4671-bdd7-61f5e22f7c0f",
+	"name": "should toggle password visibility",
+	"historyId": "1f41aabf94aa375f58550ba83f37f799:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > auth/login.spec.ts > Login Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login Flow" }
+	],
+	"links": [],
+	"start": 1763549819598,
+	"testCaseId": "1f41aabf94aa375f58550ba83f37f799",
+	"fullName": "auth/login.spec.ts:73:2",
+	"titlePath": ["auth", "login.spec.ts", "Login Flow"],
+	"stop": 1763549819598
+}

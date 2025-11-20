@@ -1,42 +1,42 @@
 [
-  {
-    "name": "Authentication Issues",
-    "messageRegex": ".*authentication.*|.*login.*|.*unauthorized.*",
-    "traceRegex": ".*AuthError.*|.*LoginError.*"
-  },
-  {
-    "name": "Network Issues",
-    "messageRegex": ".*network.*|.*timeout.*|.*connection.*",
-    "traceRegex": ".*NetworkError.*|.*TimeoutError.*"
-  },
-  {
-    "name": "UI Component Issues",
-    "messageRegex": ".*element.*not.*found.*|.*selector.*|.*locator.*",
-    "traceRegex": ".*ElementNotFoundError.*|.*SelectorError.*"
-  },
-  {
-    "name": "API Issues",
-    "messageRegex": ".*api.*|.*endpoint.*|.*response.*status.*",
-    "traceRegex": ".*APIError.*|.*ResponseError.*"
-  },
-  {
-    "name": "Data Validation Issues",
-    "messageRegex": ".*validation.*|.*invalid.*data.*|.*required.*field.*",
-    "traceRegex": ".*ValidationError.*|.*DataError.*"
-  },
-  {
-    "name": "Performance Issues",
-    "messageRegex": ".*performance.*|.*slow.*|.*timeout.*|.*exceeded.*",
-    "traceRegex": ".*PerformanceError.*|.*SlowTestError.*"
-  },
-  {
-    "name": "Accessibility Issues",
-    "messageRegex": ".*accessibility.*|.*a11y.*|.*wcag.*",
-    "traceRegex": ".*AccessibilityError.*|.*A11yError.*"
-  },
-  {
-    "name": "Browser Compatibility",
-    "messageRegex": ".*browser.*|.*firefox.*|.*webkit.*|.*safari.*",
-    "traceRegex": ".*BrowserError.*|.*CompatibilityError.*"
-  }
+	{
+		"name": "Authentication Issues",
+		"messageRegex": ".*authentication.*|.*login.*|.*unauthorized.*",
+		"traceRegex": ".*AuthError.*|.*LoginError.*"
+	},
+	{
+		"name": "Network Issues",
+		"messageRegex": ".*network.*|.*timeout.*|.*connection.*",
+		"traceRegex": ".*NetworkError.*|.*TimeoutError.*"
+	},
+	{
+		"name": "UI Component Issues",
+		"messageRegex": ".*element.*not.*found.*|.*selector.*|.*locator.*",
+		"traceRegex": ".*ElementNotFoundError.*|.*SelectorError.*"
+	},
+	{
+		"name": "API Issues",
+		"messageRegex": ".*api.*|.*endpoint.*|.*response.*status.*",
+		"traceRegex": ".*APIError.*|.*ResponseError.*"
+	},
+	{
+		"name": "Data Validation Issues",
+		"messageRegex": ".*validation.*|.*invalid.*data.*|.*required.*field.*",
+		"traceRegex": ".*ValidationError.*|.*DataError.*"
+	},
+	{
+		"name": "Performance Issues",
+		"messageRegex": ".*performance.*|.*slow.*|.*timeout.*|.*exceeded.*",
+		"traceRegex": ".*PerformanceError.*|.*SlowTestError.*"
+	},
+	{
+		"name": "Accessibility Issues",
+		"messageRegex": ".*accessibility.*|.*a11y.*|.*wcag.*",
+		"traceRegex": ".*AccessibilityError.*|.*A11yError.*"
+	},
+	{
+		"name": "Browser Compatibility",
+		"messageRegex": ".*browser.*|.*firefox.*|.*webkit.*|.*safari.*",
+		"traceRegex": ".*BrowserError.*|.*CompatibilityError.*"
+	}
 ]

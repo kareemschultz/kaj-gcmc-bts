@@ -2,6 +2,7 @@ import { protectedProcedure, publicProcedure, router } from "../index";
 
 // Import all routers
 import { analyticsRouter } from "./analytics";
+import { authRouter } from "./auth";
 import { clientAnalyticsRouter } from "./client-analytics";
 import { clientBusinessesRouter } from "./clientBusinesses";
 import { clientsRouter } from "./clients";
@@ -41,6 +42,9 @@ export const appRouter = router({
 			role: ctx.role,
 		};
 	}),
+
+	// Authentication
+	auth: authRouter,
 
 	// Core business routers
 	users: usersRouter,

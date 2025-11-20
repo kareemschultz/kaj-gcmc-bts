@@ -1,1 +1,36 @@
-{"uuid":"d4e12ad0-52a9-42b0-a0ea-7f89d2f2f57f","name":"should not have console errors @quality","historyId":"7f8d7e8d4ca078babe7315a53b8936cc:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"dashboard.dashboard-functionality.spec.ts"},{"name":"titlePath","value":" > firefox > dashboard/dashboard-functionality.spec.ts > Dashboard Functionality"},{"name":"tag","value":"quality"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"dashboard/dashboard-functionality.spec.ts"},{"name":"subSuite","value":"Dashboard Functionality"}],"links":[],"start":1763549819609,"testCaseId":"7f8d7e8d4ca078babe7315a53b8936cc","fullName":"dashboard/dashboard-functionality.spec.ts:196:3","titlePath":["dashboard","dashboard-functionality.spec.ts","Dashboard Functionality"],"stop":1763549819609}
+{
+	"uuid": "d4e12ad0-52a9-42b0-a0ea-7f89d2f2f57f",
+	"name": "should not have console errors @quality",
+	"historyId": "7f8d7e8d4ca078babe7315a53b8936cc:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "dashboard.dashboard-functionality.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > dashboard/dashboard-functionality.spec.ts > Dashboard Functionality"
+		},
+		{ "name": "tag", "value": "quality" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "dashboard/dashboard-functionality.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard Functionality" }
+	],
+	"links": [],
+	"start": 1763549819609,
+	"testCaseId": "7f8d7e8d4ca078babe7315a53b8936cc",
+	"fullName": "dashboard/dashboard-functionality.spec.ts:196:3",
+	"titlePath": [
+		"dashboard",
+		"dashboard-functionality.spec.ts",
+		"Dashboard Functionality"
+	],
+	"stop": 1763549819609
+}

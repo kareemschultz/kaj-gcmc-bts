@@ -5,10 +5,10 @@
  * Provides endpoints for viewing audit logs, user activity, and generating reports
  */
 
-import { z } from 'zod';
-import { TRPCError } from '@trpc/server';
-import { createTRPCRouter, protectedProcedure } from '../trpc';
-import type { AuditQueryOptions } from '../application/services/AuditService';
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import type { AuditQueryOptions } from "../application/services/AuditService";
+import { router, protectedProcedure } from "../index";
 
 // Input validation schemas
 const AuditQuerySchema = z.object({
@@ -16,14 +16,16 @@ const AuditQuerySchema = z.object({
 	clientId: z.number().optional(),
 	entityType: z.string().optional(),
 	action: z.string().optional(),
-	dateRange: z.object({
-		from: z.date(),
-		to: z.date(),
-	}).optional(),
+	dateRange: z
+		.object({
+			from: z.date(),
+			to: z.date(),
+		})
+		.optional(),
 	limit: z.number().min(1).max(100).default(50),
 	offset: z.number().min(0).default(0),
-	orderBy: z.enum(['createdAt', 'action', 'entityType']).default('createdAt'),
-	order: z.enum(['asc', 'desc']).default('desc'),
+	orderBy: z.enum(["createdAt", "action", "entityType"]).default("createdAt"),
+	order: z.enum(["asc", "desc"]).default("desc"),
 });
 
 const EntityAuditSchema = z.object({
@@ -42,21 +44,28 @@ const ClientActivitySchema = z.object({
 });
 
 const AuditReportSchema = z.object({
-	reportType: z.enum(['user_activity', 'client_activity', 'system_events', 'security_events']),
+	reportType: z.enum([
+		"user_activity",
+		"client_activity",
+		"system_events",
+		"security_events",
+	]),
 	dateRange: z.object({
 		from: z.date(),
 		to: z.date(),
 	}),
-	filters: z.object({
-		userIds: z.array(z.string()).optional(),
-		clientIds: z.array(z.number()).optional(),
-		actions: z.array(z.string()).optional(),
-		entityTypes: z.array(z.string()).optional(),
-	}).optional(),
-	format: z.enum(['json', 'csv']).default('json'),
+	filters: z
+		.object({
+			userIds: z.array(z.string()).optional(),
+			clientIds: z.array(z.number()).optional(),
+			actions: z.array(z.string()).optional(),
+			entityTypes: z.array(z.string()).optional(),
+		})
+		.optional(),
+	format: z.enum(["json", "csv"]).default("json"),
 });
 
-export const auditRouter = createTRPCRouter({
+export const auditRouter = router({
 	/**
 	 * Get paginated audit logs with filtering
 	 */
@@ -65,15 +74,15 @@ export const auditRouter = createTRPCRouter({
 		.query(async ({ ctx, input }) => {
 			if (!ctx.auditService) {
 				throw new TRPCError({
-					code: 'INTERNAL_SERVER_ERROR',
-					message: 'Audit service not available',
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Audit service not available",
 				});
 			}
 
 			if (!ctx.user?.tenantId) {
 				throw new TRPCError({
-					code: 'UNAUTHORIZED',
-					message: 'User not associated with a tenant',
+					code: "UNAUTHORIZED",
+					message: "User not associated with a tenant",
 				});
 			}
 
@@ -103,15 +112,15 @@ export const auditRouter = createTRPCRouter({
 		.query(async ({ ctx, input }) => {
 			if (!ctx.auditService || !ctx.user?.tenantId) {
 				throw new TRPCError({
-					code: 'UNAUTHORIZED',
-					message: 'Audit service not available or user not authenticated',
+					code: "UNAUTHORIZED",
+					message: "Audit service not available or user not authenticated",
 				});
 			}
 
 			const logs = await ctx.auditService.getAuditLogsByEntity(
 				ctx.user.tenantId,
 				input.entityType,
-				input.entityId
+				input.entityId,
 			);
 
 			return { logs };
@@ -125,15 +134,15 @@ export const auditRouter = createTRPCRouter({
 		.query(async ({ ctx, input }) => {
 			if (!ctx.auditService || !ctx.user?.tenantId) {
 				throw new TRPCError({
-					code: 'UNAUTHORIZED',
-					message: 'Audit service not available or user not authenticated',
+					code: "UNAUTHORIZED",
+					message: "Audit service not available or user not authenticated",
 				});
 			}
 
 			const logs = await ctx.auditService.getUserActivity(
 				ctx.user.tenantId,
 				input.userId,
-				input.limit
+				input.limit,
 			);
 
 			return { logs };
@@ -147,15 +156,15 @@ export const auditRouter = createTRPCRouter({
 		.query(async ({ ctx, input }) => {
 			if (!ctx.auditService || !ctx.user?.tenantId) {
 				throw new TRPCError({
-					code: 'UNAUTHORIZED',
-					message: 'Audit service not available or user not authenticated',
+					code: "UNAUTHORIZED",
+					message: "Audit service not available or user not authenticated",
 				});
 			}
 
 			const logs = await ctx.auditService.getClientActivity(
 				ctx.user.tenantId,
 				input.clientId,
-				input.limit
+				input.limit,
 			);
 
 			return { logs };
@@ -165,21 +174,23 @@ export const auditRouter = createTRPCRouter({
 	 * Get current user's own activity
 	 */
 	getMyActivity: protectedProcedure
-		.input(z.object({
-			limit: z.number().min(1).max(200).default(50),
-		}))
+		.input(
+			z.object({
+				limit: z.number().min(1).max(200).default(50),
+			}),
+		)
 		.query(async ({ ctx, input }) => {
 			if (!ctx.auditService || !ctx.user?.tenantId) {
 				throw new TRPCError({
-					code: 'UNAUTHORIZED',
-					message: 'Audit service not available or user not authenticated',
+					code: "UNAUTHORIZED",
+					message: "Audit service not available or user not authenticated",
 				});
 			}
 
 			const logs = await ctx.auditService.getUserActivity(
 				ctx.user.tenantId,
 				ctx.user.id,
-				input.limit
+				input.limit,
 			);
 
 			return { logs };
@@ -189,17 +200,21 @@ export const auditRouter = createTRPCRouter({
 	 * Get audit statistics for dashboard
 	 */
 	getStats: protectedProcedure
-		.input(z.object({
-			dateRange: z.object({
-				from: z.date(),
-				to: z.date(),
-			}).optional(),
-		}))
+		.input(
+			z.object({
+				dateRange: z
+					.object({
+						from: z.date(),
+						to: z.date(),
+					})
+					.optional(),
+			}),
+		)
 		.query(async ({ ctx, input }) => {
 			if (!ctx.auditService || !ctx.user?.tenantId) {
 				throw new TRPCError({
-					code: 'UNAUTHORIZED',
-					message: 'Audit service not available or user not authenticated',
+					code: "UNAUTHORIZED",
+					message: "Audit service not available or user not authenticated",
 				});
 			}
 
@@ -218,28 +233,28 @@ export const auditRouter = createTRPCRouter({
 				ctx.auditService.getAuditLogCount({ tenantId, dateRange }),
 				ctx.auditService.getAuditLogCount({
 					tenantId,
-					entityType: 'user',
-					dateRange
+					entityType: "user",
+					dateRange,
 				}),
 				ctx.auditService.getAuditLogCount({
 					tenantId,
-					entityType: 'document',
-					dateRange
+					entityType: "document",
+					dateRange,
 				}),
 				ctx.auditService.getAuditLogCount({
 					tenantId,
-					entityType: 'client',
-					dateRange
+					entityType: "client",
+					dateRange,
 				}),
 				ctx.auditService.getAuditLogCount({
 					tenantId,
-					entityType: 'compliance',
-					dateRange
+					entityType: "compliance",
+					dateRange,
 				}),
 				ctx.auditService.getAuditLogCount({
 					tenantId,
-					action: 'security.login_attempt',
-					dateRange
+					action: "security.login_attempt",
+					dateRange,
 				}),
 			]);
 
@@ -253,11 +268,11 @@ export const auditRouter = createTRPCRouter({
 
 			// Count actions by user
 			const userActivityMap = new Map<string, { count: number; user: any }>();
-			recentLogs.forEach(log => {
+			recentLogs.forEach((log) => {
 				if (log.actorUserId && log.actor) {
 					const current = userActivityMap.get(log.actorUserId) || {
 						count: 0,
-						user: log.actor
+						user: log.actor,
 					};
 					current.count++;
 					userActivityMap.set(log.actorUserId, current);
@@ -275,7 +290,7 @@ export const auditRouter = createTRPCRouter({
 
 			// Count actions by type
 			const actionCounts: Record<string, number> = {};
-			recentLogs.forEach(log => {
+			recentLogs.forEach((log) => {
 				actionCounts[log.action] = (actionCounts[log.action] || 0) + 1;
 			});
 
@@ -295,13 +310,15 @@ export const auditRouter = createTRPCRouter({
 				},
 				topUsers,
 				topActions,
-				timeframe: input.dateRange ? {
-					from: input.dateRange.from,
-					to: input.dateRange.to,
-				} : {
-					from: thirtyDaysAgo,
-					to: new Date(),
-				},
+				timeframe: input.dateRange
+					? {
+							from: input.dateRange.from,
+							to: input.dateRange.to,
+						}
+					: {
+							from: thirtyDaysAgo,
+							to: new Date(),
+						},
 			};
 		}),
 
@@ -313,8 +330,8 @@ export const auditRouter = createTRPCRouter({
 		.mutation(async ({ ctx, input }) => {
 			if (!ctx.auditService || !ctx.user?.tenantId) {
 				throw new TRPCError({
-					code: 'UNAUTHORIZED',
-					message: 'Audit service not available or user not authenticated',
+					code: "UNAUTHORIZED",
+					message: "Audit service not available or user not authenticated",
 				});
 			}
 
@@ -329,22 +346,22 @@ export const auditRouter = createTRPCRouter({
 
 			// Apply filters based on report type
 			switch (input.reportType) {
-				case 'user_activity':
+				case "user_activity":
 					if (input.filters?.userIds?.length) {
 						// For multiple users, we'll need to make multiple queries
 						// For simplicity, taking the first user ID
 						queryOptions.actorUserId = input.filters.userIds[0];
 					}
 					break;
-				case 'client_activity':
+				case "client_activity":
 					if (input.filters?.clientIds?.length) {
 						queryOptions.clientId = input.filters.clientIds[0];
 					}
 					break;
-				case 'system_events':
-					queryOptions.entityType = 'system';
+				case "system_events":
+					queryOptions.entityType = "system";
 					break;
-				case 'security_events':
+				case "security_events":
 					// Security events can be filtered by specific actions
 					if (input.filters?.actions?.length) {
 						queryOptions.action = input.filters.actions[0];
@@ -355,23 +372,28 @@ export const auditRouter = createTRPCRouter({
 			const logs = await ctx.auditService.getAuditLogs(queryOptions);
 
 			// Format based on requested format
-			if (input.format === 'csv') {
+			if (input.format === "csv") {
 				// Convert to CSV format
-				const csvHeader = 'Date,User,Action,Entity Type,Entity ID,Client,Changes,IP Address\n';
-				const csvRows = logs.map(log => [
-					log.createdAt.toISOString(),
-					log.actor?.name || 'System',
-					log.action,
-					log.entityType,
-					log.entityId,
-					log.client?.name || '',
-					JSON.stringify(log.changes).replace(/"/g, '""'),
-					log.ipAddress || '',
-				].join(',')).join('\n');
+				const csvHeader =
+					"Date,User,Action,Entity Type,Entity ID,Client,Changes,IP Address\n";
+				const csvRows = logs
+					.map((log) =>
+						[
+							log.createdAt.toISOString(),
+							log.actor?.name || "System",
+							log.action,
+							log.entityType,
+							log.entityId,
+							log.client?.name || "",
+							JSON.stringify(log.changes).replace(/"/g, '""'),
+							log.ipAddress || "",
+						].join(","),
+					)
+					.join("\n");
 
 				return {
 					reportType: input.reportType,
-					format: 'csv',
+					format: "csv",
 					data: csvHeader + csvRows,
 					recordCount: logs.length,
 					generatedAt: new Date(),
@@ -381,16 +403,18 @@ export const auditRouter = createTRPCRouter({
 			// Return JSON format
 			return {
 				reportType: input.reportType,
-				format: 'json',
+				format: "json",
 				data: logs,
 				recordCount: logs.length,
 				generatedAt: new Date(),
 				summary: {
 					dateRange: input.dateRange,
 					totalRecords: logs.length,
-					uniqueUsers: new Set(logs.map(log => log.actorUserId)).size,
-					uniqueActions: new Set(logs.map(log => log.action)).size,
-					uniqueClients: new Set(logs.map(log => log.clientId).filter(Boolean)).size,
+					uniqueUsers: new Set(logs.map((log) => log.actorUserId)).size,
+					uniqueActions: new Set(logs.map((log) => log.action)).size,
+					uniqueClients: new Set(
+						logs.map((log) => log.clientId).filter(Boolean),
+					).size,
 				},
 			};
 		}),
@@ -398,48 +422,47 @@ export const auditRouter = createTRPCRouter({
 	/**
 	 * Get audit log summary for the last 24 hours (for dashboard widget)
 	 */
-	getRecentSummary: protectedProcedure
-		.query(async ({ ctx }) => {
-			if (!ctx.auditService || !ctx.user?.tenantId) {
-				throw new TRPCError({
-					code: 'UNAUTHORIZED',
-					message: 'Audit service not available or user not authenticated',
-				});
-			}
-
-			const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
-			const now = new Date();
-
-			const logs = await ctx.auditService.getAuditLogs({
-				tenantId: ctx.user.tenantId,
-				dateRange: { from: yesterday, to: now },
-				limit: 50,
+	getRecentSummary: protectedProcedure.query(async ({ ctx }) => {
+		if (!ctx.auditService || !ctx.user?.tenantId) {
+			throw new TRPCError({
+				code: "UNAUTHORIZED",
+				message: "Audit service not available or user not authenticated",
 			});
+		}
 
-			const actionCounts: Record<string, number> = {};
-			const hourlyActivity: Record<string, number> = {};
+		const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+		const now = new Date();
 
-			logs.forEach(log => {
-				// Count actions
-				actionCounts[log.action] = (actionCounts[log.action] || 0) + 1;
+		const logs = await ctx.auditService.getAuditLogs({
+			tenantId: ctx.user.tenantId,
+			dateRange: { from: yesterday, to: now },
+			limit: 50,
+		});
 
-				// Count hourly activity
-				const hour = log.createdAt.getHours();
-				const hourKey = `${hour}:00`;
-				hourlyActivity[hourKey] = (hourlyActivity[hourKey] || 0) + 1;
-			});
+		const actionCounts: Record<string, number> = {};
+		const hourlyActivity: Record<string, number> = {};
 
-			return {
-				totalActions: logs.length,
-				actionBreakdown: actionCounts,
-				hourlyActivity,
-				recentLogs: logs.slice(0, 10), // Last 10 actions
-				timeframe: {
-					from: yesterday,
-					to: now,
-				},
-			};
-		}),
+		logs.forEach((log) => {
+			// Count actions
+			actionCounts[log.action] = (actionCounts[log.action] || 0) + 1;
+
+			// Count hourly activity
+			const hour = log.createdAt.getHours();
+			const hourKey = `${hour}:00`;
+			hourlyActivity[hourKey] = (hourlyActivity[hourKey] || 0) + 1;
+		});
+
+		return {
+			totalActions: logs.length,
+			actionBreakdown: actionCounts,
+			hourlyActivity,
+			recentLogs: logs.slice(0, 10), // Last 10 actions
+			timeframe: {
+				from: yesterday,
+				to: now,
+			},
+		};
+	}),
 });
 
 export type AuditRouter = typeof auditRouter;

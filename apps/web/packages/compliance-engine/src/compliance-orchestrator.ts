@@ -55,7 +55,10 @@ export class GuyanaComplianceOrchestrator {
 		};
 
 		let weightedScore = 0;
-		const byAgency: Record<GuyanaAgency, number> = {} as Record<GuyanaAgency, number>;
+		const byAgency: Record<GuyanaAgency, number> = {} as Record<
+			GuyanaAgency,
+			number
+		>;
 
 		results.forEach((result) => {
 			const weight = weights[result.agency] || 0;

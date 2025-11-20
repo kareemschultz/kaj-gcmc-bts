@@ -1,1 +1,36 @@
-{"uuid":"51638015-19b5-41bd-9152-9326982575f8","name":"should display dashboard correctly after login @smoke","historyId":"e70279993badd740820312a0ebf28520:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"dashboard.dashboard-functionality.spec.ts"},{"name":"titlePath","value":" > mobile-safari > dashboard/dashboard-functionality.spec.ts > Dashboard Functionality"},{"name":"tag","value":"smoke"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"dashboard/dashboard-functionality.spec.ts"},{"name":"subSuite","value":"Dashboard Functionality"}],"links":[],"start":1763549819727,"testCaseId":"e70279993badd740820312a0ebf28520","fullName":"dashboard/dashboard-functionality.spec.ts:20:3","titlePath":["dashboard","dashboard-functionality.spec.ts","Dashboard Functionality"],"stop":1763549819727}
+{
+	"uuid": "51638015-19b5-41bd-9152-9326982575f8",
+	"name": "should display dashboard correctly after login @smoke",
+	"historyId": "e70279993badd740820312a0ebf28520:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "dashboard.dashboard-functionality.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > dashboard/dashboard-functionality.spec.ts > Dashboard Functionality"
+		},
+		{ "name": "tag", "value": "smoke" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "dashboard/dashboard-functionality.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard Functionality" }
+	],
+	"links": [],
+	"start": 1763549819727,
+	"testCaseId": "e70279993badd740820312a0ebf28520",
+	"fullName": "dashboard/dashboard-functionality.spec.ts:20:3",
+	"titlePath": [
+		"dashboard",
+		"dashboard-functionality.spec.ts",
+		"Dashboard Functionality"
+	],
+	"stop": 1763549819727
+}

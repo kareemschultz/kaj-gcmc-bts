@@ -22,9 +22,9 @@ export const CONTRAST_RATIOS = {
  * Calculate relative luminance of a color
  */
 function getRelativeLuminance(r: number, g: number, b: number): number {
-	const [rs, gs, bs] = [r, g, b].map(c => {
+	const [rs, gs, bs] = [r, g, b].map((c) => {
 		c = c / 255;
-		return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+		return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
 	});
 	return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
 }
@@ -34,16 +34,16 @@ function getRelativeLuminance(r: number, g: number, b: number): number {
  */
 export function getContrastRatio(color1: string, color2: string): number {
 	// Convert hex to RGB
-	const hex1 = color1.replace('#', '');
-	const hex2 = color2.replace('#', '');
+	const hex1 = color1.replace("#", "");
+	const hex2 = color2.replace("#", "");
 
-	const r1 = parseInt(hex1.substr(0, 2), 16);
-	const g1 = parseInt(hex1.substr(2, 2), 16);
-	const b1 = parseInt(hex1.substr(4, 2), 16);
+	const r1 = Number.parseInt(hex1.substr(0, 2), 16);
+	const g1 = Number.parseInt(hex1.substr(2, 2), 16);
+	const b1 = Number.parseInt(hex1.substr(4, 2), 16);
 
-	const r2 = parseInt(hex2.substr(0, 2), 16);
-	const g2 = parseInt(hex2.substr(2, 2), 16);
-	const b2 = parseInt(hex2.substr(4, 2), 16);
+	const r2 = Number.parseInt(hex2.substr(0, 2), 16);
+	const g2 = Number.parseInt(hex2.substr(2, 2), 16);
+	const b2 = Number.parseInt(hex2.substr(4, 2), 16);
 
 	const l1 = getRelativeLuminance(r1, g1, b1);
 	const l2 = getRelativeLuminance(r2, g2, b2);
@@ -60,13 +60,18 @@ export function getContrastRatio(color1: string, color2: string): number {
 export function meetsContrastRequirement(
 	foreground: string,
 	background: string,
-	level: 'AA' | 'AAA' = 'AA',
-	size: 'normal' | 'large' = 'normal'
+	level: "AA" | "AAA" = "AA",
+	size: "normal" | "large" = "normal",
 ): boolean {
 	const ratio = getContrastRatio(foreground, background);
-	const requirement = level === 'AA'
-		? (size === 'large' ? CONTRAST_RATIOS.AA_LARGE : CONTRAST_RATIOS.AA_NORMAL)
-		: (size === 'large' ? CONTRAST_RATIOS.AAA_LARGE : CONTRAST_RATIOS.AAA_NORMAL);
+	const requirement =
+		level === "AA"
+			? size === "large"
+				? CONTRAST_RATIOS.AA_LARGE
+				: CONTRAST_RATIOS.AA_NORMAL
+			: size === "large"
+				? CONTRAST_RATIOS.AAA_LARGE
+				: CONTRAST_RATIOS.AAA_NORMAL;
 
 	return ratio >= requirement;
 }
@@ -82,32 +87,37 @@ export const keyboardNavigation = {
 		event: KeyboardEvent,
 		items: HTMLElement[],
 		currentIndex: number,
-		onSelect: (index: number) => void
+		onSelect: (index: number) => void,
 	) => {
 		switch (event.key) {
-			case 'ArrowDown':
+			case "ArrowDown": {
 				event.preventDefault();
-				const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
+				const nextIndex =
+					currentIndex < items.length - 1 ? currentIndex + 1 : 0;
 				onSelect(nextIndex);
 				items[nextIndex]?.focus();
 				break;
-			case 'ArrowUp':
+			}
+			case "ArrowUp": {
 				event.preventDefault();
-				const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
+				const prevIndex =
+					currentIndex > 0 ? currentIndex - 1 : items.length - 1;
 				onSelect(prevIndex);
 				items[prevIndex]?.focus();
 				break;
-			case 'Home':
+			}
+			case "Home":
 				event.preventDefault();
 				onSelect(0);
 				items[0]?.focus();
 				break;
-			case 'End':
+			case "End": {
 				event.preventDefault();
 				const lastIndex = items.length - 1;
 				onSelect(lastIndex);
 				items[lastIndex]?.focus();
 				break;
+			}
 		}
 	},
 
@@ -115,7 +125,7 @@ export const keyboardNavigation = {
 	 * Handle escape key to close modals/dropdowns
 	 */
 	handleEscape: (event: KeyboardEvent, onEscape: () => void) => {
-		if (event.key === 'Escape') {
+		if (event.key === "Escape") {
 			event.preventDefault();
 			onEscape();
 		}
@@ -125,7 +135,7 @@ export const keyboardNavigation = {
 	 * Handle enter/space for activation
 	 */
 	handleActivation: (event: KeyboardEvent, onActivate: () => void) => {
-		if (event.key === 'Enter' || event.key === ' ') {
+		if (event.key === "Enter" || event.key === " ") {
 			event.preventDefault();
 			onActivate();
 		}
@@ -141,7 +151,7 @@ export const focusManagement = {
 	 */
 	trapFocus: (container: HTMLElement) => {
 		const focusableElements = container.querySelectorAll(
-			'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+			'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
 		) as NodeListOf<HTMLElement>;
 
 		if (focusableElements.length === 0) return () => {};
@@ -150,7 +160,7 @@ export const focusManagement = {
 		const lastElement = focusableElements[focusableElements.length - 1];
 
 		const handleTabKey = (event: KeyboardEvent) => {
-			if (event.key === 'Tab') {
+			if (event.key === "Tab") {
 				if (event.shiftKey) {
 					if (document.activeElement === firstElement) {
 						event.preventDefault();
@@ -165,11 +175,11 @@ export const focusManagement = {
 			}
 		};
 
-		container.addEventListener('keydown', handleTabKey);
+		container.addEventListener("keydown", handleTabKey);
 		firstElement.focus();
 
 		return () => {
-			container.removeEventListener('keydown', handleTabKey);
+			container.removeEventListener("keydown", handleTabKey);
 		};
 	},
 
@@ -188,8 +198,8 @@ export const focusManagement = {
 	getFocusableElements: (container: HTMLElement): HTMLElement[] => {
 		return Array.from(
 			container.querySelectorAll(
-				'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])'
-			)
+				'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])',
+			),
 		) as HTMLElement[];
 	},
 };
@@ -201,7 +211,7 @@ export const ariaHelpers = {
 	/**
 	 * Generate unique IDs for ARIA relationships
 	 */
-	generateId: (prefix: string = 'aria'): string => {
+	generateId: (prefix = "aria"): string => {
 		return `${prefix}-${Math.random().toString(36).substr(2, 9)}`;
 	},
 
@@ -210,16 +220,17 @@ export const ariaHelpers = {
 	 */
 	getValidationAttributes: (
 		error: string | null,
-		required: boolean = false,
-		describedBy?: string
+		required = false,
+		describedBy?: string,
 	) => {
 		const attributes: Record<string, any> = {
-			'aria-required': required,
-			'aria-invalid': !!error,
+			"aria-required": required,
+			"aria-invalid": !!error,
 		};
 
 		if (error || describedBy) {
-			attributes['aria-describedby'] = describedBy || ariaHelpers.generateId('error');
+			attributes["aria-describedby"] =
+				describedBy || ariaHelpers.generateId("error");
 		}
 
 		return attributes;
@@ -229,16 +240,16 @@ export const ariaHelpers = {
 	 * Create ARIA attributes for expandable content
 	 */
 	getExpandableAttributes: (expanded: boolean, controlsId?: string) => ({
-		'aria-expanded': expanded,
-		'aria-controls': controlsId,
+		"aria-expanded": expanded,
+		"aria-controls": controlsId,
 	}),
 
 	/**
 	 * Create ARIA attributes for live regions
 	 */
-	getLiveRegionAttributes: (politeness: 'polite' | 'assertive' = 'polite') => ({
-		'aria-live': politeness,
-		'aria-atomic': true,
+	getLiveRegionAttributes: (politeness: "polite" | "assertive" = "polite") => ({
+		"aria-live": politeness,
+		"aria-atomic": true,
 	}),
 };
 
@@ -249,15 +260,16 @@ export const screenReaderUtils = {
 	/**
 	 * Create visually hidden content for screen readers
 	 */
-	visuallyHiddenClass: 'sr-only absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0',
+	visuallyHiddenClass:
+		"sr-only absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0",
 
 	/**
 	 * Announce content to screen readers
 	 */
-	announce: (message: string, priority: 'polite' | 'assertive' = 'polite') => {
-		const announcer = document.createElement('div');
-		announcer.setAttribute('aria-live', priority);
-		announcer.setAttribute('aria-atomic', 'true');
+	announce: (message: string, priority: "polite" | "assertive" = "polite") => {
+		const announcer = document.createElement("div");
+		announcer.setAttribute("aria-live", priority);
+		announcer.setAttribute("aria-atomic", "true");
 		announcer.className = screenReaderUtils.visuallyHiddenClass;
 		announcer.textContent = message;
 
@@ -277,7 +289,7 @@ export const screenReaderUtils = {
 			? `${context}: ${percentage}% complete, ${current} of ${total}`
 			: `Progress: ${percentage}% complete, ${current} of ${total}`;
 
-		screenReaderUtils.announce(message, 'polite');
+		screenReaderUtils.announce(message, "polite");
 	},
 };
 
@@ -288,11 +300,11 @@ export const mobileA11y = {
 	/**
 	 * Get touch target size recommendations
 	 */
-	getTouchTargetClass: (size: 'small' | 'medium' | 'large' = 'medium') => {
+	getTouchTargetClass: (size: "small" | "medium" | "large" = "medium") => {
 		const sizes = {
-			small: 'min-h-[36px] min-w-[36px]', // 36px minimum for WCAG
-			medium: 'min-h-[44px] min-w-[44px]', // 44px recommended
-			large: 'min-h-[48px] min-w-[48px]', // 48px for enhanced usability
+			small: "min-h-[36px] min-w-[36px]", // 36px minimum for WCAG
+			medium: "min-h-[44px] min-w-[44px]", // 44px recommended
+			large: "min-h-[48px] min-w-[48px]", // 48px for enhanced usability
 		};
 		return sizes[size];
 	},
@@ -301,16 +313,16 @@ export const mobileA11y = {
 	 * Handle reduced motion preferences
 	 */
 	respectsReducedMotion: (): boolean => {
-		return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 	},
 
 	/**
 	 * Get animation class based on motion preferences
 	 */
 	getAnimationClass: (animationClass: string, fallbackClass?: string) => {
-		if (typeof window === 'undefined') return animationClass;
+		if (typeof window === "undefined") return animationClass;
 		return mobileA11y.respectsReducedMotion()
-			? (fallbackClass || '')
+			? fallbackClass || ""
 			: animationClass;
 	},
 };
@@ -326,28 +338,28 @@ export const complianceChecker = {
 		const issues: AccessibilityIssue[] = [];
 
 		// Check for missing alt text on images
-		if (element.tagName === 'IMG' && !element.getAttribute('alt')) {
+		if (element.tagName === "IMG" && !element.getAttribute("alt")) {
 			issues.push({
-				type: 'missing_alt_text',
-				severity: 'error',
-				message: 'Image missing alt text',
+				type: "missing_alt_text",
+				severity: "error",
+				message: "Image missing alt text",
 				element,
 			});
 		}
 
 		// Check for missing labels on form inputs
-		if (['INPUT', 'SELECT', 'TEXTAREA'].includes(element.tagName)) {
-			const id = element.getAttribute('id');
-			const ariaLabel = element.getAttribute('aria-label');
-			const ariaLabelledBy = element.getAttribute('aria-labelledby');
+		if (["INPUT", "SELECT", "TEXTAREA"].includes(element.tagName)) {
+			const id = element.getAttribute("id");
+			const ariaLabel = element.getAttribute("aria-label");
+			const ariaLabelledBy = element.getAttribute("aria-labelledby");
 
 			if (!ariaLabel && !ariaLabelledBy && id) {
 				const label = document.querySelector(`label[for="${id}"]`);
 				if (!label) {
 					issues.push({
-						type: 'missing_label',
-						severity: 'error',
-						message: 'Form input missing label',
+						type: "missing_label",
+						severity: "error",
+						message: "Form input missing label",
 						element,
 					});
 				}
@@ -355,13 +367,16 @@ export const complianceChecker = {
 		}
 
 		// Check touch target size on mobile
-		if (element.tagName === 'BUTTON' || element.getAttribute('role') === 'button') {
+		if (
+			element.tagName === "BUTTON" ||
+			element.getAttribute("role") === "button"
+		) {
 			const rect = element.getBoundingClientRect();
 			if (rect.width < 44 || rect.height < 44) {
 				issues.push({
-					type: 'small_touch_target',
-					severity: 'warning',
-					message: 'Touch target smaller than 44px',
+					type: "small_touch_target",
+					severity: "warning",
+					message: "Touch target smaller than 44px",
 					element,
 				});
 			}
@@ -375,14 +390,14 @@ export const complianceChecker = {
 	 */
 	auditPage: (): AccessibilityReport => {
 		const issues: AccessibilityIssue[] = [];
-		const elements = document.querySelectorAll('*');
+		const elements = document.querySelectorAll("*");
 
-		elements.forEach(element => {
+		elements.forEach((element) => {
 			issues.push(...complianceChecker.checkElement(element as HTMLElement));
 		});
 
-		const errors = issues.filter(i => i.severity === 'error');
-		const warnings = issues.filter(i => i.severity === 'warning');
+		const errors = issues.filter((i) => i.severity === "error");
+		const warnings = issues.filter((i) => i.severity === "warning");
 
 		return {
 			errors: errors.length,
@@ -395,7 +410,7 @@ export const complianceChecker = {
 
 export interface AccessibilityIssue {
 	type: string;
-	severity: 'error' | 'warning';
+	severity: "error" | "warning";
 	message: string;
 	element: HTMLElement;
 }

@@ -1,1 +1,37 @@
-{"uuid":"1ec9af0f-c5ba-4fad-b9ef-d68c93748835","name":"should complete full user journey from login to client management @critical @smoke","historyId":"5cd341ccb802d8e09043ce4f06f675cb:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"workflows.complete-user-journey.spec.ts"},{"name":"titlePath","value":" > mobile-safari > workflows/complete-user-journey.spec.ts > Complete User Journey"},{"name":"tag","value":"critical"},{"name":"tag","value":"smoke"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"workflows/complete-user-journey.spec.ts"},{"name":"subSuite","value":"Complete User Journey"}],"links":[],"start":1763549757689,"testCaseId":"5cd341ccb802d8e09043ce4f06f675cb","fullName":"workflows/complete-user-journey.spec.ts:17:3","titlePath":["workflows","complete-user-journey.spec.ts","Complete User Journey"],"stop":1763549757689}
+{
+	"uuid": "1ec9af0f-c5ba-4fad-b9ef-d68c93748835",
+	"name": "should complete full user journey from login to client management @critical @smoke",
+	"historyId": "5cd341ccb802d8e09043ce4f06f675cb:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "workflows.complete-user-journey.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > workflows/complete-user-journey.spec.ts > Complete User Journey"
+		},
+		{ "name": "tag", "value": "critical" },
+		{ "name": "tag", "value": "smoke" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "workflows/complete-user-journey.spec.ts" },
+		{ "name": "subSuite", "value": "Complete User Journey" }
+	],
+	"links": [],
+	"start": 1763549757689,
+	"testCaseId": "5cd341ccb802d8e09043ce4f06f675cb",
+	"fullName": "workflows/complete-user-journey.spec.ts:17:3",
+	"titlePath": [
+		"workflows",
+		"complete-user-journey.spec.ts",
+		"Complete User Journey"
+	],
+	"stop": 1763549757689
+}

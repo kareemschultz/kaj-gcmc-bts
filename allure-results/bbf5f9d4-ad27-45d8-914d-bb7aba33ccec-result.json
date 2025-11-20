@@ -1,1 +1,31 @@
-{"uuid":"bbf5f9d4-ad27-45d8-914d-bb7aba33ccec","name":"should not have console errors on /dashboard/analytics","historyId":"36ca3d5935abe1e65dc8f67fe2f715b2:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"navigation.routes.spec.ts"},{"name":"titlePath","value":" > mobile-safari > navigation/routes.spec.ts > Route Discovery"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"navigation/routes.spec.ts"},{"name":"subSuite","value":"Route Discovery"}],"links":[],"start":1763549757681,"testCaseId":"36ca3d5935abe1e65dc8f67fe2f715b2","fullName":"navigation/routes.spec.ts:37:3","titlePath":["navigation","routes.spec.ts","Route Discovery"],"stop":1763549757681}
+{
+	"uuid": "bbf5f9d4-ad27-45d8-914d-bb7aba33ccec",
+	"name": "should not have console errors on /dashboard/analytics",
+	"historyId": "36ca3d5935abe1e65dc8f67fe2f715b2:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "navigation.routes.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > navigation/routes.spec.ts > Route Discovery"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "navigation/routes.spec.ts" },
+		{ "name": "subSuite", "value": "Route Discovery" }
+	],
+	"links": [],
+	"start": 1763549757681,
+	"testCaseId": "36ca3d5935abe1e65dc8f67fe2f715b2",
+	"fullName": "navigation/routes.spec.ts:37:3",
+	"titlePath": ["navigation", "routes.spec.ts", "Route Discovery"],
+	"stop": 1763549757681
+}

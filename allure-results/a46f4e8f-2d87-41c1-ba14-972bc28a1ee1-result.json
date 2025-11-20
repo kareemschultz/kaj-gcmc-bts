@@ -1,1 +1,31 @@
-{"uuid":"a46f4e8f-2d87-41c1-ba14-972bc28a1ee1","name":"should load /dashboard/notifications","historyId":"16a45c027d9b57cb1a9cc02e01ecc57c:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"navigation.routes.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > navigation/routes.spec.ts > Route Discovery"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"navigation/routes.spec.ts"},{"name":"subSuite","value":"Route Discovery"}],"links":[],"start":1763549819698,"testCaseId":"16a45c027d9b57cb1a9cc02e01ecc57c","fullName":"navigation/routes.spec.ts:26:3","titlePath":["navigation","routes.spec.ts","Route Discovery"],"stop":1763549819698}
+{
+	"uuid": "a46f4e8f-2d87-41c1-ba14-972bc28a1ee1",
+	"name": "should load /dashboard/notifications",
+	"historyId": "16a45c027d9b57cb1a9cc02e01ecc57c:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "navigation.routes.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > navigation/routes.spec.ts > Route Discovery"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "navigation/routes.spec.ts" },
+		{ "name": "subSuite", "value": "Route Discovery" }
+	],
+	"links": [],
+	"start": 1763549819698,
+	"testCaseId": "16a45c027d9b57cb1a9cc02e01ecc57c",
+	"fullName": "navigation/routes.spec.ts:26:3",
+	"titlePath": ["navigation", "routes.spec.ts", "Route Discovery"],
+	"stop": 1763549819698
+}

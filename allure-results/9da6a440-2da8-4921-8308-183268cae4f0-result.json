@@ -1,1 +1,35 @@
-{"uuid":"9da6a440-2da8-4921-8308-183268cae4f0","name":"forms should be mobile responsive","historyId":"e14a4867e3ea3750e6bfb6aec72a114d:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > chromium > mobile/responsive.spec.ts > Mobile Responsiveness - Phone"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Mobile Responsiveness - Phone"}],"links":[],"start":1763549757511,"testCaseId":"e14a4867e3ea3750e6bfb6aec72a114d","fullName":"mobile/responsive.spec.ts:47:2","titlePath":["mobile","responsive.spec.ts","Mobile Responsiveness - Phone"],"stop":1763549757511}
+{
+	"uuid": "9da6a440-2da8-4921-8308-183268cae4f0",
+	"name": "forms should be mobile responsive",
+	"historyId": "e14a4867e3ea3750e6bfb6aec72a114d:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > mobile/responsive.spec.ts > Mobile Responsiveness - Phone"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Mobile Responsiveness - Phone" }
+	],
+	"links": [],
+	"start": 1763549757511,
+	"testCaseId": "e14a4867e3ea3750e6bfb6aec72a114d",
+	"fullName": "mobile/responsive.spec.ts:47:2",
+	"titlePath": [
+		"mobile",
+		"responsive.spec.ts",
+		"Mobile Responsiveness - Phone"
+	],
+	"stop": 1763549757511
+}

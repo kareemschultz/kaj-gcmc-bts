@@ -1,1 +1,547 @@
-{"uuid":"b83863ea-6f21-47fb-b515-fd322e189562","name":"should complete full user journey from login to client management @critical @smoke","historyId":"5cd341ccb802d8e09043ce4f06f675cb:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"failed","statusDetails":{"message":"TypeError: response.timing is not a function","trace":"TypeError: response.timing is not a function\n    at Page.<anonymous> (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:214:26)"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"screenshot","type":"image/png","source":"1db511e9-4489-41ae-8d3d-e58eedacdb00-attachment.png"}],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550034103,"uuid":"cdf3e1bc-f0b3-4064-96c7-9792b1c38b56","stop":1763550034103},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"video","type":"video/webm","source":"cef0f8e1-3b35-4f5f-9dd9-14c6249a7dc0-attachment.webm"}],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550034105,"uuid":"ac26fd8e-c14a-4b7f-9a60-505fb041f1e7","stop":1763550034105}],"attachments":[],"parameters":[],"name":"beforeEach hook","start":1763550034090,"uuid":"d15d6575-a859-407f-877e-fd83bbc6b70c","stop":1763550034105},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Launch browser","start":1763550034108,"uuid":"91c51af1-68e0-461f-bfe0-e85fe14dcd35","stop":1763550034142}],"attachments":[],"parameters":[],"name":"Fixture \"browser\"","start":1763550034106,"uuid":"1999664d-ddcb-4b69-9b2e-ce71af5b40b6","stop":1763550034143},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create context","start":1763550034145,"uuid":"f48cc987-3965-4d63-b45f-871e981dc6d3","stop":1763550034149}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550034144,"uuid":"cc4ca3de-b9ae-4635-838a-b9efb9717447","stop":1763550034150},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create page","start":1763550034151,"uuid":"280421d4-af0a-4772-a3c4-a2a2368a138b","stop":1763550034174}],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550034150,"uuid":"10c74ee8-40f0-4fc6-ad46-2e49f32c1acb","stop":1763550034174},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550034174,"uuid":"1391da71-596d-476b-917a-f16e8cc0cf32","stop":1763550034175},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"dashboardPage\"","start":1763550034175,"uuid":"9743bd04-cd05-4b15-ada6-a8875e4c7ba3","stop":1763550034175},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"clientsPage\"","start":1763550034176,"uuid":"3059991d-3a42-4e0e-aca3-b3999c23ade6","stop":1763550034176},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"navigation\"","start":1763550034176,"uuid":"fdd241d4-f913-4430-a5ce-b25225e6cdf6","stop":1763550034176},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create request context","start":1763550034178,"uuid":"ec0916e5-3e55-4d64-9bf4-0e7d61f639d0","stop":1763550034181}],"attachments":[],"parameters":[],"name":"Fixture \"apiHelper\"","start":1763550034176,"uuid":"c12ac872-3661-40c1-83df-f80032964a6b","stop":1763550034181},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"screenshotHelper\"","start":1763550034182,"uuid":"3a3c51b5-b58c-4d67-869d-2a99d6afeafc","stop":1763550034182},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"a11yHelper\"","start":1763550034182,"uuid":"541adc83-76ed-4bf1-81fd-2f50ad903a65","stop":1763550034182},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"performanceMetrics\"","start":1763550034182,"uuid":"b07284ad-61c9-46b8-88ac-c85966758850","stop":1763550034183}],"attachments":[],"parameters":[],"name":"Before Hooks","start":1763550034090,"uuid":"d021fc99-9b5f-4111-9943-8ba7e6977321","stop":1763550034183},{"status":"failed","statusDetails":{"message":"Error: page.waitForLoadState: Test ended.","trace":"Error: page.waitForLoadState: Test ended.\n    at LoginPage.waitForPageLoad (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:29:21)\n    at LoginPage.goto (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:22:16)\n    at LoginPage.navigateToLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:47:5)\n    at action (/home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:37:13)"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550034190,"name":"Navigate to \"/login\"","uuid":"4cddfef7-28d2-4834-bcaa-33c94263df57","stop":1763550034432},{"status":"failed","statusDetails":{"message":"Error: page.waitForLoadState: Test ended.","trace":"Error: page.waitForLoadState: Test ended.\n    at LoginPage.waitForPageLoad (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:29:21)\n    at LoginPage.goto (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:22:16)\n    at LoginPage.navigateToLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:47:5)\n    at action (/home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:37:13)"},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550034433,"name":"Wait for load state \"networkidle\"","uuid":"ae071cc6-9568-40a2-a69b-01950a59278c","stop":1763550034446}],"attachments":[],"parameters":[],"start":1763550034187,"name":"Navigate to login page and verify accessibility","uuid":"676c7eda-2e7e-4180-b940-8614600ee14b","stop":1763550034446},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"error-context","source":"55e23fe3-e17c-4a43-8217-11150476f0fb-attachment.md","type":"text/markdown"}],"parameters":[],"start":1763550034480,"name":"error-context","stop":1763550034480},{"status":"failed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"performanceMetrics\"","start":1763550034389,"uuid":"b51f1837-4a64-4bc3-8fdc-d445c938aee4","stop":1763550034389},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"a11yHelper\"","start":1763550034389,"uuid":"6fee217d-7338-43f0-85f5-7b23d3d9fc4a","stop":1763550034389},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"screenshotHelper\"","start":1763550034389,"uuid":"74bd514f-665a-4a39-a3cf-9f036c694a96","stop":1763550034389},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"apiHelper\"","start":1763550034389,"uuid":"2ee0034b-4fe3-4a55-8b18-a5c55208d761","stop":1763550034391},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"navigation\"","start":1763550034391,"uuid":"b63732b7-15c0-4103-a49b-3bef033c1743","stop":1763550034391},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"clientsPage\"","start":1763550034391,"uuid":"b34c333b-ad2c-478a-bae4-f35f9b96b4ef","stop":1763550034391},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"dashboardPage\"","start":1763550034391,"uuid":"fda4ade6-f31c-4385-9b61-c4fa1cee6ac9","stop":1763550034391},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550034391,"uuid":"a51b1a1a-7c55-4382-9d76-8581b19eecc6","stop":1763550034391},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550034391,"uuid":"fed48e39-ce31-48e0-89ed-258bd76cbd8c","stop":1763550034391},{"status":"failed","statusDetails":{},"stage":"finished","steps":[{"status":"failed","statusDetails":{},"stage":"finished","steps":[{"status":"failed","statusDetails":{"message":"Error: page.screenshot: Target page, context or browser has been closed","trace":"Error: page.screenshot: Target page, context or browser has been closed\n    at body (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:235:48)\n    at body (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:113:48)\n    at call (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:13:56)\n    at Generator._invoke (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at Generator.next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at asyncGeneratorStep (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at _next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at call (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:13:23)\n    at Generator._invoke (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at Generator.next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at asyncGeneratorStep (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at _next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at AllurePlaywrightTestRuntime.apply (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at AllurePlaywrightTestRuntime.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:12:13)\n    at callRuntimeMethod (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:21:27)\n    at Object.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:113:10)\n    at Object.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/legacy.ts:147:48)\n    at TestHercules.captureScreenshot (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:225:18)\n    at TestExecutor.executeScenario (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:446:31)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:31:5"},"stage":"finished","steps":[{"status":"failed","statusDetails":{"message":"Error: page.screenshot: Target page, context or browser has been closed","trace":"Error: page.screenshot: Target page, context or browser has been closed\n    at body (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:235:48)\n    at body (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:113:48)\n    at call (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:13:56)\n    at Generator._invoke (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at Generator.next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at asyncGeneratorStep (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at _next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at call (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:13:23)\n    at Generator._invoke (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at Generator.next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at asyncGeneratorStep (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at _next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at AllurePlaywrightTestRuntime.apply (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at AllurePlaywrightTestRuntime.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:12:13)\n    at callRuntimeMethod (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:21:27)\n    at Object.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:113:10)\n    at Object.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/legacy.ts:147:48)\n    at TestHercules.captureScreenshot (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:225:18)\n    at TestExecutor.executeScenario (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:446:31)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:31:5"},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Screenshot","start":1763550034448,"uuid":"ffef9357-6576-4283-b6dc-5ee1f2cbc218","stop":1763550034449}],"attachments":[],"parameters":[],"name":"Capture screenshot: error-Navigate-to-login-page-and-verify-accessibility","start":1763550034447,"uuid":"20e6c078-aed3-4f85-8822-0b00272803dd","stop":1763550034449},{"status":"failed","statusDetails":{"message":"Error: locator.click: Target page, context or browser has been closed","trace":"Error: locator.click: Target page, context or browser has been closed\n    at NavigationComponent.click (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:52:19)\n    at NavigationComponent.openUserMenu (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/components/navigation-component.ts:144:16)\n    at NavigationComponent.logout (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/components/navigation-component.ts:161:16)\n    at Object.cleanup (/home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:269:26)\n    at TestExecutor.executeScenario (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:457:9)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:31:5"},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Click locator('[data-testid=\"user-menu\"], .user-menu, .profile-dropdown')","start":1763550034454,"uuid":"aceaeb0f-c246-4f4c-bfc8-035eab5844dd","stop":1763550034455}],"attachments":[],"parameters":[],"name":"Close context","start":1763550034443,"uuid":"1d16f1d0-3145-4a13-a12b-116288ea2ff2","stop":1763550034455}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550034391,"uuid":"f7052b02-2af0-47de-998c-e05b2cacf9ca","stop":1763550034456}],"attachments":[],"parameters":[],"name":"After Hooks","start":1763550034233,"uuid":"99cc2381-a670-4ccd-a26f-49a7aa839cff","stop":1763550034460}],"attachments":[{"name":"stdout","source":"89c00145-b74b-43d7-ae3f-13e0894e1531-attachment.txt","type":"text/plain"}],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"workflows.complete-user-journey.spec.ts"},{"name":"titlePath","value":" > chromium > workflows/complete-user-journey.spec.ts > Complete User Journey"},{"name":"tag","value":"critical"},{"name":"tag","value":"smoke"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-16190-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"workflows/complete-user-journey.spec.ts"},{"name":"subSuite","value":"Complete User Journey"},{"name":"epic","value":"Complete User Journey"},{"name":"epic","value":"Test Execution"},{"name":"feature","value":"Full Application Workflow"},{"name":"feature","value":"Complete User Journey"}],"links":[],"start":1763550034089,"testCaseId":"5cd341ccb802d8e09043ce4f06f675cb","fullName":"workflows/complete-user-journey.spec.ts:17:3","titlePath":["workflows","complete-user-journey.spec.ts","Complete User Journey"],"stop":1763550034407}
+{
+	"uuid": "b83863ea-6f21-47fb-b515-fd322e189562",
+	"name": "should complete full user journey from login to client management @critical @smoke",
+	"historyId": "5cd341ccb802d8e09043ce4f06f675cb:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "failed",
+	"statusDetails": {
+		"message": "TypeError: response.timing is not a function",
+		"trace": "TypeError: response.timing is not a function\n    at Page.<anonymous> (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:214:26)"
+	},
+	"stage": "finished",
+	"steps": [
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [
+								{
+									"name": "screenshot",
+									"type": "image/png",
+									"source": "1db511e9-4489-41ae-8d3d-e58eedacdb00-attachment.png"
+								}
+							],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550034103,
+							"uuid": "cdf3e1bc-f0b3-4064-96c7-9792b1c38b56",
+							"stop": 1763550034103
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [
+								{
+									"name": "video",
+									"type": "video/webm",
+									"source": "cef0f8e1-3b35-4f5f-9dd9-14c6249a7dc0-attachment.webm"
+								}
+							],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550034105,
+							"uuid": "ac26fd8e-c14a-4b7f-9a60-505fb041f1e7",
+							"stop": 1763550034105
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "beforeEach hook",
+					"start": 1763550034090,
+					"uuid": "d15d6575-a859-407f-877e-fd83bbc6b70c",
+					"stop": 1763550034105
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Launch browser",
+							"start": 1763550034108,
+							"uuid": "91c51af1-68e0-461f-bfe0-e85fe14dcd35",
+							"stop": 1763550034142
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"browser\"",
+					"start": 1763550034106,
+					"uuid": "1999664d-ddcb-4b69-9b2e-ce71af5b40b6",
+					"stop": 1763550034143
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Create context",
+							"start": 1763550034145,
+							"uuid": "f48cc987-3965-4d63-b45f-871e981dc6d3",
+							"stop": 1763550034149
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"context\"",
+					"start": 1763550034144,
+					"uuid": "cc4ca3de-b9ae-4635-838a-b9efb9717447",
+					"stop": 1763550034150
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Create page",
+							"start": 1763550034151,
+							"uuid": "280421d4-af0a-4772-a3c4-a2a2368a138b",
+							"stop": 1763550034174
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"page\"",
+					"start": 1763550034150,
+					"uuid": "10c74ee8-40f0-4fc6-ad46-2e49f32c1acb",
+					"stop": 1763550034174
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550034174,
+					"uuid": "1391da71-596d-476b-917a-f16e8cc0cf32",
+					"stop": 1763550034175
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"dashboardPage\"",
+					"start": 1763550034175,
+					"uuid": "9743bd04-cd05-4b15-ada6-a8875e4c7ba3",
+					"stop": 1763550034175
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"clientsPage\"",
+					"start": 1763550034176,
+					"uuid": "3059991d-3a42-4e0e-aca3-b3999c23ade6",
+					"stop": 1763550034176
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"navigation\"",
+					"start": 1763550034176,
+					"uuid": "fdd241d4-f913-4430-a5ce-b25225e6cdf6",
+					"stop": 1763550034176
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Create request context",
+							"start": 1763550034178,
+							"uuid": "ec0916e5-3e55-4d64-9bf4-0e7d61f639d0",
+							"stop": 1763550034181
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"apiHelper\"",
+					"start": 1763550034176,
+					"uuid": "c12ac872-3661-40c1-83df-f80032964a6b",
+					"stop": 1763550034181
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"screenshotHelper\"",
+					"start": 1763550034182,
+					"uuid": "3a3c51b5-b58c-4d67-869d-2a99d6afeafc",
+					"stop": 1763550034182
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"a11yHelper\"",
+					"start": 1763550034182,
+					"uuid": "541adc83-76ed-4bf1-81fd-2f50ad903a65",
+					"stop": 1763550034182
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"performanceMetrics\"",
+					"start": 1763550034182,
+					"uuid": "b07284ad-61c9-46b8-88ac-c85966758850",
+					"stop": 1763550034183
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "Before Hooks",
+			"start": 1763550034090,
+			"uuid": "d021fc99-9b5f-4111-9943-8ba7e6977321",
+			"stop": 1763550034183
+		},
+		{
+			"status": "failed",
+			"statusDetails": {
+				"message": "Error: page.waitForLoadState: Test ended.",
+				"trace": "Error: page.waitForLoadState: Test ended.\n    at LoginPage.waitForPageLoad (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:29:21)\n    at LoginPage.goto (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:22:16)\n    at LoginPage.navigateToLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:47:5)\n    at action (/home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:37:13)"
+			},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550034190,
+					"name": "Navigate to \"/login\"",
+					"uuid": "4cddfef7-28d2-4834-bcaa-33c94263df57",
+					"stop": 1763550034432
+				},
+				{
+					"status": "failed",
+					"statusDetails": {
+						"message": "Error: page.waitForLoadState: Test ended.",
+						"trace": "Error: page.waitForLoadState: Test ended.\n    at LoginPage.waitForPageLoad (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:29:21)\n    at LoginPage.goto (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:22:16)\n    at LoginPage.navigateToLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:47:5)\n    at action (/home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:37:13)"
+					},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550034433,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "ae071cc6-9568-40a2-a69b-01950a59278c",
+					"stop": 1763550034446
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550034187,
+			"name": "Navigate to login page and verify accessibility",
+			"uuid": "676c7eda-2e7e-4180-b940-8614600ee14b",
+			"stop": 1763550034446
+		},
+		{
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [],
+			"attachments": [
+				{
+					"name": "error-context",
+					"source": "55e23fe3-e17c-4a43-8217-11150476f0fb-attachment.md",
+					"type": "text/markdown"
+				}
+			],
+			"parameters": [],
+			"start": 1763550034480,
+			"name": "error-context",
+			"stop": 1763550034480
+		},
+		{
+			"status": "failed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"performanceMetrics\"",
+					"start": 1763550034389,
+					"uuid": "b51f1837-4a64-4bc3-8fdc-d445c938aee4",
+					"stop": 1763550034389
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"a11yHelper\"",
+					"start": 1763550034389,
+					"uuid": "6fee217d-7338-43f0-85f5-7b23d3d9fc4a",
+					"stop": 1763550034389
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"screenshotHelper\"",
+					"start": 1763550034389,
+					"uuid": "74bd514f-665a-4a39-a3cf-9f036c694a96",
+					"stop": 1763550034389
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"apiHelper\"",
+					"start": 1763550034389,
+					"uuid": "2ee0034b-4fe3-4a55-8b18-a5c55208d761",
+					"stop": 1763550034391
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"navigation\"",
+					"start": 1763550034391,
+					"uuid": "b63732b7-15c0-4103-a49b-3bef033c1743",
+					"stop": 1763550034391
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"clientsPage\"",
+					"start": 1763550034391,
+					"uuid": "b34c333b-ad2c-478a-bae4-f35f9b96b4ef",
+					"stop": 1763550034391
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"dashboardPage\"",
+					"start": 1763550034391,
+					"uuid": "fda4ade6-f31c-4385-9b61-c4fa1cee6ac9",
+					"stop": 1763550034391
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550034391,
+					"uuid": "a51b1a1a-7c55-4382-9d76-8581b19eecc6",
+					"stop": 1763550034391
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"page\"",
+					"start": 1763550034391,
+					"uuid": "fed48e39-ce31-48e0-89ed-258bd76cbd8c",
+					"stop": 1763550034391
+				},
+				{
+					"status": "failed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "failed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "failed",
+									"statusDetails": {
+										"message": "Error: page.screenshot: Target page, context or browser has been closed",
+										"trace": "Error: page.screenshot: Target page, context or browser has been closed\n    at body (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:235:48)\n    at body (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:113:48)\n    at call (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:13:56)\n    at Generator._invoke (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at Generator.next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at asyncGeneratorStep (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at _next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at call (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:13:23)\n    at Generator._invoke (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at Generator.next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at asyncGeneratorStep (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at _next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at AllurePlaywrightTestRuntime.apply (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at AllurePlaywrightTestRuntime.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:12:13)\n    at callRuntimeMethod (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:21:27)\n    at Object.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:113:10)\n    at Object.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/legacy.ts:147:48)\n    at TestHercules.captureScreenshot (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:225:18)\n    at TestExecutor.executeScenario (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:446:31)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:31:5"
+									},
+									"stage": "finished",
+									"steps": [
+										{
+											"status": "failed",
+											"statusDetails": {
+												"message": "Error: page.screenshot: Target page, context or browser has been closed",
+												"trace": "Error: page.screenshot: Target page, context or browser has been closed\n    at body (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:235:48)\n    at body (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:113:48)\n    at call (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:13:56)\n    at Generator._invoke (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at Generator.next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at asyncGeneratorStep (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at _next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at call (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:13:23)\n    at Generator._invoke (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at Generator.next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at asyncGeneratorStep (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at _next (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at /home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1\n    at AllurePlaywrightTestRuntime.apply (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:2:1)\n    at AllurePlaywrightTestRuntime.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/runtime.ts:12:13)\n    at callRuntimeMethod (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:21:27)\n    at Object.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-js-commons/src/facade.ts:113:10)\n    at Object.step (/home/kareem/kaj-gcmc-bts/node_modules/allure-playwright/src/legacy.ts:147:48)\n    at TestHercules.captureScreenshot (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:225:18)\n    at TestExecutor.executeScenario (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:446:31)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:31:5"
+											},
+											"stage": "finished",
+											"steps": [],
+											"attachments": [],
+											"parameters": [],
+											"name": "Screenshot",
+											"start": 1763550034448,
+											"uuid": "ffef9357-6576-4283-b6dc-5ee1f2cbc218",
+											"stop": 1763550034449
+										}
+									],
+									"attachments": [],
+									"parameters": [],
+									"name": "Capture screenshot: error-Navigate-to-login-page-and-verify-accessibility",
+									"start": 1763550034447,
+									"uuid": "20e6c078-aed3-4f85-8822-0b00272803dd",
+									"stop": 1763550034449
+								},
+								{
+									"status": "failed",
+									"statusDetails": {
+										"message": "Error: locator.click: Target page, context or browser has been closed",
+										"trace": "Error: locator.click: Target page, context or browser has been closed\n    at NavigationComponent.click (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:52:19)\n    at NavigationComponent.openUserMenu (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/components/navigation-component.ts:144:16)\n    at NavigationComponent.logout (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/components/navigation-component.ts:161:16)\n    at Object.cleanup (/home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:269:26)\n    at TestExecutor.executeScenario (/home/kareem/kaj-gcmc-bts/tests/e2e/helpers/test-hercules.ts:457:9)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/workflows/complete-user-journey.spec.ts:31:5"
+									},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Click locator('[data-testid=\"user-menu\"], .user-menu, .profile-dropdown')",
+									"start": 1763550034454,
+									"uuid": "aceaeb0f-c246-4f4c-bfc8-035eab5844dd",
+									"stop": 1763550034455
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Close context",
+							"start": 1763550034443,
+							"uuid": "1d16f1d0-3145-4a13-a12b-116288ea2ff2",
+							"stop": 1763550034455
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"context\"",
+					"start": 1763550034391,
+					"uuid": "f7052b02-2af0-47de-998c-e05b2cacf9ca",
+					"stop": 1763550034456
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "After Hooks",
+			"start": 1763550034233,
+			"uuid": "99cc2381-a670-4ccd-a26f-49a7aa839cff",
+			"stop": 1763550034460
+		}
+	],
+	"attachments": [
+		{
+			"name": "stdout",
+			"source": "89c00145-b74b-43d7-ae3f-13e0894e1531-attachment.txt",
+			"type": "text/plain"
+		}
+	],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "workflows.complete-user-journey.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > workflows/complete-user-journey.spec.ts > Complete User Journey"
+		},
+		{ "name": "tag", "value": "critical" },
+		{ "name": "tag", "value": "smoke" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-16190-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "workflows/complete-user-journey.spec.ts" },
+		{ "name": "subSuite", "value": "Complete User Journey" },
+		{ "name": "epic", "value": "Complete User Journey" },
+		{ "name": "epic", "value": "Test Execution" },
+		{ "name": "feature", "value": "Full Application Workflow" },
+		{ "name": "feature", "value": "Complete User Journey" }
+	],
+	"links": [],
+	"start": 1763550034089,
+	"testCaseId": "5cd341ccb802d8e09043ce4f06f675cb",
+	"fullName": "workflows/complete-user-journey.spec.ts:17:3",
+	"titlePath": [
+		"workflows",
+		"complete-user-journey.spec.ts",
+		"Complete User Journey"
+	],
+	"stop": 1763550034407
+}

@@ -161,7 +161,7 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 	const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
 	const filteredItems = mockComplianceItems.filter(
-		(item) => selectedCategory === "all" || item.category === selectedCategory
+		(item) => selectedCategory === "all" || item.category === selectedCategory,
 	);
 
 	const getScoreColor = (score: number) => {
@@ -190,7 +190,9 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 			{/* Header */}
 			<div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
 				<div>
-					<h1 className="font-bold text-3xl tracking-tight">Compliance Dashboard</h1>
+					<h1 className="font-bold text-3xl tracking-tight">
+						Compliance Dashboard
+					</h1>
 					<p className="text-muted-foreground">
 						Monitor your business compliance status and requirements
 					</p>
@@ -198,7 +200,9 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 				<div
 					className={`rounded-xl p-6 text-center ${getScoreBg(mockComplianceData.overallScore)}`}
 				>
-					<div className={`font-bold text-3xl ${getScoreColor(mockComplianceData.overallScore)}`}>
+					<div
+						className={`font-bold text-3xl ${getScoreColor(mockComplianceData.overallScore)}`}
+					>
 						{mockComplianceData.overallScore}%
 					</div>
 					<div className="flex items-center justify-center space-x-1 text-sm">
@@ -314,7 +318,11 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 								<CardHeader>
 									<CardTitle className="flex items-center justify-between">
 										<span>{category.name}</span>
-										<Badge className={getScoreBg(category.score).replace("bg-", "bg-").replace("border-", "text-")}>
+										<Badge
+											className={getScoreBg(category.score)
+												.replace("bg-", "bg-")
+												.replace("border-", "text-")}
+										>
 											{category.score}%
 										</Badge>
 									</CardTitle>
@@ -349,7 +357,7 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 				<TabsContent value="requirements" className="space-y-6">
 					{/* Filter */}
 					<div className="flex items-center space-x-4">
-						<span className="text-sm font-medium">Filter by category:</span>
+						<span className="font-medium text-sm">Filter by category:</span>
 						<div className="flex flex-wrap gap-2">
 							<Button
 								variant={selectedCategory === "all" ? "default" : "outline"}
@@ -361,7 +369,9 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 							{mockComplianceData.categories.map((category) => (
 								<Button
 									key={category.name}
-									variant={selectedCategory === category.name ? "default" : "outline"}
+									variant={
+										selectedCategory === category.name ? "default" : "outline"
+									}
 									size="sm"
 									onClick={() => setSelectedCategory(category.name)}
 								>
@@ -394,17 +404,21 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 														Category: {item.category}
 													</span>
 													<span className="text-muted-foreground">
-														Last updated: {new Date(item.lastUpdated).toLocaleDateString()}
+														Last updated:{" "}
+														{new Date(item.lastUpdated).toLocaleDateString()}
 													</span>
 													{item.nextDeadline && (
 														<span className="text-muted-foreground">
-															Next deadline: {new Date(item.nextDeadline).toLocaleDateString()}
+															Next deadline:{" "}
+															{new Date(item.nextDeadline).toLocaleDateString()}
 														</span>
 													)}
 												</div>
 											</div>
 											<div className="text-center">
-												<div className={`font-bold text-2xl ${getScoreColor(item.score)}`}>
+												<div
+													className={`font-bold text-2xl ${getScoreColor(item.score)}`}
+												>
 													{item.score}%
 												</div>
 												<p className="text-muted-foreground text-sm">Score</p>
@@ -413,7 +427,9 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 
 										{item.actions.length > 0 && (
 											<div className="space-y-2">
-												<h4 className="font-medium text-sm">Required Actions:</h4>
+												<h4 className="font-medium text-sm">
+													Required Actions:
+												</h4>
 												<ul className="space-y-1">
 													{item.actions.map((action, actionIndex) => (
 														<li
@@ -433,9 +449,7 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 												View Details
 											</Button>
 											{item.status !== "compliant" && (
-												<Button size="sm">
-													Take Action
-												</Button>
+												<Button size="sm">Take Action</Button>
 											)}
 										</div>
 									</div>
@@ -460,7 +474,11 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 						<CardContent>
 							<div className="space-y-4">
 								{filteredItems
-									.filter((item) => item.status === "non-compliant" || item.status === "pending")
+									.filter(
+										(item) =>
+											item.status === "non-compliant" ||
+											item.status === "pending",
+									)
 									.map((item) => (
 										<div
 											key={item.id}
@@ -468,10 +486,13 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 										>
 											<div>
 												<h4 className="font-semibold">{item.requirement}</h4>
-												<p className="text-muted-foreground text-sm">{item.category}</p>
+												<p className="text-muted-foreground text-sm">
+													{item.category}
+												</p>
 												{item.nextDeadline && (
 													<p className="text-red-600 text-sm">
-														Deadline: {new Date(item.nextDeadline).toLocaleDateString()}
+														Deadline:{" "}
+														{new Date(item.nextDeadline).toLocaleDateString()}
 													</p>
 												)}
 											</div>
@@ -497,14 +518,18 @@ export function ClientCompliance({ user }: ClientComplianceProps) {
 						<CardContent>
 							<div className="space-y-3">
 								{mockComplianceItems
-									.flatMap((item) => item.actions.map((action) => ({ ...item, action })))
+									.flatMap((item) =>
+										item.actions.map((action) => ({ ...item, action })),
+									)
 									.map((actionItem, index) => (
 										<div
 											key={index}
 											className="flex items-center justify-between rounded-lg border p-3 transition-colors hover:bg-muted/50"
 										>
 											<div>
-												<h4 className="font-medium text-sm">{actionItem.action}</h4>
+												<h4 className="font-medium text-sm">
+													{actionItem.action}
+												</h4>
 												<p className="text-muted-foreground text-xs">
 													{actionItem.requirement} • {actionItem.category}
 												</p>

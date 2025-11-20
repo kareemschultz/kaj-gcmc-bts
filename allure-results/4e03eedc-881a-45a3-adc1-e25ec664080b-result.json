@@ -1,1 +1,36 @@
-{"uuid":"4e03eedc-881a-45a3-adc1-e25ec664080b","name":"should provide status information @api-health","historyId":"cf9d2f340e39fa87b3627e49ff4b98f5:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"api.api-endpoints.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > api/api-endpoints.spec.ts > API Endpoints - Health and Status"},{"name":"tag","value":"api-health"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"api/api-endpoints.spec.ts"},{"name":"subSuite","value":"API Endpoints - Health and Status"}],"links":[],"start":1763549819675,"testCaseId":"cf9d2f340e39fa87b3627e49ff4b98f5","fullName":"api/api-endpoints.spec.ts:388:3","titlePath":["api","api-endpoints.spec.ts","API Endpoints - Health and Status"],"stop":1763549819675}
+{
+	"uuid": "4e03eedc-881a-45a3-adc1-e25ec664080b",
+	"name": "should provide status information @api-health",
+	"historyId": "cf9d2f340e39fa87b3627e49ff4b98f5:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "api.api-endpoints.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > api/api-endpoints.spec.ts > API Endpoints - Health and Status"
+		},
+		{ "name": "tag", "value": "api-health" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "api/api-endpoints.spec.ts" },
+		{ "name": "subSuite", "value": "API Endpoints - Health and Status" }
+	],
+	"links": [],
+	"start": 1763549819675,
+	"testCaseId": "cf9d2f340e39fa87b3627e49ff4b98f5",
+	"fullName": "api/api-endpoints.spec.ts:388:3",
+	"titlePath": [
+		"api",
+		"api-endpoints.spec.ts",
+		"API Endpoints - Health and Status"
+	],
+	"stop": 1763549819675
+}

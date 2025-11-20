@@ -1,1 +1,36 @@
-{"uuid":"d337a07b-37a7-4263-9913-9e26293e8949","name":"should load dashboard within performance budget @performance","historyId":"f9f7da9d5a694d0874b66a7d7c118668:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"dashboard.dashboard-functionality.spec.ts"},{"name":"titlePath","value":" > mobile-safari > dashboard/dashboard-functionality.spec.ts > Dashboard - Performance"},{"name":"tag","value":"performance"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"dashboard/dashboard-functionality.spec.ts"},{"name":"subSuite","value":"Dashboard - Performance"}],"links":[],"start":1763549819729,"testCaseId":"f9f7da9d5a694d0874b66a7d7c118668","fullName":"dashboard/dashboard-functionality.spec.ts:244:3","titlePath":["dashboard","dashboard-functionality.spec.ts","Dashboard - Performance"],"stop":1763549819729}
+{
+	"uuid": "d337a07b-37a7-4263-9913-9e26293e8949",
+	"name": "should load dashboard within performance budget @performance",
+	"historyId": "f9f7da9d5a694d0874b66a7d7c118668:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "dashboard.dashboard-functionality.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > dashboard/dashboard-functionality.spec.ts > Dashboard - Performance"
+		},
+		{ "name": "tag", "value": "performance" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "dashboard/dashboard-functionality.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard - Performance" }
+	],
+	"links": [],
+	"start": 1763549819729,
+	"testCaseId": "f9f7da9d5a694d0874b66a7d7c118668",
+	"fullName": "dashboard/dashboard-functionality.spec.ts:244:3",
+	"titlePath": [
+		"dashboard",
+		"dashboard-functionality.spec.ts",
+		"Dashboard - Performance"
+	],
+	"stop": 1763549819729
+}

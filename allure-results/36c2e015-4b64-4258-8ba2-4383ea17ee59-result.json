@@ -1,1 +1,36 @@
-{"uuid":"36c2e015-4b64-4258-8ba2-4383ea17ee59","name":"should handle duplicate email validation @validation","historyId":"aed73aaa695ad87113c26c24bf8a16cf:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.clients-management.spec.ts"},{"name":"titlePath","value":" > mobile-safari > crud/clients-management.spec.ts > Clients Management - Error Handling"},{"name":"tag","value":"validation"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"crud/clients-management.spec.ts"},{"name":"subSuite","value":"Clients Management - Error Handling"}],"links":[],"start":1763549819725,"testCaseId":"aed73aaa695ad87113c26c24bf8a16cf","fullName":"crud/clients-management.spec.ts:423:3","titlePath":["crud","clients-management.spec.ts","Clients Management - Error Handling"],"stop":1763549819725}
+{
+	"uuid": "36c2e015-4b64-4258-8ba2-4383ea17ee59",
+	"name": "should handle duplicate email validation @validation",
+	"historyId": "aed73aaa695ad87113c26c24bf8a16cf:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.clients-management.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > crud/clients-management.spec.ts > Clients Management - Error Handling"
+		},
+		{ "name": "tag", "value": "validation" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "crud/clients-management.spec.ts" },
+		{ "name": "subSuite", "value": "Clients Management - Error Handling" }
+	],
+	"links": [],
+	"start": 1763549819725,
+	"testCaseId": "aed73aaa695ad87113c26c24bf8a16cf",
+	"fullName": "crud/clients-management.spec.ts:423:3",
+	"titlePath": [
+		"crud",
+		"clients-management.spec.ts",
+		"Clients Management - Error Handling"
+	],
+	"stop": 1763549819725
+}

@@ -1,1 +1,31 @@
-{"uuid":"5434c0c9-e89c-4403-a0a8-1453a1f0ac56","name":"loading states should be announced","historyId":"370a636b63c96639b3470dd2a616725e:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"accessibility.wcag-compliance.spec.ts"},{"name":"titlePath","value":" > tablet > accessibility/wcag-compliance.spec.ts > Dynamic Content"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"accessibility/wcag-compliance.spec.ts"},{"name":"subSuite","value":"Dynamic Content"}],"links":[],"start":1763549757694,"testCaseId":"370a636b63c96639b3470dd2a616725e","fullName":"accessibility/wcag-compliance.spec.ts:202:2","titlePath":["accessibility","wcag-compliance.spec.ts","Dynamic Content"],"stop":1763549757694}
+{
+	"uuid": "5434c0c9-e89c-4403-a0a8-1453a1f0ac56",
+	"name": "loading states should be announced",
+	"historyId": "370a636b63c96639b3470dd2a616725e:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "accessibility.wcag-compliance.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > accessibility/wcag-compliance.spec.ts > Dynamic Content"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "accessibility/wcag-compliance.spec.ts" },
+		{ "name": "subSuite", "value": "Dynamic Content" }
+	],
+	"links": [],
+	"start": 1763549757694,
+	"testCaseId": "370a636b63c96639b3470dd2a616725e",
+	"fullName": "accessibility/wcag-compliance.spec.ts:202:2",
+	"titlePath": ["accessibility", "wcag-compliance.spec.ts", "Dynamic Content"],
+	"stop": 1763549757694
+}

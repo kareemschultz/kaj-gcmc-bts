@@ -1,1 +1,35 @@
-{"uuid":"ea2001ed-b621-4091-9ae2-2746b95a7942","name":"workflow: attach documents to service request","historyId":"b3504e0e22063acf1195a2c4394658be:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"workflows.client-service-request.spec.ts"},{"name":"titlePath","value":" > firefox > workflows/client-service-request.spec.ts > Client Service Request Workflow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"workflows/client-service-request.spec.ts"},{"name":"subSuite","value":"Client Service Request Workflow"}],"links":[],"start":1763549819626,"testCaseId":"b3504e0e22063acf1195a2c4394658be","fullName":"workflows/client-service-request.spec.ts:138:2","titlePath":["workflows","client-service-request.spec.ts","Client Service Request Workflow"],"stop":1763549819626}
+{
+	"uuid": "ea2001ed-b621-4091-9ae2-2746b95a7942",
+	"name": "workflow: attach documents to service request",
+	"historyId": "b3504e0e22063acf1195a2c4394658be:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "workflows.client-service-request.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > workflows/client-service-request.spec.ts > Client Service Request Workflow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "workflows/client-service-request.spec.ts" },
+		{ "name": "subSuite", "value": "Client Service Request Workflow" }
+	],
+	"links": [],
+	"start": 1763549819626,
+	"testCaseId": "b3504e0e22063acf1195a2c4394658be",
+	"fullName": "workflows/client-service-request.spec.ts:138:2",
+	"titlePath": [
+		"workflows",
+		"client-service-request.spec.ts",
+		"Client Service Request Workflow"
+	],
+	"stop": 1763549819626
+}

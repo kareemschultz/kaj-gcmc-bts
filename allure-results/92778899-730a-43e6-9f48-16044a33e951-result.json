@@ -1,1 +1,31 @@
-{"uuid":"92778899-730a-43e6-9f48-16044a33e951","name":"should handle long press interactions","historyId":"29c0fa93f043e2835c79df140d5eb0a0:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > mobile-safari > mobile/responsive.spec.ts > Mobile Touch Interactions"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Mobile Touch Interactions"}],"links":[],"start":1763549819732,"testCaseId":"29c0fa93f043e2835c79df140d5eb0a0","fullName":"mobile/responsive.spec.ts:223:2","titlePath":["mobile","responsive.spec.ts","Mobile Touch Interactions"],"stop":1763549819732}
+{
+	"uuid": "92778899-730a-43e6-9f48-16044a33e951",
+	"name": "should handle long press interactions",
+	"historyId": "29c0fa93f043e2835c79df140d5eb0a0:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > mobile/responsive.spec.ts > Mobile Touch Interactions"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Mobile Touch Interactions" }
+	],
+	"links": [],
+	"start": 1763549819732,
+	"testCaseId": "29c0fa93f043e2835c79df140d5eb0a0",
+	"fullName": "mobile/responsive.spec.ts:223:2",
+	"titlePath": ["mobile", "responsive.spec.ts", "Mobile Touch Interactions"],
+	"stop": 1763549819732
+}

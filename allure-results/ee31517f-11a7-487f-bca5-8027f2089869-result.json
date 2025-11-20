@@ -1,1 +1,386 @@
-{"uuid":"ee31517f-11a7-487f-bca5-8027f2089869","name":"should display login page correctly @smoke","historyId":"45aedb6920d1e93ac3b5ec5dc946fc19:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"failed","statusDetails":{"message":"TypeError: response.timing is not a function","trace":"TypeError: response.timing is not a function\n    at Page.<anonymous> (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:214:26)"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Launch browser","start":1763550191334,"uuid":"ae92b859-0bab-47a1-8357-b186d5fb606e","stop":1763550191375}],"attachments":[],"parameters":[],"name":"Fixture \"browser\"","start":1763550191332,"uuid":"2d71584a-4ee3-4e60-a5dc-493aa25b6262","stop":1763550191376},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create context","start":1763550191378,"uuid":"84d43326-6f84-466c-b2f7-e73f5472a9fc","stop":1763550191383}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550191377,"uuid":"8e691529-f0f0-4458-b7f0-5cd60b444dda","stop":1763550191384},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create page","start":1763550191386,"uuid":"9ddb8391-e141-43f8-8497-1a423c19abb4","stop":1763550191408}],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550191384,"uuid":"dbb914e1-d156-412a-a372-2b517a85fa6f","stop":1763550191408},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550191415,"uuid":"92ea59ba-8a57-447a-baad-04fe88e7b714","stop":1763550191415},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550191417,"uuid":"cb54a23d-b3ba-429f-b5f0-4b1ed7ed3a8d","stop":1763550191417},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550191418,"uuid":"c365815e-6f8f-4020-bd11-535c4bc520c1","stop":1763550191418}],"attachments":[],"parameters":[],"name":"beforeEach hook","start":1763550191325,"uuid":"e9b8e0a8-0d64-4457-ae96-fb13c08e6871","stop":1763550191418},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550191419,"uuid":"c3bf5a8e-d304-4b0d-a020-b80aa994456e","stop":1763550191419},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"screenshotHelper\"","start":1763550191420,"uuid":"76887cfe-1fe0-4a98-b7b7-049d190c9288","stop":1763550191420},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"performanceMetrics\"","start":1763550191420,"uuid":"af4eafab-e759-4998-83aa-b765df566ffa","stop":1763550191421}],"attachments":[],"parameters":[],"name":"Before Hooks","start":1763550191324,"uuid":"87fea0c3-b4db-46ee-b8b9-f238b797204a","stop":1763550191421},{"status":"failed","statusDetails":{"message":"Error: page.waitForLoadState: Test ended.","trace":"Error: page.waitForLoadState: Test ended.\n    at LoginPage.waitForPageLoad (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:29:21)\n    at LoginPage.goto (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:22:16)\n    at LoginPage.navigateToLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:47:5)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:23:7"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550191428,"name":"Navigate to \"/login\"","uuid":"94728a51-d18a-4cda-837b-bf0cba2f1ebc","stop":1763550191663},{"status":"failed","statusDetails":{"message":"Error: page.waitForLoadState: Test ended.","trace":"Error: page.waitForLoadState: Test ended.\n    at LoginPage.waitForPageLoad (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:29:21)\n    at LoginPage.goto (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:22:16)\n    at LoginPage.navigateToLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:47:5)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:23:7"},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550191664,"name":"Wait for load state \"networkidle\"","uuid":"fd79a616-c8f5-4690-b779-cf746ea3976e","stop":1763550191687}],"attachments":[],"parameters":[],"start":1763550191422,"name":"Navigate to login page","uuid":"9dbd0c01-eda0-4712-ab7a-65644cfb1c12","stop":1763550191688},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"screenshot","source":"a818e7aa-d092-4a78-9a8c-4c423b56eadc-attachment.png","type":"image/png"}],"parameters":[],"start":1763550191718,"name":"screenshot","stop":1763550191718},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"video","source":"74711daf-8f63-4de9-bdc5-2580976e69cf-attachment.webm","type":"video/webm"}],"parameters":[],"start":1763550191719,"name":"video","stop":1763550191719},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"error-context","source":"5f244799-453d-4e35-91d7-4452187735c8-attachment.md","type":"text/markdown"}],"parameters":[],"start":1763550191719,"name":"error-context","stop":1763550191719},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"performanceMetrics\"","start":1763550191631,"uuid":"18c1cdef-5a61-4c65-a3ad-d9a7535e4e9d","stop":1763550191631},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"screenshotHelper\"","start":1763550191631,"uuid":"76bb8716-220b-4c3a-95c1-6a92b426daeb","stop":1763550191631},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550191631,"uuid":"66afae9f-94e9-4fa1-aa97-b5f18bcd3c13","stop":1763550191631},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550191632,"uuid":"8af2037d-653d-4d3f-9dc7-20a29d57a609","stop":1763550191632},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Close context","start":1763550191684,"uuid":"97a7b960-c9b8-46b9-a27e-1665c89fea4b","stop":1763550191696}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550191632,"uuid":"36f443ab-f990-4a71-8f9c-d8be875e78bd","stop":1763550191697}],"attachments":[],"parameters":[],"name":"After Hooks","start":1763550191470,"uuid":"63bcca75-9f22-4e7c-83db-a3b84e43db37","stop":1763550191701}],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.enhanced-login.spec.ts"},{"name":"titlePath","value":" > chromium > auth/enhanced-login.spec.ts > Enhanced Login Flow"},{"name":"tag","value":"smoke"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-24537-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/enhanced-login.spec.ts"},{"name":"subSuite","value":"Enhanced Login Flow"},{"name":"epic","value":"Authentication"},{"name":"feature","value":"Login"},{"name":"story","value":"User Login Flow"}],"links":[],"start":1763550191324,"testCaseId":"45aedb6920d1e93ac3b5ec5dc946fc19","fullName":"auth/enhanced-login.spec.ts:17:3","titlePath":["auth","enhanced-login.spec.ts","Enhanced Login Flow"],"stop":1763550191642}
+{
+	"uuid": "ee31517f-11a7-487f-bca5-8027f2089869",
+	"name": "should display login page correctly @smoke",
+	"historyId": "45aedb6920d1e93ac3b5ec5dc946fc19:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "failed",
+	"statusDetails": {
+		"message": "TypeError: response.timing is not a function",
+		"trace": "TypeError: response.timing is not a function\n    at Page.<anonymous> (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:214:26)"
+	},
+	"stage": "finished",
+	"steps": [
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Launch browser",
+									"start": 1763550191334,
+									"uuid": "ae92b859-0bab-47a1-8357-b186d5fb606e",
+									"stop": 1763550191375
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"browser\"",
+							"start": 1763550191332,
+							"uuid": "2d71584a-4ee3-4e60-a5dc-493aa25b6262",
+							"stop": 1763550191376
+						},
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Create context",
+									"start": 1763550191378,
+									"uuid": "84d43326-6f84-466c-b2f7-e73f5472a9fc",
+									"stop": 1763550191383
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"context\"",
+							"start": 1763550191377,
+							"uuid": "8e691529-f0f0-4458-b7f0-5cd60b444dda",
+							"stop": 1763550191384
+						},
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Create page",
+									"start": 1763550191386,
+									"uuid": "9ddb8391-e141-43f8-8497-1a423c19abb4",
+									"stop": 1763550191408
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"page\"",
+							"start": 1763550191384,
+							"uuid": "dbb914e1-d156-412a-a372-2b517a85fa6f",
+							"stop": 1763550191408
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550191415,
+							"uuid": "92ea59ba-8a57-447a-baad-04fe88e7b714",
+							"stop": 1763550191415
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550191417,
+							"uuid": "cb54a23d-b3ba-429f-b5f0-4b1ed7ed3a8d",
+							"stop": 1763550191417
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550191418,
+							"uuid": "c365815e-6f8f-4020-bd11-535c4bc520c1",
+							"stop": 1763550191418
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "beforeEach hook",
+					"start": 1763550191325,
+					"uuid": "e9b8e0a8-0d64-4457-ae96-fb13c08e6871",
+					"stop": 1763550191418
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550191419,
+					"uuid": "c3bf5a8e-d304-4b0d-a020-b80aa994456e",
+					"stop": 1763550191419
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"screenshotHelper\"",
+					"start": 1763550191420,
+					"uuid": "76887cfe-1fe0-4a98-b7b7-049d190c9288",
+					"stop": 1763550191420
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"performanceMetrics\"",
+					"start": 1763550191420,
+					"uuid": "af4eafab-e759-4998-83aa-b765df566ffa",
+					"stop": 1763550191421
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "Before Hooks",
+			"start": 1763550191324,
+			"uuid": "87fea0c3-b4db-46ee-b8b9-f238b797204a",
+			"stop": 1763550191421
+		},
+		{
+			"status": "failed",
+			"statusDetails": {
+				"message": "Error: page.waitForLoadState: Test ended.",
+				"trace": "Error: page.waitForLoadState: Test ended.\n    at LoginPage.waitForPageLoad (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:29:21)\n    at LoginPage.goto (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:22:16)\n    at LoginPage.navigateToLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:47:5)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:23:7"
+			},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550191428,
+					"name": "Navigate to \"/login\"",
+					"uuid": "94728a51-d18a-4cda-837b-bf0cba2f1ebc",
+					"stop": 1763550191663
+				},
+				{
+					"status": "failed",
+					"statusDetails": {
+						"message": "Error: page.waitForLoadState: Test ended.",
+						"trace": "Error: page.waitForLoadState: Test ended.\n    at LoginPage.waitForPageLoad (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:29:21)\n    at LoginPage.goto (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:22:16)\n    at LoginPage.navigateToLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:47:5)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:23:7"
+					},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550191664,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "fd79a616-c8f5-4690-b779-cf746ea3976e",
+					"stop": 1763550191687
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550191422,
+			"name": "Navigate to login page",
+			"uuid": "9dbd0c01-eda0-4712-ab7a-65644cfb1c12",
+			"stop": 1763550191688
+		},
+		{
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [],
+			"attachments": [
+				{
+					"name": "screenshot",
+					"source": "a818e7aa-d092-4a78-9a8c-4c423b56eadc-attachment.png",
+					"type": "image/png"
+				}
+			],
+			"parameters": [],
+			"start": 1763550191718,
+			"name": "screenshot",
+			"stop": 1763550191718
+		},
+		{
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [],
+			"attachments": [
+				{
+					"name": "video",
+					"source": "74711daf-8f63-4de9-bdc5-2580976e69cf-attachment.webm",
+					"type": "video/webm"
+				}
+			],
+			"parameters": [],
+			"start": 1763550191719,
+			"name": "video",
+			"stop": 1763550191719
+		},
+		{
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [],
+			"attachments": [
+				{
+					"name": "error-context",
+					"source": "5f244799-453d-4e35-91d7-4452187735c8-attachment.md",
+					"type": "text/markdown"
+				}
+			],
+			"parameters": [],
+			"start": 1763550191719,
+			"name": "error-context",
+			"stop": 1763550191719
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"performanceMetrics\"",
+					"start": 1763550191631,
+					"uuid": "18c1cdef-5a61-4c65-a3ad-d9a7535e4e9d",
+					"stop": 1763550191631
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"screenshotHelper\"",
+					"start": 1763550191631,
+					"uuid": "76bb8716-220b-4c3a-95c1-6a92b426daeb",
+					"stop": 1763550191631
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550191631,
+					"uuid": "66afae9f-94e9-4fa1-aa97-b5f18bcd3c13",
+					"stop": 1763550191631
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"page\"",
+					"start": 1763550191632,
+					"uuid": "8af2037d-653d-4d3f-9dc7-20a29d57a609",
+					"stop": 1763550191632
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Close context",
+							"start": 1763550191684,
+							"uuid": "97a7b960-c9b8-46b9-a27e-1665c89fea4b",
+							"stop": 1763550191696
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"context\"",
+					"start": 1763550191632,
+					"uuid": "36f443ab-f990-4a71-8f9c-d8be875e78bd",
+					"stop": 1763550191697
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "After Hooks",
+			"start": 1763550191470,
+			"uuid": "63bcca75-9f22-4e7c-83db-a3b84e43db37",
+			"stop": 1763550191701
+		}
+	],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.enhanced-login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/enhanced-login.spec.ts > Enhanced Login Flow"
+		},
+		{ "name": "tag", "value": "smoke" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-24537-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/enhanced-login.spec.ts" },
+		{ "name": "subSuite", "value": "Enhanced Login Flow" },
+		{ "name": "epic", "value": "Authentication" },
+		{ "name": "feature", "value": "Login" },
+		{ "name": "story", "value": "User Login Flow" }
+	],
+	"links": [],
+	"start": 1763550191324,
+	"testCaseId": "45aedb6920d1e93ac3b5ec5dc946fc19",
+	"fullName": "auth/enhanced-login.spec.ts:17:3",
+	"titlePath": ["auth", "enhanced-login.spec.ts", "Enhanced Login Flow"],
+	"stop": 1763550191642
+}

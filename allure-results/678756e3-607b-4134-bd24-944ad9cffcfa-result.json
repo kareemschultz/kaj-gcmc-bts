@@ -1,1 +1,31 @@
-{"uuid":"678756e3-607b-4134-bd24-944ad9cffcfa","name":"should support keyboard navigation","historyId":"f6889e97345b90b218d322b1fbb5cc7c:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > auth/login.spec.ts > Login - Accessibility"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login - Accessibility"}],"links":[],"start":1763549819682,"testCaseId":"f6889e97345b90b218d322b1fbb5cc7c","fullName":"auth/login.spec.ts:116:2","titlePath":["auth","login.spec.ts","Login - Accessibility"],"stop":1763549819682}
+{
+	"uuid": "678756e3-607b-4134-bd24-944ad9cffcfa",
+	"name": "should support keyboard navigation",
+	"historyId": "f6889e97345b90b218d322b1fbb5cc7c:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > auth/login.spec.ts > Login - Accessibility"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login - Accessibility" }
+	],
+	"links": [],
+	"start": 1763549819682,
+	"testCaseId": "f6889e97345b90b218d322b1fbb5cc7c",
+	"fullName": "auth/login.spec.ts:116:2",
+	"titlePath": ["auth", "login.spec.ts", "Login - Accessibility"],
+	"stop": 1763549819682
+}

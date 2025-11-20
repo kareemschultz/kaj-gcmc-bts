@@ -1,1 +1,31 @@
-{"uuid":"2a6ad181-098a-417d-9bf2-f5db4197fa5d","name":"should not allow back navigation after logout","historyId":"aa6799c6948d989e6caaf959d70946ba:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.logout.spec.ts"},{"name":"titlePath","value":" > webkit > auth/logout.spec.ts > Logout Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"auth/logout.spec.ts"},{"name":"subSuite","value":"Logout Flow"}],"links":[],"start":1763549819644,"testCaseId":"aa6799c6948d989e6caaf959d70946ba","fullName":"auth/logout.spec.ts:45:2","titlePath":["auth","logout.spec.ts","Logout Flow"],"stop":1763549819644}
+{
+	"uuid": "2a6ad181-098a-417d-9bf2-f5db4197fa5d",
+	"name": "should not allow back navigation after logout",
+	"historyId": "aa6799c6948d989e6caaf959d70946ba:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.logout.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > auth/logout.spec.ts > Logout Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "auth/logout.spec.ts" },
+		{ "name": "subSuite", "value": "Logout Flow" }
+	],
+	"links": [],
+	"start": 1763549819644,
+	"testCaseId": "aa6799c6948d989e6caaf959d70946ba",
+	"fullName": "auth/logout.spec.ts:45:2",
+	"titlePath": ["auth", "logout.spec.ts", "Logout Flow"],
+	"stop": 1763549819644
+}

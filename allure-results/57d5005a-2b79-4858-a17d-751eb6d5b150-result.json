@@ -1,1 +1,36 @@
-{"uuid":"57d5005a-2b79-4858-a17d-751eb6d5b150","name":"should meet WCAG accessibility standards @accessibility","historyId":"f34affa045700b74ae6aa81309158f3c:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"dashboard.dashboard-functionality.spec.ts"},{"name":"titlePath","value":" > tablet > dashboard/dashboard-functionality.spec.ts > Dashboard - Accessibility"},{"name":"tag","value":"accessibility"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"dashboard/dashboard-functionality.spec.ts"},{"name":"subSuite","value":"Dashboard - Accessibility"}],"links":[],"start":1763549757715,"testCaseId":"f34affa045700b74ae6aa81309158f3c","fullName":"dashboard/dashboard-functionality.spec.ts:307:3","titlePath":["dashboard","dashboard-functionality.spec.ts","Dashboard - Accessibility"],"stop":1763549757715}
+{
+	"uuid": "57d5005a-2b79-4858-a17d-751eb6d5b150",
+	"name": "should meet WCAG accessibility standards @accessibility",
+	"historyId": "f34affa045700b74ae6aa81309158f3c:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "dashboard.dashboard-functionality.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > dashboard/dashboard-functionality.spec.ts > Dashboard - Accessibility"
+		},
+		{ "name": "tag", "value": "accessibility" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "dashboard/dashboard-functionality.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard - Accessibility" }
+	],
+	"links": [],
+	"start": 1763549757715,
+	"testCaseId": "f34affa045700b74ae6aa81309158f3c",
+	"fullName": "dashboard/dashboard-functionality.spec.ts:307:3",
+	"titlePath": [
+		"dashboard",
+		"dashboard-functionality.spec.ts",
+		"Dashboard - Accessibility"
+	],
+	"stop": 1763549757715
+}

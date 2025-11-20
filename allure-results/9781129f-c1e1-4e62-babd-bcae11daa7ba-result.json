@@ -1,1 +1,36 @@
-{"uuid":"9781129f-c1e1-4e62-babd-bcae11daa7ba","name":"should validate request payload @api-validation","historyId":"bca1e224bf213e277cb176cbad682cfa:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"api.api-endpoints.spec.ts"},{"name":"titlePath","value":" > firefox > api/api-endpoints.spec.ts > API Endpoints - Error Handling"},{"name":"tag","value":"api-validation"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"api/api-endpoints.spec.ts"},{"name":"subSuite","value":"API Endpoints - Error Handling"}],"links":[],"start":1763549819594,"testCaseId":"bca1e224bf213e277cb176cbad682cfa","fullName":"api/api-endpoints.spec.ts:437:3","titlePath":["api","api-endpoints.spec.ts","API Endpoints - Error Handling"],"stop":1763549819594}
+{
+	"uuid": "9781129f-c1e1-4e62-babd-bcae11daa7ba",
+	"name": "should validate request payload @api-validation",
+	"historyId": "bca1e224bf213e277cb176cbad682cfa:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "api.api-endpoints.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > api/api-endpoints.spec.ts > API Endpoints - Error Handling"
+		},
+		{ "name": "tag", "value": "api-validation" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "api/api-endpoints.spec.ts" },
+		{ "name": "subSuite", "value": "API Endpoints - Error Handling" }
+	],
+	"links": [],
+	"start": 1763549819594,
+	"testCaseId": "bca1e224bf213e277cb176cbad682cfa",
+	"fullName": "api/api-endpoints.spec.ts:437:3",
+	"titlePath": [
+		"api",
+		"api-endpoints.spec.ts",
+		"API Endpoints - Error Handling"
+	],
+	"stop": 1763549819594
+}

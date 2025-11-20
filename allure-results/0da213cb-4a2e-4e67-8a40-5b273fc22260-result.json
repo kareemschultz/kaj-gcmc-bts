@@ -1,1 +1,31 @@
-{"uuid":"0da213cb-4a2e-4e67-8a40-5b273fc22260","name":"should clear session after logout","historyId":"05bf2ec5372a971bf254bdc82f0a642b:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.logout.spec.ts"},{"name":"titlePath","value":" > webkit > auth/logout.spec.ts > Logout Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"auth/logout.spec.ts"},{"name":"subSuite","value":"Logout Flow"}],"links":[],"start":1763549819643,"testCaseId":"05bf2ec5372a971bf254bdc82f0a642b","fullName":"auth/logout.spec.ts:26:2","titlePath":["auth","logout.spec.ts","Logout Flow"],"stop":1763549819643}
+{
+	"uuid": "0da213cb-4a2e-4e67-8a40-5b273fc22260",
+	"name": "should clear session after logout",
+	"historyId": "05bf2ec5372a971bf254bdc82f0a642b:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.logout.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > auth/logout.spec.ts > Logout Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "auth/logout.spec.ts" },
+		{ "name": "subSuite", "value": "Logout Flow" }
+	],
+	"links": [],
+	"start": 1763549819643,
+	"testCaseId": "05bf2ec5372a971bf254bdc82f0a642b",
+	"fullName": "auth/logout.spec.ts:26:2",
+	"titlePath": ["auth", "logout.spec.ts", "Logout Flow"],
+	"stop": 1763549819643
+}

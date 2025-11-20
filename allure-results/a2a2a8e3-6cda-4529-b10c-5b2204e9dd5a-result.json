@@ -1,1 +1,35 @@
-{"uuid":"a2a2a8e3-6cda-4529-b10c-5b2204e9dd5a","name":"Services List should meet WCAG AA standards","historyId":"487b11e3deb532e2240cbe4e0a5f1bc8:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"accessibility.wcag-compliance.spec.ts"},{"name":"titlePath","value":" > chromium > accessibility/wcag-compliance.spec.ts > WCAG AA Compliance"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"accessibility/wcag-compliance.spec.ts"},{"name":"subSuite","value":"WCAG AA Compliance"}],"links":[],"start":1763549757481,"testCaseId":"487b11e3deb532e2240cbe4e0a5f1bc8","fullName":"accessibility/wcag-compliance.spec.ts:26:3","titlePath":["accessibility","wcag-compliance.spec.ts","WCAG AA Compliance"],"stop":1763549757481}
+{
+	"uuid": "a2a2a8e3-6cda-4529-b10c-5b2204e9dd5a",
+	"name": "Services List should meet WCAG AA standards",
+	"historyId": "487b11e3deb532e2240cbe4e0a5f1bc8:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "accessibility.wcag-compliance.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > accessibility/wcag-compliance.spec.ts > WCAG AA Compliance"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "accessibility/wcag-compliance.spec.ts" },
+		{ "name": "subSuite", "value": "WCAG AA Compliance" }
+	],
+	"links": [],
+	"start": 1763549757481,
+	"testCaseId": "487b11e3deb532e2240cbe4e0a5f1bc8",
+	"fullName": "accessibility/wcag-compliance.spec.ts:26:3",
+	"titlePath": [
+		"accessibility",
+		"wcag-compliance.spec.ts",
+		"WCAG AA Compliance"
+	],
+	"stop": 1763549757481
+}

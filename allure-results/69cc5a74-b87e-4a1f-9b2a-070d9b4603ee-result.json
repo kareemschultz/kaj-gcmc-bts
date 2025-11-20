@@ -1,1 +1,153 @@
-{"uuid":"69cc5a74-b87e-4a1f-9b2a-070d9b4603ee","name":"should display clients page correctly @smoke","historyId":"6a06008cf295f016fafc18cc8059b3c0:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"failed","statusDetails":{"message":"ReferenceError: __dirname is not defined","trace":"ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"},"stage":"finished","steps":[{"status":"failed","statusDetails":{"message":"ReferenceError: __dirname is not defined","trace":"ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"},"stage":"finished","steps":[{"status":"failed","statusDetails":{"message":"ReferenceError: __dirname is not defined","trace":"ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Launch browser","start":1763550028932,"uuid":"fcff96ab-1750-447c-a1d4-2245ae670657","stop":1763550028968}],"attachments":[],"parameters":[],"name":"Fixture \"browser\"","start":1763550028930,"uuid":"7e237097-7e60-4dcd-af79-697ef922597d","stop":1763550028968},{"status":"failed","statusDetails":{"message":"ReferenceError: __dirname is not defined","trace":"ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"authenticatedPage\"","start":1763550028968,"uuid":"f3c1c5e6-efe1-499e-9cec-7fda316e9422","stop":1763550028969}],"attachments":[],"parameters":[],"name":"beforeEach hook","start":1763550028923,"uuid":"63c0e0df-6d4d-4e26-9a93-6b5f84341ca7","stop":1763550028969}],"attachments":[],"parameters":[],"name":"Before Hooks","start":1763550028923,"uuid":"8f84c069-6e7e-4c93-987e-cdea4ef10d60","stop":1763550028969},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"trace","source":"d4ebaa79-534a-4e59-9750-19d6ce8c532e-attachment.zip","type":"application/vnd.allure.playwright-trace"}],"parameters":[],"start":1763550029048,"name":"trace","stop":1763550029048},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"authenticatedPage\"","start":1763550028970,"uuid":"e31ef608-d8ce-4e2b-884c-c517fe06b554","stop":1763550028970}],"attachments":[],"parameters":[],"name":"After Hooks","start":1763550028970,"uuid":"94d62794-7891-4c34-b589-2945006baf4e","stop":1763550028976}],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.clients-management.spec.ts"},{"name":"titlePath","value":" > chromium > crud/clients-management.spec.ts > Clients Management - CRUD Operations"},{"name":"tag","value":"smoke"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-16190-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"crud/clients-management.spec.ts"},{"name":"subSuite","value":"Clients Management - CRUD Operations"}],"links":[],"start":1763550028921,"testCaseId":"6a06008cf295f016fafc18cc8059b3c0","fullName":"crud/clients-management.spec.ts:19:3","titlePath":["crud","clients-management.spec.ts","Clients Management - CRUD Operations"],"stop":1763550028924}
+{
+	"uuid": "69cc5a74-b87e-4a1f-9b2a-070d9b4603ee",
+	"name": "should display clients page correctly @smoke",
+	"historyId": "6a06008cf295f016fafc18cc8059b3c0:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "failed",
+	"statusDetails": {
+		"message": "ReferenceError: __dirname is not defined",
+		"trace": "ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"
+	},
+	"stage": "finished",
+	"steps": [
+		{
+			"status": "failed",
+			"statusDetails": {
+				"message": "ReferenceError: __dirname is not defined",
+				"trace": "ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"
+			},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "failed",
+					"statusDetails": {
+						"message": "ReferenceError: __dirname is not defined",
+						"trace": "ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"
+					},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Launch browser",
+									"start": 1763550028932,
+									"uuid": "fcff96ab-1750-447c-a1d4-2245ae670657",
+									"stop": 1763550028968
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"browser\"",
+							"start": 1763550028930,
+							"uuid": "7e237097-7e60-4dcd-af79-697ef922597d",
+							"stop": 1763550028968
+						},
+						{
+							"status": "failed",
+							"statusDetails": {
+								"message": "ReferenceError: __dirname is not defined",
+								"trace": "ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"
+							},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"authenticatedPage\"",
+							"start": 1763550028968,
+							"uuid": "f3c1c5e6-efe1-499e-9cec-7fda316e9422",
+							"stop": 1763550028969
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "beforeEach hook",
+					"start": 1763550028923,
+					"uuid": "63c0e0df-6d4d-4e26-9a93-6b5f84341ca7",
+					"stop": 1763550028969
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "Before Hooks",
+			"start": 1763550028923,
+			"uuid": "8f84c069-6e7e-4c93-987e-cdea4ef10d60",
+			"stop": 1763550028969
+		},
+		{
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [],
+			"attachments": [
+				{
+					"name": "trace",
+					"source": "d4ebaa79-534a-4e59-9750-19d6ce8c532e-attachment.zip",
+					"type": "application/vnd.allure.playwright-trace"
+				}
+			],
+			"parameters": [],
+			"start": 1763550029048,
+			"name": "trace",
+			"stop": 1763550029048
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"authenticatedPage\"",
+					"start": 1763550028970,
+					"uuid": "e31ef608-d8ce-4e2b-884c-c517fe06b554",
+					"stop": 1763550028970
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "After Hooks",
+			"start": 1763550028970,
+			"uuid": "94d62794-7891-4c34-b589-2945006baf4e",
+			"stop": 1763550028976
+		}
+	],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.clients-management.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > crud/clients-management.spec.ts > Clients Management - CRUD Operations"
+		},
+		{ "name": "tag", "value": "smoke" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-16190-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "crud/clients-management.spec.ts" },
+		{ "name": "subSuite", "value": "Clients Management - CRUD Operations" }
+	],
+	"links": [],
+	"start": 1763550028921,
+	"testCaseId": "6a06008cf295f016fafc18cc8059b3c0",
+	"fullName": "crud/clients-management.spec.ts:19:3",
+	"titlePath": [
+		"crud",
+		"clients-management.spec.ts",
+		"Clients Management - CRUD Operations"
+	],
+	"stop": 1763550028924
+}

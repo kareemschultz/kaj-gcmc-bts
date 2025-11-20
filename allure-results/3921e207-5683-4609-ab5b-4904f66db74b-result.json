@@ -1,1 +1,31 @@
-{"uuid":"3921e207-5683-4609-ab5b-4904f66db74b","name":"should support keyboard navigation","historyId":"f6889e97345b90b218d322b1fbb5cc7c:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > firefox > auth/login.spec.ts > Login - Accessibility"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login - Accessibility"}],"links":[],"start":1763549819599,"testCaseId":"f6889e97345b90b218d322b1fbb5cc7c","fullName":"auth/login.spec.ts:116:2","titlePath":["auth","login.spec.ts","Login - Accessibility"],"stop":1763549819599}
+{
+	"uuid": "3921e207-5683-4609-ab5b-4904f66db74b",
+	"name": "should support keyboard navigation",
+	"historyId": "f6889e97345b90b218d322b1fbb5cc7c:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > auth/login.spec.ts > Login - Accessibility"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login - Accessibility" }
+	],
+	"links": [],
+	"start": 1763549819599,
+	"testCaseId": "f6889e97345b90b218d322b1fbb5cc7c",
+	"fullName": "auth/login.spec.ts:116:2",
+	"titlePath": ["auth", "login.spec.ts", "Login - Accessibility"],
+	"stop": 1763549819599
+}

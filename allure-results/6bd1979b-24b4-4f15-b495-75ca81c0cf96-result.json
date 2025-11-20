@@ -1,1 +1,35 @@
-{"uuid":"6bd1979b-24b4-4f15-b495-75ca81c0cf96","name":"tables should be scrollable on tablet","historyId":"99ba4baa9a7d27257f65717489b2db1b:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > firefox > mobile/responsive.spec.ts > Mobile Responsiveness - Tablet"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Mobile Responsiveness - Tablet"}],"links":[],"start":1763549819613,"testCaseId":"99ba4baa9a7d27257f65717489b2db1b","fullName":"mobile/responsive.spec.ts:132:2","titlePath":["mobile","responsive.spec.ts","Mobile Responsiveness - Tablet"],"stop":1763549819613}
+{
+	"uuid": "6bd1979b-24b4-4f15-b495-75ca81c0cf96",
+	"name": "tables should be scrollable on tablet",
+	"historyId": "99ba4baa9a7d27257f65717489b2db1b:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > mobile/responsive.spec.ts > Mobile Responsiveness - Tablet"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Mobile Responsiveness - Tablet" }
+	],
+	"links": [],
+	"start": 1763549819613,
+	"testCaseId": "99ba4baa9a7d27257f65717489b2db1b",
+	"fullName": "mobile/responsive.spec.ts:132:2",
+	"titlePath": [
+		"mobile",
+		"responsive.spec.ts",
+		"Mobile Responsiveness - Tablet"
+	],
+	"stop": 1763549819613
+}

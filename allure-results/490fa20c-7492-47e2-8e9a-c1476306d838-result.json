@@ -1,1 +1,31 @@
-{"uuid":"490fa20c-7492-47e2-8e9a-c1476306d838","name":"should login on mobile","historyId":"aab50ee87ed5579dca46824f9a9c0e12:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > auth/login.spec.ts > Login - Mobile"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login - Mobile"}],"links":[],"start":1763549819682,"testCaseId":"aab50ee87ed5579dca46824f9a9c0e12","fullName":"auth/login.spec.ts:141:2","titlePath":["auth","login.spec.ts","Login - Mobile"],"stop":1763549819682}
+{
+	"uuid": "490fa20c-7492-47e2-8e9a-c1476306d838",
+	"name": "should login on mobile",
+	"historyId": "aab50ee87ed5579dca46824f9a9c0e12:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > auth/login.spec.ts > Login - Mobile"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login - Mobile" }
+	],
+	"links": [],
+	"start": 1763549819682,
+	"testCaseId": "aab50ee87ed5579dca46824f9a9c0e12",
+	"fullName": "auth/login.spec.ts:141:2",
+	"titlePath": ["auth", "login.spec.ts", "Login - Mobile"],
+	"stop": 1763549819682
+}

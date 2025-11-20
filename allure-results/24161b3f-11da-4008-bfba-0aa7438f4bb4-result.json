@@ -1,1 +1,35 @@
-{"uuid":"24161b3f-11da-4008-bfba-0aa7438f4bb4","name":"touch targets should be appropriately sized","historyId":"668e84a167f45447b6b3bbfd0752aad3:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > chromium > mobile/responsive.spec.ts > Mobile Responsiveness - Phone"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Mobile Responsiveness - Phone"}],"links":[],"start":1763549757512,"testCaseId":"668e84a167f45447b6b3bbfd0752aad3","fullName":"mobile/responsive.spec.ts:66:2","titlePath":["mobile","responsive.spec.ts","Mobile Responsiveness - Phone"],"stop":1763549757512}
+{
+	"uuid": "24161b3f-11da-4008-bfba-0aa7438f4bb4",
+	"name": "touch targets should be appropriately sized",
+	"historyId": "668e84a167f45447b6b3bbfd0752aad3:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > mobile/responsive.spec.ts > Mobile Responsiveness - Phone"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Mobile Responsiveness - Phone" }
+	],
+	"links": [],
+	"start": 1763549757512,
+	"testCaseId": "668e84a167f45447b6b3bbfd0752aad3",
+	"fullName": "mobile/responsive.spec.ts:66:2",
+	"titlePath": [
+		"mobile",
+		"responsive.spec.ts",
+		"Mobile Responsiveness - Phone"
+	],
+	"stop": 1763549757512
+}

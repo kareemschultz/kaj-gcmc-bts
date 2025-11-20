@@ -1,1 +1,35 @@
-{"uuid":"3e8c2c29-2927-4f2f-b3a0-9114f55577b0","name":"tables should be scrollable on tablet","historyId":"99ba4baa9a7d27257f65717489b2db1b:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > chromium > mobile/responsive.spec.ts > Mobile Responsiveness - Tablet"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Mobile Responsiveness - Tablet"}],"links":[],"start":1763549757512,"testCaseId":"99ba4baa9a7d27257f65717489b2db1b","fullName":"mobile/responsive.spec.ts:132:2","titlePath":["mobile","responsive.spec.ts","Mobile Responsiveness - Tablet"],"stop":1763549757512}
+{
+	"uuid": "3e8c2c29-2927-4f2f-b3a0-9114f55577b0",
+	"name": "tables should be scrollable on tablet",
+	"historyId": "99ba4baa9a7d27257f65717489b2db1b:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > mobile/responsive.spec.ts > Mobile Responsiveness - Tablet"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Mobile Responsiveness - Tablet" }
+	],
+	"links": [],
+	"start": 1763549757512,
+	"testCaseId": "99ba4baa9a7d27257f65717489b2db1b",
+	"fullName": "mobile/responsive.spec.ts:132:2",
+	"titlePath": [
+		"mobile",
+		"responsive.spec.ts",
+		"Mobile Responsiveness - Tablet"
+	],
+	"stop": 1763549757512
+}

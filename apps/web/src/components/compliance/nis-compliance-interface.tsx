@@ -1,26 +1,27 @@
 "use client";
 
 import {
+	Activity,
 	AlertTriangle,
 	BadgeCheck,
 	Building2,
+	Calculator,
 	Calendar,
 	CheckCircle2,
 	Clock,
-	FileText,
-	Users,
-	UserCheck,
 	Download,
-	Upload,
 	Eye,
+	FileText,
 	Plus,
-	Calculator,
 	Receipt,
-	TrendingUp,
-	TrendingDown,
 	Shield,
-	Activity,
+	TrendingDown,
+	TrendingUp,
+	Upload,
+	UserCheck,
+	Users,
 } from "lucide-react";
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,10 +31,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Progress } from "@/components/ui/progress";
 import {
 	Select,
 	SelectContent,
@@ -41,8 +41,8 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 /**
  * NIS (National Insurance Scheme) Compliance Interface
@@ -69,7 +69,7 @@ interface EmployeeContribution {
 	employeeContribution: number;
 	employerContribution: number;
 	totalContribution: number;
-	status: 'pending' | 'submitted' | 'approved' | 'overdue';
+	status: "pending" | "submitted" | "approved" | "overdue";
 	dueDate: string;
 }
 
@@ -79,8 +79,8 @@ interface ComplianceCertificate {
 	certificateNumber: string;
 	issueDate: string;
 	expiryDate: string;
-	status: 'active' | 'expiring' | 'expired' | 'pending';
-	coverageType: 'full' | 'partial' | 'temporary';
+	status: "active" | "expiring" | "expired" | "pending";
+	coverageType: "full" | "partial" | "temporary";
 	employeeCount: number;
 }
 
@@ -91,89 +91,99 @@ interface EmployerReturn {
 	employeeCount: number;
 	totalContributions: number;
 	submissionDate?: string;
-	status: 'draft' | 'submitted' | 'approved' | 'rejected' | 'overdue';
+	status: "draft" | "submitted" | "approved" | "rejected" | "overdue";
 	dueDate: string;
 }
 
 const mockContributions: EmployeeContribution[] = [
 	{
-		id: '1',
-		employeeId: 'EMP001',
-		employeeName: 'John Smith',
-		contributionMonth: 'November 2024',
+		id: "1",
+		employeeId: "EMP001",
+		employeeName: "John Smith",
+		contributionMonth: "November 2024",
 		grossSalary: 85000,
 		employeeContribution: 5525,
 		employerContribution: 6800,
 		totalContribution: 12325,
-		status: 'submitted',
-		dueDate: '2024-12-15',
+		status: "submitted",
+		dueDate: "2024-12-15",
 	},
 	{
-		id: '2',
-		employeeId: 'EMP002',
-		employeeName: 'Jane Doe',
-		contributionMonth: 'November 2024',
+		id: "2",
+		employeeId: "EMP002",
+		employeeName: "Jane Doe",
+		contributionMonth: "November 2024",
 		grossSalary: 95000,
 		employeeContribution: 6175,
 		employerContribution: 7600,
 		totalContribution: 13775,
-		status: 'pending',
-		dueDate: '2024-12-15',
+		status: "pending",
+		dueDate: "2024-12-15",
 	},
 ];
 
 const mockCertificates: ComplianceCertificate[] = [
 	{
-		id: '1',
-		clientName: 'ABC Trading Ltd',
-		certificateNumber: 'NIS-2024-001',
-		issueDate: '2024-01-15',
-		expiryDate: '2025-01-15',
-		status: 'active',
-		coverageType: 'full',
+		id: "1",
+		clientName: "ABC Trading Ltd",
+		certificateNumber: "NIS-2024-001",
+		issueDate: "2024-01-15",
+		expiryDate: "2025-01-15",
+		status: "active",
+		coverageType: "full",
 		employeeCount: 25,
 	},
 	{
-		id: '2',
-		clientName: 'XYZ Services',
-		certificateNumber: 'NIS-2024-002',
-		issueDate: '2024-03-01',
-		expiryDate: '2024-12-31',
-		status: 'expiring',
-		coverageType: 'full',
+		id: "2",
+		clientName: "XYZ Services",
+		certificateNumber: "NIS-2024-002",
+		issueDate: "2024-03-01",
+		expiryDate: "2024-12-31",
+		status: "expiring",
+		coverageType: "full",
 		employeeCount: 18,
 	},
 ];
 
 const mockReturns: EmployerReturn[] = [
 	{
-		id: '1',
-		clientName: 'ABC Trading Ltd',
-		returnPeriod: 'November 2024',
+		id: "1",
+		clientName: "ABC Trading Ltd",
+		returnPeriod: "November 2024",
 		employeeCount: 25,
 		totalContributions: 285000,
-		status: 'submitted',
-		submissionDate: '2024-12-10',
-		dueDate: '2024-12-15',
+		status: "submitted",
+		submissionDate: "2024-12-10",
+		dueDate: "2024-12-15",
 	},
 	{
-		id: '2',
-		clientName: 'DEF Corp',
-		returnPeriod: 'November 2024',
+		id: "2",
+		clientName: "DEF Corp",
+		returnPeriod: "November 2024",
 		employeeCount: 12,
 		totalContributions: 145000,
-		status: 'overdue',
-		dueDate: '2024-12-15',
+		status: "overdue",
+		dueDate: "2024-12-15",
 	},
 ];
 
 export function NISComplianceInterface({ className }: NISComplianceProps) {
-	const [selectedPeriod, setSelectedPeriod] = useState('current');
+	const [selectedPeriod, setSelectedPeriod] = useState("current");
 
-	const totalEmployees = mockReturns.reduce((sum, ret) => sum + ret.employeeCount, 0);
-	const totalContributions = mockContributions.reduce((sum, cont) => sum + cont.totalContribution, 0);
-	const overdueReturns = mockReturns.filter(ret => ret.status === 'overdue').length;
-	const expiringCerts = mockCertificates.filter(cert => cert.status === 'expiring').length;
+	const totalEmployees = mockReturns.reduce(
+		(sum, ret) => sum + ret.employeeCount,
+		0,
+	);
+	const totalContributions = mockContributions.reduce(
+		(sum, cont) => sum + cont.totalContribution,
+		0,
+	);
+	const overdueReturns = mockReturns.filter(
+		(ret) => ret.status === "overdue",
+	).length;
+	const expiringCerts = mockCertificates.filter(
+		(cert) => cert.status === "expiring",
+	).length;
 	const complianceScore = 91;
 
 	return (
@@ -181,13 +191,13 @@ export function NISComplianceInterface({ className }: NISComplianceProps) {
 			{/* Header */}
 			<div className="flex items-center justify-between">
 				<div>
-					<h2 className="font-bold text-3xl tracking-tight flex items-center gap-3">
-						<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 text-blue-700 text-sm font-semibold">
+					<h2 className="flex items-center gap-3 font-bold text-3xl tracking-tight">
+						<div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100 font-semibold text-blue-700 text-sm">
 							NIS
 						</div>
 						NIS Compliance Management
 					</h2>
-					<p className="text-muted-foreground text-lg">
+					<p className="text-lg text-muted-foreground">
 						National Insurance Scheme contributions and compliance tracking
 					</p>
 				</div>
@@ -254,18 +264,22 @@ export function NISComplianceInterface({ className }: NISComplianceProps) {
 					</CardContent>
 				</Card>
 
-				<Card className={cn(
-					"border-l-4",
-					overdueReturns > 0 ? "border-l-destructive" : "border-l-success"
-				)}>
+				<Card
+					className={cn(
+						"border-l-4",
+						overdueReturns > 0 ? "border-l-destructive" : "border-l-success",
+					)}
+				>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="font-medium text-sm">
 							Overdue Returns
 						</CardTitle>
-						<AlertTriangle className={cn(
-							"h-4 w-4",
-							overdueReturns > 0 ? "text-destructive" : "text-success"
-						)} />
+						<AlertTriangle
+							className={cn(
+								"h-4 w-4",
+								overdueReturns > 0 ? "text-destructive" : "text-success",
+							)}
+						/>
 					</CardHeader>
 					<CardContent>
 						<div className="font-bold text-2xl">{overdueReturns}</div>
@@ -278,18 +292,22 @@ export function NISComplianceInterface({ className }: NISComplianceProps) {
 					</CardContent>
 				</Card>
 
-				<Card className={cn(
-					"border-l-4",
-					expiringCerts > 0 ? "border-l-warning" : "border-l-success"
-				)}>
+				<Card
+					className={cn(
+						"border-l-4",
+						expiringCerts > 0 ? "border-l-warning" : "border-l-success",
+					)}
+				>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="font-medium text-sm">
 							Expiring Certificates
 						</CardTitle>
-						<BadgeCheck className={cn(
-							"h-4 w-4",
-							expiringCerts > 0 ? "text-warning" : "text-success"
-						)} />
+						<BadgeCheck
+							className={cn(
+								"h-4 w-4",
+								expiringCerts > 0 ? "text-warning" : "text-success",
+							)}
+						/>
 					</CardHeader>
 					<CardContent>
 						<div className="font-bold text-2xl">{expiringCerts}</div>
@@ -306,9 +324,13 @@ export function NISComplianceInterface({ className }: NISComplianceProps) {
 			<Tabs defaultValue="overview" className="space-y-6">
 				<TabsList>
 					<TabsTrigger value="overview">Overview</TabsTrigger>
-					<TabsTrigger value="contributions">Employee Contributions</TabsTrigger>
+					<TabsTrigger value="contributions">
+						Employee Contributions
+					</TabsTrigger>
 					<TabsTrigger value="returns">Employer Returns</TabsTrigger>
-					<TabsTrigger value="certificates">Compliance Certificates</TabsTrigger>
+					<TabsTrigger value="certificates">
+						Compliance Certificates
+					</TabsTrigger>
 					<TabsTrigger value="coverage">Coverage Analysis</TabsTrigger>
 					<TabsTrigger value="schedule">Payment Schedule</TabsTrigger>
 				</TabsList>
@@ -358,7 +380,9 @@ export function NISComplianceInterface({ className }: NISComplianceProps) {
 						<Card className="lg:col-span-3">
 							<CardHeader>
 								<CardTitle>Compliance Certificates Status</CardTitle>
-								<CardDescription>Certificate expiry tracking and renewal alerts</CardDescription>
+								<CardDescription>
+									Certificate expiry tracking and renewal alerts
+								</CardDescription>
 							</CardHeader>
 							<CardContent>
 								<CertificateStatusGrid />
@@ -393,9 +417,9 @@ export function NISComplianceInterface({ className }: NISComplianceProps) {
 
 function ContributionSummaryChart() {
 	const monthlyData = [
-		{ month: 'September', employee: 125000, employer: 158000, total: 283000 },
-		{ month: 'October', employee: 135000, employer: 171000, total: 306000 },
-		{ month: 'November', employee: 142000, employer: 180000, total: 322000 },
+		{ month: "September", employee: 125000, employer: 158000, total: 283000 },
+		{ month: "October", employee: 135000, employer: 171000, total: 306000 },
+		{ month: "November", employee: 142000, employer: 180000, total: 322000 },
 	];
 
 	return (
@@ -431,12 +455,18 @@ function CertificateStatusGrid() {
 		<div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
 			{mockCertificates.map((cert) => (
 				<div key={cert.id} className="rounded-lg border p-3">
-					<div className="flex items-center justify-between mb-2">
-						<Badge variant={
-							cert.status === 'active' ? 'success' :
-							cert.status === 'expiring' ? 'warning' :
-							cert.status === 'expired' ? 'destructive' : 'info'
-						}>
+					<div className="mb-2 flex items-center justify-between">
+						<Badge
+							variant={
+								cert.status === "active"
+									? "success"
+									: cert.status === "expiring"
+										? "warning"
+										: cert.status === "expired"
+											? "destructive"
+											: "info"
+							}
+						>
 							{cert.status.charAt(0).toUpperCase() + cert.status.slice(1)}
 						</Badge>
 						<span className="text-muted-foreground text-xs">
@@ -444,12 +474,16 @@ function CertificateStatusGrid() {
 						</span>
 					</div>
 					<p className="font-medium text-sm">{cert.clientName}</p>
-					<p className="text-muted-foreground text-xs">{cert.certificateNumber}</p>
+					<p className="text-muted-foreground text-xs">
+						{cert.certificateNumber}
+					</p>
 					<div className="mt-2 flex justify-between text-xs">
 						<span>Expires:</span>
-						<span className={cn(
-							cert.status === 'expiring' && "text-warning font-medium"
-						)}>
+						<span
+							className={cn(
+								cert.status === "expiring" && "font-medium text-warning",
+							)}
+						>
 							{cert.expiryDate}
 						</span>
 					</div>
@@ -471,7 +505,10 @@ function EmployeeContributionTracker() {
 			<CardContent>
 				<div className="space-y-4">
 					{mockContributions.map((contribution) => (
-						<ContributionCard key={contribution.id} contribution={contribution} />
+						<ContributionCard
+							key={contribution.id}
+							contribution={contribution}
+						/>
 					))}
 				</div>
 			</CardContent>
@@ -479,19 +516,32 @@ function EmployeeContributionTracker() {
 	);
 }
 
-function ContributionCard({ contribution }: { contribution: EmployeeContribution }) {
+function ContributionCard({
+	contribution,
+}: {
+	contribution: EmployeeContribution;
+}) {
 	return (
 		<div className="rounded-lg border p-4">
 			<div className="grid gap-4 md:grid-cols-4">
 				<div>
 					<p className="font-medium">{contribution.employeeName}</p>
-					<p className="text-muted-foreground text-sm">ID: {contribution.employeeId}</p>
-					<Badge variant={
-						contribution.status === 'approved' ? 'success' :
-						contribution.status === 'submitted' ? 'info' :
-						contribution.status === 'overdue' ? 'destructive' : 'warning'
-					}>
-						{contribution.status.charAt(0).toUpperCase() + contribution.status.slice(1)}
+					<p className="text-muted-foreground text-sm">
+						ID: {contribution.employeeId}
+					</p>
+					<Badge
+						variant={
+							contribution.status === "approved"
+								? "success"
+								: contribution.status === "submitted"
+									? "info"
+									: contribution.status === "overdue"
+										? "destructive"
+										: "warning"
+						}
+					>
+						{contribution.status.charAt(0).toUpperCase() +
+							contribution.status.slice(1)}
 					</Badge>
 				</div>
 				<div className="space-y-1 text-sm">
@@ -519,7 +569,9 @@ function ContributionCard({ contribution }: { contribution: EmployeeContribution
 						${contribution.totalContribution.toLocaleString()}
 					</div>
 					<p className="text-muted-foreground text-sm">Total Contribution</p>
-					<p className="text-muted-foreground text-xs">Due: {contribution.dueDate}</p>
+					<p className="text-muted-foreground text-xs">
+						Due: {contribution.dueDate}
+					</p>
 				</div>
 			</div>
 		</div>
@@ -538,7 +590,10 @@ function EmployerReturnDashboard() {
 			<CardContent>
 				<div className="space-y-4">
 					{mockReturns.map((employerReturn) => (
-						<EmployerReturnCard key={employerReturn.id} employerReturn={employerReturn} />
+						<EmployerReturnCard
+							key={employerReturn.id}
+							employerReturn={employerReturn}
+						/>
 					))}
 				</div>
 			</CardContent>
@@ -546,27 +601,45 @@ function EmployerReturnDashboard() {
 	);
 }
 
-function EmployerReturnCard({ employerReturn }: { employerReturn: EmployerReturn }) {
+function EmployerReturnCard({
+	employerReturn,
+}: {
+	employerReturn: EmployerReturn;
+}) {
 	return (
 		<div className="rounded-lg border p-4">
 			<div className="flex items-center justify-between">
 				<div className="flex items-center gap-4">
-					<Badge variant={
-						employerReturn.status === 'approved' ? 'success' :
-						employerReturn.status === 'submitted' ? 'info' :
-						employerReturn.status === 'overdue' ? 'destructive' :
-						employerReturn.status === 'rejected' ? 'destructive' : 'warning'
-					}>
-						{employerReturn.status.charAt(0).toUpperCase() + employerReturn.status.slice(1)}
+					<Badge
+						variant={
+							employerReturn.status === "approved"
+								? "success"
+								: employerReturn.status === "submitted"
+									? "info"
+									: employerReturn.status === "overdue"
+										? "destructive"
+										: employerReturn.status === "rejected"
+											? "destructive"
+											: "warning"
+						}
+					>
+						{employerReturn.status.charAt(0).toUpperCase() +
+							employerReturn.status.slice(1)}
 					</Badge>
 					<div>
 						<p className="font-medium">{employerReturn.clientName}</p>
-						<p className="text-muted-foreground text-sm">{employerReturn.returnPeriod}</p>
+						<p className="text-muted-foreground text-sm">
+							{employerReturn.returnPeriod}
+						</p>
 					</div>
 				</div>
 				<div className="text-right">
-					<div className="font-bold">${employerReturn.totalContributions.toLocaleString()}</div>
-					<p className="text-muted-foreground text-sm">{employerReturn.employeeCount} employees</p>
+					<div className="font-bold">
+						${employerReturn.totalContributions.toLocaleString()}
+					</div>
+					<p className="text-muted-foreground text-sm">
+						{employerReturn.employeeCount} employees
+					</p>
 					<p className="text-muted-foreground text-xs">
 						Due: {employerReturn.dueDate}
 					</p>
@@ -604,17 +677,28 @@ function ComplianceCertificateManager() {
 	);
 }
 
-function CertificateCard({ certificate }: { certificate: ComplianceCertificate }) {
+function CertificateCard({
+	certificate,
+}: {
+	certificate: ComplianceCertificate;
+}) {
 	return (
 		<Card>
 			<CardHeader>
 				<div className="flex items-center justify-between">
-					<Badge variant={
-						certificate.status === 'active' ? 'success' :
-						certificate.status === 'expiring' ? 'warning' :
-						certificate.status === 'expired' ? 'destructive' : 'info'
-					}>
-						{certificate.status.charAt(0).toUpperCase() + certificate.status.slice(1)}
+					<Badge
+						variant={
+							certificate.status === "active"
+								? "success"
+								: certificate.status === "expiring"
+									? "warning"
+									: certificate.status === "expired"
+										? "destructive"
+										: "info"
+						}
+					>
+						{certificate.status.charAt(0).toUpperCase() +
+							certificate.status.slice(1)}
 					</Badge>
 					<span className="text-muted-foreground text-xs">
 						{certificate.coverageType} coverage
@@ -638,14 +722,16 @@ function CertificateCard({ certificate }: { certificate: ComplianceCertificate }
 					</div>
 					<div className="flex justify-between">
 						<span className="text-muted-foreground">Expires:</span>
-						<span className={cn(
-							certificate.status === 'expiring' && "text-warning font-medium"
-						)}>
+						<span
+							className={cn(
+								certificate.status === "expiring" && "font-medium text-warning",
+							)}
+						>
 							{certificate.expiryDate}
 						</span>
 					</div>
 				</div>
-				{certificate.status === 'expiring' && (
+				{certificate.status === "expiring" && (
 					<Button className="w-full" size="sm">
 						Renew Certificate
 					</Button>
@@ -666,7 +752,8 @@ function CoverageAnalysis() {
 			</CardHeader>
 			<CardContent>
 				<p className="text-muted-foreground">
-					Coverage analysis tools and employee eligibility tracking would go here.
+					Coverage analysis tools and employee eligibility tracking would go
+					here.
 				</p>
 			</CardContent>
 		</Card>
@@ -684,7 +771,8 @@ function PaymentScheduleGenerator() {
 			</CardHeader>
 			<CardContent>
 				<p className="text-muted-foreground">
-					Payment schedule generation and payroll integration tools would go here.
+					Payment schedule generation and payroll integration tools would go
+					here.
 				</p>
 			</CardContent>
 		</Card>

@@ -1,1 +1,31 @@
-{"uuid":"a630a786-65f8-4413-982d-9bcbbba8a2d2","name":"services list should be accessible","historyId":"38b028deb67b10734c89729176c9406a:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.services.spec.ts"},{"name":"titlePath","value":" > chromium > crud/services.spec.ts > Services - Accessibility"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"crud/services.spec.ts"},{"name":"subSuite","value":"Services - Accessibility"}],"links":[],"start":1763549757506,"testCaseId":"38b028deb67b10734c89729176c9406a","fullName":"crud/services.spec.ts:188:2","titlePath":["crud","services.spec.ts","Services - Accessibility"],"stop":1763549757507}
+{
+	"uuid": "a630a786-65f8-4413-982d-9bcbbba8a2d2",
+	"name": "services list should be accessible",
+	"historyId": "38b028deb67b10734c89729176c9406a:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.services.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > crud/services.spec.ts > Services - Accessibility"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "crud/services.spec.ts" },
+		{ "name": "subSuite", "value": "Services - Accessibility" }
+	],
+	"links": [],
+	"start": 1763549757506,
+	"testCaseId": "38b028deb67b10734c89729176c9406a",
+	"fullName": "crud/services.spec.ts:188:2",
+	"titlePath": ["crud", "services.spec.ts", "Services - Accessibility"],
+	"stop": 1763549757507
+}

@@ -1,1 +1,36 @@
-{"uuid":"6757749f-0e0d-48b7-9ac1-aa5f9458d035","name":"should perform comprehensive API testing @api-comprehensive","historyId":"7e0584cf56d7dbef4a1d9f17d49b91ff:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"workflows.complete-user-journey.spec.ts"},{"name":"titlePath","value":" > tablet > workflows/complete-user-journey.spec.ts > Complete User Journey"},{"name":"tag","value":"api-comprehensive"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"workflows/complete-user-journey.spec.ts"},{"name":"subSuite","value":"Complete User Journey"}],"links":[],"start":1763549757729,"testCaseId":"7e0584cf56d7dbef4a1d9f17d49b91ff","fullName":"workflows/complete-user-journey.spec.ts:335:3","titlePath":["workflows","complete-user-journey.spec.ts","Complete User Journey"],"stop":1763549757729}
+{
+	"uuid": "6757749f-0e0d-48b7-9ac1-aa5f9458d035",
+	"name": "should perform comprehensive API testing @api-comprehensive",
+	"historyId": "7e0584cf56d7dbef4a1d9f17d49b91ff:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "workflows.complete-user-journey.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > workflows/complete-user-journey.spec.ts > Complete User Journey"
+		},
+		{ "name": "tag", "value": "api-comprehensive" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "workflows/complete-user-journey.spec.ts" },
+		{ "name": "subSuite", "value": "Complete User Journey" }
+	],
+	"links": [],
+	"start": 1763549757729,
+	"testCaseId": "7e0584cf56d7dbef4a1d9f17d49b91ff",
+	"fullName": "workflows/complete-user-journey.spec.ts:335:3",
+	"titlePath": [
+		"workflows",
+		"complete-user-journey.spec.ts",
+		"Complete User Journey"
+	],
+	"stop": 1763549757729
+}

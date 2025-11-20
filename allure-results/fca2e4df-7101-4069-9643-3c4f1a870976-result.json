@@ -1,1 +1,32 @@
-{"uuid":"fca2e4df-7101-4069-9643-3c4f1a870976","name":"should respond within acceptable time limits @api-performance","historyId":"ffb32f234a224fb84be3017f55bce0da:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"api.api-endpoints.spec.ts"},{"name":"titlePath","value":" > firefox > api/api-endpoints.spec.ts > API Endpoints - Performance"},{"name":"tag","value":"api-performance"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"api/api-endpoints.spec.ts"},{"name":"subSuite","value":"API Endpoints - Performance"}],"links":[],"start":1763549819594,"testCaseId":"ffb32f234a224fb84be3017f55bce0da","fullName":"api/api-endpoints.spec.ts:462:3","titlePath":["api","api-endpoints.spec.ts","API Endpoints - Performance"],"stop":1763549819594}
+{
+	"uuid": "fca2e4df-7101-4069-9643-3c4f1a870976",
+	"name": "should respond within acceptable time limits @api-performance",
+	"historyId": "ffb32f234a224fb84be3017f55bce0da:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "api.api-endpoints.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > api/api-endpoints.spec.ts > API Endpoints - Performance"
+		},
+		{ "name": "tag", "value": "api-performance" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "api/api-endpoints.spec.ts" },
+		{ "name": "subSuite", "value": "API Endpoints - Performance" }
+	],
+	"links": [],
+	"start": 1763549819594,
+	"testCaseId": "ffb32f234a224fb84be3017f55bce0da",
+	"fullName": "api/api-endpoints.spec.ts:462:3",
+	"titlePath": ["api", "api-endpoints.spec.ts", "API Endpoints - Performance"],
+	"stop": 1763549819594
+}

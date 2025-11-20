@@ -1,1 +1,36 @@
-{"uuid":"84173020-2d7b-4d12-a47d-2049dafeee11","name":"should perform comprehensive API testing @api-comprehensive","historyId":"7e0584cf56d7dbef4a1d9f17d49b91ff:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"workflows.complete-user-journey.spec.ts"},{"name":"titlePath","value":" > mobile-safari > workflows/complete-user-journey.spec.ts > Complete User Journey"},{"name":"tag","value":"api-comprehensive"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"workflows/complete-user-journey.spec.ts"},{"name":"subSuite","value":"Complete User Journey"}],"links":[],"start":1763549757690,"testCaseId":"7e0584cf56d7dbef4a1d9f17d49b91ff","fullName":"workflows/complete-user-journey.spec.ts:335:3","titlePath":["workflows","complete-user-journey.spec.ts","Complete User Journey"],"stop":1763549757690}
+{
+	"uuid": "84173020-2d7b-4d12-a47d-2049dafeee11",
+	"name": "should perform comprehensive API testing @api-comprehensive",
+	"historyId": "7e0584cf56d7dbef4a1d9f17d49b91ff:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "workflows.complete-user-journey.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > workflows/complete-user-journey.spec.ts > Complete User Journey"
+		},
+		{ "name": "tag", "value": "api-comprehensive" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "workflows/complete-user-journey.spec.ts" },
+		{ "name": "subSuite", "value": "Complete User Journey" }
+	],
+	"links": [],
+	"start": 1763549757690,
+	"testCaseId": "7e0584cf56d7dbef4a1d9f17d49b91ff",
+	"fullName": "workflows/complete-user-journey.spec.ts:335:3",
+	"titlePath": [
+		"workflows",
+		"complete-user-journey.spec.ts",
+		"Complete User Journey"
+	],
+	"stop": 1763549757690
+}

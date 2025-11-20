@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "../index.css";
 import Header from "@/components/header";
 import Providers from "@/components/providers";
+import { getCSPNonce } from "@/hooks/use-csp-nonce";
+import { CSPDebugInfo } from "@/components/layout/secure-script";
 
 // Optimized font loading with next/font
 const inter = Inter({
@@ -32,7 +34,7 @@ export const metadata: Metadata = {
 		"NIS contributions",
 		"EPA permits",
 		"tax consulting Guyana",
-		"business registration Guyana"
+		"business registration Guyana",
 	].join(", "),
 	viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 	themeColor: [
@@ -45,31 +47,39 @@ export const metadata: Metadata = {
 	publisher: "GCMC-KAJ Business Tax Services",
 	openGraph: {
 		type: "website",
-		title: "GCMC-KAJ Business Tax Services | Your Trusted Partner in Guyana Business Compliance",
-		description: "Simplifying Guyana business compliance with expert tax services, automated filing, and regulatory guidance. Trusted by enterprises across Guyana.",
+		title:
+			"GCMC-KAJ Business Tax Services | Your Trusted Partner in Guyana Business Compliance",
+		description:
+			"Simplifying Guyana business compliance with expert tax services, automated filing, and regulatory guidance. Trusted by enterprises across Guyana.",
 		siteName: "GCMC-KAJ Compliance Hub",
 		locale: "en_GY",
 	},
 	twitter: {
 		card: "summary_large_image",
 		title: "GCMC-KAJ Business Tax Services",
-		description: "Your trusted partner for Guyana business compliance and tax services.",
+		description:
+			"Your trusted partner for Guyana business compliance and tax services.",
 	},
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	// Get the CSP nonce for this request
+	const nonce = await getCSPNonce();
+
 	return (
 		<html lang="en" suppressHydrationWarning className={inter.variable}>
 			<body className="font-sans antialiased">
-				<Providers>
+				<Providers nonce={nonce}>
 					<div className="grid h-svh grid-rows-[auto_1fr]">
 						<Header />
 						{children}
 					</div>
+					{/* CSP Debug info in development */}
+					<CSPDebugInfo nonce={nonce} />
 				</Providers>
 			</body>
 		</html>

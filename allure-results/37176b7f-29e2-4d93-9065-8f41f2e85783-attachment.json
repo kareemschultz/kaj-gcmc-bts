@@ -1,0 +1,18 @@
+{
+  "method": "POST",
+  "url": "http://localhost:3000/api/auth/sign-in",
+  "headers": {
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  },
+  "data": {
+    "email": "admin@gcmc-kaj.com",
+    "password": "AdminPassword123"
+  },
+  "status": 404,
+  "timing": {
+    "duration": 21,
+    "startTime": 1763581119663,
+    "endTime": 1763581119684
+  }
+}

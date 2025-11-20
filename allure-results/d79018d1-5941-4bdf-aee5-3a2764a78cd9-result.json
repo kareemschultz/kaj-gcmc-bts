@@ -1,1 +1,31 @@
-{"uuid":"d79018d1-5941-4bdf-aee5-3a2764a78cd9","name":"services list should match baseline","historyId":"3e6efc00cea691b5625ee88eb70e88d1:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"visual.dashboard.spec.ts"},{"name":"titlePath","value":" > mobile-safari > visual/dashboard.spec.ts > Dashboard Visual Regression"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"visual/dashboard.spec.ts"},{"name":"subSuite","value":"Dashboard Visual Regression"}],"links":[],"start":1763549757685,"testCaseId":"3e6efc00cea691b5625ee88eb70e88d1","fullName":"visual/dashboard.spec.ts:34:2","titlePath":["visual","dashboard.spec.ts","Dashboard Visual Regression"],"stop":1763549757685}
+{
+	"uuid": "d79018d1-5941-4bdf-aee5-3a2764a78cd9",
+	"name": "services list should match baseline",
+	"historyId": "3e6efc00cea691b5625ee88eb70e88d1:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "visual.dashboard.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > visual/dashboard.spec.ts > Dashboard Visual Regression"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "visual/dashboard.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard Visual Regression" }
+	],
+	"links": [],
+	"start": 1763549757685,
+	"testCaseId": "3e6efc00cea691b5625ee88eb70e88d1",
+	"fullName": "visual/dashboard.spec.ts:34:2",
+	"titlePath": ["visual", "dashboard.spec.ts", "Dashboard Visual Regression"],
+	"stop": 1763549757685
+}

@@ -9,9 +9,14 @@ export default async function HomePage() {
 		},
 	});
 
-	// If user is authenticated, redirect to dashboard
+	// If user is authenticated, redirect based on role
 	if (session?.user) {
-		redirect("/dashboard");
+		const userRole = session.user.role || "client";
+		if (userRole === "client") {
+			redirect("/client-portal");
+		} else {
+			redirect("/dashboard");
+		}
 	}
 
 	// If not authenticated, redirect to login

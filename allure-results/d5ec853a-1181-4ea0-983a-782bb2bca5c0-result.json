@@ -1,1 +1,31 @@
-{"uuid":"d5ec853a-1181-4ea0-983a-782bb2bca5c0","name":"should support keyboard navigation","historyId":"f6889e97345b90b218d322b1fbb5cc7c:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > webkit > auth/login.spec.ts > Login - Accessibility"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login - Accessibility"}],"links":[],"start":1763549819643,"testCaseId":"f6889e97345b90b218d322b1fbb5cc7c","fullName":"auth/login.spec.ts:116:2","titlePath":["auth","login.spec.ts","Login - Accessibility"],"stop":1763549819643}
+{
+	"uuid": "d5ec853a-1181-4ea0-983a-782bb2bca5c0",
+	"name": "should support keyboard navigation",
+	"historyId": "f6889e97345b90b218d322b1fbb5cc7c:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > auth/login.spec.ts > Login - Accessibility"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login - Accessibility" }
+	],
+	"links": [],
+	"start": 1763549819643,
+	"testCaseId": "f6889e97345b90b218d322b1fbb5cc7c",
+	"fullName": "auth/login.spec.ts:116:2",
+	"titlePath": ["auth", "login.spec.ts", "Login - Accessibility"],
+	"stop": 1763549819643
+}

@@ -1,1 +1,32 @@
-{"uuid":"cb2a2d20-7365-4e15-aced-4446a063f975","name":"should generate client report @api-functional","historyId":"8ffdff7e119932a0ead63c62d205c74c:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"api.api-endpoints.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > api/api-endpoints.spec.ts > API Endpoints - Reports"},{"name":"tag","value":"api-functional"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"api/api-endpoints.spec.ts"},{"name":"subSuite","value":"API Endpoints - Reports"}],"links":[],"start":1763549819674,"testCaseId":"8ffdff7e119932a0ead63c62d205c74c","fullName":"api/api-endpoints.spec.ts:359:3","titlePath":["api","api-endpoints.spec.ts","API Endpoints - Reports"],"stop":1763549819675}
+{
+	"uuid": "cb2a2d20-7365-4e15-aced-4446a063f975",
+	"name": "should generate client report @api-functional",
+	"historyId": "8ffdff7e119932a0ead63c62d205c74c:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "api.api-endpoints.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > api/api-endpoints.spec.ts > API Endpoints - Reports"
+		},
+		{ "name": "tag", "value": "api-functional" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "api/api-endpoints.spec.ts" },
+		{ "name": "subSuite", "value": "API Endpoints - Reports" }
+	],
+	"links": [],
+	"start": 1763549819674,
+	"testCaseId": "8ffdff7e119932a0ead63c62d205c74c",
+	"fullName": "api/api-endpoints.spec.ts:359:3",
+	"titlePath": ["api", "api-endpoints.spec.ts", "API Endpoints - Reports"],
+	"stop": 1763549819675
+}

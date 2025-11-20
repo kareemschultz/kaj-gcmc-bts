@@ -1,0 +1,131 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link "KAJ GCMC Platform Compliance Management" [ref=e6] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e8]: KAJ
+          - generic [ref=e9]:
+            - generic [ref=e10]: GCMC Platform
+            - generic [ref=e11]: Compliance Management
+        - navigation [ref=e12]:
+          - link "Dashboard" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e14]
+            - generic [ref=e19]: Dashboard
+          - link "Clients" [ref=e20] [cursor=pointer]:
+            - /url: /clients
+            - img [ref=e21]
+            - generic [ref=e26]: Clients
+          - link "Documents" [ref=e27] [cursor=pointer]:
+            - /url: /documents
+            - img [ref=e28]
+            - generic [ref=e31]: Documents
+          - link "Filings" [ref=e32] [cursor=pointer]:
+            - /url: /filings
+            - img [ref=e33]
+            - generic [ref=e36]: Filings
+          - link "Services" [ref=e37] [cursor=pointer]:
+            - /url: /services
+            - img [ref=e38]
+            - generic [ref=e41]: Services
+          - link "Requests" [ref=e42] [cursor=pointer]:
+            - /url: /service-requests
+            - img [ref=e43]
+            - generic [ref=e46]: Requests
+          - link "Tasks" [ref=e47] [cursor=pointer]:
+            - /url: /tasks
+            - img [ref=e48]
+            - generic [ref=e51]: Tasks
+          - link "Messages" [ref=e52] [cursor=pointer]:
+            - /url: /conversations
+            - img [ref=e53]
+            - generic [ref=e55]: Messages
+          - link "Alerts" [ref=e56] [cursor=pointer]:
+            - /url: /notifications
+            - img [ref=e57]
+            - generic [ref=e60]: Alerts
+          - link "Admin" [ref=e61] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e62]
+            - generic [ref=e65]: Admin
+        - generic [ref=e66]:
+          - button "Notifications" [ref=e67]:
+            - img
+            - generic [ref=e68]: Notifications
+          - button "Animation accessibility controls" [ref=e70]:
+            - img
+            - text: Animations
+            - generic [ref=e71]: 1000fps
+          - button "Toggle theme" [ref=e72]:
+            - img
+            - generic [ref=e73]: Toggle theme
+          - link "Sign In" [ref=e74] [cursor=pointer]:
+            - /url: /login
+    - generic [ref=e76]:
+      - generic [ref=e80]:
+        - generic [ref=e81]:
+          - generic [ref=e82]:
+            - img [ref=e84]
+            - generic [ref=e88]:
+              - heading "GCMC-KAJ" [level=1] [ref=e89]
+              - paragraph [ref=e90]: Business Tax Services
+          - paragraph [ref=e91]: Your trusted partner for comprehensive tax compliance and business services in Guyana. Streamline your operations with our professional platform.
+        - generic [ref=e92]:
+          - generic [ref=e93]:
+            - img [ref=e95]
+            - generic [ref=e97]:
+              - heading "Secure & Compliant" [level=3] [ref=e98]
+              - paragraph [ref=e99]: Enterprise-grade security with full regulatory compliance for Guyana's tax requirements.
+          - generic [ref=e100]:
+            - img [ref=e102]
+            - generic [ref=e105]:
+              - heading "Complete Tax Management" [level=3] [ref=e106]
+              - paragraph [ref=e107]: Handle GRT, Corporation Tax, PAYE, and all tax filing requirements in one platform.
+          - generic [ref=e108]:
+            - img [ref=e110]
+            - generic [ref=e113]:
+              - heading "Real-time Analytics" [level=3] [ref=e114]
+              - paragraph [ref=e115]: Get insights into compliance status, deadlines, and business performance metrics.
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - generic [ref=e118]: 99.9%
+            - generic [ref=e119]: Uptime
+          - generic [ref=e120]:
+            - generic [ref=e121]: 500+
+            - generic [ref=e122]: Clients
+          - generic [ref=e123]:
+            - generic [ref=e124]: 24/7
+            - generic [ref=e125]: Support
+      - generic [ref=e127]:
+        - generic [ref=e128]:
+          - heading "Welcome Back" [level=2] [ref=e129]
+          - paragraph [ref=e130]: Sign in to access your tax management dashboard
+        - generic [ref=e131]:
+          - generic [ref=e132]:
+            - generic [ref=e133]: Email Address
+            - textbox "Email Address" [ref=e134]:
+              - /placeholder: Enter your email address
+          - generic [ref=e135]:
+            - generic [ref=e136]: Password
+            - generic [ref=e137]:
+              - textbox "Password" [ref=e138]:
+                - /placeholder: Enter your password
+              - button [ref=e139]:
+                - img [ref=e140]
+          - button "Sign In to Dashboard" [ref=e143]
+        - button "Need an account? Contact your administrator" [ref=e145]
+        - paragraph [ref=e147]: © 2024 GCMC-KAJ Business Tax Services. All rights reserved.
+  - generic [ref=e148]: "CSP Nonce: Nzd6a3dh..."
+  - generic [ref=e151]:
+    - img [ref=e153]
+    - button "Open Tanstack query devtools":
+      - img
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e255]:
+    - img [ref=e256]
+  - alert [ref=e259]
+```

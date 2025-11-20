@@ -1,1 +1,35 @@
-{"uuid":"0b0de5fc-0b26-4b68-b868-b7a7dc6374a7","name":"should handle missing required service","historyId":"2594437f2e60b40f54e1c5a4f6963031:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"workflows.client-service-request.spec.ts"},{"name":"titlePath","value":" > chromium > workflows/client-service-request.spec.ts > Service Request Workflow - Error Handling"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"workflows/client-service-request.spec.ts"},{"name":"subSuite","value":"Service Request Workflow - Error Handling"}],"links":[],"start":1763549757525,"testCaseId":"2594437f2e60b40f54e1c5a4f6963031","fullName":"workflows/client-service-request.spec.ts:226:2","titlePath":["workflows","client-service-request.spec.ts","Service Request Workflow - Error Handling"],"stop":1763549757525}
+{
+	"uuid": "0b0de5fc-0b26-4b68-b868-b7a7dc6374a7",
+	"name": "should handle missing required service",
+	"historyId": "2594437f2e60b40f54e1c5a4f6963031:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "workflows.client-service-request.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > workflows/client-service-request.spec.ts > Service Request Workflow - Error Handling"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "workflows/client-service-request.spec.ts" },
+		{ "name": "subSuite", "value": "Service Request Workflow - Error Handling" }
+	],
+	"links": [],
+	"start": 1763549757525,
+	"testCaseId": "2594437f2e60b40f54e1c5a4f6963031",
+	"fullName": "workflows/client-service-request.spec.ts:226:2",
+	"titlePath": [
+		"workflows",
+		"client-service-request.spec.ts",
+		"Service Request Workflow - Error Handling"
+	],
+	"stop": 1763549757525
+}

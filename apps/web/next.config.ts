@@ -26,67 +26,10 @@ const nextConfig: NextConfig = {
 		imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
 	},
 
-	// Comprehensive security headers and caching
+	// Optimized headers for static assets and caching
+	// Note: Security headers including CSP are handled by middleware for dynamic nonce support
 	async headers() {
-		const isProduction = process.env.NODE_ENV === "production";
 		return [
-			{
-				source: "/:path*",
-				headers: [
-					// Basic security headers
-					{
-						key: "X-DNS-Prefetch-Control",
-						value: "on",
-					},
-					{
-						key: "X-Frame-Options",
-						value: "SAMEORIGIN",
-					},
-					{
-						key: "X-Content-Type-Options",
-						value: "nosniff",
-					},
-					{
-						key: "Referrer-Policy",
-						value: "origin-when-cross-origin",
-					},
-					{
-						key: "X-XSS-Protection",
-						value: "1; mode=block",
-					},
-					// HSTS for production
-					...(isProduction
-						? [
-								{
-									key: "Strict-Transport-Security",
-									value: "max-age=31536000; includeSubDomains; preload",
-								},
-							]
-						: []),
-					// Permissions Policy (Feature Policy)
-					{
-						key: "Permissions-Policy",
-						value: "camera=(), microphone=(), geolocation=(), payment=()",
-					},
-					// Content Security Policy
-					{
-						key: "Content-Security-Policy",
-						value: [
-							"default-src 'self'",
-							"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com",
-							"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-							"font-src 'self' https://fonts.gstatic.com",
-							"img-src 'self' data: https: blob:",
-							isProduction
-								? "connect-src 'self' ws: wss:"
-								: "connect-src 'self' ws: wss: http://localhost:3000 https://localhost:3000 http://localhost:3003 https://localhost:3003",
-							"frame-ancestors 'self'",
-							"base-uri 'self'",
-							"form-action 'self'",
-						].join("; "),
-					},
-				],
-			},
 			{
 				source: "/static/:path*",
 				headers: [

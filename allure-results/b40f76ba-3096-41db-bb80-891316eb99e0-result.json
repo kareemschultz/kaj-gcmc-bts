@@ -1,1 +1,35 @@
-{"uuid":"b40f76ba-3096-41db-bb80-891316eb99e0","name":"generate accessibility report for dashboard","historyId":"aa83e99441dcab722455851f7b12d933:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"accessibility.wcag-compliance.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > accessibility/wcag-compliance.spec.ts > Accessibility Reports"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"accessibility/wcag-compliance.spec.ts"},{"name":"subSuite","value":"Accessibility Reports"}],"links":[],"start":1763549819670,"testCaseId":"aa83e99441dcab722455851f7b12d933","fullName":"accessibility/wcag-compliance.spec.ts:221:2","titlePath":["accessibility","wcag-compliance.spec.ts","Accessibility Reports"],"stop":1763549819670}
+{
+	"uuid": "b40f76ba-3096-41db-bb80-891316eb99e0",
+	"name": "generate accessibility report for dashboard",
+	"historyId": "aa83e99441dcab722455851f7b12d933:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "accessibility.wcag-compliance.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > accessibility/wcag-compliance.spec.ts > Accessibility Reports"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "accessibility/wcag-compliance.spec.ts" },
+		{ "name": "subSuite", "value": "Accessibility Reports" }
+	],
+	"links": [],
+	"start": 1763549819670,
+	"testCaseId": "aa83e99441dcab722455851f7b12d933",
+	"fullName": "accessibility/wcag-compliance.spec.ts:221:2",
+	"titlePath": [
+		"accessibility",
+		"wcag-compliance.spec.ts",
+		"Accessibility Reports"
+	],
+	"stop": 1763549819670
+}

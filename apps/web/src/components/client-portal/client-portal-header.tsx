@@ -2,12 +2,12 @@
 
 import {
 	Bell,
+	ChevronDown,
 	HelpCircle,
 	Menu,
 	Search,
 	Settings,
 	User,
-	ChevronDown,
 } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -83,11 +83,11 @@ export function ClientPortalHeader({ user }: ClientPortalHeaderProps) {
 				<div className="flex flex-1 items-center justify-center px-6 lg:justify-start">
 					<div className="w-full max-w-lg">
 						<div className="relative">
-							<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+							<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
 							<Input
 								type="search"
 								placeholder="Search documents, filings, messages..."
-								className="w-full pl-10 pr-4"
+								className="w-full pr-4 pl-10"
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
 							/>
@@ -103,7 +103,7 @@ export function ClientPortalHeader({ user }: ClientPortalHeaderProps) {
 							<Button variant="ghost" size="icon" className="relative">
 								<Bell className="h-5 w-5" />
 								{unreadCount > 0 && (
-									<Badge className="absolute -right-1 -top-1 h-5 w-5 rounded-full p-0 text-xs">
+									<Badge className="-right-1 -top-1 absolute h-5 w-5 rounded-full p-0 text-xs">
 										{unreadCount}
 									</Badge>
 								)}
@@ -122,7 +122,9 @@ export function ClientPortalHeader({ user }: ClientPortalHeaderProps) {
 										<div
 											key={notification.id}
 											className={`rounded-lg p-3 transition-colors hover:bg-muted ${
-												notification.unread ? "bg-blue-50 dark:bg-blue-950/20" : ""
+												notification.unread
+													? "bg-blue-50 dark:bg-blue-950/20"
+													: ""
 											}`}
 										>
 											<div className="flex items-start justify-between">

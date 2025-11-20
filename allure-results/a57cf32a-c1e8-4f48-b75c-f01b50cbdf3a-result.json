@@ -1,1 +1,484 @@
-{"uuid":"a57cf32a-c1e8-4f48-b75c-f01b50cbdf3a","name":"should show error with invalid credentials @negative","historyId":"486729033557c9996789b312aac2528e:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"failed","statusDetails":{"message":"Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n","trace":"Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n\n    at LoginPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at LoginPage.verifyErrorMessageDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:183:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:99:23"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Launch browser","start":1763550302629,"uuid":"8db59c7b-0a14-4d9d-a01f-8776bb92c2ef","stop":1763550302664}],"attachments":[],"parameters":[],"name":"Fixture \"browser\"","start":1763550302627,"uuid":"71bace18-a7f3-4713-aa24-5b1468746e21","stop":1763550302665},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create context","start":1763550302667,"uuid":"3c47ceb8-45ea-4b9c-94c8-64ffc8358507","stop":1763550302672}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550302666,"uuid":"04471aa8-5fdd-4220-a604-2104c2017a75","stop":1763550302673},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create page","start":1763550302674,"uuid":"c323ada3-21a5-4c22-9781-00a6d9b64f91","stop":1763550302695}],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550302673,"uuid":"da02b64a-1e42-4d24-b376-ddeb4aa3da5a","stop":1763550302695},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550302702,"uuid":"160e98c6-7253-4be8-b69d-29859787be8b","stop":1763550302702},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550302704,"uuid":"91542f86-f7d8-4978-8d92-3f79b9c18db6","stop":1763550302704},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550302705,"uuid":"8a58fa66-22d9-444e-84da-fdec7ecd60e6","stop":1763550302705}],"attachments":[],"parameters":[],"name":"beforeEach hook","start":1763550302619,"uuid":"94ee5ace-0375-4d8c-8c05-f50372ccfcf5","stop":1763550302705},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550302705,"uuid":"a01fc136-65ee-43f5-afae-57f6a5c8d895","stop":1763550302706}],"attachments":[],"parameters":[],"name":"Before Hooks","start":1763550302618,"uuid":"d8e39638-f9ea-4533-a92a-b20f72b1246f","stop":1763550302706},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550302710,"name":"Navigate to \"/login\"","uuid":"b0d5111b-af89-4dc6-912a-fd400982c7ff","stop":1763550302931},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550302932,"name":"Wait for load state \"networkidle\"","uuid":"de7c5f85-88d5-4c23-aa0b-5eaa2607ef3c","stop":1763550303569},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303570,"name":"Wait for load state \"domcontentloaded\"","uuid":"b12926da-6ba8-4697-8896-dbdd1a20a63f","stop":1763550303570},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303571,"name":"Wait for load state \"networkidle\"","uuid":"87c950c3-311c-4798-aecd-184ec2b95cd6","stop":1763550303571},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303571,"name":"Wait for load state \"domcontentloaded\"","uuid":"1f4e906e-727c-4fed-88c7-bc57300caafb","stop":1763550303571},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303574,"name":"Wait for selector locator('input[name=\"email\"], input[type=\"email\"], #email')","uuid":"45c845bb-1807-47bc-b7f4-0f7767e737d1","stop":1763550303591},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303592,"name":"Wait for selector locator('input[name=\"password\"], input[type=\"password\"], #password')","uuid":"fcba4fd2-26d4-4b27-8bb3-a60a4690686e","stop":1763550303597},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303598,"name":"Wait for selector locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')","uuid":"c8a74d73-9c53-428a-99ed-831158ba9c9d","stop":1763550303601}],"attachments":[],"parameters":[],"start":1763550302707,"name":"Navigate to login page","uuid":"f7a8399b-237b-4900-9eee-def46ed86354","stop":1763550303601},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303604,"name":"Clear locator('input[name=\"email\"], input[type=\"email\"], #email')","uuid":"c0fdd79b-90ae-4382-a2c6-26cb3df7eeb4","stop":1763550303617},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303617,"name":"Fill \"invalid@example.com\" locator('input[name=\"email\"], input[type=\"email\"], #email')","uuid":"65de19b4-dd80-45d8-bd66-683055e2de22","stop":1763550303630},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303631,"name":"Clear locator('input[name=\"password\"], input[type=\"password\"], #password')","uuid":"049fe991-3509-442a-aaaf-84cd9df67040","stop":1763550303645},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303645,"name":"Fill \"wrongpassword\" locator('input[name=\"password\"], input[type=\"password\"], #password')","uuid":"20e1adb2-f4a4-415b-a7d6-fe3f04c3f5f8","stop":1763550303653},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303654,"name":"Click locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')","uuid":"9625bd6a-2362-483c-a1ed-c609aacaa4a4","stop":1763550303707},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303708,"name":"Wait for load state \"networkidle\"","uuid":"fea47488-4e04-4d7b-8e3e-11e39784865c","stop":1763550303708}],"attachments":[],"parameters":[],"start":1763550303602,"name":"Enter invalid credentials","uuid":"2a083213-ab6b-44ed-80b5-1ca9ac788f75","stop":1763550303708},{"status":"failed","statusDetails":{"message":"Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n","trace":"Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n\n    at LoginPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at LoginPage.verifyErrorMessageDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:183:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:99:23"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303710,"name":"Expect \"toHaveURL\"","uuid":"ccdbc353-afa9-4812-a2e1-9e76018181e4","stop":1763550303715},{"status":"failed","statusDetails":{"message":"Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n","trace":"Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n\n    at LoginPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at LoginPage.verifyErrorMessageDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:183:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:99:23"},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550303715,"name":"Expect \"toBeVisible\"","uuid":"2e9fbcc4-552c-4068-ab88-f6eebe7f8395","stop":1763550303718}],"attachments":[],"parameters":[],"start":1763550303708,"name":"Verify error handling","uuid":"be14b101-1899-4bdb-ae03-a332c449821a","stop":1763550303718},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550303854,"uuid":"a3b36f28-289e-4f5f-9b31-52ffef681f85","stop":1763550303854},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550303855,"uuid":"4d03b4e6-0cca-4043-b396-e62dcd660b0c","stop":1763550303855},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Close context","start":1763550303876,"uuid":"0ccd2638-68bd-44ac-8fd7-c613a4a68c95","stop":1763550303888}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550303855,"uuid":"06309d11-b777-4e5c-a356-d165bb139866","stop":1763550303890}],"attachments":[],"parameters":[],"name":"After Hooks","start":1763550303718,"uuid":"77726f4b-03b3-42e1-ba34-a75db2edd450","stop":1763550303893}],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.enhanced-login.spec.ts"},{"name":"titlePath","value":" > chromium > auth/enhanced-login.spec.ts > Enhanced Login Flow"},{"name":"tag","value":"negative"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-24537-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/enhanced-login.spec.ts"},{"name":"subSuite","value":"Enhanced Login Flow"},{"name":"epic","value":"Authentication"},{"name":"feature","value":"Login"},{"name":"story","value":"User Login Flow"}],"links":[],"start":1763550302617,"testCaseId":"486729033557c9996789b312aac2528e","fullName":"auth/enhanced-login.spec.ts:88:3","titlePath":["auth","enhanced-login.spec.ts","Enhanced Login Flow"],"stop":1763550303839}
+{
+	"uuid": "a57cf32a-c1e8-4f48-b75c-f01b50cbdf3a",
+	"name": "should show error with invalid credentials @negative",
+	"historyId": "486729033557c9996789b312aac2528e:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "failed",
+	"statusDetails": {
+		"message": "Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n",
+		"trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n\n    at LoginPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at LoginPage.verifyErrorMessageDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:183:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:99:23"
+	},
+	"stage": "finished",
+	"steps": [
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Launch browser",
+									"start": 1763550302629,
+									"uuid": "8db59c7b-0a14-4d9d-a01f-8776bb92c2ef",
+									"stop": 1763550302664
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"browser\"",
+							"start": 1763550302627,
+							"uuid": "71bace18-a7f3-4713-aa24-5b1468746e21",
+							"stop": 1763550302665
+						},
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Create context",
+									"start": 1763550302667,
+									"uuid": "3c47ceb8-45ea-4b9c-94c8-64ffc8358507",
+									"stop": 1763550302672
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"context\"",
+							"start": 1763550302666,
+							"uuid": "04471aa8-5fdd-4220-a604-2104c2017a75",
+							"stop": 1763550302673
+						},
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Create page",
+									"start": 1763550302674,
+									"uuid": "c323ada3-21a5-4c22-9781-00a6d9b64f91",
+									"stop": 1763550302695
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"page\"",
+							"start": 1763550302673,
+							"uuid": "da02b64a-1e42-4d24-b376-ddeb4aa3da5a",
+							"stop": 1763550302695
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550302702,
+							"uuid": "160e98c6-7253-4be8-b69d-29859787be8b",
+							"stop": 1763550302702
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550302704,
+							"uuid": "91542f86-f7d8-4978-8d92-3f79b9c18db6",
+							"stop": 1763550302704
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550302705,
+							"uuid": "8a58fa66-22d9-444e-84da-fdec7ecd60e6",
+							"stop": 1763550302705
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "beforeEach hook",
+					"start": 1763550302619,
+					"uuid": "94ee5ace-0375-4d8c-8c05-f50372ccfcf5",
+					"stop": 1763550302705
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550302705,
+					"uuid": "a01fc136-65ee-43f5-afae-57f6a5c8d895",
+					"stop": 1763550302706
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "Before Hooks",
+			"start": 1763550302618,
+			"uuid": "d8e39638-f9ea-4533-a92a-b20f72b1246f",
+			"stop": 1763550302706
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550302710,
+					"name": "Navigate to \"/login\"",
+					"uuid": "b0d5111b-af89-4dc6-912a-fd400982c7ff",
+					"stop": 1763550302931
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550302932,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "de7c5f85-88d5-4c23-aa0b-5eaa2607ef3c",
+					"stop": 1763550303569
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303570,
+					"name": "Wait for load state \"domcontentloaded\"",
+					"uuid": "b12926da-6ba8-4697-8896-dbdd1a20a63f",
+					"stop": 1763550303570
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303571,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "87c950c3-311c-4798-aecd-184ec2b95cd6",
+					"stop": 1763550303571
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303571,
+					"name": "Wait for load state \"domcontentloaded\"",
+					"uuid": "1f4e906e-727c-4fed-88c7-bc57300caafb",
+					"stop": 1763550303571
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303574,
+					"name": "Wait for selector locator('input[name=\"email\"], input[type=\"email\"], #email')",
+					"uuid": "45c845bb-1807-47bc-b7f4-0f7767e737d1",
+					"stop": 1763550303591
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303592,
+					"name": "Wait for selector locator('input[name=\"password\"], input[type=\"password\"], #password')",
+					"uuid": "fcba4fd2-26d4-4b27-8bb3-a60a4690686e",
+					"stop": 1763550303597
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303598,
+					"name": "Wait for selector locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')",
+					"uuid": "c8a74d73-9c53-428a-99ed-831158ba9c9d",
+					"stop": 1763550303601
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550302707,
+			"name": "Navigate to login page",
+			"uuid": "f7a8399b-237b-4900-9eee-def46ed86354",
+			"stop": 1763550303601
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303604,
+					"name": "Clear locator('input[name=\"email\"], input[type=\"email\"], #email')",
+					"uuid": "c0fdd79b-90ae-4382-a2c6-26cb3df7eeb4",
+					"stop": 1763550303617
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303617,
+					"name": "Fill \"invalid@example.com\" locator('input[name=\"email\"], input[type=\"email\"], #email')",
+					"uuid": "65de19b4-dd80-45d8-bd66-683055e2de22",
+					"stop": 1763550303630
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303631,
+					"name": "Clear locator('input[name=\"password\"], input[type=\"password\"], #password')",
+					"uuid": "049fe991-3509-442a-aaaf-84cd9df67040",
+					"stop": 1763550303645
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303645,
+					"name": "Fill \"wrongpassword\" locator('input[name=\"password\"], input[type=\"password\"], #password')",
+					"uuid": "20e1adb2-f4a4-415b-a7d6-fe3f04c3f5f8",
+					"stop": 1763550303653
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303654,
+					"name": "Click locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')",
+					"uuid": "9625bd6a-2362-483c-a1ed-c609aacaa4a4",
+					"stop": 1763550303707
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303708,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "fea47488-4e04-4d7b-8e3e-11e39784865c",
+					"stop": 1763550303708
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550303602,
+			"name": "Enter invalid credentials",
+			"uuid": "2a083213-ab6b-44ed-80b5-1ca9ac788f75",
+			"stop": 1763550303708
+		},
+		{
+			"status": "failed",
+			"statusDetails": {
+				"message": "Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n",
+				"trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n\n    at LoginPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at LoginPage.verifyErrorMessageDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:183:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:99:23"
+			},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303710,
+					"name": "Expect \"toHaveURL\"",
+					"uuid": "ccdbc353-afa9-4812-a2e1-9e76018181e4",
+					"stop": 1763550303715
+				},
+				{
+					"status": "failed",
+					"statusDetails": {
+						"message": "Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n",
+						"trace": "Error: expect(locator).toBeVisible() failed\n\nLocator: [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\nExpected: visible\nError: Unexpected token \"=\" while parsing css selector \"[data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\". Did you mean to CSS.escape it?\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 5000ms\n  - waiting for [data-testid=\"error-message\"], .error-message, .alert-error, text=/Invalid.*credentials/i\n\n    at LoginPage.verifyElementVisible (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:157:27)\n    at LoginPage.verifyErrorMessageDisplayed (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:183:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:99:23"
+					},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550303715,
+					"name": "Expect \"toBeVisible\"",
+					"uuid": "2e9fbcc4-552c-4068-ab88-f6eebe7f8395",
+					"stop": 1763550303718
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550303708,
+			"name": "Verify error handling",
+			"uuid": "be14b101-1899-4bdb-ae03-a332c449821a",
+			"stop": 1763550303718
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550303854,
+					"uuid": "a3b36f28-289e-4f5f-9b31-52ffef681f85",
+					"stop": 1763550303854
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"page\"",
+					"start": 1763550303855,
+					"uuid": "4d03b4e6-0cca-4043-b396-e62dcd660b0c",
+					"stop": 1763550303855
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Close context",
+							"start": 1763550303876,
+							"uuid": "0ccd2638-68bd-44ac-8fd7-c613a4a68c95",
+							"stop": 1763550303888
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"context\"",
+					"start": 1763550303855,
+					"uuid": "06309d11-b777-4e5c-a356-d165bb139866",
+					"stop": 1763550303890
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "After Hooks",
+			"start": 1763550303718,
+			"uuid": "77726f4b-03b3-42e1-ba34-a75db2edd450",
+			"stop": 1763550303893
+		}
+	],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.enhanced-login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/enhanced-login.spec.ts > Enhanced Login Flow"
+		},
+		{ "name": "tag", "value": "negative" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-24537-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/enhanced-login.spec.ts" },
+		{ "name": "subSuite", "value": "Enhanced Login Flow" },
+		{ "name": "epic", "value": "Authentication" },
+		{ "name": "feature", "value": "Login" },
+		{ "name": "story", "value": "User Login Flow" }
+	],
+	"links": [],
+	"start": 1763550302617,
+	"testCaseId": "486729033557c9996789b312aac2528e",
+	"fullName": "auth/enhanced-login.spec.ts:88:3",
+	"titlePath": ["auth", "enhanced-login.spec.ts", "Enhanced Login Flow"],
+	"stop": 1763550303839
+}

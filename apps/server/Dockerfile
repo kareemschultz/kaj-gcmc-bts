@@ -78,9 +78,11 @@ COPY --from=builder /app/apps/server/dist ./apps/server/dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/packages ./packages
 
-# Copy Prisma schema and generated client for runtime
+# Copy Prisma schema for runtime
 COPY --from=builder /app/packages/db/prisma ./packages/db/prisma
-COPY --from=builder /app/packages/db/node_modules/.prisma ./packages/db/node_modules/.prisma
+
+# Generate Prisma client in production
+RUN cd packages/db && bunx prisma generate
 
 # Set ownership
 RUN chown -R api:api /app

@@ -1,1 +1,137 @@
-{"uuid":"b6a8fb3e-c935-480c-9651-33e05ea2bd9a","name":"should display dashboard correctly after login @smoke","historyId":"e70279993badd740820312a0ebf28520:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"failed","statusDetails":{"message":"ReferenceError: __dirname is not defined","trace":"ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"},"stage":"finished","steps":[{"status":"failed","statusDetails":{"message":"ReferenceError: __dirname is not defined","trace":"ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"},"stage":"finished","steps":[{"status":"failed","statusDetails":{"message":"ReferenceError: __dirname is not defined","trace":"ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Launch browser","start":1763550030186,"uuid":"b8a3fec8-772f-4994-a819-ca47eb5b9a27","stop":1763550030220}],"attachments":[],"parameters":[],"name":"Fixture \"browser\"","start":1763550030184,"uuid":"bd8823f4-f89f-4ba9-b057-ed4bddd6c932","stop":1763550030220},{"status":"failed","statusDetails":{"message":"ReferenceError: __dirname is not defined","trace":"ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"authenticatedPage\"","start":1763550030221,"uuid":"b700df68-6853-4e22-a539-4183974f049b","stop":1763550030222}],"attachments":[],"parameters":[],"name":"beforeEach hook","start":1763550030177,"uuid":"1f702cc7-1cf7-4dd3-8837-407c136ce910","stop":1763550030222}],"attachments":[],"parameters":[],"name":"Before Hooks","start":1763550030176,"uuid":"4f5f4817-1631-4703-afe9-90f395cbe2c1","stop":1763550030222},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"authenticatedPage\"","start":1763550030223,"uuid":"458c7250-1d5f-451c-b8a9-ac740dd427f0","stop":1763550030223}],"attachments":[],"parameters":[],"name":"After Hooks","start":1763550030223,"uuid":"a7eb523b-6261-4e73-b431-9548ef288f94","stop":1763550030231}],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"dashboard.dashboard-functionality.spec.ts"},{"name":"titlePath","value":" > chromium > dashboard/dashboard-functionality.spec.ts > Dashboard Functionality"},{"name":"tag","value":"smoke"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-16190-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"dashboard/dashboard-functionality.spec.ts"},{"name":"subSuite","value":"Dashboard Functionality"}],"links":[],"start":1763550030175,"testCaseId":"e70279993badd740820312a0ebf28520","fullName":"dashboard/dashboard-functionality.spec.ts:20:3","titlePath":["dashboard","dashboard-functionality.spec.ts","Dashboard Functionality"],"stop":1763550030178}
+{
+	"uuid": "b6a8fb3e-c935-480c-9651-33e05ea2bd9a",
+	"name": "should display dashboard correctly after login @smoke",
+	"historyId": "e70279993badd740820312a0ebf28520:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "failed",
+	"statusDetails": {
+		"message": "ReferenceError: __dirname is not defined",
+		"trace": "ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"
+	},
+	"stage": "finished",
+	"steps": [
+		{
+			"status": "failed",
+			"statusDetails": {
+				"message": "ReferenceError: __dirname is not defined",
+				"trace": "ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"
+			},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "failed",
+					"statusDetails": {
+						"message": "ReferenceError: __dirname is not defined",
+						"trace": "ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"
+					},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Launch browser",
+									"start": 1763550030186,
+									"uuid": "b8a3fec8-772f-4994-a819-ca47eb5b9a27",
+									"stop": 1763550030220
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"browser\"",
+							"start": 1763550030184,
+							"uuid": "bd8823f4-f89f-4ba9-b057-ed4bddd6c932",
+							"stop": 1763550030220
+						},
+						{
+							"status": "failed",
+							"statusDetails": {
+								"message": "ReferenceError: __dirname is not defined",
+								"trace": "ReferenceError: __dirname is not defined\n    at Object.authenticatedPage (/home/kareem/kaj-gcmc-bts/tests/e2e/fixtures/enhanced-fixtures.ts:125:40)"
+							},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"authenticatedPage\"",
+							"start": 1763550030221,
+							"uuid": "b700df68-6853-4e22-a539-4183974f049b",
+							"stop": 1763550030222
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "beforeEach hook",
+					"start": 1763550030177,
+					"uuid": "1f702cc7-1cf7-4dd3-8837-407c136ce910",
+					"stop": 1763550030222
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "Before Hooks",
+			"start": 1763550030176,
+			"uuid": "4f5f4817-1631-4703-afe9-90f395cbe2c1",
+			"stop": 1763550030222
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"authenticatedPage\"",
+					"start": 1763550030223,
+					"uuid": "458c7250-1d5f-451c-b8a9-ac740dd427f0",
+					"stop": 1763550030223
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "After Hooks",
+			"start": 1763550030223,
+			"uuid": "a7eb523b-6261-4e73-b431-9548ef288f94",
+			"stop": 1763550030231
+		}
+	],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "dashboard.dashboard-functionality.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > dashboard/dashboard-functionality.spec.ts > Dashboard Functionality"
+		},
+		{ "name": "tag", "value": "smoke" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-16190-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "dashboard/dashboard-functionality.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard Functionality" }
+	],
+	"links": [],
+	"start": 1763550030175,
+	"testCaseId": "e70279993badd740820312a0ebf28520",
+	"fullName": "dashboard/dashboard-functionality.spec.ts:20:3",
+	"titlePath": [
+		"dashboard",
+		"dashboard-functionality.spec.ts",
+		"Dashboard Functionality"
+	],
+	"stop": 1763550030178
+}

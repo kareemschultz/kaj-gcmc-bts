@@ -1,1 +1,31 @@
-{"uuid":"0f5e9d1a-08c4-477b-b0a7-3f03221378e5","name":"should delete service","historyId":"6a8386431f5ad1d94f8d80b6b727f68d:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.services.spec.ts"},{"name":"titlePath","value":" > tablet > crud/services.spec.ts > Services CRUD"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"crud/services.spec.ts"},{"name":"subSuite","value":"Services CRUD"}],"links":[],"start":1763549757711,"testCaseId":"6a8386431f5ad1d94f8d80b6b727f68d","fullName":"crud/services.spec.ts:97:2","titlePath":["crud","services.spec.ts","Services CRUD"],"stop":1763549757711}
+{
+	"uuid": "0f5e9d1a-08c4-477b-b0a7-3f03221378e5",
+	"name": "should delete service",
+	"historyId": "6a8386431f5ad1d94f8d80b6b727f68d:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.services.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > crud/services.spec.ts > Services CRUD"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "crud/services.spec.ts" },
+		{ "name": "subSuite", "value": "Services CRUD" }
+	],
+	"links": [],
+	"start": 1763549757711,
+	"testCaseId": "6a8386431f5ad1d94f8d80b6b727f68d",
+	"fullName": "crud/services.spec.ts:97:2",
+	"titlePath": ["crud", "services.spec.ts", "Services CRUD"],
+	"stop": 1763549757711
+}

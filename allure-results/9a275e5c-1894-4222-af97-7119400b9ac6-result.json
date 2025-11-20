@@ -1,1 +1,36 @@
-{"uuid":"9a275e5c-1894-4222-af97-7119400b9ac6","name":"should search clients by name @functional","historyId":"86962772538c5a662c35b685a7ad8726:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.clients-management.spec.ts"},{"name":"titlePath","value":" > webkit > crud/clients-management.spec.ts > Clients Management - Search and Filter"},{"name":"tag","value":"functional"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"crud/clients-management.spec.ts"},{"name":"subSuite","value":"Clients Management - Search and Filter"}],"links":[],"start":1763549819645,"testCaseId":"86962772538c5a662c35b685a7ad8726","fullName":"crud/clients-management.spec.ts:247:3","titlePath":["crud","clients-management.spec.ts","Clients Management - Search and Filter"],"stop":1763549819645}
+{
+	"uuid": "9a275e5c-1894-4222-af97-7119400b9ac6",
+	"name": "should search clients by name @functional",
+	"historyId": "86962772538c5a662c35b685a7ad8726:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.clients-management.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > crud/clients-management.spec.ts > Clients Management - Search and Filter"
+		},
+		{ "name": "tag", "value": "functional" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "crud/clients-management.spec.ts" },
+		{ "name": "subSuite", "value": "Clients Management - Search and Filter" }
+	],
+	"links": [],
+	"start": 1763549819645,
+	"testCaseId": "86962772538c5a662c35b685a7ad8726",
+	"fullName": "crud/clients-management.spec.ts:247:3",
+	"titlePath": [
+		"crud",
+		"clients-management.spec.ts",
+		"Clients Management - Search and Filter"
+	],
+	"stop": 1763549819645
+}

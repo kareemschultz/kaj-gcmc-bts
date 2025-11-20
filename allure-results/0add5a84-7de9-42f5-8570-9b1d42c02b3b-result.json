@@ -1,1 +1,36 @@
-{"uuid":"0add5a84-7de9-42f5-8570-9b1d42c02b3b","name":"should reject invalid credentials @api-negative","historyId":"0bb425c2657b240c4e4bf1c9e26194ca:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"api.api-endpoints.spec.ts"},{"name":"titlePath","value":" > firefox > api/api-endpoints.spec.ts > API Endpoints - Authentication"},{"name":"tag","value":"api-negative"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"api/api-endpoints.spec.ts"},{"name":"subSuite","value":"API Endpoints - Authentication"}],"links":[],"start":1763549757531,"testCaseId":"0bb425c2657b240c4e4bf1c9e26194ca","fullName":"api/api-endpoints.spec.ts:32:3","titlePath":["api","api-endpoints.spec.ts","API Endpoints - Authentication"],"stop":1763549757531}
+{
+	"uuid": "0add5a84-7de9-42f5-8570-9b1d42c02b3b",
+	"name": "should reject invalid credentials @api-negative",
+	"historyId": "0bb425c2657b240c4e4bf1c9e26194ca:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "api.api-endpoints.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > api/api-endpoints.spec.ts > API Endpoints - Authentication"
+		},
+		{ "name": "tag", "value": "api-negative" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "api/api-endpoints.spec.ts" },
+		{ "name": "subSuite", "value": "API Endpoints - Authentication" }
+	],
+	"links": [],
+	"start": 1763549757531,
+	"testCaseId": "0bb425c2657b240c4e4bf1c9e26194ca",
+	"fullName": "api/api-endpoints.spec.ts:32:3",
+	"titlePath": [
+		"api",
+		"api-endpoints.spec.ts",
+		"API Endpoints - Authentication"
+	],
+	"stop": 1763549757531
+}

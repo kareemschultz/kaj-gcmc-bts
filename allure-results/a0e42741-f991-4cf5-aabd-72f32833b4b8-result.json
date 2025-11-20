@@ -1,1 +1,32 @@
-{"uuid":"a0e42741-f991-4cf5-aabd-72f32833b4b8","name":"should handle special characters in credentials @edge-case","historyId":"1851e92340ce183cb9ccdfcdd99bc55f:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.enhanced-login.spec.ts"},{"name":"titlePath","value":" > mobile-safari > auth/enhanced-login.spec.ts > Login Flow - Edge Cases"},{"name":"tag","value":"edge-case"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"auth/enhanced-login.spec.ts"},{"name":"subSuite","value":"Login Flow - Edge Cases"}],"links":[],"start":1763549819719,"testCaseId":"1851e92340ce183cb9ccdfcdd99bc55f","fullName":"auth/enhanced-login.spec.ts:279:3","titlePath":["auth","enhanced-login.spec.ts","Login Flow - Edge Cases"],"stop":1763549819719}
+{
+	"uuid": "a0e42741-f991-4cf5-aabd-72f32833b4b8",
+	"name": "should handle special characters in credentials @edge-case",
+	"historyId": "1851e92340ce183cb9ccdfcdd99bc55f:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.enhanced-login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > auth/enhanced-login.spec.ts > Login Flow - Edge Cases"
+		},
+		{ "name": "tag", "value": "edge-case" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "auth/enhanced-login.spec.ts" },
+		{ "name": "subSuite", "value": "Login Flow - Edge Cases" }
+	],
+	"links": [],
+	"start": 1763549819719,
+	"testCaseId": "1851e92340ce183cb9ccdfcdd99bc55f",
+	"fullName": "auth/enhanced-login.spec.ts:279:3",
+	"titlePath": ["auth", "enhanced-login.spec.ts", "Login Flow - Edge Cases"],
+	"stop": 1763549819719
+}

@@ -13,11 +13,11 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AccessibilityControls } from "./animations/accessibility-controls";
+import { PageTransition } from "./animations/page-transitions";
 import { ModeToggle } from "./mode-toggle";
 import { NotificationBell } from "./notifications/notification-bell";
 import UserMenu from "./user-menu";
-import { AccessibilityControls } from "./animations/accessibility-controls";
-import { PageTransition } from "./animations/page-transitions";
 
 export default function Header() {
 	const pathname = usePathname();

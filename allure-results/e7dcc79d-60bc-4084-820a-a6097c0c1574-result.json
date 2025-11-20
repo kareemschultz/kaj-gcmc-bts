@@ -1,1 +1,509 @@
-{"uuid":"e7dcc79d-60bc-4084-820a-a6097c0c1574","name":"should validate required fields @validation","historyId":"cb49222da5cec120ae280466d04bdb46:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"failed","statusDetails":{"message":"TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n","trace":"TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n\n    at LoginPage.click (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:52:19)\n    at LoginPage.clickLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:79:16)\n    at LoginPage.submitEmptyForm (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:117:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:120:23"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Launch browser","start":1763550304420,"uuid":"319a2833-0eed-4ee1-83cf-a747cd192051","stop":1763550304455}],"attachments":[],"parameters":[],"name":"Fixture \"browser\"","start":1763550304418,"uuid":"1a239806-b4f3-4465-82a1-940e9320fe45","stop":1763550304455},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create context","start":1763550304458,"uuid":"a7e2e513-2ada-4024-a4f1-ce292d48db20","stop":1763550304463}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550304457,"uuid":"8af7d5d6-d7d4-4937-b881-e9fa0489f936","stop":1763550304463},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create page","start":1763550304465,"uuid":"5ee517d9-393f-4eb9-a273-ecdf27452046","stop":1763550304487}],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550304464,"uuid":"7118b239-6dcd-42d0-a5e4-7b5286008d93","stop":1763550304487},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550304494,"uuid":"07463adb-2a44-49ed-be7e-c35145f27377","stop":1763550304494},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550304496,"uuid":"e9e1ef2b-44f1-411e-91ba-1b692fa3ae9c","stop":1763550304496},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550304497,"uuid":"d27b6614-fe0f-41f1-8e60-4db071538a03","stop":1763550304497}],"attachments":[],"parameters":[],"name":"beforeEach hook","start":1763550304411,"uuid":"d5725cd9-1f7d-4ec1-8eed-6c3b216eb7c3","stop":1763550304497},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550304497,"uuid":"0ceab8a6-f278-4f09-9168-e8dfcbe5a5de","stop":1763550304498}],"attachments":[],"parameters":[],"name":"Before Hooks","start":1763550304411,"uuid":"ac7026da-0ea9-404b-8d79-438f6701d6c1","stop":1763550304498},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550304502,"name":"Navigate to \"/login\"","uuid":"0cd4df5b-54a4-40cf-afe9-bf4871835dea","stop":1763550304734},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550304736,"name":"Wait for load state \"networkidle\"","uuid":"d820fbd5-d085-45e3-8dd4-14d4b1318ce8","stop":1763550305373},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305374,"name":"Wait for load state \"domcontentloaded\"","uuid":"686ab71b-e5e2-48da-89f5-643e92bcedb7","stop":1763550305374},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305375,"name":"Wait for load state \"networkidle\"","uuid":"c5669a6a-0b76-4f37-b2e4-1fab690eae09","stop":1763550305375},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305375,"name":"Wait for load state \"domcontentloaded\"","uuid":"1a75e85a-741b-4dc5-a64f-8052b3d422e2","stop":1763550305376},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305378,"name":"Wait for selector locator('input[name=\"email\"], input[type=\"email\"], #email')","uuid":"a57dbfb8-db88-4bfc-b537-d50280f83410","stop":1763550305396},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305397,"name":"Wait for selector locator('input[name=\"password\"], input[type=\"password\"], #password')","uuid":"8492b662-fd85-401c-9b8d-42d86b6151ba","stop":1763550305400},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305400,"name":"Wait for selector locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')","uuid":"e5feeaaf-9308-4e5f-8686-84a6feba91e4","stop":1763550305404}],"attachments":[],"parameters":[],"start":1763550304499,"name":"Navigate to login page","uuid":"dab9c2ae-7f76-4aae-9e34-b0a03e60e270","stop":1763550305404},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305406,"name":"Click locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')","uuid":"1993a496-8dc9-4aa8-9517-88a02a64e92b","stop":1763550305438}],"attachments":[],"parameters":[],"start":1763550305404,"name":"Submit empty form","uuid":"06e4656b-42e1-4588-8673-b473c525f247","stop":1763550305438},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305440,"name":"Expect \"toHaveURL\"","uuid":"f58f0ee4-a7a4-4e38-b64a-65496953957b","stop":1763550305445}],"attachments":[],"parameters":[],"start":1763550305438,"name":"Verify validation errors","uuid":"bb8723c5-2af9-4ca8-bbef-253ac6212ee6","stop":1763550305445},{"status":"failed","statusDetails":{"message":"TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n","trace":"TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n\n    at LoginPage.click (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:52:19)\n    at LoginPage.clickLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:79:16)\n    at LoginPage.submitEmptyForm (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:117:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:120:23"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305447,"name":"Clear locator('input[name=\"email\"], input[type=\"email\"], #email')","uuid":"8551d0ea-5c6d-4c8a-ba2a-33f858220162","stop":1763550305456},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305458,"name":"Fill \"invalid-email\" locator('input[name=\"email\"], input[type=\"email\"], #email')","uuid":"71197017-db62-4bc0-8631-89c6a9827a83","stop":1763550305469},{"status":"failed","statusDetails":{"message":"TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n","trace":"TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n\n    at LoginPage.click (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:52:19)\n    at LoginPage.clickLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:79:16)\n    at LoginPage.submitEmptyForm (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:117:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:120:23"},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550305470,"name":"Click locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')","uuid":"ec72483e-d3f0-4725-bea7-50c21185e66c","stop":1763550315472}],"attachments":[],"parameters":[],"start":1763550305446,"name":"Test individual field validation","uuid":"e7ed5496-fe08-45db-a9b4-47a8b9704ad7","stop":1763550315472},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"screenshot","source":"8aac8aa8-5f90-44ca-b42a-89e56e069c86-attachment.png","type":"image/png"}],"parameters":[],"start":1763550315651,"name":"screenshot","stop":1763550315651},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"video","source":"2502d22a-aaab-4bc6-8ff4-a3c6b4c7b3f2-attachment.webm","type":"video/webm"}],"parameters":[],"start":1763550315652,"name":"video","stop":1763550315652},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"error-context","source":"77b4337e-a21b-4327-baf8-9b0f29a37289-attachment.md","type":"text/markdown"}],"parameters":[],"start":1763550315652,"name":"error-context","stop":1763550315652},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550315597,"uuid":"5466f0a2-b709-43ec-8400-4b1fdf3723a0","stop":1763550315597},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550315597,"uuid":"f11fd3e1-8020-4895-bde2-5b393972904e","stop":1763550315597},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Close context","start":1763550315617,"uuid":"b8fbcf2e-8332-4c9e-8fb9-5ae98a4d3ad3","stop":1763550315625}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550315597,"uuid":"1ed87437-cd4a-4459-8c0a-86ddd3469332","stop":1763550315627}],"attachments":[],"parameters":[],"name":"After Hooks","start":1763550315472,"uuid":"e46b30e9-30cb-45d9-b380-b209a2aa92cb","stop":1763550315633}],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.enhanced-login.spec.ts"},{"name":"titlePath","value":" > chromium > auth/enhanced-login.spec.ts > Enhanced Login Flow"},{"name":"tag","value":"validation"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-24537-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/enhanced-login.spec.ts"},{"name":"subSuite","value":"Enhanced Login Flow"},{"name":"epic","value":"Authentication"},{"name":"feature","value":"Login"},{"name":"story","value":"User Login Flow"}],"links":[],"start":1763550304409,"testCaseId":"cb49222da5cec120ae280466d04bdb46","fullName":"auth/enhanced-login.spec.ts:103:3","titlePath":["auth","enhanced-login.spec.ts","Enhanced Login Flow"],"stop":1763550315580}
+{
+	"uuid": "e7dcc79d-60bc-4084-820a-a6097c0c1574",
+	"name": "should validate required fields @validation",
+	"historyId": "cb49222da5cec120ae280466d04bdb46:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "failed",
+	"statusDetails": {
+		"message": "TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n",
+		"trace": "TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n\n    at LoginPage.click (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:52:19)\n    at LoginPage.clickLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:79:16)\n    at LoginPage.submitEmptyForm (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:117:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:120:23"
+	},
+	"stage": "finished",
+	"steps": [
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Launch browser",
+									"start": 1763550304420,
+									"uuid": "319a2833-0eed-4ee1-83cf-a747cd192051",
+									"stop": 1763550304455
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"browser\"",
+							"start": 1763550304418,
+							"uuid": "1a239806-b4f3-4465-82a1-940e9320fe45",
+							"stop": 1763550304455
+						},
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Create context",
+									"start": 1763550304458,
+									"uuid": "a7e2e513-2ada-4024-a4f1-ce292d48db20",
+									"stop": 1763550304463
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"context\"",
+							"start": 1763550304457,
+							"uuid": "8af7d5d6-d7d4-4937-b881-e9fa0489f936",
+							"stop": 1763550304463
+						},
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Create page",
+									"start": 1763550304465,
+									"uuid": "5ee517d9-393f-4eb9-a273-ecdf27452046",
+									"stop": 1763550304487
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"page\"",
+							"start": 1763550304464,
+							"uuid": "7118b239-6dcd-42d0-a5e4-7b5286008d93",
+							"stop": 1763550304487
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550304494,
+							"uuid": "07463adb-2a44-49ed-be7e-c35145f27377",
+							"stop": 1763550304494
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550304496,
+							"uuid": "e9e1ef2b-44f1-411e-91ba-1b692fa3ae9c",
+							"stop": 1763550304496
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550304497,
+							"uuid": "d27b6614-fe0f-41f1-8e60-4db071538a03",
+							"stop": 1763550304497
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "beforeEach hook",
+					"start": 1763550304411,
+					"uuid": "d5725cd9-1f7d-4ec1-8eed-6c3b216eb7c3",
+					"stop": 1763550304497
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550304497,
+					"uuid": "0ceab8a6-f278-4f09-9168-e8dfcbe5a5de",
+					"stop": 1763550304498
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "Before Hooks",
+			"start": 1763550304411,
+			"uuid": "ac7026da-0ea9-404b-8d79-438f6701d6c1",
+			"stop": 1763550304498
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550304502,
+					"name": "Navigate to \"/login\"",
+					"uuid": "0cd4df5b-54a4-40cf-afe9-bf4871835dea",
+					"stop": 1763550304734
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550304736,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "d820fbd5-d085-45e3-8dd4-14d4b1318ce8",
+					"stop": 1763550305373
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305374,
+					"name": "Wait for load state \"domcontentloaded\"",
+					"uuid": "686ab71b-e5e2-48da-89f5-643e92bcedb7",
+					"stop": 1763550305374
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305375,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "c5669a6a-0b76-4f37-b2e4-1fab690eae09",
+					"stop": 1763550305375
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305375,
+					"name": "Wait for load state \"domcontentloaded\"",
+					"uuid": "1a75e85a-741b-4dc5-a64f-8052b3d422e2",
+					"stop": 1763550305376
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305378,
+					"name": "Wait for selector locator('input[name=\"email\"], input[type=\"email\"], #email')",
+					"uuid": "a57dbfb8-db88-4bfc-b537-d50280f83410",
+					"stop": 1763550305396
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305397,
+					"name": "Wait for selector locator('input[name=\"password\"], input[type=\"password\"], #password')",
+					"uuid": "8492b662-fd85-401c-9b8d-42d86b6151ba",
+					"stop": 1763550305400
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305400,
+					"name": "Wait for selector locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')",
+					"uuid": "e5feeaaf-9308-4e5f-8686-84a6feba91e4",
+					"stop": 1763550305404
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550304499,
+			"name": "Navigate to login page",
+			"uuid": "dab9c2ae-7f76-4aae-9e34-b0a03e60e270",
+			"stop": 1763550305404
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305406,
+					"name": "Click locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')",
+					"uuid": "1993a496-8dc9-4aa8-9517-88a02a64e92b",
+					"stop": 1763550305438
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550305404,
+			"name": "Submit empty form",
+			"uuid": "06e4656b-42e1-4588-8673-b473c525f247",
+			"stop": 1763550305438
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305440,
+					"name": "Expect \"toHaveURL\"",
+					"uuid": "f58f0ee4-a7a4-4e38-b64a-65496953957b",
+					"stop": 1763550305445
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550305438,
+			"name": "Verify validation errors",
+			"uuid": "bb8723c5-2af9-4ca8-bbef-253ac6212ee6",
+			"stop": 1763550305445
+		},
+		{
+			"status": "failed",
+			"statusDetails": {
+				"message": "TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n",
+				"trace": "TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n\n    at LoginPage.click (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:52:19)\n    at LoginPage.clickLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:79:16)\n    at LoginPage.submitEmptyForm (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:117:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:120:23"
+			},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305447,
+					"name": "Clear locator('input[name=\"email\"], input[type=\"email\"], #email')",
+					"uuid": "8551d0ea-5c6d-4c8a-ba2a-33f858220162",
+					"stop": 1763550305456
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305458,
+					"name": "Fill \"invalid-email\" locator('input[name=\"email\"], input[type=\"email\"], #email')",
+					"uuid": "71197017-db62-4bc0-8631-89c6a9827a83",
+					"stop": 1763550305469
+				},
+				{
+					"status": "failed",
+					"statusDetails": {
+						"message": "TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n",
+						"trace": "TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n  - waiting for locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')\n    - locator resolved to <button disabled type=\"submit\" data-slot=\"button\" class=\"inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 shadow-xs hover:bg-primary/90 h-…>Sign In to Dashboard</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    19 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n\n    at LoginPage.click (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/common/base-page.ts:52:19)\n    at LoginPage.clickLogin (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:79:16)\n    at LoginPage.submitEmptyForm (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:117:16)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:120:23"
+					},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550305470,
+					"name": "Click locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')",
+					"uuid": "ec72483e-d3f0-4725-bea7-50c21185e66c",
+					"stop": 1763550315472
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550305446,
+			"name": "Test individual field validation",
+			"uuid": "e7ed5496-fe08-45db-a9b4-47a8b9704ad7",
+			"stop": 1763550315472
+		},
+		{
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [],
+			"attachments": [
+				{
+					"name": "screenshot",
+					"source": "8aac8aa8-5f90-44ca-b42a-89e56e069c86-attachment.png",
+					"type": "image/png"
+				}
+			],
+			"parameters": [],
+			"start": 1763550315651,
+			"name": "screenshot",
+			"stop": 1763550315651
+		},
+		{
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [],
+			"attachments": [
+				{
+					"name": "video",
+					"source": "2502d22a-aaab-4bc6-8ff4-a3c6b4c7b3f2-attachment.webm",
+					"type": "video/webm"
+				}
+			],
+			"parameters": [],
+			"start": 1763550315652,
+			"name": "video",
+			"stop": 1763550315652
+		},
+		{
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [],
+			"attachments": [
+				{
+					"name": "error-context",
+					"source": "77b4337e-a21b-4327-baf8-9b0f29a37289-attachment.md",
+					"type": "text/markdown"
+				}
+			],
+			"parameters": [],
+			"start": 1763550315652,
+			"name": "error-context",
+			"stop": 1763550315652
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550315597,
+					"uuid": "5466f0a2-b709-43ec-8400-4b1fdf3723a0",
+					"stop": 1763550315597
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"page\"",
+					"start": 1763550315597,
+					"uuid": "f11fd3e1-8020-4895-bde2-5b393972904e",
+					"stop": 1763550315597
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Close context",
+							"start": 1763550315617,
+							"uuid": "b8fbcf2e-8332-4c9e-8fb9-5ae98a4d3ad3",
+							"stop": 1763550315625
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"context\"",
+					"start": 1763550315597,
+					"uuid": "1ed87437-cd4a-4459-8c0a-86ddd3469332",
+					"stop": 1763550315627
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "After Hooks",
+			"start": 1763550315472,
+			"uuid": "e46b30e9-30cb-45d9-b380-b209a2aa92cb",
+			"stop": 1763550315633
+		}
+	],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.enhanced-login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/enhanced-login.spec.ts > Enhanced Login Flow"
+		},
+		{ "name": "tag", "value": "validation" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-24537-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/enhanced-login.spec.ts" },
+		{ "name": "subSuite", "value": "Enhanced Login Flow" },
+		{ "name": "epic", "value": "Authentication" },
+		{ "name": "feature", "value": "Login" },
+		{ "name": "story", "value": "User Login Flow" }
+	],
+	"links": [],
+	"start": 1763550304409,
+	"testCaseId": "cb49222da5cec120ae280466d04bdb46",
+	"fullName": "auth/enhanced-login.spec.ts:103:3",
+	"titlePath": ["auth", "enhanced-login.spec.ts", "Enhanced Login Flow"],
+	"stop": 1763550315580
+}

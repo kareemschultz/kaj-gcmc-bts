@@ -1,1 +1,31 @@
-{"uuid":"49a8d75d-30f7-4e30-9e19-5dc119b4771e","name":"dashboard should render correctly in dark mode","historyId":"9bcca401b0fcbe79b374ffb8a2548c25:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"visual.dashboard.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > visual/dashboard.spec.ts > Dashboard Visual - Dark Mode"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"visual/dashboard.spec.ts"},{"name":"subSuite","value":"Dashboard Visual - Dark Mode"}],"links":[],"start":1763549819702,"testCaseId":"9bcca401b0fcbe79b374ffb8a2548c25","fullName":"visual/dashboard.spec.ts:91:2","titlePath":["visual","dashboard.spec.ts","Dashboard Visual - Dark Mode"],"stop":1763549819702}
+{
+	"uuid": "49a8d75d-30f7-4e30-9e19-5dc119b4771e",
+	"name": "dashboard should render correctly in dark mode",
+	"historyId": "9bcca401b0fcbe79b374ffb8a2548c25:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "visual.dashboard.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > visual/dashboard.spec.ts > Dashboard Visual - Dark Mode"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "visual/dashboard.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard Visual - Dark Mode" }
+	],
+	"links": [],
+	"start": 1763549819702,
+	"testCaseId": "9bcca401b0fcbe79b374ffb8a2548c25",
+	"fullName": "visual/dashboard.spec.ts:91:2",
+	"titlePath": ["visual", "dashboard.spec.ts", "Dashboard Visual - Dark Mode"],
+	"stop": 1763549819702
+}

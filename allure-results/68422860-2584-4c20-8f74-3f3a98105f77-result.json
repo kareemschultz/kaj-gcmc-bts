@@ -1,1 +1,32 @@
-{"uuid":"68422860-2584-4c20-8f74-3f3a98105f77","name":"should login successfully with test user credentials @regression","historyId":"277f1fd3801bc515be9a9bd466cb9d2c:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.enhanced-login.spec.ts"},{"name":"titlePath","value":" > tablet > auth/enhanced-login.spec.ts > Enhanced Login Flow"},{"name":"tag","value":"regression"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"auth/enhanced-login.spec.ts"},{"name":"subSuite","value":"Enhanced Login Flow"}],"links":[],"start":1763549757701,"testCaseId":"277f1fd3801bc515be9a9bd466cb9d2c","fullName":"auth/enhanced-login.spec.ts:70:3","titlePath":["auth","enhanced-login.spec.ts","Enhanced Login Flow"],"stop":1763549757701}
+{
+	"uuid": "68422860-2584-4c20-8f74-3f3a98105f77",
+	"name": "should login successfully with test user credentials @regression",
+	"historyId": "277f1fd3801bc515be9a9bd466cb9d2c:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.enhanced-login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > auth/enhanced-login.spec.ts > Enhanced Login Flow"
+		},
+		{ "name": "tag", "value": "regression" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "auth/enhanced-login.spec.ts" },
+		{ "name": "subSuite", "value": "Enhanced Login Flow" }
+	],
+	"links": [],
+	"start": 1763549757701,
+	"testCaseId": "277f1fd3801bc515be9a9bd466cb9d2c",
+	"fullName": "auth/enhanced-login.spec.ts:70:3",
+	"titlePath": ["auth", "enhanced-login.spec.ts", "Enhanced Login Flow"],
+	"stop": 1763549757701
+}

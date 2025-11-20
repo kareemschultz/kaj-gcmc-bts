@@ -1,1 +1,36 @@
-{"uuid":"91aabffe-19ae-4987-9581-43533a587424","name":"should handle non-existent resource @api-negative","historyId":"cc6dd436fcfbce3c84f57c8b4982e7ad:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"api.api-endpoints.spec.ts"},{"name":"titlePath","value":" > mobile-safari > api/api-endpoints.spec.ts > API Endpoints - Error Handling"},{"name":"tag","value":"api-negative"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"api/api-endpoints.spec.ts"},{"name":"subSuite","value":"API Endpoints - Error Handling"}],"links":[],"start":1763549819715,"testCaseId":"cc6dd436fcfbce3c84f57c8b4982e7ad","fullName":"api/api-endpoints.spec.ts:426:3","titlePath":["api","api-endpoints.spec.ts","API Endpoints - Error Handling"],"stop":1763549819715}
+{
+	"uuid": "91aabffe-19ae-4987-9581-43533a587424",
+	"name": "should handle non-existent resource @api-negative",
+	"historyId": "cc6dd436fcfbce3c84f57c8b4982e7ad:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "api.api-endpoints.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > api/api-endpoints.spec.ts > API Endpoints - Error Handling"
+		},
+		{ "name": "tag", "value": "api-negative" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "api/api-endpoints.spec.ts" },
+		{ "name": "subSuite", "value": "API Endpoints - Error Handling" }
+	],
+	"links": [],
+	"start": 1763549819715,
+	"testCaseId": "cc6dd436fcfbce3c84f57c8b4982e7ad",
+	"fullName": "api/api-endpoints.spec.ts:426:3",
+	"titlePath": [
+		"api",
+		"api-endpoints.spec.ts",
+		"API Endpoints - Error Handling"
+	],
+	"stop": 1763549819715
+}

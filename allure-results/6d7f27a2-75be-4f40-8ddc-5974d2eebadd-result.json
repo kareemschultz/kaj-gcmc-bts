@@ -1,1 +1,31 @@
-{"uuid":"6d7f27a2-75be-4f40-8ddc-5974d2eebadd","name":"should handle session persistence","historyId":"666a7ac4e2b69f12437aa4a73ea964b6:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > mobile-safari > auth/login.spec.ts > Login Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login Flow"}],"links":[],"start":1763549819721,"testCaseId":"666a7ac4e2b69f12437aa4a73ea964b6","fullName":"auth/login.spec.ts:91:2","titlePath":["auth","login.spec.ts","Login Flow"],"stop":1763549819721}
+{
+	"uuid": "6d7f27a2-75be-4f40-8ddc-5974d2eebadd",
+	"name": "should handle session persistence",
+	"historyId": "666a7ac4e2b69f12437aa4a73ea964b6:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > auth/login.spec.ts > Login Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login Flow" }
+	],
+	"links": [],
+	"start": 1763549819721,
+	"testCaseId": "666a7ac4e2b69f12437aa4a73ea964b6",
+	"fullName": "auth/login.spec.ts:91:2",
+	"titlePath": ["auth", "login.spec.ts", "Login Flow"],
+	"stop": 1763549819721
+}

@@ -1,1 +1,37 @@
-{"uuid":"8c7bfdd2-a883-4613-b00c-d253acea1b06","name":"should handle error scenarios gracefully @negative @error-handling","historyId":"65120ebb701c0e1bef14a3ecde1bf653:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"workflows.complete-user-journey.spec.ts"},{"name":"titlePath","value":" > tablet > workflows/complete-user-journey.spec.ts > Complete User Journey"},{"name":"tag","value":"negative"},{"name":"tag","value":"error-handling"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"workflows/complete-user-journey.spec.ts"},{"name":"subSuite","value":"Complete User Journey"}],"links":[],"start":1763549757729,"testCaseId":"65120ebb701c0e1bef14a3ecde1bf653","fullName":"workflows/complete-user-journey.spec.ts:275:3","titlePath":["workflows","complete-user-journey.spec.ts","Complete User Journey"],"stop":1763549757729}
+{
+	"uuid": "8c7bfdd2-a883-4613-b00c-d253acea1b06",
+	"name": "should handle error scenarios gracefully @negative @error-handling",
+	"historyId": "65120ebb701c0e1bef14a3ecde1bf653:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "workflows.complete-user-journey.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > workflows/complete-user-journey.spec.ts > Complete User Journey"
+		},
+		{ "name": "tag", "value": "negative" },
+		{ "name": "tag", "value": "error-handling" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "workflows/complete-user-journey.spec.ts" },
+		{ "name": "subSuite", "value": "Complete User Journey" }
+	],
+	"links": [],
+	"start": 1763549757729,
+	"testCaseId": "65120ebb701c0e1bef14a3ecde1bf653",
+	"fullName": "workflows/complete-user-journey.spec.ts:275:3",
+	"titlePath": [
+		"workflows",
+		"complete-user-journey.spec.ts",
+		"Complete User Journey"
+	],
+	"stop": 1763549757729
+}

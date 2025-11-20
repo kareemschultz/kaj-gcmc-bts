@@ -1,7 +1,9 @@
 "use client";
 
 import {
+	AlertTriangle,
 	Calendar as CalendarIcon,
+	CheckCircle,
 	ChevronLeft,
 	ChevronRight,
 	Clock,
@@ -9,8 +11,6 @@ import {
 	Filter,
 	Plus,
 	User,
-	AlertTriangle,
-	CheckCircle,
 } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
@@ -157,7 +157,9 @@ const statusIcons = {
 };
 
 export function ClientCalendar({ user }: ClientCalendarProps) {
-	const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+	const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+		new Date(),
+	);
 	const [viewMode, setViewMode] = useState<"month" | "week" | "list">("month");
 	const [filterType, setFilterType] = useState<string>("all");
 	const [filterCategory, setFilterCategory] = useState<string>("all");
@@ -165,7 +167,8 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 	// Filter events based on selected filters
 	const filteredEvents = mockEvents.filter((event) => {
 		const typeMatch = filterType === "all" || event.type === filterType;
-		const categoryMatch = filterCategory === "all" || event.category === filterCategory;
+		const categoryMatch =
+			filterCategory === "all" || event.category === filterCategory;
 		return typeMatch && categoryMatch;
 	});
 
@@ -185,7 +188,11 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 			const now = new Date();
 			const weekFromNow = new Date();
 			weekFromNow.setDate(now.getDate() + 7);
-			return event.date >= now && event.date <= weekFromNow && event.status === "upcoming";
+			return (
+				event.date >= now &&
+				event.date <= weekFromNow &&
+				event.status === "upcoming"
+			);
 		})
 		.sort((a, b) => a.date.getTime() - b.date.getTime());
 
@@ -199,7 +206,7 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 	const eventsWithDates = filteredEvents.filter((event) => event.date);
 
 	// Get unique categories for filter
-	const categories = [...new Set(mockEvents.map(event => event.category))];
+	const categories = [...new Set(mockEvents.map((event) => event.category))];
 
 	const formatDate = (date: Date) => {
 		return date.toLocaleDateString("en-US", {
@@ -256,7 +263,9 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 					<CardContent className="p-6">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-muted-foreground text-sm">Upcoming This Week</p>
+								<p className="text-muted-foreground text-sm">
+									Upcoming This Week
+								</p>
 								<p className="font-bold text-2xl">{upcomingEvents.length}</p>
 							</div>
 							<div className="rounded-full bg-blue-100 p-3">
@@ -324,7 +333,10 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 			</div>
 
 			{/* Calendar Tabs */}
-			<Tabs value={viewMode} onValueChange={(value) => setViewMode(value as any)}>
+			<Tabs
+				value={viewMode}
+				onValueChange={(value) => setViewMode(value as any)}
+			>
 				<TabsList>
 					<TabsTrigger value="month">Month View</TabsTrigger>
 					<TabsTrigger value="list">List View</TabsTrigger>
@@ -344,10 +356,10 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 									onSelect={setSelectedDate}
 									className="rounded-md border"
 									modifiers={{
-										hasEvents: eventsWithDates.map(event => event.date),
+										hasEvents: eventsWithDates.map((event) => event.date),
 									}}
 									modifiersStyles={{
-										hasEvents: { backgroundColor: '#3b82f6', color: 'white' },
+										hasEvents: { backgroundColor: "#3b82f6", color: "white" },
 									}}
 								/>
 							</CardContent>
@@ -373,7 +385,9 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 											>
 												<div className="space-y-2">
 													<div className="flex items-center justify-between">
-														<h4 className="font-medium text-sm">{event.title}</h4>
+														<h4 className="font-medium text-sm">
+															{event.title}
+														</h4>
 														{statusIcons[event.status]}
 													</div>
 													<p className="text-muted-foreground text-xs">
@@ -392,7 +406,7 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 										))}
 									</div>
 								) : (
-									<p className="text-muted-foreground text-center text-sm">
+									<p className="text-center text-muted-foreground text-sm">
 										No events scheduled for this date
 									</p>
 								)}
@@ -410,9 +424,7 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 									<Clock className="h-5 w-5 text-blue-600" />
 									Upcoming Events
 								</CardTitle>
-								<CardDescription>
-									Events in the next 7 days
-								</CardDescription>
+								<CardDescription>Events in the next 7 days</CardDescription>
 							</CardHeader>
 							<CardContent>
 								{upcomingEvents.length > 0 ? (
@@ -430,12 +442,18 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 																{event.description}
 															</p>
 														</div>
-														<Badge variant={getDaysUntil(event.date) <= 3 ? "destructive" : "outline"}>
+														<Badge
+															variant={
+																getDaysUntil(event.date) <= 3
+																	? "destructive"
+																	: "outline"
+															}
+														>
 															{getDaysUntil(event.date) === 0
 																? "Today"
 																: getDaysUntil(event.date) === 1
-																? "Tomorrow"
-																: `${getDaysUntil(event.date)} days`}
+																	? "Tomorrow"
+																	: `${getDaysUntil(event.date)} days`}
 														</Badge>
 													</div>
 
@@ -448,10 +466,11 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 																{event.priority}
 															</Badge>
 														</div>
-														<div className="flex items-center space-x-2 text-sm text-muted-foreground">
+														<div className="flex items-center space-x-2 text-muted-foreground text-sm">
 															<CalendarIcon className="h-4 w-4" />
 															<span>
-																{event.date.toLocaleDateString()} at {event.time}
+																{event.date.toLocaleDateString()} at{" "}
+																{event.time}
 															</span>
 														</div>
 													</div>
@@ -499,7 +518,9 @@ export function ClientCalendar({ user }: ClientCalendarProps) {
 												<div className="flex items-center space-x-3">
 													{statusIcons[event.status]}
 													<div>
-														<h4 className="font-medium text-sm">{event.title}</h4>
+														<h4 className="font-medium text-sm">
+															{event.title}
+														</h4>
 														<p className="text-muted-foreground text-xs">
 															{event.date.toLocaleDateString()} • {event.time}
 														</p>

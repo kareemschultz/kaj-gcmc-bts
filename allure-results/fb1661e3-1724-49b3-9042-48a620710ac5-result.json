@@ -1,1 +1,31 @@
-{"uuid":"fb1661e3-1724-49b3-9042-48a620710ac5","name":"should not allow back navigation after logout","historyId":"aa6799c6948d989e6caaf959d70946ba:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.logout.spec.ts"},{"name":"titlePath","value":" > firefox > auth/logout.spec.ts > Logout Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"auth/logout.spec.ts"},{"name":"subSuite","value":"Logout Flow"}],"links":[],"start":1763549819601,"testCaseId":"aa6799c6948d989e6caaf959d70946ba","fullName":"auth/logout.spec.ts:45:2","titlePath":["auth","logout.spec.ts","Logout Flow"],"stop":1763549819601}
+{
+	"uuid": "fb1661e3-1724-49b3-9042-48a620710ac5",
+	"name": "should not allow back navigation after logout",
+	"historyId": "aa6799c6948d989e6caaf959d70946ba:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.logout.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > auth/logout.spec.ts > Logout Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "auth/logout.spec.ts" },
+		{ "name": "subSuite", "value": "Logout Flow" }
+	],
+	"links": [],
+	"start": 1763549819601,
+	"testCaseId": "aa6799c6948d989e6caaf959d70946ba",
+	"fullName": "auth/logout.spec.ts:45:2",
+	"titlePath": ["auth", "logout.spec.ts", "Logout Flow"],
+	"stop": 1763549819601
+}

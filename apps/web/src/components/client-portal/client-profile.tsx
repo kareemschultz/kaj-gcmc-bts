@@ -1,6 +1,7 @@
 "use client";
 
 import {
+	Building2,
 	Camera,
 	Edit2,
 	Lock,
@@ -9,7 +10,6 @@ import {
 	Save,
 	Shield,
 	User,
-	Building2,
 } from "lucide-react";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -61,7 +61,7 @@ export function ClientProfile({ user }: ClientProfileProps) {
 	};
 
 	const handleInputChange = (field: string, value: string) => {
-		setProfileData(prev => ({ ...prev, [field]: value }));
+		setProfileData((prev) => ({ ...prev, [field]: value }));
 	};
 
 	return (
@@ -69,7 +69,9 @@ export function ClientProfile({ user }: ClientProfileProps) {
 			{/* Header */}
 			<div className="flex flex-col space-y-4 md:flex-row md:items-start md:justify-between md:space-y-0">
 				<div>
-					<h1 className="font-bold text-3xl tracking-tight">Profile Settings</h1>
+					<h1 className="font-bold text-3xl tracking-tight">
+						Profile Settings
+					</h1>
 					<p className="text-muted-foreground">
 						Manage your account information and business details
 					</p>
@@ -109,7 +111,7 @@ export function ClientProfile({ user }: ClientProfileProps) {
 								<Button
 									size="icon"
 									variant="outline"
-									className="absolute -bottom-2 -right-2 h-8 w-8 rounded-full"
+									className="-bottom-2 -right-2 absolute h-8 w-8 rounded-full"
 								>
 									<Camera className="h-4 w-4" />
 								</Button>
@@ -120,7 +122,7 @@ export function ClientProfile({ user }: ClientProfileProps) {
 								<h2 className="font-bold text-2xl">{profileData.name}</h2>
 								<p className="text-muted-foreground">{profileData.position}</p>
 							</div>
-							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
+							<div className="flex items-center space-x-4 text-muted-foreground text-sm">
 								<div className="flex items-center space-x-1">
 									<Building2 className="h-4 w-4" />
 									<span>{profileData.company}</span>
@@ -187,7 +189,9 @@ export function ClientProfile({ user }: ClientProfileProps) {
 									<Input
 										id="position"
 										value={profileData.position}
-										onChange={(e) => handleInputChange("position", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("position", e.target.value)
+										}
 										disabled={!isEditing}
 									/>
 								</div>
@@ -232,7 +236,9 @@ export function ClientProfile({ user }: ClientProfileProps) {
 									<Input
 										id="company"
 										value={profileData.company}
-										onChange={(e) => handleInputChange("company", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("company", e.target.value)
+										}
 										disabled={!isEditing}
 									/>
 								</div>
@@ -241,7 +247,9 @@ export function ClientProfile({ user }: ClientProfileProps) {
 									<Input
 										id="industry"
 										value={profileData.industry}
-										onChange={(e) => handleInputChange("industry", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("industry", e.target.value)
+										}
 										disabled={!isEditing}
 									/>
 								</div>
@@ -259,7 +267,9 @@ export function ClientProfile({ user }: ClientProfileProps) {
 									<Input
 										id="businessLicense"
 										value={profileData.businessLicense}
-										onChange={(e) => handleInputChange("businessLicense", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("businessLicense", e.target.value)
+										}
 										disabled={!isEditing}
 									/>
 								</div>
@@ -269,7 +279,9 @@ export function ClientProfile({ user }: ClientProfileProps) {
 										id="incorporationDate"
 										type="date"
 										value={profileData.incorporationDate}
-										onChange={(e) => handleInputChange("incorporationDate", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("incorporationDate", e.target.value)
+										}
 										disabled={!isEditing}
 									/>
 								</div>
@@ -278,7 +290,9 @@ export function ClientProfile({ user }: ClientProfileProps) {
 									<Input
 										id="employeeCount"
 										value={profileData.employeeCount}
-										onChange={(e) => handleInputChange("employeeCount", e.target.value)}
+										onChange={(e) =>
+											handleInputChange("employeeCount", e.target.value)
+										}
 										disabled={!isEditing}
 									/>
 								</div>
@@ -307,7 +321,7 @@ export function ClientProfile({ user }: ClientProfileProps) {
 						</CardHeader>
 						<CardContent className="space-y-6">
 							<div className="space-y-4">
-								<div className="flex items-center justify-between p-4 border rounded-lg">
+								<div className="flex items-center justify-between rounded-lg border p-4">
 									<div className="flex items-center space-x-3">
 										<Lock className="h-5 w-5 text-muted-foreground" />
 										<div>
@@ -317,12 +331,10 @@ export function ClientProfile({ user }: ClientProfileProps) {
 											</p>
 										</div>
 									</div>
-									<Button variant="outline">
-										Change Password
-									</Button>
+									<Button variant="outline">Change Password</Button>
 								</div>
 
-								<div className="flex items-center justify-between p-4 border rounded-lg">
+								<div className="flex items-center justify-between rounded-lg border p-4">
 									<div className="flex items-center space-x-3">
 										<Shield className="h-5 w-5 text-muted-foreground" />
 										<div>
@@ -332,12 +344,10 @@ export function ClientProfile({ user }: ClientProfileProps) {
 											</p>
 										</div>
 									</div>
-									<Button variant="outline">
-										Setup 2FA
-									</Button>
+									<Button variant="outline">Setup 2FA</Button>
 								</div>
 
-								<div className="flex items-center justify-between p-4 border rounded-lg">
+								<div className="flex items-center justify-between rounded-lg border p-4">
 									<div className="flex items-center space-x-3">
 										<User className="h-5 w-5 text-muted-foreground" />
 										<div>
@@ -347,9 +357,7 @@ export function ClientProfile({ user }: ClientProfileProps) {
 											</p>
 										</div>
 									</div>
-									<Button variant="outline">
-										View Sessions
-									</Button>
+									<Button variant="outline">View Sessions</Button>
 								</div>
 							</div>
 
@@ -357,16 +365,14 @@ export function ClientProfile({ user }: ClientProfileProps) {
 
 							<div className="space-y-4">
 								<h4 className="font-medium text-red-600">Danger Zone</h4>
-								<div className="flex items-center justify-between p-4 border border-red-200 rounded-lg bg-red-50">
+								<div className="flex items-center justify-between rounded-lg border border-red-200 bg-red-50 p-4">
 									<div>
 										<h4 className="font-medium">Delete Account</h4>
 										<p className="text-muted-foreground text-sm">
 											Permanently delete your account and all data
 										</p>
 									</div>
-									<Button variant="destructive">
-										Delete Account
-									</Button>
+									<Button variant="destructive">Delete Account</Button>
 								</div>
 							</div>
 						</CardContent>

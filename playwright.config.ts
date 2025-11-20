@@ -52,10 +52,13 @@ export default defineConfig({
 		["html", { outputFolder: "playwright-report", open: "never" }],
 		["json", { outputFile: "playwright-report/results.json" }],
 		["junit", { outputFile: "playwright-report/results.xml" }],
-		["allure-playwright", {
-			outputFolder: "allure-results",
-			suiteTitle: "GCMC-KAJ E2E Test Suite"
-		}],
+		[
+			"allure-playwright",
+			{
+				outputFolder: "allure-results",
+				suiteTitle: "GCMC-KAJ E2E Test Suite",
+			},
+		],
 		["list"],
 		...(process.env.CI ? [["github"]] : []),
 	],
@@ -140,20 +143,20 @@ export default defineConfig({
 	],
 
 	// Run your local dev server before starting the tests
-	webServer: {
-		command: "bun run dev:web",
-		url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3001",
-		reuseExistingServer: true, // Always reuse existing server for development
-		timeout: 120 * 1000, // 2 minutes for server to start
-		stdout: "ignore",
-		stderr: "pipe",
-	},
+	// webServer: {
+	//   command: "echo 'Using existing server on port 3001'",
+	//   url: "http://localhost:3001",
+	//   reuseExistingServer: true,
+	//   timeout: 120 * 1000,
+	//   stdout: "ignore",
+	//   stderr: "pipe",
+	// },
 
 	// Global setup and teardown
 	// Note: globalSetup runs BEFORE webServer starts
 	// Database migrations and seeding happen here
 	// Auth state creation only works if server is manually started first
-	globalSetup: "./tests/fixtures/global-setup.ts",
+	// globalSetup: "./tests/fixtures/global-setup.ts",
 	// globalTeardown: "./tests/fixtures/global-teardown.ts",
 
 	// Output folder for test artifacts

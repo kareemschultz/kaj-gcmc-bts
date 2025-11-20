@@ -1,1 +1,36 @@
-{"uuid":"6a75f22e-eed4-4d44-8276-392a5769645c","name":"should handle large datasets efficiently @performance","historyId":"7c1be03c4bdc129e7ef7eafc581461b9:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"dashboard.dashboard-functionality.spec.ts"},{"name":"titlePath","value":" > tablet > dashboard/dashboard-functionality.spec.ts > Dashboard - Performance"},{"name":"tag","value":"performance"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"dashboard/dashboard-functionality.spec.ts"},{"name":"subSuite","value":"Dashboard - Performance"}],"links":[],"start":1763549757715,"testCaseId":"7c1be03c4bdc129e7ef7eafc581461b9","fullName":"dashboard/dashboard-functionality.spec.ts:277:3","titlePath":["dashboard","dashboard-functionality.spec.ts","Dashboard - Performance"],"stop":1763549757715}
+{
+	"uuid": "6a75f22e-eed4-4d44-8276-392a5769645c",
+	"name": "should handle large datasets efficiently @performance",
+	"historyId": "7c1be03c4bdc129e7ef7eafc581461b9:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "dashboard.dashboard-functionality.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > dashboard/dashboard-functionality.spec.ts > Dashboard - Performance"
+		},
+		{ "name": "tag", "value": "performance" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "dashboard/dashboard-functionality.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard - Performance" }
+	],
+	"links": [],
+	"start": 1763549757715,
+	"testCaseId": "7c1be03c4bdc129e7ef7eafc581461b9",
+	"fullName": "dashboard/dashboard-functionality.spec.ts:277:3",
+	"titlePath": [
+		"dashboard",
+		"dashboard-functionality.spec.ts",
+		"Dashboard - Performance"
+	],
+	"stop": 1763549757715
+}

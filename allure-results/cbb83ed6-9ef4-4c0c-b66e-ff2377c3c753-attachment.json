@@ -1,0 +1,9 @@
+{
+  "platform": "linux",
+  "nodeVersion": "v20.19.5",
+  "timestamp": "2025-11-19T19:38:39.659Z",
+  "baseUrl": "http://localhost:3001",
+  "environment": "test",
+  "browser": "Playwright",
+  "viewport": "1280x720"
+}

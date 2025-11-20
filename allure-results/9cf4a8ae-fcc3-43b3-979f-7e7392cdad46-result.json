@@ -1,1 +1,31 @@
-{"uuid":"9cf4a8ae-fcc3-43b3-979f-7e7392cdad46","name":"should validate required fields","historyId":"8dda99bc9fe0b90cbce0bc142374e814:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > auth/login.spec.ts > Login Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login Flow"}],"links":[],"start":1763549819681,"testCaseId":"8dda99bc9fe0b90cbce0bc142374e814","fullName":"auth/login.spec.ts:56:2","titlePath":["auth","login.spec.ts","Login Flow"],"stop":1763549819681}
+{
+	"uuid": "9cf4a8ae-fcc3-43b3-979f-7e7392cdad46",
+	"name": "should validate required fields",
+	"historyId": "8dda99bc9fe0b90cbce0bc142374e814:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > auth/login.spec.ts > Login Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login Flow" }
+	],
+	"links": [],
+	"start": 1763549819681,
+	"testCaseId": "8dda99bc9fe0b90cbce0bc142374e814",
+	"fullName": "auth/login.spec.ts:56:2",
+	"titlePath": ["auth", "login.spec.ts", "Login Flow"],
+	"stop": 1763549819681
+}

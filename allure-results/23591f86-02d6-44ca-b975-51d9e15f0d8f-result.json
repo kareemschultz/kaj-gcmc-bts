@@ -1,1 +1,32 @@
-{"uuid":"23591f86-02d6-44ca-b975-51d9e15f0d8f","name":"should generate client report @api-functional","historyId":"8ffdff7e119932a0ead63c62d205c74c:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"api.api-endpoints.spec.ts"},{"name":"titlePath","value":" > chromium > api/api-endpoints.spec.ts > API Endpoints - Reports"},{"name":"tag","value":"api-functional"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"api/api-endpoints.spec.ts"},{"name":"subSuite","value":"API Endpoints - Reports"}],"links":[],"start":1763549757492,"testCaseId":"8ffdff7e119932a0ead63c62d205c74c","fullName":"api/api-endpoints.spec.ts:359:3","titlePath":["api","api-endpoints.spec.ts","API Endpoints - Reports"],"stop":1763549757492}
+{
+	"uuid": "23591f86-02d6-44ca-b975-51d9e15f0d8f",
+	"name": "should generate client report @api-functional",
+	"historyId": "8ffdff7e119932a0ead63c62d205c74c:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "api.api-endpoints.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > api/api-endpoints.spec.ts > API Endpoints - Reports"
+		},
+		{ "name": "tag", "value": "api-functional" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "api/api-endpoints.spec.ts" },
+		{ "name": "subSuite", "value": "API Endpoints - Reports" }
+	],
+	"links": [],
+	"start": 1763549757492,
+	"testCaseId": "8ffdff7e119932a0ead63c62d205c74c",
+	"fullName": "api/api-endpoints.spec.ts:359:3",
+	"titlePath": ["api", "api-endpoints.spec.ts", "API Endpoints - Reports"],
+	"stop": 1763549757492
+}

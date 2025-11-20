@@ -1,0 +1,89 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e5]:
+        - link "KAJ GCMC Platform Compliance Management" [ref=e6] [cursor=pointer]:
+          - /url: /dashboard
+          - generic [ref=e8]: KAJ
+          - generic [ref=e9]:
+            - generic [ref=e10]: GCMC Platform
+            - generic [ref=e11]: Compliance Management
+        - navigation [ref=e12]:
+          - link "Dashboard" [ref=e13] [cursor=pointer]:
+            - /url: /dashboard
+            - img [ref=e14]
+            - generic [ref=e19]: Dashboard
+          - link "Clients" [ref=e20] [cursor=pointer]:
+            - /url: /clients
+            - img [ref=e21]
+            - generic [ref=e26]: Clients
+          - link "Documents" [ref=e27] [cursor=pointer]:
+            - /url: /documents
+            - img [ref=e28]
+            - generic [ref=e31]: Documents
+          - link "Filings" [ref=e32] [cursor=pointer]:
+            - /url: /filings
+            - img [ref=e33]
+            - generic [ref=e36]: Filings
+          - link "Services" [ref=e37] [cursor=pointer]:
+            - /url: /services
+            - img [ref=e38]
+            - generic [ref=e41]: Services
+          - link "Requests" [ref=e42] [cursor=pointer]:
+            - /url: /service-requests
+            - img [ref=e43]
+            - generic [ref=e46]: Requests
+          - link "Tasks" [ref=e47] [cursor=pointer]:
+            - /url: /tasks
+            - img [ref=e48]
+            - generic [ref=e51]: Tasks
+          - link "Messages" [ref=e52] [cursor=pointer]:
+            - /url: /conversations
+            - img [ref=e53]
+            - generic [ref=e55]: Messages
+          - link "Alerts" [ref=e56] [cursor=pointer]:
+            - /url: /notifications
+            - img [ref=e57]
+            - generic [ref=e60]: Alerts
+          - link "Admin" [ref=e61] [cursor=pointer]:
+            - /url: /admin
+            - img [ref=e62]
+            - generic [ref=e65]: Admin
+        - generic [ref=e66]:
+          - button "Notifications" [ref=e67]:
+            - img
+            - generic [ref=e68]: Notifications
+          - button "Animation accessibility controls" [ref=e70]:
+            - img
+            - text: Animations
+            - generic [ref=e71]: 10000fps
+          - button "Toggle theme" [ref=e72]:
+            - img
+            - generic [ref=e73]: Toggle theme
+          - link "Sign In" [ref=e74] [cursor=pointer]:
+            - /url: /login
+    - generic [ref=e76]:
+      - heading "404" [level=1] [ref=e77]
+      - heading "This page could not be found." [level=2] [ref=e79]
+  - generic [ref=e80]: "CSP Nonce: cmNsYW5t..."
+  - generic [ref=e83]:
+    - img [ref=e85]
+    - button "Open Tanstack query devtools":
+      - img
+  - region "Notifications alt+T" [ref=e180]:
+    - list [ref=e181]:
+      - listitem [ref=e182]:
+        - img [ref=e184]
+        - generic [ref=e187]: Authentication required
+        - button "retry" [ref=e188]
+      - listitem [ref=e189]:
+        - img [ref=e191]
+        - generic [ref=e194]: Authentication required
+        - button "retry" [ref=e195]
+  - button "Open Next.js Dev Tools" [ref=e203]:
+    - img [ref=e204]
+  - alert [ref=e207]
+```

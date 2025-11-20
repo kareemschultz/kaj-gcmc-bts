@@ -1,1 +1,31 @@
-{"uuid":"78108e2f-dc7e-4c63-9fe8-968ca2bc5e20","name":"should handle swipe gestures on lists","historyId":"2eeafce2addac365076d652de4437648:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > chromium > mobile/responsive.spec.ts > Mobile Touch Interactions"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Mobile Touch Interactions"}],"links":[],"start":1763549757513,"testCaseId":"2eeafce2addac365076d652de4437648","fullName":"mobile/responsive.spec.ts:196:2","titlePath":["mobile","responsive.spec.ts","Mobile Touch Interactions"],"stop":1763549757513}
+{
+	"uuid": "78108e2f-dc7e-4c63-9fe8-968ca2bc5e20",
+	"name": "should handle swipe gestures on lists",
+	"historyId": "2eeafce2addac365076d652de4437648:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > mobile/responsive.spec.ts > Mobile Touch Interactions"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Mobile Touch Interactions" }
+	],
+	"links": [],
+	"start": 1763549757513,
+	"testCaseId": "2eeafce2addac365076d652de4437648",
+	"fullName": "mobile/responsive.spec.ts:196:2",
+	"titlePath": ["mobile", "responsive.spec.ts", "Mobile Touch Interactions"],
+	"stop": 1763549757513
+}

@@ -1,1 +1,31 @@
-{"uuid":"924bc304-30aa-41a3-adb9-54255ac9f12a","name":"should toggle password visibility","historyId":"1f41aabf94aa375f58550ba83f37f799:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > mobile-safari > auth/login.spec.ts > Login Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login Flow"}],"links":[],"start":1763549819721,"testCaseId":"1f41aabf94aa375f58550ba83f37f799","fullName":"auth/login.spec.ts:73:2","titlePath":["auth","login.spec.ts","Login Flow"],"stop":1763549819721}
+{
+	"uuid": "924bc304-30aa-41a3-adb9-54255ac9f12a",
+	"name": "should toggle password visibility",
+	"historyId": "1f41aabf94aa375f58550ba83f37f799:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > auth/login.spec.ts > Login Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login Flow" }
+	],
+	"links": [],
+	"start": 1763549819721,
+	"testCaseId": "1f41aabf94aa375f58550ba83f37f799",
+	"fullName": "auth/login.spec.ts:73:2",
+	"titlePath": ["auth", "login.spec.ts", "Login Flow"],
+	"stop": 1763549819721
+}

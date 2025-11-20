@@ -11,6 +11,14 @@ export async function createContext({ context }: CreateContextOptions) {
 		headers: context.req.raw.headers,
 	});
 
+	// Debug logging
+	console.log("🔍 Context creation debug:", {
+		hasSession: !!session,
+		hasUser: !!session?.user,
+		userId: session?.user?.id,
+		userEmail: session?.user?.email,
+	});
+
 	// If user is authenticated, get their tenant and role
 	let tenantInfo: {
 		tenantId: number;
@@ -19,7 +27,14 @@ export async function createContext({ context }: CreateContextOptions) {
 	} | null = null;
 
 	if (session?.user?.id) {
-		tenantInfo = await getUserTenantRole(session.user.id);
+		console.log("🔍 Getting tenant role for user:", session.user.id);
+		try {
+			tenantInfo = await getUserTenantRole(session.user.id);
+			console.log("🔍 Tenant info result:", tenantInfo);
+		} catch (error) {
+			console.error("❌ Error getting tenant role:", error);
+			tenantInfo = null;
+		}
 	}
 
 	return {

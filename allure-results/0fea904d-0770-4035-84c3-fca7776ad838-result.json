@@ -1,1 +1,31 @@
-{"uuid":"0fea904d-0770-4035-84c3-fca7776ad838","name":"should display services list","historyId":"fd8ca8f78eb036c2f6959326ce696478:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.services.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > crud/services.spec.ts > Services CRUD"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"crud/services.spec.ts"},{"name":"subSuite","value":"Services CRUD"}],"links":[],"start":1763549819686,"testCaseId":"fd8ca8f78eb036c2f6959326ce696478","fullName":"crud/services.spec.ts:17:2","titlePath":["crud","services.spec.ts","Services CRUD"],"stop":1763549819686}
+{
+	"uuid": "0fea904d-0770-4035-84c3-fca7776ad838",
+	"name": "should display services list",
+	"historyId": "fd8ca8f78eb036c2f6959326ce696478:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.services.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > crud/services.spec.ts > Services CRUD"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "crud/services.spec.ts" },
+		{ "name": "subSuite", "value": "Services CRUD" }
+	],
+	"links": [],
+	"start": 1763549819686,
+	"testCaseId": "fd8ca8f78eb036c2f6959326ce696478",
+	"fullName": "crud/services.spec.ts:17:2",
+	"titlePath": ["crud", "services.spec.ts", "Services CRUD"],
+	"stop": 1763549819686
+}

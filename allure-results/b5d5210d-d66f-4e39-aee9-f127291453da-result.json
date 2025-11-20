@@ -1,1 +1,31 @@
-{"uuid":"b5d5210d-d66f-4e39-aee9-f127291453da","name":"mobile forms should match baseline","historyId":"9be6001223ce3413b6d89553bbaa131d:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > webkit > mobile/responsive.spec.ts > Mobile Visual Regression"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Mobile Visual Regression"}],"links":[],"start":1763549819655,"testCaseId":"9be6001223ce3413b6d89553bbaa131d","fullName":"mobile/responsive.spec.ts:273:2","titlePath":["mobile","responsive.spec.ts","Mobile Visual Regression"],"stop":1763549819655}
+{
+	"uuid": "b5d5210d-d66f-4e39-aee9-f127291453da",
+	"name": "mobile forms should match baseline",
+	"historyId": "9be6001223ce3413b6d89553bbaa131d:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > mobile/responsive.spec.ts > Mobile Visual Regression"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Mobile Visual Regression" }
+	],
+	"links": [],
+	"start": 1763549819655,
+	"testCaseId": "9be6001223ce3413b6d89553bbaa131d",
+	"fullName": "mobile/responsive.spec.ts:273:2",
+	"titlePath": ["mobile", "responsive.spec.ts", "Mobile Visual Regression"],
+	"stop": 1763549819655
+}

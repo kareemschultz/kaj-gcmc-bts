@@ -1,1 +1,31 @@
-{"uuid":"d864bca5-be1d-46e4-9145-beb066f21657","name":"should render consistently on iPhone13","historyId":"eabb092f006c80ec2bcfe16dbf4874f9:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > mobile-safari > mobile/responsive.spec.ts > Cross-Device Consistency"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Cross-Device Consistency"}],"links":[],"start":1763549819733,"testCaseId":"eabb092f006c80ec2bcfe16dbf4874f9","fullName":"mobile/responsive.spec.ts:290:3","titlePath":["mobile","responsive.spec.ts","Cross-Device Consistency"],"stop":1763549819733}
+{
+	"uuid": "d864bca5-be1d-46e4-9145-beb066f21657",
+	"name": "should render consistently on iPhone13",
+	"historyId": "eabb092f006c80ec2bcfe16dbf4874f9:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > mobile/responsive.spec.ts > Cross-Device Consistency"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Cross-Device Consistency" }
+	],
+	"links": [],
+	"start": 1763549819733,
+	"testCaseId": "eabb092f006c80ec2bcfe16dbf4874f9",
+	"fullName": "mobile/responsive.spec.ts:290:3",
+	"titlePath": ["mobile", "responsive.spec.ts", "Cross-Device Consistency"],
+	"stop": 1763549819733
+}

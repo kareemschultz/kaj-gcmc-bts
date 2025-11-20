@@ -1,1 +1,31 @@
-{"uuid":"914e1f93-a3d5-44ef-b66a-eba4a9cca5ab","name":"should clear session after logout","historyId":"05bf2ec5372a971bf254bdc82f0a642b:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.logout.spec.ts"},{"name":"titlePath","value":" > tablet > auth/logout.spec.ts > Logout Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"auth/logout.spec.ts"},{"name":"subSuite","value":"Logout Flow"}],"links":[],"start":1763549757707,"testCaseId":"05bf2ec5372a971bf254bdc82f0a642b","fullName":"auth/logout.spec.ts:26:2","titlePath":["auth","logout.spec.ts","Logout Flow"],"stop":1763549757707}
+{
+	"uuid": "914e1f93-a3d5-44ef-b66a-eba4a9cca5ab",
+	"name": "should clear session after logout",
+	"historyId": "05bf2ec5372a971bf254bdc82f0a642b:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.logout.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > auth/logout.spec.ts > Logout Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "auth/logout.spec.ts" },
+		{ "name": "subSuite", "value": "Logout Flow" }
+	],
+	"links": [],
+	"start": 1763549757707,
+	"testCaseId": "05bf2ec5372a971bf254bdc82f0a642b",
+	"fullName": "auth/logout.spec.ts:26:2",
+	"titlePath": ["auth", "logout.spec.ts", "Logout Flow"],
+	"stop": 1763549757707
+}

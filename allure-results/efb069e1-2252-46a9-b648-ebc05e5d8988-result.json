@@ -1,1 +1,31 @@
-{"uuid":"efb069e1-2252-46a9-b648-ebc05e5d8988","name":"should login on mobile","historyId":"aab50ee87ed5579dca46824f9a9c0e12:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > webkit > auth/login.spec.ts > Login - Mobile"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login - Mobile"}],"links":[],"start":1763549819643,"testCaseId":"aab50ee87ed5579dca46824f9a9c0e12","fullName":"auth/login.spec.ts:141:2","titlePath":["auth","login.spec.ts","Login - Mobile"],"stop":1763549819643}
+{
+	"uuid": "efb069e1-2252-46a9-b648-ebc05e5d8988",
+	"name": "should login on mobile",
+	"historyId": "aab50ee87ed5579dca46824f9a9c0e12:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > auth/login.spec.ts > Login - Mobile"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login - Mobile" }
+	],
+	"links": [],
+	"start": 1763549819643,
+	"testCaseId": "aab50ee87ed5579dca46824f9a9c0e12",
+	"fullName": "auth/login.spec.ts:141:2",
+	"titlePath": ["auth", "login.spec.ts", "Login - Mobile"],
+	"stop": 1763549819643
+}

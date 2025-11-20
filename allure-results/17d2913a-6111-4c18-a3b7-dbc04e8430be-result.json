@@ -1,1 +1,31 @@
-{"uuid":"17d2913a-6111-4c18-a3b7-dbc04e8430be","name":"capture key platform pages","historyId":"7781710da6897e14bc27c5b06495e363:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"platform-screenshots.spec.ts"},{"name":"titlePath","value":" > webkit > platform-screenshots.spec.ts > Platform Screenshots"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"platform-screenshots.spec.ts"},{"name":"subSuite","value":"Platform Screenshots"}],"links":[],"start":1763549819661,"testCaseId":"7781710da6897e14bc27c5b06495e363","fullName":"platform-screenshots.spec.ts:5:2","titlePath":["platform-screenshots.spec.ts","Platform Screenshots"],"stop":1763549819661}
+{
+	"uuid": "17d2913a-6111-4c18-a3b7-dbc04e8430be",
+	"name": "capture key platform pages",
+	"historyId": "7781710da6897e14bc27c5b06495e363:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "platform-screenshots.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > platform-screenshots.spec.ts > Platform Screenshots"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "platform-screenshots.spec.ts" },
+		{ "name": "subSuite", "value": "Platform Screenshots" }
+	],
+	"links": [],
+	"start": 1763549819661,
+	"testCaseId": "7781710da6897e14bc27c5b06495e363",
+	"fullName": "platform-screenshots.spec.ts:5:2",
+	"titlePath": ["platform-screenshots.spec.ts", "Platform Screenshots"],
+	"stop": 1763549819661
+}

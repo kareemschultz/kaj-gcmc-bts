@@ -1,1 +1,31 @@
-{"uuid":"2df519ff-2a03-4c0f-8217-1fec998a7f3e","name":"should handle browser back/forward","historyId":"812b821d2f21d36e9469af8d0473f80c:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"navigation.routes.spec.ts"},{"name":"titlePath","value":" > chromium > navigation/routes.spec.ts > Navigation Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"navigation/routes.spec.ts"},{"name":"subSuite","value":"Navigation Flow"}],"links":[],"start":1763549757520,"testCaseId":"812b821d2f21d36e9469af8d0473f80c","fullName":"navigation/routes.spec.ts:83:2","titlePath":["navigation","routes.spec.ts","Navigation Flow"],"stop":1763549757520}
+{
+	"uuid": "2df519ff-2a03-4c0f-8217-1fec998a7f3e",
+	"name": "should handle browser back/forward",
+	"historyId": "812b821d2f21d36e9469af8d0473f80c:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "navigation.routes.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > navigation/routes.spec.ts > Navigation Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "navigation/routes.spec.ts" },
+		{ "name": "subSuite", "value": "Navigation Flow" }
+	],
+	"links": [],
+	"start": 1763549757520,
+	"testCaseId": "812b821d2f21d36e9469af8d0473f80c",
+	"fullName": "navigation/routes.spec.ts:83:2",
+	"titlePath": ["navigation", "routes.spec.ts", "Navigation Flow"],
+	"stop": 1763549757520
+}

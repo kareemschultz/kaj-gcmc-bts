@@ -1,1 +1,31 @@
-{"uuid":"f29eb296-8665-4a78-a7d8-1d957cc8ba79","name":"should paginate services","historyId":"bf5c8e1a20c8827501fcbc181b316936:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.services.spec.ts"},{"name":"titlePath","value":" > tablet > crud/services.spec.ts > Services CRUD"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"crud/services.spec.ts"},{"name":"subSuite","value":"Services CRUD"}],"links":[],"start":1763549757712,"testCaseId":"bf5c8e1a20c8827501fcbc181b316936","fullName":"crud/services.spec.ts:155:2","titlePath":["crud","services.spec.ts","Services CRUD"],"stop":1763549757712}
+{
+	"uuid": "f29eb296-8665-4a78-a7d8-1d957cc8ba79",
+	"name": "should paginate services",
+	"historyId": "bf5c8e1a20c8827501fcbc181b316936:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.services.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > crud/services.spec.ts > Services CRUD"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "crud/services.spec.ts" },
+		{ "name": "subSuite", "value": "Services CRUD" }
+	],
+	"links": [],
+	"start": 1763549757712,
+	"testCaseId": "bf5c8e1a20c8827501fcbc181b316936",
+	"fullName": "crud/services.spec.ts:155:2",
+	"titlePath": ["crud", "services.spec.ts", "Services CRUD"],
+	"stop": 1763549757712
+}

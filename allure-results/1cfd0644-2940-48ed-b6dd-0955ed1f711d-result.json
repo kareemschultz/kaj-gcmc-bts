@@ -1,1 +1,31 @@
-{"uuid":"1cfd0644-2940-48ed-b6dd-0955ed1f711d","name":"should render consistently on iPadMini","historyId":"8c4c11f49c2728f7f0ce1ebbf8696870:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > tablet > mobile/responsive.spec.ts > Cross-Device Consistency"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Cross-Device Consistency"}],"links":[],"start":1763549757718,"testCaseId":"8c4c11f49c2728f7f0ce1ebbf8696870","fullName":"mobile/responsive.spec.ts:290:3","titlePath":["mobile","responsive.spec.ts","Cross-Device Consistency"],"stop":1763549757718}
+{
+	"uuid": "1cfd0644-2940-48ed-b6dd-0955ed1f711d",
+	"name": "should render consistently on iPadMini",
+	"historyId": "8c4c11f49c2728f7f0ce1ebbf8696870:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > mobile/responsive.spec.ts > Cross-Device Consistency"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Cross-Device Consistency" }
+	],
+	"links": [],
+	"start": 1763549757718,
+	"testCaseId": "8c4c11f49c2728f7f0ce1ebbf8696870",
+	"fullName": "mobile/responsive.spec.ts:290:3",
+	"titlePath": ["mobile", "responsive.spec.ts", "Cross-Device Consistency"],
+	"stop": 1763549757718
+}

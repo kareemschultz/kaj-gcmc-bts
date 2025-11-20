@@ -1,1 +1,31 @@
-{"uuid":"4cb0c4ee-1349-48bb-bfae-74f441922086","name":"should logout successfully","historyId":"85acb6ceef9f05221b867cb8431c3428:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.logout.spec.ts"},{"name":"titlePath","value":" > tablet > auth/logout.spec.ts > Logout Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"auth/logout.spec.ts"},{"name":"subSuite","value":"Logout Flow"}],"links":[],"start":1763549757707,"testCaseId":"85acb6ceef9f05221b867cb8431c3428","fullName":"auth/logout.spec.ts:9:2","titlePath":["auth","logout.spec.ts","Logout Flow"],"stop":1763549757707}
+{
+	"uuid": "4cb0c4ee-1349-48bb-bfae-74f441922086",
+	"name": "should logout successfully",
+	"historyId": "85acb6ceef9f05221b867cb8431c3428:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.logout.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > auth/logout.spec.ts > Logout Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "auth/logout.spec.ts" },
+		{ "name": "subSuite", "value": "Logout Flow" }
+	],
+	"links": [],
+	"start": 1763549757707,
+	"testCaseId": "85acb6ceef9f05221b867cb8431c3428",
+	"fullName": "auth/logout.spec.ts:9:2",
+	"titlePath": ["auth", "logout.spec.ts", "Logout Flow"],
+	"stop": 1763549757707
+}

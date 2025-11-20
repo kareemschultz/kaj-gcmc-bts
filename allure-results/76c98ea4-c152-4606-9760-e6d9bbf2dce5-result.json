@@ -1,1 +1,35 @@
-{"uuid":"76c98ea4-c152-4606-9760-e6d9bbf2dce5","name":"dashboard should work in landscape mode","historyId":"e38cb2c809e00363a84b9079522afe23:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > webkit > mobile/responsive.spec.ts > Mobile Responsiveness - Landscape"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Mobile Responsiveness - Landscape"}],"links":[],"start":1763549819654,"testCaseId":"e38cb2c809e00363a84b9079522afe23","fullName":"mobile/responsive.spec.ts:162:2","titlePath":["mobile","responsive.spec.ts","Mobile Responsiveness - Landscape"],"stop":1763549819654}
+{
+	"uuid": "76c98ea4-c152-4606-9760-e6d9bbf2dce5",
+	"name": "dashboard should work in landscape mode",
+	"historyId": "e38cb2c809e00363a84b9079522afe23:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > mobile/responsive.spec.ts > Mobile Responsiveness - Landscape"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Mobile Responsiveness - Landscape" }
+	],
+	"links": [],
+	"start": 1763549819654,
+	"testCaseId": "e38cb2c809e00363a84b9079522afe23",
+	"fullName": "mobile/responsive.spec.ts:162:2",
+	"titlePath": [
+		"mobile",
+		"responsive.spec.ts",
+		"Mobile Responsiveness - Landscape"
+	],
+	"stop": 1763549819654
+}

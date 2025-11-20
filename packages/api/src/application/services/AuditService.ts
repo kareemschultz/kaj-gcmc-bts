@@ -5,8 +5,7 @@
  * Implements audit trail for compliance and security purposes
  */
 
-import { PrismaClient } from '@gcmc-kaj/db';
-import type { AuditLog } from '@gcmc-kaj/db';
+import type { AuditLog, PrismaClient } from "@gcmc-kaj/db";
 
 export interface AuditLogEntry {
 	tenantId: number;
@@ -33,17 +32,31 @@ export interface AuditQueryOptions {
 	};
 	limit?: number;
 	offset?: number;
-	orderBy?: 'createdAt' | 'action' | 'entityType';
-	order?: 'asc' | 'desc';
+	orderBy?: "createdAt" | "action" | "entityType";
+	order?: "asc" | "desc";
 }
 
 export interface AuditService {
 	log(entry: AuditLogEntry): Promise<void>;
 	getAuditLogs(options: AuditQueryOptions): Promise<AuditLog[]>;
-	getAuditLogCount(options: Omit<AuditQueryOptions, 'limit' | 'offset' | 'orderBy' | 'order'>): Promise<number>;
-	getAuditLogsByEntity(tenantId: number, entityType: string, entityId: number | string): Promise<AuditLog[]>;
-	getUserActivity(tenantId: number, actorUserId: string, limit?: number): Promise<AuditLog[]>;
-	getClientActivity(tenantId: number, clientId: number, limit?: number): Promise<AuditLog[]>;
+	getAuditLogCount(
+		options: Omit<AuditQueryOptions, "limit" | "offset" | "orderBy" | "order">,
+	): Promise<number>;
+	getAuditLogsByEntity(
+		tenantId: number,
+		entityType: string,
+		entityId: number | string,
+	): Promise<AuditLog[]>;
+	getUserActivity(
+		tenantId: number,
+		actorUserId: string,
+		limit?: number,
+	): Promise<AuditLog[]>;
+	getClientActivity(
+		tenantId: number,
+		clientId: number,
+		limit?: number,
+	): Promise<AuditLog[]>;
 }
 
 export class PrismaAuditService implements AuditService {
@@ -53,8 +66,8 @@ export class PrismaAuditService implements AuditService {
 		try {
 			// Convert entityId to number if it's a string and represents a number
 			let numericEntityId: number;
-			if (typeof entry.entityId === 'string') {
-				numericEntityId = parseInt(entry.entityId);
+			if (typeof entry.entityId === "string") {
+				numericEntityId = Number.parseInt(entry.entityId);
 				if (isNaN(numericEntityId)) {
 					// If entityId is not a valid number, hash it or store it differently
 					numericEntityId = entry.entityId.length; // Simple fallback
@@ -77,7 +90,7 @@ export class PrismaAuditService implements AuditService {
 				},
 			});
 		} catch (error) {
-			console.error('Failed to log audit entry:', error);
+			console.error("Failed to log audit entry:", error);
 			// Don't throw to avoid breaking the main operation
 		}
 	}
@@ -92,8 +105,8 @@ export class PrismaAuditService implements AuditService {
 			dateRange,
 			limit = 50,
 			offset = 0,
-			orderBy = 'createdAt',
-			order = 'desc'
+			orderBy = "createdAt",
+			order = "desc",
 		} = options;
 
 		const where: any = {
@@ -136,15 +149,11 @@ export class PrismaAuditService implements AuditService {
 		});
 	}
 
-	async getAuditLogCount(options: Omit<AuditQueryOptions, 'limit' | 'offset' | 'orderBy' | 'order'>): Promise<number> {
-		const {
-			tenantId,
-			actorUserId,
-			clientId,
-			entityType,
-			action,
-			dateRange,
-		} = options;
+	async getAuditLogCount(
+		options: Omit<AuditQueryOptions, "limit" | "offset" | "orderBy" | "order">,
+	): Promise<number> {
+		const { tenantId, actorUserId, clientId, entityType, action, dateRange } =
+			options;
 
 		const where: any = {
 			tenantId,
@@ -163,11 +172,15 @@ export class PrismaAuditService implements AuditService {
 		return await this.prisma.auditLog.count({ where });
 	}
 
-	async getAuditLogsByEntity(tenantId: number, entityType: string, entityId: number | string): Promise<AuditLog[]> {
+	async getAuditLogsByEntity(
+		tenantId: number,
+		entityType: string,
+		entityId: number | string,
+	): Promise<AuditLog[]> {
 		// Convert entityId to number if needed
 		let numericEntityId: number;
-		if (typeof entityId === 'string') {
-			numericEntityId = parseInt(entityId);
+		if (typeof entityId === "string") {
+			numericEntityId = Number.parseInt(entityId);
 			if (isNaN(numericEntityId)) {
 				numericEntityId = entityId.length; // Same fallback as in log method
 			}
@@ -191,12 +204,16 @@ export class PrismaAuditService implements AuditService {
 				},
 			},
 			orderBy: {
-				createdAt: 'desc',
+				createdAt: "desc",
 			},
 		});
 	}
 
-	async getUserActivity(tenantId: number, actorUserId: string, limit: number = 100): Promise<AuditLog[]> {
+	async getUserActivity(
+		tenantId: number,
+		actorUserId: string,
+		limit = 100,
+	): Promise<AuditLog[]> {
 		return await this.prisma.auditLog.findMany({
 			where: {
 				tenantId,
@@ -212,13 +229,17 @@ export class PrismaAuditService implements AuditService {
 				},
 			},
 			orderBy: {
-				createdAt: 'desc',
+				createdAt: "desc",
 			},
 			take: limit,
 		});
 	}
 
-	async getClientActivity(tenantId: number, clientId: number, limit: number = 100): Promise<AuditLog[]> {
+	async getClientActivity(
+		tenantId: number,
+		clientId: number,
+		limit = 100,
+	): Promise<AuditLog[]> {
 		return await this.prisma.auditLog.findMany({
 			where: {
 				tenantId,
@@ -234,7 +255,7 @@ export class PrismaAuditService implements AuditService {
 				},
 			},
 			orderBy: {
-				createdAt: 'desc',
+				createdAt: "desc",
 			},
 			take: limit,
 		});
@@ -244,57 +265,57 @@ export class PrismaAuditService implements AuditService {
 // Audit action constants
 export const AuditActions = {
 	// User Actions
-	USER_LOGIN: 'user.login',
-	USER_LOGOUT: 'user.logout',
-	USER_CREATE: 'user.create',
-	USER_UPDATE: 'user.update',
-	USER_DELETE: 'user.delete',
+	USER_LOGIN: "user.login",
+	USER_LOGOUT: "user.logout",
+	USER_CREATE: "user.create",
+	USER_UPDATE: "user.update",
+	USER_DELETE: "user.delete",
 
 	// Client Actions
-	CLIENT_CREATE: 'client.create',
-	CLIENT_UPDATE: 'client.update',
-	CLIENT_DELETE: 'client.delete',
-	CLIENT_VIEW: 'client.view',
+	CLIENT_CREATE: "client.create",
+	CLIENT_UPDATE: "client.update",
+	CLIENT_DELETE: "client.delete",
+	CLIENT_VIEW: "client.view",
 
 	// Document Actions
-	DOCUMENT_UPLOAD: 'document.upload',
-	DOCUMENT_DOWNLOAD: 'document.download',
-	DOCUMENT_DELETE: 'document.delete',
-	DOCUMENT_UPDATE: 'document.update',
-	DOCUMENT_VIEW: 'document.view',
+	DOCUMENT_UPLOAD: "document.upload",
+	DOCUMENT_DOWNLOAD: "document.download",
+	DOCUMENT_DELETE: "document.delete",
+	DOCUMENT_UPDATE: "document.update",
+	DOCUMENT_VIEW: "document.view",
 
 	// Filing Actions
-	FILING_CREATE: 'filing.create',
-	FILING_SUBMIT: 'filing.submit',
-	FILING_UPDATE: 'filing.update',
-	FILING_DELETE: 'filing.delete',
+	FILING_CREATE: "filing.create",
+	FILING_SUBMIT: "filing.submit",
+	FILING_UPDATE: "filing.update",
+	FILING_DELETE: "filing.delete",
 
 	// Compliance Actions
-	COMPLIANCE_ASSESSMENT: 'compliance.assessment',
-	COMPLIANCE_SCORE_UPDATE: 'compliance.score_update',
-	COMPLIANCE_ALERT: 'compliance.alert',
+	COMPLIANCE_ASSESSMENT: "compliance.assessment",
+	COMPLIANCE_SCORE_UPDATE: "compliance.score_update",
+	COMPLIANCE_ALERT: "compliance.alert",
 
 	// System Actions
-	SYSTEM_BACKUP: 'system.backup',
-	SYSTEM_CONFIG_UPDATE: 'system.config_update',
-	SYSTEM_MAINTENANCE: 'system.maintenance',
+	SYSTEM_BACKUP: "system.backup",
+	SYSTEM_CONFIG_UPDATE: "system.config_update",
+	SYSTEM_MAINTENANCE: "system.maintenance",
 
 	// Security Actions
-	SECURITY_PERMISSION_GRANT: 'security.permission_grant',
-	SECURITY_PERMISSION_REVOKE: 'security.permission_revoke',
-	SECURITY_LOGIN_ATTEMPT: 'security.login_attempt',
-	SECURITY_PASSWORD_CHANGE: 'security.password_change',
+	SECURITY_PERMISSION_GRANT: "security.permission_grant",
+	SECURITY_PERMISSION_REVOKE: "security.permission_revoke",
+	SECURITY_LOGIN_ATTEMPT: "security.login_attempt",
+	SECURITY_PASSWORD_CHANGE: "security.password_change",
 } as const;
 
 // Entity type constants
 export const EntityTypes = {
-	USER: 'user',
-	CLIENT: 'client',
-	DOCUMENT: 'document',
-	FILING: 'filing',
-	COMPLIANCE: 'compliance',
-	TENANT: 'tenant',
-	ROLE: 'role',
-	PERMISSION: 'permission',
-	SYSTEM: 'system',
+	USER: "user",
+	CLIENT: "client",
+	DOCUMENT: "document",
+	FILING: "filing",
+	COMPLIANCE: "compliance",
+	TENANT: "tenant",
+	ROLE: "role",
+	PERMISSION: "permission",
+	SYSTEM: "system",
 } as const;

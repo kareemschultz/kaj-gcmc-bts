@@ -1,1 +1,31 @@
-{"uuid":"e318fd11-3cc6-4375-9388-bf43c09d338a","name":"should measure Time to Interactive","historyId":"265fc5bcdba41c15e92ad749a6ad4788:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"navigation.routes.spec.ts"},{"name":"titlePath","value":" > mobile-safari > navigation/routes.spec.ts > Page Load Performance"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"navigation/routes.spec.ts"},{"name":"subSuite","value":"Page Load Performance"}],"links":[],"start":1763549757684,"testCaseId":"265fc5bcdba41c15e92ad749a6ad4788","fullName":"navigation/routes.spec.ts:153:2","titlePath":["navigation","routes.spec.ts","Page Load Performance"],"stop":1763549757684}
+{
+	"uuid": "e318fd11-3cc6-4375-9388-bf43c09d338a",
+	"name": "should measure Time to Interactive",
+	"historyId": "265fc5bcdba41c15e92ad749a6ad4788:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "navigation.routes.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > navigation/routes.spec.ts > Page Load Performance"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "navigation/routes.spec.ts" },
+		{ "name": "subSuite", "value": "Page Load Performance" }
+	],
+	"links": [],
+	"start": 1763549757684,
+	"testCaseId": "265fc5bcdba41c15e92ad749a6ad4788",
+	"fullName": "navigation/routes.spec.ts:153:2",
+	"titlePath": ["navigation", "routes.spec.ts", "Page Load Performance"],
+	"stop": 1763549757684
+}

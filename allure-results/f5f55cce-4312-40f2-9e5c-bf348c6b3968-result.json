@@ -1,1 +1,36 @@
-{"uuid":"f5f55cce-4312-40f2-9e5c-bf348c6b3968","name":"should handle network errors during save @error-handling","historyId":"de04c706a6d5acad7bb07dba52ca414a:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.clients-management.spec.ts"},{"name":"titlePath","value":" > firefox > crud/clients-management.spec.ts > Clients Management - Error Handling"},{"name":"tag","value":"error-handling"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"crud/clients-management.spec.ts"},{"name":"subSuite","value":"Clients Management - Error Handling"}],"links":[],"start":1763549819604,"testCaseId":"de04c706a6d5acad7bb07dba52ca414a","fullName":"crud/clients-management.spec.ts:455:3","titlePath":["crud","clients-management.spec.ts","Clients Management - Error Handling"],"stop":1763549819604}
+{
+	"uuid": "f5f55cce-4312-40f2-9e5c-bf348c6b3968",
+	"name": "should handle network errors during save @error-handling",
+	"historyId": "de04c706a6d5acad7bb07dba52ca414a:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.clients-management.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > crud/clients-management.spec.ts > Clients Management - Error Handling"
+		},
+		{ "name": "tag", "value": "error-handling" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "crud/clients-management.spec.ts" },
+		{ "name": "subSuite", "value": "Clients Management - Error Handling" }
+	],
+	"links": [],
+	"start": 1763549819604,
+	"testCaseId": "de04c706a6d5acad7bb07dba52ca414a",
+	"fullName": "crud/clients-management.spec.ts:455:3",
+	"titlePath": [
+		"crud",
+		"clients-management.spec.ts",
+		"Clients Management - Error Handling"
+	],
+	"stop": 1763549819604
+}

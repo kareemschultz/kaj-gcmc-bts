@@ -1,1 +1,31 @@
-{"uuid":"fdc72c83-4d5b-4938-8757-1274723db23c","name":"should meet color contrast requirements","historyId":"54289c4139fb66dd5625c069bed461ca:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"accessibility.wcag-compliance.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > accessibility/wcag-compliance.spec.ts > Color Contrast"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"accessibility/wcag-compliance.spec.ts"},{"name":"subSuite","value":"Color Contrast"}],"links":[],"start":1763549819669,"testCaseId":"54289c4139fb66dd5625c069bed461ca","fullName":"accessibility/wcag-compliance.spec.ts:155:2","titlePath":["accessibility","wcag-compliance.spec.ts","Color Contrast"],"stop":1763549819669}
+{
+	"uuid": "fdc72c83-4d5b-4938-8757-1274723db23c",
+	"name": "should meet color contrast requirements",
+	"historyId": "54289c4139fb66dd5625c069bed461ca:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "accessibility.wcag-compliance.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > accessibility/wcag-compliance.spec.ts > Color Contrast"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "accessibility/wcag-compliance.spec.ts" },
+		{ "name": "subSuite", "value": "Color Contrast" }
+	],
+	"links": [],
+	"start": 1763549819669,
+	"testCaseId": "54289c4139fb66dd5625c069bed461ca",
+	"fullName": "accessibility/wcag-compliance.spec.ts:155:2",
+	"titlePath": ["accessibility", "wcag-compliance.spec.ts", "Color Contrast"],
+	"stop": 1763549819669
+}

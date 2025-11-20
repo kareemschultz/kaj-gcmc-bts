@@ -1,1 +1,36 @@
-{"uuid":"e5ff2c83-faf1-4cec-9600-ca5fc38660ef","name":"should provide proper ARIA labels and roles @accessibility","historyId":"2342e13c9c259378aaa530baaee34b83:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"dashboard.dashboard-functionality.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > dashboard/dashboard-functionality.spec.ts > Dashboard - Accessibility"},{"name":"tag","value":"accessibility"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"dashboard/dashboard-functionality.spec.ts"},{"name":"subSuite","value":"Dashboard - Accessibility"}],"links":[],"start":1763549819691,"testCaseId":"2342e13c9c259378aaa530baaee34b83","fullName":"dashboard/dashboard-functionality.spec.ts:346:3","titlePath":["dashboard","dashboard-functionality.spec.ts","Dashboard - Accessibility"],"stop":1763549819691}
+{
+	"uuid": "e5ff2c83-faf1-4cec-9600-ca5fc38660ef",
+	"name": "should provide proper ARIA labels and roles @accessibility",
+	"historyId": "2342e13c9c259378aaa530baaee34b83:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "dashboard.dashboard-functionality.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > dashboard/dashboard-functionality.spec.ts > Dashboard - Accessibility"
+		},
+		{ "name": "tag", "value": "accessibility" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "dashboard/dashboard-functionality.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard - Accessibility" }
+	],
+	"links": [],
+	"start": 1763549819691,
+	"testCaseId": "2342e13c9c259378aaa530baaee34b83",
+	"fullName": "dashboard/dashboard-functionality.spec.ts:346:3",
+	"titlePath": [
+		"dashboard",
+		"dashboard-functionality.spec.ts",
+		"Dashboard - Accessibility"
+	],
+	"stop": 1763549819691
+}

@@ -1,1 +1,31 @@
-{"uuid":"19cb6955-6f00-4944-ab5d-c42f8b43c807","name":"should clear session after logout","historyId":"05bf2ec5372a971bf254bdc82f0a642b:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.logout.spec.ts"},{"name":"titlePath","value":" > mobile-safari > auth/logout.spec.ts > Logout Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"auth/logout.spec.ts"},{"name":"subSuite","value":"Logout Flow"}],"links":[],"start":1763549819722,"testCaseId":"05bf2ec5372a971bf254bdc82f0a642b","fullName":"auth/logout.spec.ts:26:2","titlePath":["auth","logout.spec.ts","Logout Flow"],"stop":1763549819722}
+{
+	"uuid": "19cb6955-6f00-4944-ab5d-c42f8b43c807",
+	"name": "should clear session after logout",
+	"historyId": "05bf2ec5372a971bf254bdc82f0a642b:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.logout.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > auth/logout.spec.ts > Logout Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "auth/logout.spec.ts" },
+		{ "name": "subSuite", "value": "Logout Flow" }
+	],
+	"links": [],
+	"start": 1763549819722,
+	"testCaseId": "05bf2ec5372a971bf254bdc82f0a642b",
+	"fullName": "auth/logout.spec.ts:26:2",
+	"titlePath": ["auth", "logout.spec.ts", "Logout Flow"],
+	"stop": 1763549819722
+}

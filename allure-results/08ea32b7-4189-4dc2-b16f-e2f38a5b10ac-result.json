@@ -1,1 +1,31 @@
-{"uuid":"08ea32b7-4189-4dc2-b16f-e2f38a5b10ac","name":"should login with valid credentials","historyId":"bddb1941fd53869fb16f6bc8f1e44469:84e28e814b821ed013329cc8dbc467e0","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"webkit"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > webkit > auth/login.spec.ts > Login Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"webkit"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login Flow"}],"links":[],"start":1763549819641,"testCaseId":"bddb1941fd53869fb16f6bc8f1e44469","fullName":"auth/login.spec.ts:24:2","titlePath":["auth","login.spec.ts","Login Flow"],"stop":1763549819641}
+{
+	"uuid": "08ea32b7-4189-4dc2-b16f-e2f38a5b10ac",
+	"name": "should login with valid credentials",
+	"historyId": "bddb1941fd53869fb16f6bc8f1e44469:84e28e814b821ed013329cc8dbc467e0",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "webkit" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > webkit > auth/login.spec.ts > Login Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "webkit" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login Flow" }
+	],
+	"links": [],
+	"start": 1763549819641,
+	"testCaseId": "bddb1941fd53869fb16f6bc8f1e44469",
+	"fullName": "auth/login.spec.ts:24:2",
+	"titlePath": ["auth", "login.spec.ts", "Login Flow"],
+	"stop": 1763549819641
+}

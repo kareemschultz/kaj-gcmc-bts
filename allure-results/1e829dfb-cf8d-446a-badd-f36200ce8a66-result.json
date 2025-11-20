@@ -1,1 +1,36 @@
-{"uuid":"1e829dfb-cf8d-446a-badd-f36200ce8a66","name":"should filter clients by status @functional","historyId":"46476953849c5a27a16152b3ae52413e:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.clients-management.spec.ts"},{"name":"titlePath","value":" > chromium > crud/clients-management.spec.ts > Clients Management - Search and Filter"},{"name":"tag","value":"functional"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"crud/clients-management.spec.ts"},{"name":"subSuite","value":"Clients Management - Search and Filter"}],"links":[],"start":1763549757503,"testCaseId":"46476953849c5a27a16152b3ae52413e","fullName":"crud/clients-management.spec.ts:311:3","titlePath":["crud","clients-management.spec.ts","Clients Management - Search and Filter"],"stop":1763549757503}
+{
+	"uuid": "1e829dfb-cf8d-446a-badd-f36200ce8a66",
+	"name": "should filter clients by status @functional",
+	"historyId": "46476953849c5a27a16152b3ae52413e:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.clients-management.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > crud/clients-management.spec.ts > Clients Management - Search and Filter"
+		},
+		{ "name": "tag", "value": "functional" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "crud/clients-management.spec.ts" },
+		{ "name": "subSuite", "value": "Clients Management - Search and Filter" }
+	],
+	"links": [],
+	"start": 1763549757503,
+	"testCaseId": "46476953849c5a27a16152b3ae52413e",
+	"fullName": "crud/clients-management.spec.ts:311:3",
+	"titlePath": [
+		"crud",
+		"clients-management.spec.ts",
+		"Clients Management - Search and Filter"
+	],
+	"stop": 1763549757503
+}

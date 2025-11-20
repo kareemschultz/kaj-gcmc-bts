@@ -1,1 +1,36 @@
-{"uuid":"af929d43-de48-4a27-b5eb-510ba9278061","name":"should perform comprehensive API testing @api-comprehensive","historyId":"7e0584cf56d7dbef4a1d9f17d49b91ff:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"workflows.complete-user-journey.spec.ts"},{"name":"titlePath","value":" > chromium > workflows/complete-user-journey.spec.ts > Complete User Journey"},{"name":"tag","value":"api-comprehensive"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"workflows/complete-user-journey.spec.ts"},{"name":"subSuite","value":"Complete User Journey"}],"links":[],"start":1763549757525,"testCaseId":"7e0584cf56d7dbef4a1d9f17d49b91ff","fullName":"workflows/complete-user-journey.spec.ts:335:3","titlePath":["workflows","complete-user-journey.spec.ts","Complete User Journey"],"stop":1763549757525}
+{
+	"uuid": "af929d43-de48-4a27-b5eb-510ba9278061",
+	"name": "should perform comprehensive API testing @api-comprehensive",
+	"historyId": "7e0584cf56d7dbef4a1d9f17d49b91ff:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "workflows.complete-user-journey.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > workflows/complete-user-journey.spec.ts > Complete User Journey"
+		},
+		{ "name": "tag", "value": "api-comprehensive" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "workflows/complete-user-journey.spec.ts" },
+		{ "name": "subSuite", "value": "Complete User Journey" }
+	],
+	"links": [],
+	"start": 1763549757525,
+	"testCaseId": "7e0584cf56d7dbef4a1d9f17d49b91ff",
+	"fullName": "workflows/complete-user-journey.spec.ts:335:3",
+	"titlePath": [
+		"workflows",
+		"complete-user-journey.spec.ts",
+		"Complete User Journey"
+	],
+	"stop": 1763549757525
+}

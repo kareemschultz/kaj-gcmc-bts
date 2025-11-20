@@ -1,1 +1,31 @@
-{"uuid":"a75e7cb4-1e3e-4e8c-9c96-f7c3563b2f42","name":"cards should match baseline","historyId":"9d94e2f36ffd39510835bb5310f1932e:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"visual.dashboard.spec.ts"},{"name":"titlePath","value":" > mobile-safari > visual/dashboard.spec.ts > Component Visual Regression"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"visual/dashboard.spec.ts"},{"name":"subSuite","value":"Component Visual Regression"}],"links":[],"start":1763549757688,"testCaseId":"9d94e2f36ffd39510835bb5310f1932e","fullName":"visual/dashboard.spec.ts:162:2","titlePath":["visual","dashboard.spec.ts","Component Visual Regression"],"stop":1763549757688}
+{
+	"uuid": "a75e7cb4-1e3e-4e8c-9c96-f7c3563b2f42",
+	"name": "cards should match baseline",
+	"historyId": "9d94e2f36ffd39510835bb5310f1932e:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "visual.dashboard.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > visual/dashboard.spec.ts > Component Visual Regression"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "visual/dashboard.spec.ts" },
+		{ "name": "subSuite", "value": "Component Visual Regression" }
+	],
+	"links": [],
+	"start": 1763549757688,
+	"testCaseId": "9d94e2f36ffd39510835bb5310f1932e",
+	"fullName": "visual/dashboard.spec.ts:162:2",
+	"titlePath": ["visual", "dashboard.spec.ts", "Component Visual Regression"],
+	"stop": 1763549757688
+}

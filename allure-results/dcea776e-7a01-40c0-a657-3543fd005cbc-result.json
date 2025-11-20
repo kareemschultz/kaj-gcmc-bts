@@ -1,1 +1,31 @@
-{"uuid":"dcea776e-7a01-40c0-a657-3543fd005cbc","name":"should display correctly on mobile","historyId":"56c59d964d79500dfe9d97530c8630a2:c45e9e97074e3977585ef261eb8f7ba7","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"tablet"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > tablet > auth/login.spec.ts > Login - Mobile"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"tablet"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login - Mobile"}],"links":[],"start":1763549757706,"testCaseId":"56c59d964d79500dfe9d97530c8630a2","fullName":"auth/login.spec.ts:132:2","titlePath":["auth","login.spec.ts","Login - Mobile"],"stop":1763549757706}
+{
+	"uuid": "dcea776e-7a01-40c0-a657-3543fd005cbc",
+	"name": "should display correctly on mobile",
+	"historyId": "56c59d964d79500dfe9d97530c8630a2:c45e9e97074e3977585ef261eb8f7ba7",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "tablet" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > tablet > auth/login.spec.ts > Login - Mobile"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "tablet" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login - Mobile" }
+	],
+	"links": [],
+	"start": 1763549757706,
+	"testCaseId": "56c59d964d79500dfe9d97530c8630a2",
+	"fullName": "auth/login.spec.ts:132:2",
+	"titlePath": ["auth", "login.spec.ts", "Login - Mobile"],
+	"stop": 1763549757706
+}

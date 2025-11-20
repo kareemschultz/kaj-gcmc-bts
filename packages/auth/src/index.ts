@@ -2,7 +2,6 @@ import prisma from "@GCMC-KAJ/db";
 import type { UserRole } from "@GCMC-KAJ/types";
 import { type BetterAuthOptions, betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { createAuthMiddleware } from "better-auth/api";
 
 // Helper function to assign user to default tenant with role
 async function ensureUserHasTenantAndRole(userId: string) {
@@ -179,14 +178,12 @@ function getCorsOrigins(): string[] {
 // Enhanced Security Configuration
 const isProduction = process.env.NODE_ENV === "production";
 
-// Simplified validation for basic functionality
-// Complex validation removed to avoid body consumption conflicts
-
-// Extend Better-Auth session to include tenant and role information
+// Better Auth configuration optimized for cross-domain development
 export const auth = betterAuth<BetterAuthOptions>({
 	database: prismaAdapter(prisma, {
 		provider: "postgresql",
 	}),
+	baseURL: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3003",
 	trustedOrigins: getCorsOrigins(),
 	emailAndPassword: {
 		enabled: true,
@@ -201,18 +198,24 @@ export const auth = betterAuth<BetterAuthOptions>({
 		},
 	},
 	advanced: {
+		// Cross-domain cookie configuration for development
+		crossSubDomainCookies: {
+			enabled: true, // Enable cross-subdomain cookies
+		},
 		defaultCookieAttributes: {
-			sameSite: isProduction ? "lax" : "lax",
-			secure: isProduction,
+			sameSite: "lax", // Keep lax for better compatibility
+			secure: false, // Disable secure for localhost development
 			httpOnly: true,
 			// Enhanced cookie security
 			maxAge: 60 * 60 * 24 * 7, // 7 days
 			path: "/",
-			// Prevent cookie access from JavaScript
-			domain: isProduction ? process.env.COOKIE_DOMAIN : undefined,
+			// No domain restriction to allow localhost sharing
+			domain: undefined,
 		},
 		csrfProtection: {
-			enabled: false,
+			enabled: false, // Keep disabled during debugging
+			tokenKey: "better-auth.csrf_token",
+			cookieKey: "better-auth.csrf_cookie",
 		},
 		// Enhanced session security
 		sessionConfig: {

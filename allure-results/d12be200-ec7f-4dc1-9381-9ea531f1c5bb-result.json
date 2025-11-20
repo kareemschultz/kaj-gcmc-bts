@@ -1,1 +1,433 @@
-{"uuid":"d12be200-ec7f-4dc1-9381-9ea531f1c5bb","name":"should support keyboard navigation @accessibility","historyId":"7799741f2f27d27d28451778b214a51a:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"failed","statusDetails":{"message":"Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n","trace":"Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n\n    at LoginPage.testKeyboardNavigation (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:289:35)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:134:7"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Launch browser","start":1763550284694,"uuid":"be59ec50-3d39-460b-8556-2883f13c36aa","stop":1763550284730}],"attachments":[],"parameters":[],"name":"Fixture \"browser\"","start":1763550284692,"uuid":"e9aa6694-1c39-443d-b6b2-91e5537b2974","stop":1763550284730},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create context","start":1763550284733,"uuid":"5e29b2d3-312e-40ce-bb64-617d0fb4a063","stop":1763550284740}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550284731,"uuid":"c5d6895a-411d-42fd-8999-0bd8da89f89e","stop":1763550284743},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Create page","start":1763550284745,"uuid":"bc6515ce-6d7b-41d1-bc53-aa7738c5ba90","stop":1763550284767}],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550284744,"uuid":"16609345-f828-400d-aafd-a947dcf71dec","stop":1763550284767},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"screenshot","type":"image/png","source":"c45eb426-9256-4a62-aa81-74b6e8f250d7-attachment.png"}],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550284774,"uuid":"38e9a266-7e22-4f3e-adc6-fd02e34b2a15","stop":1763550284774},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"video","type":"video/webm","source":"3815fdcd-1d80-4ed2-a877-b63ccb3e2e7e-attachment.webm"}],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550284777,"uuid":"9a2b37ba-af57-4ef7-b56d-f3422222cdf6","stop":1763550284777},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"error-context","type":"text/markdown","source":"91afd25e-47f0-4e7c-a4e5-325a685f215d-attachment.md"}],"parameters":[],"name":"Allure Metadata (metadata)","start":1763550284778,"uuid":"175c2c1a-763b-4c8d-bcfd-64496358a623","stop":1763550284778}],"attachments":[],"parameters":[],"name":"beforeEach hook","start":1763550284685,"uuid":"0b3091d8-c45e-4aeb-a7de-f989add2053e","stop":1763550284778},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550284778,"uuid":"6566b2e8-04dc-4e3d-a967-8832030bf88d","stop":1763550284779}],"attachments":[],"parameters":[],"name":"Before Hooks","start":1763550284684,"uuid":"eb521443-43e1-4e5e-9dc4-479e26dc311d","stop":1763550284779},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550284783,"name":"Navigate to \"/login\"","uuid":"0a0fdd8b-9dfe-4024-aa2e-40174ec93135","stop":1763550285088},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550285089,"name":"Wait for load state \"networkidle\"","uuid":"3f37daf8-0f4d-416c-8ad9-e62d51dc7f68","stop":1763550285745},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550285745,"name":"Wait for load state \"domcontentloaded\"","uuid":"5cddf8dc-761f-4eea-a3e4-4ea6ae5fbe77","stop":1763550285746},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550285746,"name":"Wait for load state \"networkidle\"","uuid":"78316104-063e-42af-8caa-f3b044201dfc","stop":1763550285746},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550285746,"name":"Wait for load state \"domcontentloaded\"","uuid":"52f21ee6-6348-48b9-bf8b-1ded7b018426","stop":1763550285747},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550285749,"name":"Wait for selector locator('input[name=\"email\"], input[type=\"email\"], #email')","uuid":"2fcd1600-c7e1-479b-bb42-b4f026adc9b9","stop":1763550285777},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550285778,"name":"Wait for selector locator('input[name=\"password\"], input[type=\"password\"], #password')","uuid":"061f7614-4f08-467f-a1fe-8ba5c505e579","stop":1763550285784},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550285785,"name":"Wait for selector locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')","uuid":"8aca94c1-0cb3-4c3f-9747-c9d80eb0e490","stop":1763550285791}],"attachments":[],"parameters":[],"start":1763550284780,"name":"Navigate to login page","uuid":"fd91b2ff-f49b-466b-8757-fd86fd3b1f4c","stop":1763550285791},{"status":"failed","statusDetails":{"message":"Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n","trace":"Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n\n    at LoginPage.testKeyboardNavigation (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:289:35)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:134:7"},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550285793,"name":"Press \"Tab\"","uuid":"ba9ca821-4808-4f06-a6ff-7d7310948d9f","stop":1763550285799},{"status":"failed","statusDetails":{"message":"Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n","trace":"Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n\n    at LoginPage.testKeyboardNavigation (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:289:35)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:134:7"},"stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1763550285800,"name":"Expect \"toBeFocused\"","uuid":"79b951c9-1b84-4f5d-b2c3-8b239e7935f9","stop":1763550290809}],"attachments":[],"parameters":[],"start":1763550285792,"name":"Test keyboard navigation","uuid":"f08c3700-0716-42fb-a6c9-7fd2cc52a930","stop":1763550290809},{"statusDetails":{},"stage":"finished","steps":[],"attachments":[{"name":"trace","source":"b5cdef7d-f74d-4954-b2df-88d40f00445f-attachment.zip","type":"application/vnd.allure.playwright-trace"}],"parameters":[],"start":1763550291214,"name":"trace","stop":1763550291214},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"loginPage\"","start":1763550290928,"uuid":"fe2c8126-0133-4d24-81d7-77de9671b300","stop":1763550290928},{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Fixture \"page\"","start":1763550290928,"uuid":"9dc17c8d-568f-4ec8-88f1-d4552910ec78","stop":1763550290928},{"status":"passed","statusDetails":{},"stage":"finished","steps":[{"status":"passed","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[],"name":"Close context","start":1763550290978,"uuid":"02d477d4-eb09-427a-9bdd-e94a1c5c6fdd","stop":1763550291119}],"attachments":[],"parameters":[],"name":"Fixture \"context\"","start":1763550290928,"uuid":"b3d0903f-17b0-4f83-84d4-d48f93813efb","stop":1763550291120}],"attachments":[],"parameters":[],"name":"After Hooks","start":1763550290809,"uuid":"2490502c-a658-4590-b6dc-b5e4a93f669a","stop":1763550291123}],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.enhanced-login.spec.ts"},{"name":"titlePath","value":" > chromium > auth/enhanced-login.spec.ts > Enhanced Login Flow"},{"name":"tag","value":"accessibility"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-24537-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/enhanced-login.spec.ts"},{"name":"subSuite","value":"Enhanced Login Flow"},{"name":"epic","value":"Authentication"},{"name":"feature","value":"Login"},{"name":"story","value":"User Login Flow"}],"links":[],"start":1763550284683,"testCaseId":"7799741f2f27d27d28451778b214a51a","fullName":"auth/enhanced-login.spec.ts:128:3","titlePath":["auth","enhanced-login.spec.ts","Enhanced Login Flow"],"stop":1763550291070}
+{
+	"uuid": "d12be200-ec7f-4dc1-9381-9ea531f1c5bb",
+	"name": "should support keyboard navigation @accessibility",
+	"historyId": "7799741f2f27d27d28451778b214a51a:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "failed",
+	"statusDetails": {
+		"message": "Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n",
+		"trace": "Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n\n    at LoginPage.testKeyboardNavigation (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:289:35)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:134:7"
+	},
+	"stage": "finished",
+	"steps": [
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Launch browser",
+									"start": 1763550284694,
+									"uuid": "be59ec50-3d39-460b-8556-2883f13c36aa",
+									"stop": 1763550284730
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"browser\"",
+							"start": 1763550284692,
+							"uuid": "e9aa6694-1c39-443d-b6b2-91e5537b2974",
+							"stop": 1763550284730
+						},
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Create context",
+									"start": 1763550284733,
+									"uuid": "5e29b2d3-312e-40ce-bb64-617d0fb4a063",
+									"stop": 1763550284740
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"context\"",
+							"start": 1763550284731,
+							"uuid": "c5d6895a-411d-42fd-8999-0bd8da89f89e",
+							"stop": 1763550284743
+						},
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [
+								{
+									"status": "passed",
+									"statusDetails": {},
+									"stage": "finished",
+									"steps": [],
+									"attachments": [],
+									"parameters": [],
+									"name": "Create page",
+									"start": 1763550284745,
+									"uuid": "bc6515ce-6d7b-41d1-bc53-aa7738c5ba90",
+									"stop": 1763550284767
+								}
+							],
+							"attachments": [],
+							"parameters": [],
+							"name": "Fixture \"page\"",
+							"start": 1763550284744,
+							"uuid": "16609345-f828-400d-aafd-a947dcf71dec",
+							"stop": 1763550284767
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [
+								{
+									"name": "screenshot",
+									"type": "image/png",
+									"source": "c45eb426-9256-4a62-aa81-74b6e8f250d7-attachment.png"
+								}
+							],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550284774,
+							"uuid": "38e9a266-7e22-4f3e-adc6-fd02e34b2a15",
+							"stop": 1763550284774
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [
+								{
+									"name": "video",
+									"type": "video/webm",
+									"source": "3815fdcd-1d80-4ed2-a877-b63ccb3e2e7e-attachment.webm"
+								}
+							],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550284777,
+							"uuid": "9a2b37ba-af57-4ef7-b56d-f3422222cdf6",
+							"stop": 1763550284777
+						},
+						{
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [
+								{
+									"name": "error-context",
+									"type": "text/markdown",
+									"source": "91afd25e-47f0-4e7c-a4e5-325a685f215d-attachment.md"
+								}
+							],
+							"parameters": [],
+							"name": "Allure Metadata (metadata)",
+							"start": 1763550284778,
+							"uuid": "175c2c1a-763b-4c8d-bcfd-64496358a623",
+							"stop": 1763550284778
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "beforeEach hook",
+					"start": 1763550284685,
+					"uuid": "0b3091d8-c45e-4aeb-a7de-f989add2053e",
+					"stop": 1763550284778
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550284778,
+					"uuid": "6566b2e8-04dc-4e3d-a967-8832030bf88d",
+					"stop": 1763550284779
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "Before Hooks",
+			"start": 1763550284684,
+			"uuid": "eb521443-43e1-4e5e-9dc4-479e26dc311d",
+			"stop": 1763550284779
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550284783,
+					"name": "Navigate to \"/login\"",
+					"uuid": "0a0fdd8b-9dfe-4024-aa2e-40174ec93135",
+					"stop": 1763550285088
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550285089,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "3f37daf8-0f4d-416c-8ad9-e62d51dc7f68",
+					"stop": 1763550285745
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550285745,
+					"name": "Wait for load state \"domcontentloaded\"",
+					"uuid": "5cddf8dc-761f-4eea-a3e4-4ea6ae5fbe77",
+					"stop": 1763550285746
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550285746,
+					"name": "Wait for load state \"networkidle\"",
+					"uuid": "78316104-063e-42af-8caa-f3b044201dfc",
+					"stop": 1763550285746
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550285746,
+					"name": "Wait for load state \"domcontentloaded\"",
+					"uuid": "52f21ee6-6348-48b9-bf8b-1ded7b018426",
+					"stop": 1763550285747
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550285749,
+					"name": "Wait for selector locator('input[name=\"email\"], input[type=\"email\"], #email')",
+					"uuid": "2fcd1600-c7e1-479b-bb42-b4f026adc9b9",
+					"stop": 1763550285777
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550285778,
+					"name": "Wait for selector locator('input[name=\"password\"], input[type=\"password\"], #password')",
+					"uuid": "061f7614-4f08-467f-a1fe-8ba5c505e579",
+					"stop": 1763550285784
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550285785,
+					"name": "Wait for selector locator('button[type=\"submit\"], button:has-text(\"Login\"), button:has-text(\"Sign In\")')",
+					"uuid": "8aca94c1-0cb3-4c3f-9747-c9d80eb0e490",
+					"stop": 1763550285791
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550284780,
+			"name": "Navigate to login page",
+			"uuid": "fd91b2ff-f49b-466b-8757-fd86fd3b1f4c",
+			"stop": 1763550285791
+		},
+		{
+			"status": "failed",
+			"statusDetails": {
+				"message": "Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n",
+				"trace": "Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n\n    at LoginPage.testKeyboardNavigation (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:289:35)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:134:7"
+			},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550285793,
+					"name": "Press \"Tab\"",
+					"uuid": "ba9ca821-4808-4f06-a6ff-7d7310948d9f",
+					"stop": 1763550285799
+				},
+				{
+					"status": "failed",
+					"statusDetails": {
+						"message": "Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n",
+						"trace": "Error: expect(locator).toBeFocused() failed\n\nLocator:  locator('input[name=\"email\"], input[type=\"email\"], #email')\nExpected: focused\nReceived: inactive\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toBeFocused\" with timeout 5000ms\n  - waiting for locator('input[name=\"email\"], input[type=\"email\"], #email')\n    9 × locator resolved to <input value=\"\" id=\"email\" type=\"email\" name=\"email\" data-slot=\"input\" placeholder=\"Enter your email address\" class=\"flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30 fo…/>\n      - unexpected value \"inactive\"\n\n    at LoginPage.testKeyboardNavigation (/home/kareem/kaj-gcmc-bts/tests/e2e/page-objects/pages/login-page.ts:289:35)\n    at /home/kareem/kaj-gcmc-bts/tests/e2e/auth/enhanced-login.spec.ts:134:7"
+					},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"start": 1763550285800,
+					"name": "Expect \"toBeFocused\"",
+					"uuid": "79b951c9-1b84-4f5d-b2c3-8b239e7935f9",
+					"stop": 1763550290809
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"start": 1763550285792,
+			"name": "Test keyboard navigation",
+			"uuid": "f08c3700-0716-42fb-a6c9-7fd2cc52a930",
+			"stop": 1763550290809
+		},
+		{
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [],
+			"attachments": [
+				{
+					"name": "trace",
+					"source": "b5cdef7d-f74d-4954-b2df-88d40f00445f-attachment.zip",
+					"type": "application/vnd.allure.playwright-trace"
+				}
+			],
+			"parameters": [],
+			"start": 1763550291214,
+			"name": "trace",
+			"stop": 1763550291214
+		},
+		{
+			"status": "passed",
+			"statusDetails": {},
+			"stage": "finished",
+			"steps": [
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"loginPage\"",
+					"start": 1763550290928,
+					"uuid": "fe2c8126-0133-4d24-81d7-77de9671b300",
+					"stop": 1763550290928
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"page\"",
+					"start": 1763550290928,
+					"uuid": "9dc17c8d-568f-4ec8-88f1-d4552910ec78",
+					"stop": 1763550290928
+				},
+				{
+					"status": "passed",
+					"statusDetails": {},
+					"stage": "finished",
+					"steps": [
+						{
+							"status": "passed",
+							"statusDetails": {},
+							"stage": "finished",
+							"steps": [],
+							"attachments": [],
+							"parameters": [],
+							"name": "Close context",
+							"start": 1763550290978,
+							"uuid": "02d477d4-eb09-427a-9bdd-e94a1c5c6fdd",
+							"stop": 1763550291119
+						}
+					],
+					"attachments": [],
+					"parameters": [],
+					"name": "Fixture \"context\"",
+					"start": 1763550290928,
+					"uuid": "b3d0903f-17b0-4f83-84d4-d48f93813efb",
+					"stop": 1763550291120
+				}
+			],
+			"attachments": [],
+			"parameters": [],
+			"name": "After Hooks",
+			"start": 1763550290809,
+			"uuid": "2490502c-a658-4590-b6dc-b5e4a93f669a",
+			"stop": 1763550291123
+		}
+	],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.enhanced-login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/enhanced-login.spec.ts > Enhanced Login Flow"
+		},
+		{ "name": "tag", "value": "accessibility" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-24537-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/enhanced-login.spec.ts" },
+		{ "name": "subSuite", "value": "Enhanced Login Flow" },
+		{ "name": "epic", "value": "Authentication" },
+		{ "name": "feature", "value": "Login" },
+		{ "name": "story", "value": "User Login Flow" }
+	],
+	"links": [],
+	"start": 1763550284683,
+	"testCaseId": "7799741f2f27d27d28451778b214a51a",
+	"fullName": "auth/enhanced-login.spec.ts:128:3",
+	"titlePath": ["auth", "enhanced-login.spec.ts", "Enhanced Login Flow"],
+	"stop": 1763550291070
+}

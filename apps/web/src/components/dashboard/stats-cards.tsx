@@ -3,10 +3,20 @@
 import { AlertTriangle, ClipboardList, FileText, Users } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DashboardCard, ClientCountCard, DocumentCountCard, FilingCountCard } from "@/components/ui/dashboard-card";
+import {
+	ClientCountCard,
+	DashboardCard,
+	DocumentCountCard,
+	FilingCountCard,
+} from "@/components/ui/dashboard-card";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+	AnimatedCard,
+	DeadlineWarning,
+	LoadingOverlay,
+	MonetaryValue,
+} from "@/lib/animations";
 import { trpc } from "@/utils/trpc";
-import { AnimatedCard, MonetaryValue, DeadlineWarning, LoadingOverlay } from "@/lib/animations";
 
 const DASHBOARD_SKELETON_KEYS = Array.from(
 	{ length: 4 },
@@ -26,12 +36,7 @@ export function StatsCards() {
 						staggerDelay={index * 0.1}
 						loading={true}
 					>
-						<DashboardCard
-							title=""
-							value=""
-							icon={Users}
-							loading={true}
-						/>
+						<DashboardCard title="" value="" icon={Users} loading={true} />
 					</AnimatedCard>
 				))}
 			</div>
@@ -49,13 +54,13 @@ export function StatsCards() {
 			const growth = Math.floor(Math.random() * 20) - 5; // -5% to +15%
 			return {
 				value: growth,
-				positive: growth > 0
+				positive: growth > 0,
 			};
 		}
 		const change = ((currentValue - previousValue) / previousValue) * 100;
 		return {
 			value: Math.round(change),
-			positive: change > 0
+			positive: change > 0,
 		};
 	};
 
@@ -102,16 +107,24 @@ export function StatsCards() {
 				staggerDelay={0.4}
 				interactive={true}
 				elevation={data.alerts.expiringDocuments > 0 ? "high" : "medium"}
-				className={data.alerts.expiringDocuments > 0 ? "ring-2 ring-orange-200 border-orange-300" : ""}
+				className={
+					data.alerts.expiringDocuments > 0
+						? "border-orange-300 ring-2 ring-orange-200"
+						: ""
+				}
 			>
 				<DashboardCard
 					title="Expiring Documents"
 					value={data.alerts.expiringDocuments}
 					icon={AlertTriangle}
-					trend={data.alerts.expiringDocuments > 0 ? {
-						value: data.alerts.expiringDocuments,
-						positive: false
-					} : undefined}
+					trend={
+						data.alerts.expiringDocuments > 0
+							? {
+									value: data.alerts.expiringDocuments,
+									positive: false,
+								}
+							: undefined
+					}
 					href="/documents?status=expiring"
 				/>
 			</AnimatedCard>

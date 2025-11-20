@@ -14,7 +14,7 @@ import {
 	Trash2,
 	Upload,
 } from "lucide-react";
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -167,64 +167,87 @@ export function ClientDocuments({ user }: ClientDocumentsProps) {
 
 	// Filter documents based on search term and category
 	const filteredDocuments = documents.filter((doc) => {
-		const matchesSearch = doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+		const matchesSearch =
+			doc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 			doc.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-			doc.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+			doc.tags.some((tag) =>
+				tag.toLowerCase().includes(searchTerm.toLowerCase()),
+			);
 
-		const matchesCategory = selectedCategory === "All Documents" || doc.category === selectedCategory;
+		const matchesCategory =
+			selectedCategory === "All Documents" || doc.category === selectedCategory;
 
 		return matchesSearch && matchesCategory;
 	});
 
 	// Handle file upload completion
-	const handleUploadComplete = useCallback((uploadedFiles: any[]) => {
-		const newDocuments = uploadedFiles.map((file, index) => ({
-			id: documents.length + index + 1,
-			name: file.name,
-			type: file.type,
-			category: "Uncategorized",
-			size: `${(file.size / 1024 / 1024).toFixed(1)} MB`,
-			uploadedAt: new Date().toISOString().split('T')[0],
-			status: "pending" as const,
-			tags: ["new"],
-			description: "Recently uploaded document",
-		}));
+	const handleUploadComplete = useCallback(
+		(uploadedFiles: any[]) => {
+			const newDocuments = uploadedFiles.map((file, index) => ({
+				id: documents.length + index + 1,
+				name: file.name,
+				type: file.type,
+				category: "Uncategorized",
+				size: `${(file.size / 1024 / 1024).toFixed(1)} MB`,
+				uploadedAt: new Date().toISOString().split("T")[0],
+				status: "pending" as const,
+				tags: ["new"],
+				description: "Recently uploaded document",
+			}));
 
-		setDocuments(prev => [...newDocuments, ...prev]);
-		setUploadDialogOpen(false);
-	}, [documents.length]);
+			setDocuments((prev) => [...newDocuments, ...prev]);
+			setUploadDialogOpen(false);
+		},
+		[documents.length],
+	);
 
 	// Get document icon based on type
 	const getDocumentIcon = (type: string) => {
 		const iconClass = "h-8 w-8";
 		switch (type.toLowerCase()) {
 			case "pdf":
-				return <div className={`${iconClass} bg-red-100 rounded-lg flex items-center justify-center`}>
-					<FileIcon className="h-4 w-4 text-red-600" />
-				</div>;
+				return (
+					<div
+						className={`${iconClass} flex items-center justify-center rounded-lg bg-red-100`}
+					>
+						<FileIcon className="h-4 w-4 text-red-600" />
+					</div>
+				);
 			case "excel":
 			case "xlsx":
-				return <div className={`${iconClass} bg-green-100 rounded-lg flex items-center justify-center`}>
-					<FileIcon className="h-4 w-4 text-green-600" />
-				</div>;
+				return (
+					<div
+						className={`${iconClass} flex items-center justify-center rounded-lg bg-green-100`}
+					>
+						<FileIcon className="h-4 w-4 text-green-600" />
+					</div>
+				);
 			case "word":
 			case "docx":
-				return <div className={`${iconClass} bg-blue-100 rounded-lg flex items-center justify-center`}>
-					<FileIcon className="h-4 w-4 text-blue-600" />
-				</div>;
+				return (
+					<div
+						className={`${iconClass} flex items-center justify-center rounded-lg bg-blue-100`}
+					>
+						<FileIcon className="h-4 w-4 text-blue-600" />
+					</div>
+				);
 			default:
-				return <div className={`${iconClass} bg-gray-100 rounded-lg flex items-center justify-center`}>
-					<FileIcon className="h-4 w-4 text-gray-600" />
-				</div>;
+				return (
+					<div
+						className={`${iconClass} flex items-center justify-center rounded-lg bg-gray-100`}
+					>
+						<FileIcon className="h-4 w-4 text-gray-600" />
+					</div>
+				);
 		}
 	};
 
 	// Document statistics
 	const stats = {
 		total: documents.length,
-		approved: documents.filter(d => d.status === "approved").length,
-		pending: documents.filter(d => d.status === "pending").length,
-		rejected: documents.filter(d => d.status === "rejected").length,
+		approved: documents.filter((d) => d.status === "approved").length,
+		pending: documents.filter((d) => d.status === "pending").length,
+		rejected: documents.filter((d) => d.status === "rejected").length,
 	};
 
 	return (
@@ -318,7 +341,7 @@ export function ClientDocuments({ user }: ClientDocumentsProps) {
 			<div className="flex flex-col space-y-4 md:flex-row md:items-center md:space-x-4 md:space-y-0">
 				<div className="flex-1">
 					<div className="relative">
-						<Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+						<Search className="-translate-y-1/2 absolute top-1/2 left-3 h-4 w-4 text-muted-foreground" />
 						<Input
 							placeholder="Search documents..."
 							value={searchTerm}
@@ -366,13 +389,20 @@ export function ClientDocuments({ user }: ClientDocumentsProps) {
 			{viewMode === "grid" ? (
 				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 					{filteredDocuments.map((document) => (
-						<Card key={document.id} className="group transition-all duration-200 hover:shadow-lg">
+						<Card
+							key={document.id}
+							className="group transition-all duration-200 hover:shadow-lg"
+						>
 							<CardHeader className="space-y-3">
 								<div className="flex items-start justify-between">
 									{getDocumentIcon(document.type)}
 									<DropdownMenu>
 										<DropdownMenuTrigger asChild>
-											<Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100">
+											<Button
+												variant="ghost"
+												size="icon"
+												className="opacity-0 group-hover:opacity-100"
+											>
 												<MoreHorizontal className="h-4 w-4" />
 											</Button>
 										</DropdownMenuTrigger>
@@ -398,8 +428,12 @@ export function ClientDocuments({ user }: ClientDocumentsProps) {
 									</DropdownMenu>
 								</div>
 								<div>
-									<h3 className="font-semibold text-sm leading-none">{document.name}</h3>
-									<p className="text-muted-foreground text-xs">{document.size}</p>
+									<h3 className="font-semibold text-sm leading-none">
+										{document.name}
+									</h3>
+									<p className="text-muted-foreground text-xs">
+										{document.size}
+									</p>
 								</div>
 							</CardHeader>
 							<CardContent className="space-y-3">
@@ -444,7 +478,8 @@ export function ClientDocuments({ user }: ClientDocumentsProps) {
 										<div>
 											<h3 className="font-medium text-sm">{document.name}</h3>
 											<p className="text-muted-foreground text-xs">
-												{document.category} • {document.size} • {new Date(document.uploadedAt).toLocaleDateString()}
+												{document.category} • {document.size} •{" "}
+												{new Date(document.uploadedAt).toLocaleDateString()}
 											</p>
 										</div>
 									</div>
@@ -498,7 +533,10 @@ export function ClientDocuments({ user }: ClientDocumentsProps) {
 								: "Get started by uploading your first document"}
 						</p>
 						{!searchTerm && selectedCategory === "All Documents" && (
-							<Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
+							<Dialog
+								open={uploadDialogOpen}
+								onOpenChange={setUploadDialogOpen}
+							>
 								<DialogTrigger asChild>
 									<Button>
 										<Upload className="mr-2 h-4 w-4" />

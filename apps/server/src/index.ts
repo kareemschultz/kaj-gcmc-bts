@@ -19,6 +19,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { securityHeaders } from "./middleware/security";
+import authRoute from "./routes/auth";
 import downloadsRoute from "./routes/downloads";
 
 // Validate environment variables at startup (fail-fast approach)
@@ -29,98 +30,48 @@ const app = new Hono();
 // Track readiness state
 let isReady = false;
 
-// Create a clean auth app with no middleware
-const authApp = new Hono();
+// Enhanced CORS configuration for Better Auth
+const corsConfig = {
+	origin: env.CORS_ORIGIN.split(",").map((o) => o.trim()),
+	allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"],
+	allowHeaders: [
+		"Content-Type",
+		"Authorization",
+		"X-Requested-With",
+		"Accept",
+		"Accept-Language",
+		"Accept-Encoding",
+		"Origin",
+		"DNT",
+		"X-Forwarded-For",
+		"X-Forwarded-Proto",
+		"X-Real-IP",
+		"User-Agent",
+		"Cache-Control",
+		"Pragma",
+		"Cookie",
+		"Set-Cookie",
+		"X-CSRF-Token"
+	],
+	credentials: true,
+	maxAge: 86400, // 24 hours
+};
 
-// Mount Better Auth handler directly (no middleware interference)
-authApp.all("/*", async (c) => {
-	console.log("🔐 Auth request:", c.req.method, c.req.url);
+// Better Auth routes
+app.route("/api/auth", authRoute);
 
-	// Handle CORS manually for auth routes
-	const origin = c.req.header("origin");
-	const allowedOrigins = env.CORS_ORIGIN.split(",").map((o) => o.trim());
+// Apply the same enhanced CORS configuration for other routes
+app.use(cors(corsConfig));
 
-	if (origin && allowedOrigins.includes(origin)) {
-		c.header("Access-Control-Allow-Origin", origin);
-	}
-	c.header("Access-Control-Allow-Credentials", "true");
-	c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-	c.header(
-		"Access-Control-Allow-Headers",
-		"Content-Type, Authorization, X-Requested-With",
-	);
-
-	// Handle preflight
-	if (c.req.method === "OPTIONS") {
-		const headers = new Headers();
-		if (origin && allowedOrigins.includes(origin)) {
-			headers.set("Access-Control-Allow-Origin", origin);
-		}
-		headers.set("Access-Control-Allow-Credentials", "true");
-		headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-		headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
-
-		return new Response(null, { status: 200, headers });
-	}
-
-	try {
-		const res = await auth.handler(c.req.raw);
-		console.log("🔐 Auth response status:", res.status);
-
-		// Clone the response to add CORS headers
-		const clonedRes = new Response(res.body, {
-			status: res.status,
-			statusText: res.statusText,
-			headers: res.headers
-		});
-
-		// Add CORS headers to the cloned response
-		if (origin && allowedOrigins.includes(origin)) {
-			clonedRes.headers.set("Access-Control-Allow-Origin", origin);
-		}
-		clonedRes.headers.set("Access-Control-Allow-Credentials", "true");
-		clonedRes.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-		clonedRes.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
-
-		return clonedRes;
-	} catch (error) {
-		console.error("❌ Auth handler error:", error);
-		console.error(
-			"❌ Error stack:",
-			error instanceof Error ? error.stack : "No stack",
-		);
-		return c.json(
-			{
-				error: "Authentication failed",
-				details: error instanceof Error ? error.message : "Unknown error",
-			},
-			500,
-		);
-	}
-});
-
-// Mount the auth app FIRST before any other middleware
-app.route("/api/auth", authApp);
-
-// CORS configuration for other routes
-app.use(
-	cors({
-		origin: env.CORS_ORIGIN.split(",").map((o) => o.trim()),
-		allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-		allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-		credentials: true,
-		maxAge: 86400, // 24 hours
-	}),
-);
-
-// Security headers middleware (applied to non-auth routes only)
-app.use((c, next) => {
-	// Skip security headers for auth routes
-	if (c.req.url.includes("/api/auth/")) {
-		return next();
-	}
-	return securityHeaders()(c, next);
-});
+// Security headers middleware (COMPLETELY DISABLED FOR DEBUGGING)
+// Reason: CSP and other security headers are interfering with authentication
+// app.use((c, next) => {
+// 	// Skip security headers for auth routes
+// 	if (c.req.url.includes("/api/auth/")) {
+// 		return next();
+// 	}
+// 	return securityHeaders()(c, next);
+// });
 
 // Request logging (applied to non-auth routes only)
 app.use((c, next) => {

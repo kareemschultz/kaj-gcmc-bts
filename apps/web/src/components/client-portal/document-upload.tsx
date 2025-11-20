@@ -1,12 +1,12 @@
 "use client";
 
 import {
+	AlertCircle,
 	CheckCircle,
 	FileIcon,
+	Loader2,
 	Upload,
 	X,
-	AlertCircle,
-	Loader2,
 } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
@@ -59,9 +59,13 @@ const maxFileSize = 10 * 1024 * 1024; // 10MB
 const acceptedFileTypes = {
 	"application/pdf": [".pdf"],
 	"application/msword": [".doc"],
-	"application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
+	"application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
+		".docx",
+	],
 	"application/vnd.ms-excel": [".xls"],
-	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
+	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
+		".xlsx",
+	],
 	"image/jpeg": [".jpg", ".jpeg"],
 	"image/png": [".png"],
 };
@@ -93,7 +97,7 @@ export function DocumentUpload({ onUploadComplete }: DocumentUploadProps) {
 
 	const updateFile = (id: string, updates: Partial<UploadedFile>) => {
 		setUploadedFiles((prev) =>
-			prev.map((file) => (file.id === id ? { ...file, ...updates } : file))
+			prev.map((file) => (file.id === id ? { ...file, ...updates } : file)),
 		);
 	};
 
@@ -137,39 +141,62 @@ export function DocumentUpload({ onUploadComplete }: DocumentUploadProps) {
 		}
 	};
 
-	const canUpload = uploadedFiles.length > 0 && uploadedFiles.every(
-		(file) => file.category && file.category !== "" && file.status !== "uploading"
-	);
+	const canUpload =
+		uploadedFiles.length > 0 &&
+		uploadedFiles.every(
+			(file) =>
+				file.category && file.category !== "" && file.status !== "uploading",
+		);
 
 	const getFileIcon = (fileName: string) => {
-		const extension = fileName.split('.').pop()?.toLowerCase();
+		const extension = fileName.split(".").pop()?.toLowerCase();
 		const iconClass = "h-8 w-8";
 
 		switch (extension) {
 			case "pdf":
-				return <div className={`${iconClass} bg-red-100 rounded-lg flex items-center justify-center`}>
-					<FileIcon className="h-4 w-4 text-red-600" />
-				</div>;
+				return (
+					<div
+						className={`${iconClass} flex items-center justify-center rounded-lg bg-red-100`}
+					>
+						<FileIcon className="h-4 w-4 text-red-600" />
+					</div>
+				);
 			case "xls":
 			case "xlsx":
-				return <div className={`${iconClass} bg-green-100 rounded-lg flex items-center justify-center`}>
-					<FileIcon className="h-4 w-4 text-green-600" />
-				</div>;
+				return (
+					<div
+						className={`${iconClass} flex items-center justify-center rounded-lg bg-green-100`}
+					>
+						<FileIcon className="h-4 w-4 text-green-600" />
+					</div>
+				);
 			case "doc":
 			case "docx":
-				return <div className={`${iconClass} bg-blue-100 rounded-lg flex items-center justify-center`}>
-					<FileIcon className="h-4 w-4 text-blue-600" />
-				</div>;
+				return (
+					<div
+						className={`${iconClass} flex items-center justify-center rounded-lg bg-blue-100`}
+					>
+						<FileIcon className="h-4 w-4 text-blue-600" />
+					</div>
+				);
 			case "jpg":
 			case "jpeg":
 			case "png":
-				return <div className={`${iconClass} bg-purple-100 rounded-lg flex items-center justify-center`}>
-					<FileIcon className="h-4 w-4 text-purple-600" />
-				</div>;
+				return (
+					<div
+						className={`${iconClass} flex items-center justify-center rounded-lg bg-purple-100`}
+					>
+						<FileIcon className="h-4 w-4 text-purple-600" />
+					</div>
+				);
 			default:
-				return <div className={`${iconClass} bg-gray-100 rounded-lg flex items-center justify-center`}>
-					<FileIcon className="h-4 w-4 text-gray-600" />
-				</div>;
+				return (
+					<div
+						className={`${iconClass} flex items-center justify-center rounded-lg bg-gray-100`}
+					>
+						<FileIcon className="h-4 w-4 text-gray-600" />
+					</div>
+				);
 		}
 	};
 
@@ -180,7 +207,7 @@ export function DocumentUpload({ onUploadComplete }: DocumentUploadProps) {
 				<CardContent className="p-6">
 					<div
 						{...getRootProps()}
-						className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${
+						className={`cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${
 							isDragActive
 								? "border-blue-500 bg-blue-50 dark:bg-blue-950/20"
 								: "border-gray-300 hover:border-gray-400"
@@ -369,7 +396,11 @@ export function DocumentUpload({ onUploadComplete }: DocumentUploadProps) {
 										{uploadedFile.tags.length > 0 && (
 											<div className="flex flex-wrap gap-1">
 												{uploadedFile.tags.slice(0, 3).map((tag) => (
-													<Badge key={tag} variant="outline" className="text-xs">
+													<Badge
+														key={tag}
+														variant="outline"
+														className="text-xs"
+													>
 														{tag}
 													</Badge>
 												))}
@@ -394,7 +425,7 @@ export function DocumentUpload({ onUploadComplete }: DocumentUploadProps) {
 					<h3 className="mb-3 font-semibold text-blue-900 dark:text-blue-100">
 						Upload Tips
 					</h3>
-					<ul className="space-y-2 text-blue-800 dark:text-blue-200 text-sm">
+					<ul className="space-y-2 text-blue-800 text-sm dark:text-blue-200">
 						<li>• Ensure all documents are clear and legible</li>
 						<li>• Use descriptive file names for easier organization</li>
 						<li>• Add relevant tags to improve searchability</li>

@@ -1,1 +1,31 @@
-{"uuid":"5268f5c4-7fca-4389-9366-23c1b8d2e314","name":"should not allow back navigation after logout","historyId":"aa6799c6948d989e6caaf959d70946ba:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.logout.spec.ts"},{"name":"titlePath","value":" > chromium > auth/logout.spec.ts > Logout Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/logout.spec.ts"},{"name":"subSuite","value":"Logout Flow"}],"links":[],"start":1763549757501,"testCaseId":"aa6799c6948d989e6caaf959d70946ba","fullName":"auth/logout.spec.ts:45:2","titlePath":["auth","logout.spec.ts","Logout Flow"],"stop":1763549757501}
+{
+	"uuid": "5268f5c4-7fca-4389-9366-23c1b8d2e314",
+	"name": "should not allow back navigation after logout",
+	"historyId": "aa6799c6948d989e6caaf959d70946ba:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.logout.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/logout.spec.ts > Logout Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/logout.spec.ts" },
+		{ "name": "subSuite", "value": "Logout Flow" }
+	],
+	"links": [],
+	"start": 1763549757501,
+	"testCaseId": "aa6799c6948d989e6caaf959d70946ba",
+	"fullName": "auth/logout.spec.ts:45:2",
+	"titlePath": ["auth", "logout.spec.ts", "Logout Flow"],
+	"stop": 1763549757501
+}

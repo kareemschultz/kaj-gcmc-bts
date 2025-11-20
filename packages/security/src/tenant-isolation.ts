@@ -98,7 +98,21 @@ export function withTenantIsolation<T extends Record<string, unknown>>(
 /**
  * Create a tenant-scoped Prisma client
  */
-export function createTenantPrismaClient(tenantId: number) {
+export function createTenantPrismaClient(tenantId: number): {
+	client: {
+		findMany: (args?: Record<string, unknown>) => Promise<any[]>;
+		findFirst: (args?: Record<string, unknown>) => Promise<any>;
+		findUnique: (args: Record<string, unknown>) => Promise<any>;
+		create: (args: Record<string, unknown>) => Promise<any>;
+		update: (args: Record<string, unknown>) => Promise<any>;
+		delete: (args: Record<string, unknown>) => Promise<any>;
+		upsert: (args: Record<string, unknown>) => Promise<any>;
+		count: (args?: Record<string, unknown>) => Promise<number>;
+		aggregate: (args?: Record<string, unknown>) => Promise<any>;
+		groupBy: (args: Record<string, unknown>) => Promise<any[]>;
+	};
+	[key: string]: any;
+} {
 	return {
 		client: {
 			findMany: (args?: Record<string, unknown>) => {

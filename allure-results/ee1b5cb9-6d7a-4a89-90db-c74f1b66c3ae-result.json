@@ -1,1 +1,36 @@
-{"uuid":"ee1b5cb9-6d7a-4a89-90db-c74f1b66c3ae","name":"should meet WCAG accessibility standards @accessibility","historyId":"f34affa045700b74ae6aa81309158f3c:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"dashboard.dashboard-functionality.spec.ts"},{"name":"titlePath","value":" > firefox > dashboard/dashboard-functionality.spec.ts > Dashboard - Accessibility"},{"name":"tag","value":"accessibility"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"dashboard/dashboard-functionality.spec.ts"},{"name":"subSuite","value":"Dashboard - Accessibility"}],"links":[],"start":1763549819610,"testCaseId":"f34affa045700b74ae6aa81309158f3c","fullName":"dashboard/dashboard-functionality.spec.ts:307:3","titlePath":["dashboard","dashboard-functionality.spec.ts","Dashboard - Accessibility"],"stop":1763549819610}
+{
+	"uuid": "ee1b5cb9-6d7a-4a89-90db-c74f1b66c3ae",
+	"name": "should meet WCAG accessibility standards @accessibility",
+	"historyId": "f34affa045700b74ae6aa81309158f3c:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "dashboard.dashboard-functionality.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > dashboard/dashboard-functionality.spec.ts > Dashboard - Accessibility"
+		},
+		{ "name": "tag", "value": "accessibility" },
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "dashboard/dashboard-functionality.spec.ts" },
+		{ "name": "subSuite", "value": "Dashboard - Accessibility" }
+	],
+	"links": [],
+	"start": 1763549819610,
+	"testCaseId": "f34affa045700b74ae6aa81309158f3c",
+	"fullName": "dashboard/dashboard-functionality.spec.ts:307:3",
+	"titlePath": [
+		"dashboard",
+		"dashboard-functionality.spec.ts",
+		"Dashboard - Accessibility"
+	],
+	"stop": 1763549819610
+}

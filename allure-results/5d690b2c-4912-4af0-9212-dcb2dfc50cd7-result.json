@@ -1,1 +1,31 @@
-{"uuid":"5d690b2c-4912-4af0-9212-dcb2dfc50cd7","name":"should allow access when authenticated","historyId":"fe816bdc2c200313308357949f0d0070:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"navigation.routes.spec.ts"},{"name":"titlePath","value":" > mobile-safari > navigation/routes.spec.ts > Protected Routes"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"navigation/routes.spec.ts"},{"name":"subSuite","value":"Protected Routes"}],"links":[],"start":1763549757683,"testCaseId":"fe816bdc2c200313308357949f0d0070","fullName":"navigation/routes.spec.ts:125:2","titlePath":["navigation","routes.spec.ts","Protected Routes"],"stop":1763549757683}
+{
+	"uuid": "5d690b2c-4912-4af0-9212-dcb2dfc50cd7",
+	"name": "should allow access when authenticated",
+	"historyId": "fe816bdc2c200313308357949f0d0070:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "navigation.routes.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > navigation/routes.spec.ts > Protected Routes"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "navigation/routes.spec.ts" },
+		{ "name": "subSuite", "value": "Protected Routes" }
+	],
+	"links": [],
+	"start": 1763549757683,
+	"testCaseId": "fe816bdc2c200313308357949f0d0070",
+	"fullName": "navigation/routes.spec.ts:125:2",
+	"titlePath": ["navigation", "routes.spec.ts", "Protected Routes"],
+	"stop": 1763549757683
+}

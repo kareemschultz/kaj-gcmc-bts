@@ -1,1 +1,31 @@
-{"uuid":"5ee08a0b-bfdd-4190-886c-e248ea76a071","name":"should delete service","historyId":"6a8386431f5ad1d94f8d80b6b727f68d:b444eb0fbe6390c71e68b51dd25701fc","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"firefox"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"crud.services.spec.ts"},{"name":"titlePath","value":" > firefox > crud/services.spec.ts > Services CRUD"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"firefox"},{"name":"suite","value":"crud/services.spec.ts"},{"name":"subSuite","value":"Services CRUD"}],"links":[],"start":1763549819606,"testCaseId":"6a8386431f5ad1d94f8d80b6b727f68d","fullName":"crud/services.spec.ts:97:2","titlePath":["crud","services.spec.ts","Services CRUD"],"stop":1763549819606}
+{
+	"uuid": "5ee08a0b-bfdd-4190-886c-e248ea76a071",
+	"name": "should delete service",
+	"historyId": "6a8386431f5ad1d94f8d80b6b727f68d:b444eb0fbe6390c71e68b51dd25701fc",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "firefox" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "crud.services.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > firefox > crud/services.spec.ts > Services CRUD"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "firefox" },
+		{ "name": "suite", "value": "crud/services.spec.ts" },
+		{ "name": "subSuite", "value": "Services CRUD" }
+	],
+	"links": [],
+	"start": 1763549819606,
+	"testCaseId": "6a8386431f5ad1d94f8d80b6b727f68d",
+	"fullName": "crud/services.spec.ts:97:2",
+	"titlePath": ["crud", "services.spec.ts", "Services CRUD"],
+	"stop": 1763549819606
+}

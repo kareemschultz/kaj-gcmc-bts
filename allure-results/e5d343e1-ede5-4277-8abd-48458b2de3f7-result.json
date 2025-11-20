@@ -1,1 +1,31 @@
-{"uuid":"e5d343e1-ede5-4277-8abd-48458b2de3f7","name":"mobile services list should match baseline","historyId":"4b4cba3632d30c89ae69e5fbf9cc82f2:8e098aee18e8dfe419681df8d62d9842","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-chrome"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"mobile.responsive.spec.ts"},{"name":"titlePath","value":" > mobile-chrome > mobile/responsive.spec.ts > Mobile Visual Regression"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-chrome"},{"name":"suite","value":"mobile/responsive.spec.ts"},{"name":"subSuite","value":"Mobile Visual Regression"}],"links":[],"start":1763549819695,"testCaseId":"4b4cba3632d30c89ae69e5fbf9cc82f2","fullName":"mobile/responsive.spec.ts:263:2","titlePath":["mobile","responsive.spec.ts","Mobile Visual Regression"],"stop":1763549819695}
+{
+	"uuid": "e5d343e1-ede5-4277-8abd-48458b2de3f7",
+	"name": "mobile services list should match baseline",
+	"historyId": "4b4cba3632d30c89ae69e5fbf9cc82f2:8e098aee18e8dfe419681df8d62d9842",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-chrome" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "mobile.responsive.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-chrome > mobile/responsive.spec.ts > Mobile Visual Regression"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-chrome" },
+		{ "name": "suite", "value": "mobile/responsive.spec.ts" },
+		{ "name": "subSuite", "value": "Mobile Visual Regression" }
+	],
+	"links": [],
+	"start": 1763549819695,
+	"testCaseId": "4b4cba3632d30c89ae69e5fbf9cc82f2",
+	"fullName": "mobile/responsive.spec.ts:263:2",
+	"titlePath": ["mobile", "responsive.spec.ts", "Mobile Visual Regression"],
+	"stop": 1763549819695
+}

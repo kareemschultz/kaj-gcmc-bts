@@ -1,1 +1,31 @@
-{"uuid":"d09373cf-3669-43d7-9bfe-abf374adc7f1","name":"should login on mobile","historyId":"aab50ee87ed5579dca46824f9a9c0e12:5bd835b0d6b1d4ada3b9f0db936e82c8","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"chromium"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > chromium > auth/login.spec.ts > Login - Mobile"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"chromium"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login - Mobile"}],"links":[],"start":1763549757500,"testCaseId":"aab50ee87ed5579dca46824f9a9c0e12","fullName":"auth/login.spec.ts:141:2","titlePath":["auth","login.spec.ts","Login - Mobile"],"stop":1763549757500}
+{
+	"uuid": "d09373cf-3669-43d7-9bfe-abf374adc7f1",
+	"name": "should login on mobile",
+	"historyId": "aab50ee87ed5579dca46824f9a9c0e12:5bd835b0d6b1d4ada3b9f0db936e82c8",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "chromium" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > chromium > auth/login.spec.ts > Login - Mobile"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "chromium" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login - Mobile" }
+	],
+	"links": [],
+	"start": 1763549757500,
+	"testCaseId": "aab50ee87ed5579dca46824f9a9c0e12",
+	"fullName": "auth/login.spec.ts:141:2",
+	"titlePath": ["auth", "login.spec.ts", "Login - Mobile"],
+	"stop": 1763549757500
+}

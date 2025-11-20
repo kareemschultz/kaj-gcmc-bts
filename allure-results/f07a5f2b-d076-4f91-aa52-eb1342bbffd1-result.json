@@ -1,1 +1,31 @@
-{"uuid":"f07a5f2b-d076-4f91-aa52-eb1342bbffd1","name":"should display login form","historyId":"649408efa8e8c681e7a2ab6bdd90464a:7b5ec7ec4ac15c74dff5cf758210da25","status":"skipped","statusDetails":{},"stage":"finished","steps":[],"attachments":[],"parameters":[{"name":"Project","value":"mobile-safari"}],"labels":[{"name":"language","value":"javascript"},{"name":"framework","value":"playwright"},{"name":"package","value":"auth.login.spec.ts"},{"name":"titlePath","value":" > mobile-safari > auth/login.spec.ts > Login Flow"},{"name":"host","value":"INF-DCENTKSL"},{"name":"thread","value":"pid-15041-worker-0"},{"name":"parentSuite","value":"mobile-safari"},{"name":"suite","value":"auth/login.spec.ts"},{"name":"subSuite","value":"Login Flow"}],"links":[],"start":1763549819720,"testCaseId":"649408efa8e8c681e7a2ab6bdd90464a","fullName":"auth/login.spec.ts:14:2","titlePath":["auth","login.spec.ts","Login Flow"],"stop":1763549819720}
+{
+	"uuid": "f07a5f2b-d076-4f91-aa52-eb1342bbffd1",
+	"name": "should display login form",
+	"historyId": "649408efa8e8c681e7a2ab6bdd90464a:7b5ec7ec4ac15c74dff5cf758210da25",
+	"status": "skipped",
+	"statusDetails": {},
+	"stage": "finished",
+	"steps": [],
+	"attachments": [],
+	"parameters": [{ "name": "Project", "value": "mobile-safari" }],
+	"labels": [
+		{ "name": "language", "value": "javascript" },
+		{ "name": "framework", "value": "playwright" },
+		{ "name": "package", "value": "auth.login.spec.ts" },
+		{
+			"name": "titlePath",
+			"value": " > mobile-safari > auth/login.spec.ts > Login Flow"
+		},
+		{ "name": "host", "value": "INF-DCENTKSL" },
+		{ "name": "thread", "value": "pid-15041-worker-0" },
+		{ "name": "parentSuite", "value": "mobile-safari" },
+		{ "name": "suite", "value": "auth/login.spec.ts" },
+		{ "name": "subSuite", "value": "Login Flow" }
+	],
+	"links": [],
+	"start": 1763549819720,
+	"testCaseId": "649408efa8e8c681e7a2ab6bdd90464a",
+	"fullName": "auth/login.spec.ts:14:2",
+	"titlePath": ["auth", "login.spec.ts", "Login Flow"],
+	"stop": 1763549819720
+}
