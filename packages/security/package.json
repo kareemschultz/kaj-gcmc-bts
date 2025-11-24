@@ -15,7 +15,7 @@
 		"validator": "^13.12.0",
 		"xss": "^1.0.15",
 		"helmet": "^7.1.0",
-		"rate-limiter-flexible": "^4.0.1"
+		"rate-limiter-flexible": "^8.3.0"
 	},
 	"devDependencies": {
 		"typescript": "catalog:",
