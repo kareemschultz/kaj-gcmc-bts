@@ -20,7 +20,7 @@
 	"devDependencies": {
 		"typescript": "catalog:",
 		"tsdown": "catalog:",
-		"@types/bcryptjs": "^2.4.6",
+		"@types/bcryptjs": "^3.0.0",
 		"@types/validator": "^13.12.2"
 	}
 }
