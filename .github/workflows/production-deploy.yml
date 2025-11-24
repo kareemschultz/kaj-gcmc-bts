@@ -103,7 +103,7 @@ jobs:
           languages: typescript
 
       - name: OWASP ZAP Baseline Scan
-        uses: zaproxy/action-baseline@v0.12.0
+        uses: zaproxy/action-baseline@v0.15.0
         with:
           target: 'https://api.gcmc-kaj.example.com'
           token: ${{ secrets.GITHUB_TOKEN }}
