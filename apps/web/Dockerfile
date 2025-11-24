@@ -1,7 +1,7 @@
 # Web Application Dockerfile (Next.js)
 # Multi-stage build for optimized production image
 
-FROM oven/bun:1.3.2 AS base
+FROM oven/bun:1.3.3 AS base
 
 # ============================================================================
 # Stage 1: Dependencies
